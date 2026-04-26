@@ -45,7 +45,7 @@ const GlobalPartnersPage = () => {
             </section>
 
             <main style={{ padding: '0 5% 100px', maxWidth: '1400px', margin: '0 auto' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth <= 1024 ? '1fr' : '1fr 350px', gap: '60px' }}>
+                <div className="gp-main-grid">
                     
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
                         
@@ -80,7 +80,7 @@ const GlobalPartnersPage = () => {
                                 <div style={{ width: '40px', height: '2px', background: '#8b5cf6' }}></div>
                                 <h2 style={{ fontSize: '1.8rem', fontWeight: '900', letterSpacing: '-1px' }}>Services Utilized</h2>
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+                            <div className="gp-services-grid">
                                 <div className="glass-panel" style={{ padding: '40px' }}>
                                     <Terminal size={32} color="#8b5cf6" style={{ marginBottom: '20px' }} />
                                     <h3 style={{ fontSize: '1.4rem', fontWeight: '800', marginBottom: '16px' }}>Software Engineering</h3>
@@ -206,6 +206,29 @@ const GlobalPartnersPage = () => {
                     transform: translateY(-3px);
                     box-shadow: 0 15px 40px rgba(139, 92, 246, 0.3);
                     filter: brightness(1.1);
+                }
+
+                .gp-main-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 350px;
+                    gap: 60px;
+                }
+                .gp-services-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 32px;
+                }
+
+                @media (max-width: 1024px) {
+                    .gp-main-grid { grid-template-columns: 1fr; }
+                }
+                @media (max-width: 768px) {
+                    .gp-services-grid { grid-template-columns: 1fr; }
+                    .glass-panel { border-radius: 16px; }
+                }
+                @media (max-width: 480px) {
+                    section h1 { font-size: 2rem !important; letter-spacing: -1px !important; }
+                    section h2 { font-size: 1.4rem !important; }
                 }
             `}</style>
         </div>

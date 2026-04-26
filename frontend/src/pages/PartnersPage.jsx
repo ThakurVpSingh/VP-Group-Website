@@ -74,7 +74,7 @@ const PartnersPage = () => {
                         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                             <h2 style={{ fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-1px' }}>Ecosystem Tiers</h2>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '32px' }}>
+                        <div className="tier-grid">
                             {[
                                 {
                                     title: "Strategic Partner",
@@ -184,7 +184,7 @@ const PartnersPage = () => {
                     </section>
 
                     {/* Section 4: CTA */}
-                    <section className="glass-panel" style={{ padding: '80px', textAlign: 'center', position: 'relative', overflow: 'hidden', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+                    <section className="glass-panel cta-section" style={{ textAlign: 'center', position: 'relative', overflow: 'hidden', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 70%)', zIndex: 0 }}></div>
                         <div style={{ position: 'relative', zIndex: 1 }}>
                             <h2 style={{ fontSize: '3rem', fontWeight: '900', marginBottom: '24px', letterSpacing: '-2px' }}>Join the VP Group Ecosystem.</h2>
@@ -233,6 +233,29 @@ const PartnersPage = () => {
                     transform: translateY(-4px);
                     box-shadow: 0 20px 50px rgba(139, 92, 246, 0.4);
                     filter: brightness(1.1);
+                }
+
+                .tier-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 32px;
+                }
+                .cta-section {
+                    padding: 80px;
+                }
+
+                @media (max-width: 768px) {
+                    .tier-grid { grid-template-columns: 1fr; }
+                    .cta-section { padding: 40px 20px !important; }
+                    .cta-section h2 { font-size: 2rem !important; letter-spacing: -1px !important; }
+                    .cta-section p { font-size: 1rem !important; }
+                    .cta-section button { padding: 16px 32px !important; font-size: 0.95rem !important; }
+                    .glass-panel { border-radius: 16px; }
+                }
+                @media (max-width: 480px) {
+                    .cta-section { padding: 30px 16px !important; }
+                    section h1 { font-size: 2rem !important; }
+                    section h2 { font-size: 1.8rem !important; }
                 }
             `}</style>
         </div>

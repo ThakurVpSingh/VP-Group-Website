@@ -729,16 +729,16 @@ const VPGroup = () => {
         .sub-badge.purple { color: #a78bfa; background: rgba(167, 139, 250, 0.05); border-left-color: #a78bfa; }
 
         /* Grids */
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 48px; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 48px; }
         .partners-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
           gap: 30px;
           margin-top: 60px;
         }
         .services-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
           gap: 30px;
           margin-top: 60px;
         }
@@ -867,7 +867,7 @@ const VPGroup = () => {
         .service-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
 
         /* Culture */
-        .culture-panel { padding: 100px; border-radius: 40px; }
+        .culture-panel { padding: clamp(30px, 5vw, 100px); border-radius: 40px; }
         .culture-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
         .culture-title { font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 950; margin-bottom: 32px; letter-spacing: -2.5px; }
         .culture-desc { color: #94a3b8; line-height: 1.8; font-size: 1.15rem; margin-bottom: 40px; }
@@ -881,7 +881,7 @@ const VPGroup = () => {
         /* Unique Contact Command Center View */
         .contact-details-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
           gap: 32px;
           margin-top: 80px;
         }
@@ -1026,19 +1026,29 @@ const VPGroup = () => {
         }
 
         @media (max-width: 768px) {
-          .section-container { padding: 80px 5%; }
+          .section-container { padding: 60px 4%; }
           .hero-title { font-size: clamp(2.5rem, 10vw, 3.5rem); letter-spacing: -2px; }
-          .hero-section { padding-top: 140px; }
+          .hero-section { padding-top: 100px; min-height: auto; }
           .contact-grid { grid-template-columns: 1fr; }
-          .culture-grid { grid-template-columns: 1fr; }
+          .culture-grid { grid-template-columns: 1fr; gap: 40px; }
           .form-row { grid-template-columns: 1fr; }
-          .hero-actions .btn-primary, .hero-actions .btn-secondary { width: 100%; justify-content: center; }
+          .hero-actions .btn-primary, .hero-actions .btn-secondary { width: 100%; justify-content: center; padding: 16px 24px; }
+          .portfolio-grid { grid-template-columns: 1fr; gap: 30px; }
+          .partners-grid { grid-template-columns: 1fr; gap: 20px; }
+          .services-grid { grid-template-columns: 1fr; gap: 20px; }
+          .contact-details-grid { grid-template-columns: 1fr; }
+          .partner-card { padding: 30px; }
+          .portfolio-info { padding: 24px; }
+          .detail-card { padding: 40px 24px; min-height: auto; }
+          .mission-container { padding: 40px 20px; border-radius: 24px; }
         }
 
         @media (max-width: 480px) {
-          .hero-badge { padding: 8px 16px; font-size: 0.65rem; }
-          .service-card { padding: 30px; }
-          .section-title { font-size: 2rem; }
+          .hero-badge { padding: 8px 16px; font-size: 0.65rem; letter-spacing: 1px; }
+          .service-card { padding: 24px; }
+          .section-title { font-size: 2rem; letter-spacing: -1px; }
+          .section-container { padding: 40px 4%; }
+          .btn-primary, .btn-secondary { font-size: 0.95rem; padding: 14px 20px; }
         }
       `}</style>
     </div>

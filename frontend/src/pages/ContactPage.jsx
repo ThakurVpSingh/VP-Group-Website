@@ -172,16 +172,18 @@ const ContactPage = () => {
                 <div className="contact-form-section">
                     <div className="form-glass-container glass-panel">
                         <div className="form-header">
-                            <div className="service-tabs">
-                                {['web-development', 'software-engineering', 'technical-support', 'ticketing'].map(service => (
-                                    <button 
-                                        key={service}
-                                        className={`tab-btn ${selectedService === service ? 'active' : ''}`}
-                                        onClick={() => setSelectedService(service)}
-                                    >
-                                        {service.replace('-', ' ').toUpperCase()}
-                                    </button>
-                                ))}
+                            <div className="form-group">
+                                <label>SERVICE DEPARTMENT</label>
+                                <select 
+                                    className="v-input"
+                                    value={selectedService}
+                                    onChange={(e) => setSelectedService(e.target.value)}
+                                >
+                                    <option value="web-development">WEB DEVELOPMENT</option>
+                                    <option value="software-engineering">SOFTWARE ENGINEERING</option>
+                                    <option value="technical-support">TECHNICAL SUPPORT</option>
+                                    <option value="ticketing">TICKETING</option>
+                                </select>
                             </div>
                         </div>
 
@@ -502,6 +504,17 @@ const ContactPage = () => {
                     .contact-main-grid { grid-template-columns: 1fr; }
                     .form-glass-container { padding: 40px 24px; }
                     .form-row { grid-template-columns: 1fr; gap: 0; }
+                    .contact-leads-section { display: none; }
+                }
+
+                @media (max-width: 768px) {
+                    .contact-hero { padding: 120px 5% 40px; }
+                    .contact-hero h1 { font-size: 2rem; }
+                    .form-glass-container { padding: 24px 16px; }
+                    .v-input { padding: 14px; font-size: 0.9rem; }
+                    .v-submit-btn { padding: 16px; font-size: 0.95rem; }
+                    .form-group { margin-bottom: 16px; }
+                    .form-group label { margin-bottom: 8px; }
                 }
 
                 .spin { animation: spin 2s infinite linear; }

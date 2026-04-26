@@ -472,6 +472,15 @@ Security Commitment: Agreed
                     box-shadow: 0 0 15px rgba(255, 78, 240, 0.5);
                     border: 3px solid #8b5cf6;
                 }
+
+                @media (max-width: 768px) {
+                    .glass-panel { padding: 24px 16px !important; border-radius: 16px; }
+                    .section-title { font-size: 1.2rem !important; }
+                    .form-group input, .form-group select { padding: 12px !important; font-size: 0.9rem; }
+                    .submit-btn { padding: 16px !important; font-size: 1rem !important; }
+                    main { padding-top: 120px !important; padding-bottom: 60px !important; }
+                    h1 { font-size: 2rem !important; letter-spacing: -1px !important; }
+                }
             `}</style>
         </div>
     );
