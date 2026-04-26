@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 
 // Multi-page imports
 import VPGroup from './pages/VPGroup';
@@ -44,6 +45,7 @@ function App() {
         {/* Fallback Route */}
         <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
+      <Analytics />
     </Router>
   );
 }
