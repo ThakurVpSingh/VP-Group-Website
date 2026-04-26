@@ -91,28 +91,28 @@ const ContactPage = () => {
         {
             name: "Vaibhav Pratap Singh",
             role: "Founders & Strategic Strategy",
-            email: "ceo@vpgroup.com",
+            email: "vaibhavsinghha@gmail.com",
             icon: Shield,
             color: "#ff4ef0"
         },
         {
             name: "Engineering Division",
             role: "Core Tech & Architecture",
-            email: "engineering@vpgroup.com",
+            email: "contact.vpsdev@gmail.com",
             icon: Code2,
             color: "#22d3ee"
         },
         {
             name: "Support Operations",
             role: "Maintenance & Ticketing",
-            email: "support@vpgroup.com",
+            email: "contact.vpsdev@gmail.com",
             icon: Headphones,
             color: "#10b981"
         },
         {
             name: "Legal & Compliance",
             role: "Legal & Partnership Terms",
-            email: "legal@vpgroup.com",
+            email: "contact.vpsdev@gmail.com",
             icon: Lock,
             color: "#f59e0b"
         }
