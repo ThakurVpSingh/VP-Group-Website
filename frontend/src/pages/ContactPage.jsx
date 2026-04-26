@@ -49,7 +49,7 @@ const ContactPage = () => {
         setIsSubmitting(true);
         
         try {
-            const response = await fetch('https://vp-group-website-1.onrender.com', {
+            const response = await fetch('https://vp-group-website-1.onrender.com/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
