@@ -68,9 +68,9 @@ const Footer = () => {
             © {new Date().getFullYear()} VP Group & Technologies. Operating under absolute Zero-Trust Security Architecture protocols.
           </div>
           <div className="footer-social">
-            <a href="https://github.com/ThakurVpSingh" className="social-link"><Github size={18} /></a>
-            <a href="https://www.linkedin.com/in/vaibhav-pratap-singh1/" className="social-link"><Linkedin size={18} /></a>
-            <a href="https://x.com/Vaibhav92310781" className="social-link"><Twitter size={18} /></a>
+            <a href="https://github.com/ThakurVpSingh" target="_blank" className="social-link"><Github size={18} /></a>
+            <a href="https://www.linkedin.com/in/vaibhav-pratap-singh1/" target="_blank" className="social-link"><Linkedin size={18} /></a>
+            <a href="https://x.com/Vaibhav92310781" target="_blank" className="social-link"><Twitter size={18} /></a>
           </div>
         </div>
       </div>
