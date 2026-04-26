@@ -18,7 +18,11 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: ["https://vp-group-website.vercel.app", "https://vp-group-website-git-main-vp-group-and-technologies.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ limit: '15mb', extended: true }));
 
@@ -78,7 +82,7 @@ mongoose.connect(mongoURI)
   .then(async () => {
     console.log('✅✅✅ SUCCESS: VEXIOGATE CONNECTED TO ATLAS!');
     await autoSeed();
-    app.listen(PORT, () => console.log(`🚀 Server live at http://localhost:${PORT}`));
+    app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server live on port ${PORT}`));
   })
   .catch((err) => {
     console.error('❌ CONNECTION FAILED:', err.message);
