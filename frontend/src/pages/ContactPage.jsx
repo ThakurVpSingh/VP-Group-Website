@@ -54,9 +54,9 @@ const ContactPage = () => {
             : 'https://vp-group-website-1.onrender.com/api/contact';
 
         try {
-            // Set a 15-second timeout for the request
+            // Set a 45-second timeout for the request to allow for Render cold starts
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 15000);
+            const timeoutId = setTimeout(() => controller.abort(), 45000);
 
             const response = await fetch(API_URL, {
                 method: 'POST',
