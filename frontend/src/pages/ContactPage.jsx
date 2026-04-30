@@ -51,7 +51,7 @@ const ContactPage = () => {
         // Determine backend URL based on environment
         const API_URL = window.location.hostname === 'localhost' 
             ? 'http://localhost:5000/api/contact'
-            : 'https://vp-group-website-1.onrender.com/api/contact';
+            : 'https://vp-group-website.onrender.com/api/contact';
 
         try {
             // Set a 45-second timeout for the request to allow for Render cold starts

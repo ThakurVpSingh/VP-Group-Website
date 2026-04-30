@@ -27,6 +27,11 @@ transporter.verify((error, success) => {
   }
 });
 
+// Health check route to verify backend is reachable
+router.get('/', (req, res) => {
+  res.status(200).send('✅ VP Group Backend Contact API is Live and Reachable!');
+});
+
 router.post('/', async (req, res) => {
   console.log('📩 Incoming Contact Request:', req.body.email);
   const { name, email, subject, message, attachment } = req.body;
