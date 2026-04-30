@@ -48,10 +48,20 @@ const ContactPage = () => {
         e.preventDefault();
         setIsSubmitting(true);
         
+        // Determine backend URL based on environment
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5000/api/contact'
+            : 'https://vp-group-website-1.onrender.com/api/contact';
+
         try {
-            const response = await fetch('https://vp-group-website-1.onrender.com/api/contact', {
+            // Set a 15-second timeout for the request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+            const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
                 body: JSON.stringify({
                     name: formData.name,
                     email: formData.email,
@@ -60,14 +70,21 @@ const ContactPage = () => {
                 })
             });
             
+            clearTimeout(timeoutId);
+            const data = await response.json();
+            
             if (response.ok) {
                 setShowSuccess(true);
             } else {
-                alert("Server rejected the submission. Ensure backend is running.");
+                alert(`Server Error: ${data.error || 'Submission rejected.'}`);
             }
         } catch (error) {
             console.error('Submission error:', error);
-            alert("Failed to connect to VP Backend.");
+            if (error.name === 'AbortError') {
+                alert("The request timed out. The server might be starting up (if on Render Free Tier). Please try again in a few seconds.");
+            } else {
+                alert("Failed to connect to the backend server. Please check your internet connection and ensure the backend is active.");
+            }
         } finally {
             setIsSubmitting(false);
         }
