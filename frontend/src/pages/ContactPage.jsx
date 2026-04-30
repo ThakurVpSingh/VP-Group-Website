@@ -518,10 +518,23 @@ const ContactPage = () => {
                 }
 
                 @media (max-width: 1024px) {
-                    .contact-main-grid { grid-template-columns: 1fr; }
+                    .contact-main-grid { 
+                        grid-template-columns: 1fr; 
+                        padding-top: 40px;
+                        gap: 80px;
+                    }
+                    .contact-leads-section { 
+                        display: block; 
+                        order: 2; /* Move contact leads below the form on mobile */
+                    }
+                    .contact-form-section {
+                        order: 1; /* Form stays at the top */
+                    }
                     .form-glass-container { padding: 40px 24px; }
                     .form-row { grid-template-columns: 1fr; gap: 0; }
-                    .contact-leads-section { display: none; }
+                    .section-title { font-size: 2rem; text-align: center; }
+                    .section-desc { text-align: center; }
+                    .lead-card:hover { transform: none; }
                 }
 
                 @media (max-width: 768px) {
