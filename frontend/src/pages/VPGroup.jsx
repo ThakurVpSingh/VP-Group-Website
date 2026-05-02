@@ -152,6 +152,8 @@ const VPGroup = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = "Home | VP Group";
+    // Ping backend on load to wake it up (Render cold start mitigation)
+    fetch(getApiUrl('/api/contact')).catch(() => {});
   }, []);
 
   const handleInputChange = (e) => {
@@ -164,7 +166,8 @@ const VPGroup = () => {
     setStatus('Transmitting...');
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 45000);
+      // Increased timeout to 90s for Render Free Tier cold starts
+      const timeoutId = setTimeout(() => controller.abort(), 90000);
 
       const response = await fetch(getApiUrl('/api/contact'), {
         method: 'POST',
@@ -187,7 +190,7 @@ const VPGroup = () => {
       console.error('Submission error:', error);
       if (error.name === 'AbortError') {
         setStatus('Timeout Error');
-        alert("The request timed out. The server might be starting up. Please try again in a few seconds.");
+        alert("The server is taking longer than expected to wake up. We've initiated a priority wake-up sequence. Please wait 10 seconds and try again.");
       } else {
         setStatus('Submission failed.');
         alert("Submission failed. Ensure the VP Backend is online.");

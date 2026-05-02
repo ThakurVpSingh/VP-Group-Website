@@ -38,6 +38,8 @@ const ContactPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
         document.title = "Contact Portal | VP Group";
+        // Ping backend on load to wake it up (Render cold start mitigation)
+        fetch(getApiUrl('/api/contact')).catch(() => {});
     }, []);
 
     const handleInputChange = (e) => {
@@ -50,9 +52,9 @@ const ContactPage = () => {
         setIsSubmitting(true);
         
         try {
-            // Set a 45-second timeout for the request to allow for Render cold starts
+            // Increased timeout to 90s for Render Free Tier cold starts
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 45000);
+            const timeoutId = setTimeout(() => controller.abort(), 90000);
 
             const response = await fetch(getApiUrl('/api/contact'), {
                 method: 'POST',
@@ -71,15 +73,17 @@ const ContactPage = () => {
             
             if (response.ok) {
                 setShowSuccess(true);
+                setFormData({ name: '', email: '', phone: '', message: '', priority: 'Medium', systemId: '', complexity: 'Standard' });
+                alert("Success! Your message has been received by the VP Command Center.");
             } else {
                 alert(`Server Error: ${data.error || 'Submission rejected.'}`);
             }
         } catch (error) {
             console.error('Submission error:', error);
             if (error.name === 'AbortError') {
-                alert("The request timed out. The server might be starting up (if on Render Free Tier). Please try again in a few seconds.");
+                alert("The server is taking longer than expected to wake up. We've initiated a priority wake-up sequence. Please wait 10 seconds and try again.");
             } else {
-                alert("Failed to connect to the backend server. Please check your internet connection and ensure the backend is online.");
+                alert("Submission failed. Ensure the VP Backend is online.");
             }
         } finally {
             setIsSubmitting(false);
