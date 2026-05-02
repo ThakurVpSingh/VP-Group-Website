@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../config';
 import { 
   Globe, 
   Terminal, 
@@ -145,7 +146,8 @@ const VPGroup = () => {
     subject: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -158,26 +160,40 @@ const VPGroup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setLoading(true);
+    setStatus('Transmitting...');
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 45000);
+
+      const response = await fetch(getApiUrl('/api/contact'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify(formData)
       });
       
+      clearTimeout(timeoutId);
       const result = await response.json();
       if (response.ok) {
+        setStatus('Success! Message received.');
         alert("Success! Your message has been received by the VP Command Center.");
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
+        setStatus(`Error: ${result.error || 'Failed'}`);
         alert(`Error: ${result.error || 'Failed to send message.'}`);
       }
     } catch (error) {
       console.error('Submission error:', error);
-      alert("Submission failed. Ensure the VP Backend is online.");
+      if (error.name === 'AbortError') {
+        setStatus('Timeout Error');
+        alert("The request timed out. The server might be starting up. Please try again in a few seconds.");
+      } else {
+        setStatus('Submission failed.');
+        alert("Submission failed. Ensure the VP Backend is online.");
+      }
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
@@ -439,6 +455,65 @@ const VPGroup = () => {
               <p>Inquiry via Email Recommended</p>
               <div className="detail-tag">SUPPORT MESH</div>
               <div className="card-trace"></div>
+            </div>
+          </div>
+
+          <div className="contact-grid" style={{ marginTop: '80px' }}>
+            <div className="contact-info-stack">
+              <div style={{ padding: '40px', background: 'rgba(255,255,255,0.02)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '16px', color: '#fff' }}>Secure Transmission</h3>
+                <p style={{ color: '#94a3b8', fontSize: '0.95rem', lineHeight: 1.6 }}>
+                  Our communication lines are encrypted via end-to-end AES-256 protocols. Your inquiries are routed directly to our specialized operational nodes.
+                </p>
+              </div>
+            </div>
+
+            <div className="glass-panel" style={{ padding: '50px' }}>
+              <form onSubmit={handleSubmit}>
+                <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                  <input 
+                    type="text" 
+                    placeholder="Full Name" 
+                    className="terminal-input"
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    required
+                  />
+                  <input 
+                    type="email" 
+                    placeholder="Email Address" 
+                    className="terminal-input"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    required
+                  />
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="Subject" 
+                  className="terminal-input" 
+                  style={{ marginBottom: '20px' }}
+                  value={formData.subject}
+                  onChange={(e) => setFormData({...formData, subject: e.target.value})}
+                  required
+                />
+                <textarea 
+                  placeholder="Message Payload..." 
+                  className="terminal-input" 
+                  style={{ minHeight: '150px', marginBottom: '30px', resize: 'none' }}
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  required
+                ></textarea>
+                <button 
+                  type="submit" 
+                  className="attractive-submit"
+                  disabled={loading}
+                >
+                  {loading ? 'TRANSMITTING...' : 'INITIALIZE UPLINK'}
+                </button>
+                {status && <div style={{ marginTop: '20px', textAlign: 'center', color: status.includes('Success') ? 'var(--success)' : 'var(--danger)', fontWeight: '700' }}>{status}</div>}
+              </form>
             </div>
           </div>
         </section>
@@ -963,13 +1038,16 @@ const VPGroup = () => {
 
         /* Tablet/Mobile Responsive */
         @media (max-width: 1024px) {
-            .contact-details-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-details-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
             .detail-card.blue { grid-column: span 2; }
+            .detail-card { min-height: 350px; padding: 40px 20px; }
         }
         @media (max-width: 768px) {
-            .contact-details-grid { grid-template-columns: 1fr; }
+            .contact-details-grid { grid-template-columns: 1fr; gap: 15px; }
             .detail-card.blue { grid-column: span 1; }
-            .detail-card { padding: 50px 30px; }
+            .detail-card { padding: 40px 20px; min-height: 300px; border-radius: 24px; }
+            .detail-card p { font-size: 1.1rem; }
+            .detail-icon { width: 60px; height: 60px; margin-bottom: 20px; }
         }
 
         /* Contact Section */

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config';
 import { Activity, Zap, Server, Globe, Database, Cpu, PieChart, Shield } from 'lucide-react';
 
 const SystemHealth = () => {
@@ -17,7 +18,7 @@ const SystemHealth = () => {
         const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
         if (!storedUser || !storedUser.token) return;
 
-        const { data } = await axios.get('http://localhost:5000/api/health', {
+        const { data } = await axios.get(getApiUrl('/api/health'), {
           headers: { Authorization: `Bearer ${storedUser.token}` }
         });
         setHealth(data);

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config';
 import { History, Search, FileText, AlertCircle } from 'lucide-react';
 
 const AuditTrail = () => {
@@ -14,7 +15,7 @@ const AuditTrail = () => {
           setLoading(false);
           return;
         }
-        const { data } = await axios.get('http://localhost:5000/api/audit', {
+        const { data } = await axios.get(getApiUrl('/api/audit'), {
           headers: { Authorization: `Bearer ${storedUser.token}` }
         });
         setLogs(data);

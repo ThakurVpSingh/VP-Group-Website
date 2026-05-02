@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProjectNavbar from './ProjectNavbar';
+import { getApiUrl } from '../config';
 import Footer from './Footer';
 import { Mail, MapPin, Phone, ArrowRight, CheckCircle, ChevronRight, Github, Linkedin, Twitter } from 'lucide-react';
 
@@ -20,12 +21,17 @@ const ContactSection = () => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const response = await fetch('http://localhost:5000/api/contact', {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 45000);
+
+            const response = await fetch(getApiUrl('/api/contact'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
                 body: JSON.stringify(formData)
             });
             
+            clearTimeout(timeoutId);
             const result = await response.json();
             if (response.ok) {
                 alert("Success! Your message has been received by the VP Command Center.");
@@ -35,7 +41,11 @@ const ContactSection = () => {
             }
         } catch (error) {
             console.error('Submission error:', error);
-            alert("Submission failed. Ensure the VP Backend is online.");
+            if (error.name === 'AbortError') {
+                alert("The request timed out. The server might be starting up. Please try again in a few seconds.");
+            } else {
+                alert("Submission failed. Ensure the VP Backend is online.");
+            }
         } finally {
             setIsSubmitting(false);
         }

@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import ProjectNavbar from '../components/ProjectNavbar';
 import Footer from '../components/Footer';
+import { getApiUrl } from '../config';
 
 const ContactPage = () => {
     const [selectedService, setSelectedService] = useState('web-development');
@@ -48,17 +49,12 @@ const ContactPage = () => {
         e.preventDefault();
         setIsSubmitting(true);
         
-        // Determine backend URL based on environment
-        const API_URL = window.location.hostname === 'localhost' 
-            ? 'http://localhost:5000/api/contact'
-            : 'https://vp-group-website.onrender.com/api/contact';
-
         try {
             // Set a 45-second timeout for the request to allow for Render cold starts
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 45000);
 
-            const response = await fetch(API_URL, {
+            const response = await fetch(getApiUrl('/api/contact'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 signal: controller.signal,
@@ -83,7 +79,7 @@ const ContactPage = () => {
             if (error.name === 'AbortError') {
                 alert("The request timed out. The server might be starting up (if on Render Free Tier). Please try again in a few seconds.");
             } else {
-                alert("Failed to connect to the backend server. Please check your internet connection and ensure the backend is active.");
+                alert("Failed to connect to the backend server. Please check your internet connection and ensure the backend is online.");
             }
         } finally {
             setIsSubmitting(false);

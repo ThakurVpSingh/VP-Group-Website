@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config';
 import { Users, Calendar, Clock, BarChart2, ShieldCheck, UserCheck, Settings, X, Edit2, LogOut } from 'lucide-react';
 import TicketHub from '../components/TicketHub';
 
@@ -14,8 +15,8 @@ const ManagerPortal = () => {
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
       const [statRes, teamRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/hr/stats', { headers: { Authorization: `Bearer ${storedUser.token}` } }),
-        axios.get('http://localhost:5000/api/hr/team', { headers: { Authorization: `Bearer ${storedUser.token}` } })
+        axios.get(getApiUrl('/api/hr/stats'), { headers: { Authorization: `Bearer ${storedUser.token}` } }),
+        axios.get(getApiUrl('/api/hr/team'), { headers: { Authorization: `Bearer ${storedUser.token}` } })
       ]);
       setStats(statRes.data);
       setTeamData(teamRes.data);
@@ -33,7 +34,7 @@ const ManagerPortal = () => {
     e.preventDefault();
     try {
         const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-        await axios.put(`http://localhost:5000/api/hr/subordinate/${editingSub._id}`, subFormData, {
+        await axios.put(getApiUrl(`/api/hr/subordinate/${editingSub._id}`), subFormData, {
             headers: { Authorization: `Bearer ${storedUser.token}` }
         });
         setEditingSub(null);
@@ -167,7 +168,7 @@ const ManagerPortal = () => {
                       onClick={async () => {
                         try {
                           const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-                          await axios.put(`http://localhost:5000/api/hr/leave/${leave._id}`, { status: 'Approved' }, {
+                          await axios.put(getApiUrl(`/api/hr/leave/${leave._id}`), { status: 'Approved' }, {
                             headers: { Authorization: `Bearer ${storedUser.token}` }
                           });
                           window.location.reload();
@@ -180,7 +181,7 @@ const ManagerPortal = () => {
                       onClick={async () => {
                         try {
                           const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-                          await axios.put(`http://localhost:5000/api/hr/leave/${leave._id}`, { status: 'Rejected' }, {
+                          await axios.put(getApiUrl(`/api/hr/leave/${leave._id}`), { status: 'Rejected' }, {
                             headers: { Authorization: `Bearer ${storedUser.token}` }
                           });
                           window.location.reload();

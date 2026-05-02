@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import ProjectNavbar from '../components/ProjectNavbar';
 import Footer from '../components/Footer';
 import { Shield, Send, CheckCircle, FileText, Calendar, ArrowLeft, Loader2, Upload, ExternalLink } from 'lucide-react';
+import { getApiUrl } from '../config';
 
 const PartnershipApplyPage = () => {
     const navigate = useNavigate();
@@ -63,7 +64,7 @@ const PartnershipApplyPage = () => {
         setIsSubmitting(true);
         
         try {
-            const response = await fetch('https://vp-group-website-1.onrender.com/api/contact', {
+            const response = await fetch(getApiUrl('/api/contact'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -87,11 +88,12 @@ Security Commitment: Agreed
                 setIsSubmitted(true);
                 window.scrollTo(0, 0);
             } else {
-                alert("Server rejected the submission. Ensure backend is running.");
+                const data = await response.json();
+                alert(`Error: ${data.error || 'Server rejected the submission.'}`);
             }
         } catch (error) {
             console.error('Submission error:', error);
-            alert("Failed to connect to VP Backend.");
+            alert("Failed to connect to VP Backend. Ensure the server is online.");
         } finally {
             setIsSubmitting(false);
         }

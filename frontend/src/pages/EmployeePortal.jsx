@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config';
 import { Calendar, Clock, Plane, FileText, CheckCircle, LogOut, Filter, ChevronRight } from 'lucide-react';
 import AttendanceCalendar from '../components/AttendanceCalendar';
 import TicketHub from '../components/TicketHub';
@@ -19,7 +20,7 @@ const EmployeePortal = () => {
     setLoading(true);
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      const { data } = await axios.get(`http://localhost:5000/api/hr/stats?startDate=${startDate}&endDate=${endDate}`, {
+      const { data } = await axios.get(getApiUrl(`/api/hr/stats?startDate=${startDate}&endDate=${endDate}`), {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       setStats(data);
@@ -36,7 +37,7 @@ const EmployeePortal = () => {
   const handleClockIn = async () => {
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      await axios.post('http://localhost:5000/api/hr/attendance/clock-in', {}, {
+      await axios.post(getApiUrl('/api/hr/attendance/clock-in'), {}, {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       alert('Clocked In successfully!');
@@ -49,7 +50,7 @@ const EmployeePortal = () => {
   const handleClockOut = async () => {
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      await axios.put('http://localhost:5000/api/hr/attendance/clock-out', {}, {
+      await axios.put(getApiUrl('/api/hr/attendance/clock-out'), {}, {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       alert('Clocked Out successfully!');
@@ -68,7 +69,7 @@ const EmployeePortal = () => {
 
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      await axios.post('http://localhost:5000/api/hr/leave', { startDate, endDate, reason }, {
+      await axios.post(getApiUrl('/api/hr/leave'), { startDate, endDate, reason }, {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       alert('Leave applied successfully!');

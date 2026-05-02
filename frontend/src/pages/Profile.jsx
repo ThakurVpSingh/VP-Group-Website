@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config';
 import { User, Mail, Shield, Save, Key, Check } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 
@@ -14,7 +15,7 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-        const { data } = await axios.get('http://localhost:5000/api/users/profile', {
+        const { data } = await axios.get(getApiUrl('/api/users/profile'), {
           headers: { Authorization: `Bearer ${storedUser.token}` }
         });
         setProfile(data);
@@ -31,7 +32,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      await axios.put('http://localhost:5000/api/users/profile', formData, {
+      await axios.put(getApiUrl('/api/users/profile'), formData, {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       setMessage('Profile updated successfully!');

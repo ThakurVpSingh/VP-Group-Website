@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config';
 import { Users, UserPlus, Trash2, Edit3, ShieldCheck, RefreshCw, X, Save, UserCheck } from 'lucide-react';
 
 const UserDirectory = () => {
@@ -24,7 +25,7 @@ const UserDirectory = () => {
         setLoading(false);
         return;
       }
-      const { data } = await axios.get('http://localhost:5000/api/users', {
+      const { data } = await axios.get(getApiUrl('/api/users'), {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       setUsers(data);
@@ -43,7 +44,7 @@ const UserDirectory = () => {
     e.preventDefault();
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      await axios.post('http://localhost:5000/api/users', newUser, {
+      await axios.post(getApiUrl('/api/users'), newUser, {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       setNewUser({ username: '', email: '', password: '', roleName: 'Employee', managerId: '' });
@@ -57,7 +58,7 @@ const UserDirectory = () => {
     if (!window.confirm('Are you sure you want to de-provision this user?')) return;
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      await axios.delete(`http://localhost:5000/api/users/${id}`, {
+      await axios.delete(getApiUrl(`/api/users/${id}`), {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       fetchUsers();
@@ -80,7 +81,7 @@ const UserDirectory = () => {
     e.preventDefault();
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      await axios.put(`http://localhost:5000/api/users/${editingUser}`, editData, {
+      await axios.put(getApiUrl(`/api/users/${editingUser}`), editData, {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       setEditingUser(null);

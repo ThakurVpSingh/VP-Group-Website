@@ -1,8 +1,13 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { AuthProvider } from './context/AuthContext';
 
 // Multi-page imports
 import VPGroup from './pages/VPGroup';
+import LandingPage from './pages/LandingPage';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 import ServiceDetailPage from './pages/ServiceDetailPage';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
 import PartnershipApplyPage from './pages/PartnershipApplyPage';
@@ -14,6 +19,7 @@ import MotherBlissPage from './pages/MotherBlissPage';
 import InstitutionalPage from './pages/InstitutionalPage';
 import GlobalPartnersPage from './pages/GlobalPartnersPage';
 import VaultCaseStudyPage from './pages/VaultCaseStudyPage';
+import StrategyPage from './pages/StrategyPage';
 
 const SplashScreen = ({ onComplete }) => {
   const [phase, setPhase] = useState(0); // 0: logo in, 1: text in, 2: fade out
@@ -141,11 +147,22 @@ function App() {
   const [showSplash, setShowSplash] = useState(true);
 
   return (
-    <>
+    <AuthProvider>
       {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
       <Router>
         <Routes>
+          {/* Main Landing & Company Pages */}
           <Route path="/" element={<VPGroup />} />
+          <Route path="/vexio" element={<LandingPage />} />
+          <Route path="/our-strategy" element={<StrategyPage />} />
+          
+          {/* Auth System */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/superadmin/access" element={<Login portalType="SuperAdmin" />} />
+          
+          {/* Operations Hub (Dashboard) */}
+          <Route path="/*" element={<Dashboard />} />
           
           {/* Dynamic Service Routes */}
           <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
@@ -169,11 +186,13 @@ function App() {
           <Route path="/portfolio/vault-iam" element={<VaultCaseStudyPage />} />
           
           {/* Fallback Route */}
-          <Route path="/*" element={<Navigate to="/" />} />
+          <Route path="/404" element={<div style={{padding: 100, textAlign: 'center', color: '#fff'}}><h2>404 - TERMINAL NOT FOUND</h2></div>} />
         </Routes>
       </Router>
-    </>
+    </AuthProvider>
   );
 }
+
+export default App;
 
 export default App;

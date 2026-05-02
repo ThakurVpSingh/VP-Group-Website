@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config';
 import { MessageSquare, AlertCircle, CheckCircle2, Send, X, Clock, User } from 'lucide-react';
 
 const TicketHub = () => {
@@ -11,7 +12,7 @@ const TicketHub = () => {
   const fetchTickets = async () => {
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      const { data } = await axios.get('http://localhost:5000/api/tickets', {
+      const { data } = await axios.get(getApiUrl('/api/tickets'), {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       setTickets(data);
@@ -29,7 +30,7 @@ const TicketHub = () => {
     setLoading(true);
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      await axios.post('http://localhost:5000/api/tickets', newTicket, {
+      await axios.post(getApiUrl('/api/tickets'), newTicket, {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       setShowModal(false);
@@ -44,7 +45,7 @@ const TicketHub = () => {
   const handleUpdateStatus = async (id, status) => {
     try {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
-      await axios.put(`http://localhost:5000/api/tickets/${id}`, { status }, {
+      await axios.put(getApiUrl(`/api/tickets/${id}`), { status }, {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       fetchTickets();

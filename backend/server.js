@@ -21,6 +21,7 @@ const app = express();
 const allowedOrigins = [
   "https://vp-group-website.vercel.app",
   "https://vp-group-website-git-main-vp-group-and-technologies.vercel.app",
+  "https://vp-group-website.onrender.com",
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:3000"

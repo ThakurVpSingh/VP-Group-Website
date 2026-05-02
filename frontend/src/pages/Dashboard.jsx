@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { getApiUrl } from '../config';
 import { Routes, Route, Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { 
@@ -54,7 +55,7 @@ const Dashboard = () => {
       const storedUser = JSON.parse(localStorage.getItem('vexiogate_user'));
       if (!storedUser?.token) return;
       
-      const { data } = await axios.get('http://localhost:5000/api/audit/notifications', {
+      const { data } = await axios.get(getApiUrl('/api/audit/notifications'), {
         headers: { Authorization: `Bearer ${storedUser.token}` }
       });
       setNotifications(data);

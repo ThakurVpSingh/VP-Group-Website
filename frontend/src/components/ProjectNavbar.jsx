@@ -73,6 +73,8 @@ const ProjectNavbar = () => {
                             </div>
                         </div>
 
+                        <Link to="/our-strategy" className="nav-link-btn">Our Strategy</Link>
+
                     </div>
 
                     {/* Standard Hamburger Toggle */}
@@ -110,6 +112,7 @@ const ProjectNavbar = () => {
                         <div className="drawer-section">
                             <label>RESOURCES</label>
                             <div className="drawer-links">
+                                <Link to="/our-strategy">Our Strategy</Link>
                                 <Link to="/help/portfolio">Portfolio</Link>
                                 <Link to="/help/partners">Partners</Link>
                                 <Link to="/help/contact">Contact Us</Link>
