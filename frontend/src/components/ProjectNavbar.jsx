@@ -26,8 +26,10 @@ const ProjectNavbar = () => {
             <nav className={`project-navbar ${scrolled ? 'scrolled' : ''}`}>
                 <div className="nav-container">
                     <div className="nav-logo-section" onClick={() => navigate('/')}>
-                        <div className="nav-logo-box">
-                            <svg viewBox="0 0 100 100" className="company-logo-svg">
+                        <div className="nav-logo-box" style={{ overflow: 'hidden', padding: 0 }}>
+                            <img src="/logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                 onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
+                            <svg viewBox="0 0 100 100" className="company-logo-svg" style={{ display: 'none' }}>
                                 <path d="M 5 20 L 95 20 L 50 45 Z" fill="#fff" />
                                 <path d="M 2 28 L 46 53 L 46 95 Z" fill="#fff" />
                                 <path d="M 98 28 L 54 53 L 54 95 Z" fill="#fff" />

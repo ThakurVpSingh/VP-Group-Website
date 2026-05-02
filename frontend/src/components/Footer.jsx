@@ -17,8 +17,10 @@ const Footer = () => {
           
           <div className="footer-brand">
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <div style={{ width: 38, height: 38, background: 'linear-gradient(135deg, #ff4ef0, #8b5cf6)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 15px rgba(255, 0, 255, 0.2)' }}>
-                <svg viewBox="0 0 100 100" style={{ width: 24, height: 24 }}>
+              <div style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <img src="/logo.png" alt="VP Group Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                     onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
+                <svg viewBox="0 0 100 100" style={{ width: 24, height: 24, display: 'none' }}>
                     <path d="M 5 20 L 95 20 L 50 45 Z" fill="#fff" />
                     <path d="M 2 28 L 46 53 L 46 95 Z" fill="#fff" />
                     <path d="M 98 28 L 54 53 L 54 95 Z" fill="#fff" />
