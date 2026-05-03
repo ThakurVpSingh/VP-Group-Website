@@ -27,7 +27,7 @@ const ContactSection = () => {
         });
 
         if (result.success) {
-            alert("Success! Your message has been received by the VP Command Center.");
+            alert(`Thanks for reaching out to us, ${formData.name}. We have received your request for ${formData.subject || 'consultation'}. We'll get back to you shortly within 24-48 hours or sooner through your contact details.`);
             setFormData({ name: '', email: '', subject: '', message: '' });
         } else {
             alert(result.error || "Submission failed. Please try again later.");

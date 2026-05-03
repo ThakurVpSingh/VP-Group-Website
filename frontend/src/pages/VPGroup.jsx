@@ -152,7 +152,7 @@ const VPGroup = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "Home | VP Group";
+    document.title = "VP Group and Technologies | Engineering Infinite Scale";
     // Ping backend on load to wake it up (Render cold start mitigation)
     fetch(getApiUrl('/api/contact')).catch(() => {});
   }, []);
@@ -172,7 +172,7 @@ const VPGroup = () => {
 
     if (result.success) {
       setStatus('Success! Message received.');
-      alert("Success! Your message has been received by the VP Command Center.");
+      alert(`Thanks for reaching out to us, ${formData.name}. We have received your request for ${formData.subject || 'consultation'}. We'll get back to you shortly within 24-48 hours or sooner through your contact details.`);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } else {
       setStatus(`Error: ${result.error || 'Failed'}`);

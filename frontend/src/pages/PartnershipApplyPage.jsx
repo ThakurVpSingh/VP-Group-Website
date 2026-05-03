@@ -22,7 +22,7 @@ const PartnershipApplyPage = () => {
     });
 
     useEffect(() => {
-        document.title = "Apply for Partnership | VP Group";
+        document.title = "Partnership | VP Group and Technologies";
         window.scrollTo(0, 0);
     }, []);
 
@@ -89,9 +89,9 @@ const PartnershipApplyPage = () => {
                         <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 32px' }}>
                             <CheckCircle size={48} color="#10b981" />
                         </div>
-                        <h1 style={{ fontSize: '3rem', fontWeight: '900', marginBottom: '16px', letterSpacing: '-2px' }}>Thank You.</h1>
+                        <h1 style={{ fontSize: '3rem', fontWeight: '900', marginBottom: '16px', letterSpacing: '-2px' }}>Success.</h1>
                         <p style={{ color: '#94a3b8', fontSize: '1.2rem', marginBottom: '48px', lineHeight: 1.6 }}>
-                            Your application to join the VP Group Ecosystem has been received. Our lead engineers will review your technical alignment and respond within 72 hours.
+                            Thanks for reaching out to us, {formData.companyName}. We have received your request for {formData.collabType}. We'll get back to you shortly within 24-48 hours or sooner through your contact details.
                         </p>
                         
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '40px' }}>

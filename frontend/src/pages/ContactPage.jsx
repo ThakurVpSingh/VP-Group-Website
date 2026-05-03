@@ -38,7 +38,7 @@ const ContactPage = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        document.title = "Contact Portal | VP Group";
+        document.title = "Contact | VP Group and Technologies";
         // Ping backend on load to wake it up (Render cold start mitigation)
         fetch(getApiUrl('/api/contact')).catch(() => {});
     }, []);
@@ -58,8 +58,8 @@ const ContactPage = () => {
 
         if (result.success) {
             setShowSuccess(true);
+            alert(`Thanks for reaching out to us, ${formData.name}. We have received your request for ${formData.priority} Priority support. We'll get back to you shortly within 24-48 hours or sooner through your contact details.`);
             setFormData({ name: '', email: '', phone: '', message: '', priority: 'Medium', systemId: '', complexity: 'Standard' });
-            alert("Success! Your message has been received by the VP Command Center.");
         } else {
             alert(result.error || "Submission failed. Please try again later.");
         }
