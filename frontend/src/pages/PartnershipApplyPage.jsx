@@ -4,6 +4,7 @@ import ProjectNavbar from '../components/ProjectNavbar';
 import Footer from '../components/Footer';
 import { Shield, Send, CheckCircle, FileText, Calendar, ArrowLeft, Loader2, Upload, ExternalLink } from 'lucide-react';
 import { getApiUrl } from '../config';
+import { submitContactForm } from '../services/formService';
 
 const PartnershipApplyPage = () => {
     const navigate = useNavigate();
@@ -63,40 +64,21 @@ const PartnershipApplyPage = () => {
         }
         setIsSubmitting(true);
         
-        try {
-            const response = await fetch(getApiUrl('/api/contact'), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name: formData.companyName,
-                    email: formData.website || 'no-email-provided@domain.com',
-                    subject: `Partnership Application: ${formData.collabType}`,
-                    attachment: fileData,
-                    message: `
-Company Name: ${formData.companyName}
-Website: ${formData.website}
-Industry: ${formData.industry}
-Collaboration Type: ${formData.collabType}
-Project Volume: ${formData.projectVolume}
-Tech Stack: ${formData.techStack.join(', ')}
-Security Commitment: Agreed
-                    `
-                })
-            });
-            
-            if (response.ok) {
-                setIsSubmitted(true);
-                window.scrollTo(0, 0);
-            } else {
-                const data = await response.json();
-                alert(`Error: ${data.error || 'Server rejected the submission.'}`);
-            }
-        } catch (error) {
-            console.error('Submission error:', error);
-            alert("Failed to connect to VP Backend. Ensure the server is online.");
-        } finally {
-            setIsSubmitting(false);
+        const result = await submitContactForm({
+            ...formData,
+            attachment: fileData
+        }, {
+            source: 'Partnership Application',
+            accessKey: '236495cb-64bc-4467-87df-5e925b42d10f'
+        });
+
+        if (result.success) {
+            setIsSubmitted(true);
+            window.scrollTo(0, 0);
+        } else {
+            alert(result.error || "Submission failed. Please try again later.");
         }
+        setIsSubmitting(false);
     };
 
     if (isSubmitted) {

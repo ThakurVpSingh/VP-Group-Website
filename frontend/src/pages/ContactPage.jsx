@@ -20,6 +20,7 @@ import {
 import ProjectNavbar from '../components/ProjectNavbar';
 import Footer from '../components/Footer';
 import { getApiUrl } from '../config';
+import { submitContactForm } from '../services/formService';
 
 const ContactPage = () => {
     const [selectedService, setSelectedService] = useState('web-development');
@@ -51,43 +52,19 @@ const ContactPage = () => {
         e.preventDefault();
         setIsSubmitting(true);
         
-        try {
-            // Increased timeout to 90s for Render Free Tier cold starts
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 90000);
+        const result = await submitContactForm(formData, {
+            source: 'Main Contact Portal',
+            accessKey: '236495cb-64bc-4467-87df-5e925b42d10f' // Using the provided key for reliability
+        });
 
-            const response = await fetch(getApiUrl('/api/contact'), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                signal: controller.signal,
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    subject: `Contact Request: ${formData.priority} Priority`,
-                    message: `Phone: ${formData.phone}\nPriority: ${formData.priority}\nSystem ID: ${formData.systemId}\nComplexity: ${formData.complexity}\n\nMessage:\n${formData.message}`
-                })
-            });
-            
-            clearTimeout(timeoutId);
-            const data = await response.json();
-            
-            if (response.ok) {
-                setShowSuccess(true);
-                setFormData({ name: '', email: '', phone: '', message: '', priority: 'Medium', systemId: '', complexity: 'Standard' });
-                alert("Success! Your message has been received by the VP Command Center.");
-            } else {
-                alert(`Server Error: ${data.error || 'Submission rejected.'}`);
-            }
-        } catch (error) {
-            console.error('Submission error:', error);
-            if (error.name === 'AbortError') {
-                alert("The server is taking longer than expected to wake up. We've initiated a priority wake-up sequence. Please wait 10 seconds and try again.");
-            } else {
-                alert("Submission failed. Ensure the VP Backend is online.");
-            }
-        } finally {
-            setIsSubmitting(false);
+        if (result.success) {
+            setShowSuccess(true);
+            setFormData({ name: '', email: '', phone: '', message: '', priority: 'Medium', systemId: '', complexity: 'Standard' });
+            alert("Success! Your message has been received by the VP Command Center.");
+        } else {
+            alert(result.error || "Submission failed. Please try again later.");
         }
+        setIsSubmitting(false);
     };
 
     const closeSuccess = () => {

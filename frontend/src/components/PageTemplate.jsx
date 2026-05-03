@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProjectNavbar from './ProjectNavbar';
 import { getApiUrl } from '../config';
+import { submitContactForm } from '../services/formService';
 import Footer from './Footer';
 import { Mail, MapPin, Phone, ArrowRight, CheckCircle, ChevronRight, Github, Linkedin, Twitter } from 'lucide-react';
 
@@ -20,35 +21,19 @@ const ContactSection = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 45000);
+        
+        const result = await submitContactForm(formData, {
+            source: `Page Template: ${document.title}`,
+            accessKey: '236495cb-64bc-4467-87df-5e925b42d10f'
+        });
 
-            const response = await fetch(getApiUrl('/api/contact'), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                signal: controller.signal,
-                body: JSON.stringify(formData)
-            });
-            
-            clearTimeout(timeoutId);
-            const result = await response.json();
-            if (response.ok) {
-                alert("Success! Your message has been received by the VP Command Center.");
-                setFormData({ name: '', email: '', subject: '', message: '' });
-            } else {
-                alert(`Error: ${result.error || 'Failed to send message.'}`);
-            }
-        } catch (error) {
-            console.error('Submission error:', error);
-            if (error.name === 'AbortError') {
-                alert("The request timed out. The server might be starting up. Please try again in a few seconds.");
-            } else {
-                alert("Submission failed. Ensure the VP Backend is online.");
-            }
-        } finally {
-            setIsSubmitting(false);
+        if (result.success) {
+            alert("Success! Your message has been received by the VP Command Center.");
+            setFormData({ name: '', email: '', subject: '', message: '' });
+        } else {
+            alert(result.error || "Submission failed. Please try again later.");
         }
+        setIsSubmitting(false);
     };
 
     return (

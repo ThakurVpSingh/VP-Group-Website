@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getApiUrl } from '../config';
+import { submitContactForm } from '../services/formService';
 import { 
   Globe, 
   Terminal, 
@@ -164,40 +165,21 @@ const VPGroup = () => {
     e.preventDefault();
     setLoading(true);
     setStatus('Transmitting...');
-    try {
-      const controller = new AbortController();
-      // Increased timeout to 90s for Render Free Tier cold starts
-      const timeoutId = setTimeout(() => controller.abort(), 90000);
+    
+    const result = await submitContactForm(formData, {
+        source: 'Main Landing Page',
+        accessKey: '236495cb-64bc-4467-87df-5e925b42d10f'
+    });
 
-      const response = await fetch(getApiUrl('/api/contact'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        signal: controller.signal,
-        body: JSON.stringify(formData)
-      });
-      
-      clearTimeout(timeoutId);
-      const result = await response.json();
-      if (response.ok) {
-        setStatus('Success! Message received.');
-        alert("Success! Your message has been received by the VP Command Center.");
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        setStatus(`Error: ${result.error || 'Failed'}`);
-        alert(`Error: ${result.error || 'Failed to send message.'}`);
-      }
-    } catch (error) {
-      console.error('Submission error:', error);
-      if (error.name === 'AbortError') {
-        setStatus('Timeout Error');
-        alert("The server is taking longer than expected to wake up. We've initiated a priority wake-up sequence. Please wait 10 seconds and try again.");
-      } else {
-        setStatus('Submission failed.');
-        alert("Submission failed. Ensure the VP Backend is online.");
-      }
-    } finally {
-      setLoading(false);
+    if (result.success) {
+      setStatus('Success! Message received.');
+      alert("Success! Your message has been received by the VP Command Center.");
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } else {
+      setStatus(`Error: ${result.error || 'Failed'}`);
+      alert(result.error || "Submission failed. Please try again later.");
     }
+    setLoading(false);
   };
 
   return (
