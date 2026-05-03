@@ -68,8 +68,7 @@ const PartnershipApplyPage = () => {
             ...formData,
             attachment: fileData
         }, {
-            source: 'Partnership Application',
-            accessKey: '236495cb-64bc-4467-87df-5e925b42d10f'
+            source: 'Partnership Application'
         });
 
         if (result.success) {

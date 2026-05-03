@@ -23,8 +23,7 @@ const ContactSection = () => {
         setIsSubmitting(true);
         
         const result = await submitContactForm(formData, {
-            source: `Page Template: ${document.title}`,
-            accessKey: '236495cb-64bc-4467-87df-5e925b42d10f'
+            source: `Page Template: ${document.title}`
         });
 
         if (result.success) {

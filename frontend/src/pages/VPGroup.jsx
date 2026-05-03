@@ -167,8 +167,7 @@ const VPGroup = () => {
     setStatus('Transmitting...');
     
     const result = await submitContactForm(formData, {
-        source: 'Main Landing Page',
-        accessKey: '236495cb-64bc-4467-87df-5e925b42d10f'
+        source: 'Main Landing Page'
     });
 
     if (result.success) {

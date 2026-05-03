@@ -53,8 +53,7 @@ const ContactPage = () => {
         setIsSubmitting(true);
         
         const result = await submitContactForm(formData, {
-            source: 'Main Contact Portal',
-            accessKey: '236495cb-64bc-4467-87df-5e925b42d10f' // Using the provided key for reliability
+            source: 'Main Contact Portal'
         });
 
         if (result.success) {
