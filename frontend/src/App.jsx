@@ -20,6 +20,8 @@ import InstitutionalPage from './pages/InstitutionalPage';
 import GlobalPartnersPage from './pages/GlobalPartnersPage';
 import VaultCaseStudyPage from './pages/VaultCaseStudyPage';
 import StrategyPage from './pages/StrategyPage';
+import BookingPage from './pages/BookingPage';
+import MeetingRoomPage from './pages/MeetingRoomPage';
 
 const SplashScreen = ({ onComplete }) => {
   const [phase, setPhase] = useState(0); // 0: logo in, 1: text in, 2: fade out
@@ -172,6 +174,10 @@ function App() {
           
           {/* Partnership Routes */}
           <Route path="/apply-partnership" element={<PartnershipApplyPage />} />
+          
+          {/* Consultation Routes */}
+          <Route path="/consultation/book" element={<BookingPage />} />
+          <Route path="/meeting/:meetingId" element={<MeetingRoomPage />} />
           
           {/* Help & Contact Routes */}
           <Route path="/help/contact" element={<ContactPage />} />

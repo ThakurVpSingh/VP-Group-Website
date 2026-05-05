@@ -76,7 +76,10 @@ const ProjectNavbar = () => {
                         </div>
 
                         <Link to="/our-strategy" className="nav-link-btn">Our Strategy</Link>
-
+                        
+                        <Link to="/consultation/book" className="nav-portal-btn" style={{ marginLeft: '16px', background: 'linear-gradient(135deg, #ff4ef0, #8b5cf6)', color: '#fff' }}>
+                            Book Consultation
+                        </Link>
                     </div>
 
                     {/* Standard Hamburger Toggle */}
@@ -119,6 +122,12 @@ const ProjectNavbar = () => {
                                 <Link to="/help/partners">Partners</Link>
                                 <Link to="/help/contact">Contact Us</Link>
                             </div>
+                        </div>
+                        
+                        <div className="drawer-footer" style={{ border: 'none', padding: 0 }}>
+                            <Link to="/consultation/book" className="drawer-portal-btn" onClick={() => setIsMenuOpen(false)}>
+                                Book Consultation
+                            </Link>
                         </div>
                         </div>
                     </div>

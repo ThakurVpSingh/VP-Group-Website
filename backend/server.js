@@ -10,6 +10,7 @@ import healthRoutes from './routes/healthRoutes.js';
 import hrRoutes from './routes/hrRoutes.js';
 import ticketRoutes from './routes/ticketRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
+import consultationRoutes from './routes/consultationRoutes.js';
 
 import User from './models/User.js';
 import Role from './models/Role.js';
@@ -54,6 +55,7 @@ app.use('/api/health', healthRoutes);
 app.use('/api/hr', hrRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/consultations', consultationRoutes);
 
 const PORT = process.env.PORT || 5000;
 const mongoURI = process.env.MONGODB_URI;
