@@ -9,6 +9,8 @@ const consultationSchema = new mongoose.Schema({
   roomUrl: { type: String, required: true },
   visitorToken: { type: String },
   instructorToken: { type: String },
+  reason: { type: String },
+  overview: { type: String },
   status: { type: String, enum: ['scheduled', 'completed', 'cancelled'], default: 'scheduled' }
 }, { timestamps: true });
 

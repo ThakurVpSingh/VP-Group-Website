@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Video, Clock, CalendarX2, CheckCircle2, PhoneMissed, Play, Users, Mail, User } from 'lucide-react';
 import ProjectNavbar from '../components/ProjectNavbar';
 
+import Footer from '../components/Footer';
+
 const ConsultationDashboard = () => {
   const [consultations, setConsultations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,7 +63,7 @@ const ConsultationDashboard = () => {
 
         {error && <div style={{ padding: '16px', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', borderRadius: '8px', marginBottom: '24px' }}>{error}</div>}
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '24px', marginBottom: '80px' }}>
           {consultations.length === 0 ? (
             <div style={{ padding: '40px', background: 'rgba(255,255,255,0.02)', borderRadius: '16px', border: '1px dashed rgba(255,255,255,0.1)', gridColumn: '1 / -1', textAlign: 'center', color: '#64748b' }}>
               No consultations booked yet.
@@ -111,6 +113,12 @@ const ConsultationDashboard = () => {
                       </div>
                     </div>
 
+                    <div style={{ marginTop: '20px', padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                      <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '1px' }}>Inquiry Context</div>
+                      <h4 style={{ fontSize: '0.95rem', fontWeight: 700, margin: '0 0 8px', color: '#a78bfa' }}>{c.reason || 'General Consultation'}</h4>
+                      <p style={{ fontSize: '0.85rem', color: '#94a3b8', margin: 0, lineHeight: 1.5 }}>{c.overview || 'No additional details provided.'}</p>
+                    </div>
+
                     {status === 'Expired' && (
                       <div style={{ marginTop: '20px', padding: '12px', background: 'rgba(239, 68, 68, 0.05)', border: '1px dashed rgba(239, 68, 68, 0.2)', borderRadius: '8px' }}>
                         <div style={{ fontSize: '0.8rem', color: '#ef4444', fontWeight: 700, marginBottom: '4px' }}>SESSION EXPIRED</div>
@@ -148,6 +156,7 @@ const ConsultationDashboard = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

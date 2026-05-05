@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 
 router.post('/book', async (req, res) => {
   try {
-    const { visitorName, visitorEmail, duration, startTime } = req.body;
+    const { visitorName, visitorEmail, duration, startTime, reason, overview } = req.body;
 
     if (!visitorName || !visitorEmail || !duration || !startTime) {
       return res.status(400).json({ error: 'All fields are required.' });
@@ -81,7 +81,9 @@ router.post('/book', async (req, res) => {
       startTime,
       meetingId,
       roomUrl,
-      visitorToken
+      visitorToken,
+      reason,
+      overview
     });
     
     await newConsultation.save();
@@ -100,6 +102,8 @@ router.post('/book', async (req, res) => {
           <p>Hi ${visitorName},</p>
           <p>Your ${duration}-minute video consultation has been successfully scheduled.</p>
           <p><strong>Date & Time:</strong> ${dateObj.toLocaleString()}</p>
+          <p><strong>Reason:</strong> ${reason || 'Not specified'}</p>
+          <p><strong>Overview:</strong> ${overview || 'No additional details provided.'}</p>
           <div style="margin: 30px 0; text-align: center;">
             <a href="${meetingLink}" style="background-color: #8b5cf6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Join Meeting</a>
           </div>
