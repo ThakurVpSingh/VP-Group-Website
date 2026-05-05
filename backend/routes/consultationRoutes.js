@@ -10,11 +10,14 @@ const router = express.Router();
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false, // Use STARTTLS
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 });
 
@@ -118,12 +121,10 @@ router.post('/book', async (req, res) => {
     };
 
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      try {
-        await transporter.sendMail(mailOptions);
-      } catch (mailError) {
-        console.error('Nodemailer failed, but booking was saved:', mailError);
-        // We don't throw here so the user still gets their success response
-      }
+      // Non-blocking email send to speed up response
+      transporter.sendMail(mailOptions)
+        .then(() => console.log('Booking confirmation email sent successfully'))
+        .catch(err => console.error('Delayed email failure:', err));
     } else {
       console.log('Skipping email send: EMAIL_USER/PASS not configured. Meeting link:', meetingLink);
     }

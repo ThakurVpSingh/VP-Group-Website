@@ -109,6 +109,22 @@ const BookingPage = () => {
     <div style={{ minHeight: '100vh', background: '#030712', color: '#fff', fontFamily: '"Plus Jakarta Sans", sans-serif', position: 'relative' }}>
       <ProjectNavbar />
       
+      {/* Processing Animation Overlay */}
+      {loading && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(3, 7, 18, 0.9)', backdropFilter: 'blur(10px)', zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', animation: 'fadeIn 0.3s ease-out' }}>
+          <div className="loader-ring"></div>
+          <div style={{ marginTop: '30px', textAlign: 'center' }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fff', marginBottom: '10px', letterSpacing: '2px' }}>VEXIOGATE SECURE LINKING</h2>
+            <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
+              {[1, 2, 3].map(i => (
+                <div key={i} className="dot-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+              ))}
+            </div>
+            <p style={{ color: '#94a3b8', marginTop: '20px', fontSize: '0.9rem', maxWidth: '300px' }}>Encrypting consultation protocols and establishing secure tunnel...</p>
+          </div>
+        </div>
+      )}
+      
       <div style={{ padding: '120px 20px 80px', position: 'relative', overflow: 'hidden' }}>
         {/* Animated Background Glows */}
         <div className="bg-blob blob-1" />
@@ -424,6 +440,28 @@ const BookingPage = () => {
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         
+        /* Loader Styles */
+        .loader-ring {
+          width: 80px;
+          height: 80px;
+          border: 4px solid rgba(139, 92, 246, 0.1);
+          border-top: 4px solid #8b5cf6;
+          border-right: 4px solid #22d3ee;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        .dot-pulse {
+          width: 8px;
+          height: 8px;
+          background: #22d3ee;
+          border-radius: 50%;
+          animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { transform: scale(0.5); opacity: 0.3; } 50% { transform: scale(1.2); opacity: 1; } }
+
         /* New Animated Background */
         @keyframes blobBounce {
           0% { transform: translate(0px, 0px) scale(1); }

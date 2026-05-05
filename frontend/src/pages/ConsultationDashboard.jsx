@@ -14,6 +14,9 @@ const ConsultationDashboard = () => {
 
   useEffect(() => {
     fetchConsultations();
+    // Auto-refresh for admin every 30 seconds
+    const interval = setInterval(fetchConsultations, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchConsultations = async () => {
@@ -30,6 +33,13 @@ const ConsultationDashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const isNew = (createdAt) => {
+    const created = new Date(createdAt);
+    const now = new Date();
+    const diffMs = now - created;
+    return diffMs < 900000; // 15 minutes
   };
 
   const getStatus = (startTime, durationMinutes) => {
@@ -51,13 +61,18 @@ const ConsultationDashboard = () => {
       <ProjectNavbar />
       
       <div style={{ padding: '120px 5% 60px', maxWidth: '1400px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '40px' }}>
-          <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(139, 92, 246, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
-            <Video size={24} color="#a78bfa" />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(139, 92, 246, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
+              <Video size={24} color="#a78bfa" />
+            </div>
+            <div>
+              <h1 style={{ fontSize: '2rem', fontWeight: 800, margin: 0 }}>Consultation Center</h1>
+              <p style={{ color: '#64748b', fontSize: '0.9rem', margin: '4px 0 0' }}>Manage video meetings and track consultation history.</p>
+            </div>
           </div>
-          <div>
-            <h1 style={{ fontSize: '2rem', fontWeight: 800, margin: 0 }}>Consultation Center</h1>
-            <p style={{ color: '#64748b', fontSize: '0.9rem', margin: '4px 0 0' }}>Manage video meetings and track consultation history.</p>
+          <div style={{ fontSize: '0.8rem', color: '#22d3ee', background: 'rgba(34, 211, 238, 0.1)', padding: '8px 16px', borderRadius: '30px', fontWeight: 700, border: '1px solid rgba(34, 211, 238, 0.2)' }}>
+            ● LIVE MONITORING ACTIVE
           </div>
         </div>
 
@@ -72,6 +87,7 @@ const ConsultationDashboard = () => {
             consultations.map((c) => {
               const status = getStatus(c.startTime, c.duration);
               const startObj = new Date(c.startTime);
+              const newlyBooked = isNew(c.createdAt);
               
               let statusColor = '#64748b';
               let StatusIcon = Clock;
@@ -88,8 +104,12 @@ const ConsultationDashboard = () => {
               }
 
               return (
-                <div key={c._id} style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: '0.3s', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                <div key={c._id} style={{ background: 'rgba(15, 23, 42, 0.6)', border: newlyBooked ? '1px solid #ff4ef0' : '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: '0.3s', boxShadow: newlyBooked ? '0 0 20px rgba(255, 78, 240, 0.2)' : '0 10px 30px rgba(0,0,0,0.5)', position: 'relative' }}>
                   
+                  {newlyBooked && (
+                    <div style={{ position: 'absolute', top: '12px', right: '12px', background: '#ff4ef0', color: '#fff', fontSize: '0.65rem', fontWeight: 900, padding: '4px 8px', borderRadius: '4px', letterSpacing: '1px', animation: 'pulse 1.5s infinite' }}>NEW BOOKING</div>
+                  )}
+
                   {/* Card Header */}
                   <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0,0,0,0.2)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: statusColor, fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px' }}>
