@@ -22,6 +22,7 @@ import VaultCaseStudyPage from './pages/VaultCaseStudyPage';
 import StrategyPage from './pages/StrategyPage';
 import BookingPage from './pages/BookingPage';
 import MeetingRoomPage from './pages/MeetingRoomPage';
+import ConsultationDashboard from './pages/ConsultationDashboard';
 
 const SplashScreen = ({ onComplete }) => {
   const [phase, setPhase] = useState(0); // 0: logo in, 1: text in, 2: fade out
@@ -178,6 +179,7 @@ function App() {
           {/* Consultation Routes */}
           <Route path="/consultation/book" element={<BookingPage />} />
           <Route path="/meeting/:meetingId" element={<MeetingRoomPage />} />
+          <Route path="/admin/consultations" element={<ConsultationDashboard />} />
           
           {/* Help & Contact Routes */}
           <Route path="/help/contact" element={<ContactPage />} />

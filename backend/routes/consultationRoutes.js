@@ -87,12 +87,12 @@ router.post('/book', async (req, res) => {
     await newConsultation.save();
 
     // 3. Send Confirmation Email
-    const meetingLink = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/meeting/${meetingId}?token=${visitorToken}`;
+    const meetingLink = `${process.env.FRONTEND_URL || 'https://vp-group-website.vercel.app'}/meeting/${meetingId}?token=${visitorToken}`;
     const dateObj = new Date(startTime);
     
     const mailOptions = {
       from: `"VP Group Scheduling" <${process.env.EMAIL_USER}>`,
-      to: visitorEmail,
+      to: [visitorEmail, 'contact.vpsdev@gmail.com'], // Send to both
       subject: `Booking Confirmed: VP Group Video Consultation`,
       html: `
         <div style="font-family: sans-serif; padding: 20px; color: #333; border: 1px solid #eee; border-radius: 10px; max-width: 600px; margin: 0 auto;">
@@ -138,6 +138,16 @@ router.get('/:meetingId', async (req, res) => {
       return res.status(404).json({ error: 'Meeting not found.' });
     }
     res.json({ success: true, consultation });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Route to get all consultations (for Admin Dashboard)
+router.get('/', async (req, res) => {
+  try {
+    const consultations = await Consultation.find().sort({ startTime: -1 });
+    res.json({ success: true, consultations });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }

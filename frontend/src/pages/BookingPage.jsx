@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, Video, Bot, ArrowRight, CheckCircle, ChevronRight, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import { getApiUrl } from '../config';
 
 const BookingPage = () => {
   const [step, setStep] = useState(1); // 1: choose type, 2: details, 3: success
@@ -16,7 +15,28 @@ const BookingPage = () => {
   const [meetingLink, setMeetingLink] = useState('');
   const [showAiModal, setShowAiModal] = useState(false);
   
+  // AI Chat State
+  const [aiInput, setAiInput] = useState('');
+  const [aiMessages, setAiMessages] = useState([
+    { sender: 'ai', text: "Hello! I'm the VP Group AI Pre-Consultation assistant. I have access to our entire knowledge base. How can I help you today? You can ask me about our services, pricing, or technical integrations." }
+  ]);
+  
   const navigate = useNavigate();
+
+  const handleAiSend = () => {
+    if(!aiInput.trim()) return;
+    setAiMessages([...aiMessages, { sender: 'user', text: aiInput }]);
+    const currentInput = aiInput;
+    setAiInput('');
+    
+    // Mock AI response
+    setTimeout(() => {
+      let reply = "I can definitely help with that. For highly specific requirements, I recommend booking a live expert session.";
+      if(currentInput.toLowerCase().includes('price') || currentInput.toLowerCase().includes('cost')) reply = "Our pricing is highly customizable depending on system complexity. Basic portals start at competitive rates, while full Enterprise IAM systems are quoted per architecture.";
+      if(currentInput.toLowerCase().includes('service')) reply = "We specialize in Web Development, Software Engineering, IAM portals, and robust Cloud Architecture.";
+      setAiMessages(prev => [...prev, { sender: 'ai', text: reply }]);
+    }, 1000);
+  };
 
   const handleBook = async (e) => {
     e.preventDefault();
@@ -26,7 +46,7 @@ const BookingPage = () => {
     const timeToUse = formData.startTime || new Date(Date.now() + 86400000).toISOString();
     
     try {
-      const response = await fetch(`${API_URL}/consultations/book`, {
+      const response = await fetch(getApiUrl('/api/consultations/book'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, startTime: timeToUse })
@@ -245,16 +265,20 @@ const BookingPage = () => {
               </button>
             </div>
 
-            {/* Chat Area (Mocked for visual) */}
+            {/* Chat Area */}
             <div style={{ flex: 1, padding: '20px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(34, 211, 238, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Bot size={16} color="#22d3ee" />
+              {aiMessages.map((msg, idx) => (
+                <div key={idx} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', justifyContent: msg.sender === 'user' ? 'flex-end' : 'flex-start' }}>
+                  {msg.sender === 'ai' && (
+                    <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(34, 211, 238, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Bot size={16} color="#22d3ee" />
+                    </div>
+                  )}
+                  <div style={{ background: msg.sender === 'user' ? '#8b5cf6' : 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '16px', borderTopLeftRadius: msg.sender === 'ai' ? 0 : '16px', borderTopRightRadius: msg.sender === 'user' ? 0 : '16px', fontSize: '0.95rem', lineHeight: 1.5, color: '#fff', maxWidth: '80%' }}>
+                    {msg.text}
+                  </div>
                 </div>
-                <div style={{ background: 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '16px', borderTopLeftRadius: 0, fontSize: '0.95rem', lineHeight: 1.5, color: '#e2e8f0', maxWidth: '80%' }}>
-                  Hello! I'm the VP Group AI Pre-Consultation assistant. I have access to our entire knowledge base. How can I help you today? You can ask me about our services, pricing, or technical integrations.
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* Input Area */}
@@ -263,9 +287,12 @@ const BookingPage = () => {
                 <input 
                   type="text" 
                   placeholder="Type your question here..." 
+                  value={aiInput}
+                  onChange={e => setAiInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleAiSend()}
                   style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px', borderRadius: '12px', color: '#fff', fontSize: '0.95rem', outline: 'none' }}
                 />
-                <button style={{ padding: '0 24px', background: '#22d3ee', border: 'none', borderRadius: '12px', color: '#0f172a', fontWeight: 600, cursor: 'pointer' }}>
+                <button onClick={handleAiSend} style={{ padding: '0 24px', background: '#22d3ee', border: 'none', borderRadius: '12px', color: '#0f172a', fontWeight: 600, cursor: 'pointer' }}>
                   Send
                 </button>
               </div>

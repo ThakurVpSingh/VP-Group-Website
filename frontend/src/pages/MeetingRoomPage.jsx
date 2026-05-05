@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Loader2, Shield, ArrowLeft, VideoOff } from 'lucide-react';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import { getApiUrl } from '../config';
 
 const MeetingRoomPage = () => {
   const { meetingId } = useParams();
@@ -14,7 +13,7 @@ const MeetingRoomPage = () => {
   useEffect(() => {
     const fetchMeeting = async () => {
       try {
-        const response = await fetch(`${API_URL}/consultations/${meetingId}`);
+        const response = await fetch(getApiUrl(`/api/consultations/${meetingId}`));
         const data = await response.json();
         if (data.success) {
           setMeetingInfo(data.consultation);
@@ -30,6 +29,11 @@ const MeetingRoomPage = () => {
     };
     fetchMeeting();
   }, [meetingId]);
+
+  // Security State
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [verifyEmail, setVerifyEmail] = useState('');
+  const [verifyError, setVerifyError] = useState('');
 
   if (loading) {
     return (
@@ -53,6 +57,51 @@ const MeetingRoomPage = () => {
         >
           <ArrowLeft size={16} /> Return to Home
         </button>
+      </div>
+    );
+  }
+
+  const handleVerify = (e) => {
+    e.preventDefault();
+    if (verifyEmail.toLowerCase().trim() === meetingInfo.visitorEmail.toLowerCase() || verifyEmail.toLowerCase().trim() === 'contact.vpsdev@gmail.com') {
+      setIsAuthenticated(true);
+    } else {
+      setVerifyError('Unauthorized email address. Please use the email you registered with.');
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ height: '100vh', background: '#030712', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+        <div style={{ background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.05)', padding: '40px', borderRadius: '24px', maxWidth: '400px', width: '90%', textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }}>
+          <div style={{ width: '60px', height: '60px', background: 'rgba(139, 92, 246, 0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
+            <Shield size={30} color="#a78bfa" />
+          </div>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '10px' }}>Security Gate</h2>
+          <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '24px', lineHeight: 1.5 }}>
+            This is a private, encrypted consultation. Please verify your identity by entering the email used to book this session.
+          </p>
+
+          <form onSubmit={handleVerify} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <input 
+              type="email" 
+              required
+              value={verifyEmail}
+              onChange={e => setVerifyEmail(e.target.value)}
+              placeholder="Enter your email address"
+              style={{ width: '100%', padding: '14px', background: 'rgba(3, 7, 18, 0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', outline: 'none', textAlign: 'center' }}
+            />
+            {verifyError && <p style={{ color: '#ef4444', fontSize: '0.85rem', margin: 0 }}>{verifyError}</p>}
+            <button 
+              type="submit"
+              style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #8b5cf6, #22d3ee)', border: 'none', borderRadius: '12px', color: '#fff', fontWeight: 700, cursor: 'pointer', transition: 'transform 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              Verify Identity
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
