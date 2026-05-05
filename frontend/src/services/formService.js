@@ -57,6 +57,13 @@ export const submitContactForm = async (formData, options = {}) => {
             })
         });
 
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            const textResponse = await response.text();
+            console.error('Non-JSON response from backend:', textResponse);
+            return { success: false, error: 'Backend is currently restarting or unavailable. Please try again in 30 seconds.' };
+        }
+
         const data = await response.json();
         if (response.ok) {
             return { success: true, message: 'Submission received by VP Backend.' };

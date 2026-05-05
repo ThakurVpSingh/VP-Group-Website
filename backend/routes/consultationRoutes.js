@@ -20,6 +20,8 @@ const transporter = nodemailer.createTransport({
 
 router.post('/book', async (req, res) => {
   try {
+    console.log('--- NEW BOOKING REQUEST ---');
+    console.log('Body:', req.body);
     const { visitorName, visitorEmail, duration, startTime, reason, overview } = req.body;
 
     if (!visitorName || !visitorEmail || !duration || !startTime) {
@@ -116,7 +118,12 @@ router.post('/book', async (req, res) => {
     };
 
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      await transporter.sendMail(mailOptions);
+      try {
+        await transporter.sendMail(mailOptions);
+      } catch (mailError) {
+        console.error('Nodemailer failed, but booking was saved:', mailError);
+        // We don't throw here so the user still gets their success response
+      }
     } else {
       console.log('Skipping email send: EMAIL_USER/PASS not configured. Meeting link:', meetingLink);
     }

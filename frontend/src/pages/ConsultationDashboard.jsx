@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getApiUrl } from '../config';
 import { useNavigate } from 'react-router-dom';
-import { Video, Clock, CalendarX2, CheckCircle2, PhoneMissed, Play, Users, Mail, User } from 'lucide-react';
+import { Video, Clock, CalendarX, CheckCircle, PhoneMissed, Play, Users, Mail, User } from 'lucide-react';
 import ProjectNavbar from '../components/ProjectNavbar';
 
 import Footer from '../components/Footer';
@@ -84,7 +84,7 @@ const ConsultationDashboard = () => {
                 StatusIcon = Clock;
               } else if (status === 'Expired') {
                 statusColor = '#ef4444';
-                StatusIcon = CalendarX2;
+                StatusIcon = CalendarX;
               }
 
               return (

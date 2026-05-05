@@ -76,24 +76,30 @@ const BookingPage = () => {
     
     // Set mock time to tomorrow 10 AM if not selected (for demo simplicity)
     const timeToUse = formData.startTime || new Date(Date.now() + 86400000).toISOString();
+    const payload = { ...formData, startTime: timeToUse };
+    const apiUrl = getApiUrl('/api/consultations/book');
+    console.log('Attempting booking at:', apiUrl);
+    console.log('Payload:', payload);
     
     try {
-      const response = await fetch(getApiUrl('/api/consultations/book'), {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, startTime: timeToUse })
+        body: JSON.stringify(payload)
       });
       
       const data = await response.json();
+      console.log('Backend response:', data);
+
       if (data.success) {
         setMeetingLink(data.meetingLink);
         setStep(3);
       } else {
-        alert(data.error || 'Failed to book consultation');
+        alert(`Booking Error: ${data.error || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('Booking error:', error);
-      alert('Network error. Please try again.');
+      console.error('Booking network error:', error);
+      alert(`Network Error: Could not connect to backend at ${apiUrl}. Please ensure the server is running.`);
     } finally {
       setLoading(false);
     }
