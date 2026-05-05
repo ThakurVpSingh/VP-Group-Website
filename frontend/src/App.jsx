@@ -164,9 +164,6 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/superadmin/access" element={<Login portalType="SuperAdmin" />} />
           
-          {/* Operations Hub (Dashboard) */}
-          <Route path="/*" element={<Dashboard />} />
-          
           {/* Dynamic Service Routes */}
           <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
           
@@ -192,6 +189,9 @@ function App() {
           <Route path="/clients/institutional" element={<InstitutionalPage />} />
           <Route path="/clients/global-partners" element={<GlobalPartnersPage />} />
           <Route path="/portfolio/vault-iam" element={<VaultCaseStudyPage />} />
+
+          {/* Operations Hub (Dashboard) - Catch-all for sub-routes */}
+          <Route path="/*" element={<Dashboard />} />
           
           {/* Fallback Route */}
           <Route path="/404" element={<div style={{padding: 100, textAlign: 'center', color: '#fff'}}><h2>404 - TERMINAL NOT FOUND</h2></div>} />

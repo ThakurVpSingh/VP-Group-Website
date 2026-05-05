@@ -24,7 +24,9 @@ import ManagerPortal from './ManagerPortal';
 import EmployeePortal from './EmployeePortal';
 import AdminPortal from './AdminPortal';
 import SuperAdminPortal from './SuperAdminPortal';
+import ConsultationDashboard from './ConsultationDashboard';
 import Footer from '../components/Footer';
+import { Video } from 'lucide-react';
 
 const Dashboard = () => {
   const { user, logout, loading: authLoading } = useContext(AuthContext);
@@ -38,6 +40,7 @@ const Dashboard = () => {
   const adminMenuItems = [
     { name: 'Overview', path: '/overview', icon: <LayoutDashboard size={20} /> },
     { name: 'User Directory', path: '/users', icon: <Users size={20} /> },
+    { name: 'Consultations', path: '/consultations', icon: <Video size={20} /> },
     { name: 'Audit Trail', path: '/audit', icon: <History size={20} /> },
     { name: 'System Health', path: '/health', icon: <Activity size={20} /> },
     { name: 'My Profile', path: '/profile', icon: <User size={20} /> },
@@ -285,6 +288,7 @@ const Dashboard = () => {
                 <Route path="/audit" element={<AuditTrail />} />
                 <Route path="/health" element={<SystemHealth />} />
                 <Route path="/users" element={<UserDirectory />} />
+                <Route path="/consultations" element={<ConsultationDashboard isEmbedded={true} />} />
               </>
             )}
             <Route path="/profile" element={<Profile />} />
