@@ -284,32 +284,59 @@ const BookingPage = () => {
             )}
 
             {step === 3 && (
-              <div style={{ animation: 'fadeIn 0.5s ease-out', textAlign: 'center', padding: '20px 0' }}>
-                <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '80px', height: '80px', background: 'rgba(34, 211, 238, 0.1)', borderRadius: '50%', marginBottom: '24px' }}>
-                  <CheckCircle size={40} color="#22d3ee" />
+              <div style={{ animation: 'fadeIn 0.5s ease-out', padding: '20px 0' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '80px', height: '80px', background: 'rgba(34, 211, 238, 0.1)', borderRadius: '50%', marginBottom: '24px' }}>
+                    <CheckCircle size={40} color="#22d3ee" />
+                  </div>
+                  <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '16px' }}>Mission Brief Confirmed</h2>
+                  <p style={{ color: '#94a3b8', fontSize: '1.1rem', marginBottom: '30px', maxWidth: '500px', margin: '0 auto 30px' }}>
+                    Thank you, <span style={{ color: '#fff', fontWeight: 'bold' }}>{formData.visitorName}</span>. Your <span style={{ color: '#fff', fontWeight: 'bold' }}>{formData.duration}-minute</span> consultation has been successfully scheduled. We will connect with you exactly as per the scheduled slot.
+                  </p>
                 </div>
-                <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '16px' }}>Booking Confirmed</h2>
-                <p style={{ color: '#94a3b8', fontSize: '1.1rem', marginBottom: '30px', maxWidth: '400px', margin: '0 auto 30px' }}>
-                  Your meeting has been securely scheduled. We've sent a calendar invite and confirmation to your email.
-                </p>
                 
-                <div style={{ background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '24px', marginBottom: '30px' }}>
-                  <p style={{ color: '#cbd5e1', marginBottom: '12px' }}>Your secure meeting link is ready:</p>
-                  <div style={{ display: 'flex', alignItems: 'center', background: '#030712', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '12px 16px', overflow: 'hidden' }}>
-                    <code style={{ color: '#a78bfa', fontSize: '0.9rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', width: '100%' }}>
+                <div style={{ background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '32px', marginBottom: '30px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', paddingBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div style={{ background: 'rgba(139, 92, 246, 0.2)', padding: '12px', borderRadius: '12px' }}>
+                      <Clock size={24} color="#a78bfa" />
+                    </div>
+                    <div>
+                      <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Scheduled Time</p>
+                      <p style={{ fontSize: '1.2rem', color: '#fff', fontWeight: 600 }}>
+                        {new Date(formData.startTime).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p style={{ color: '#cbd5e1', marginBottom: '12px', fontWeight: 600 }}>Your Secure Meeting Link:</p>
+                  <div style={{ display: 'flex', alignItems: 'center', background: '#030712', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '16px', overflow: 'hidden', marginBottom: '24px' }}>
+                    <code style={{ color: '#22d3ee', fontSize: '0.95rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', width: '100%' }}>
                       {meetingLink}
                     </code>
                   </div>
+                  
+                  <div style={{ background: 'rgba(255, 78, 240, 0.05)', borderLeft: '4px solid #ff4ef0', padding: '16px', borderRadius: '4px' }}>
+                    <p style={{ color: '#f8fafc', fontSize: '0.95rem', margin: 0, lineHeight: 1.6 }}>
+                      <strong style={{ color: '#ff4ef0' }}>Important:</strong> Please try to be on the meet link before 5 minutes to avoid any type of technical issue.
+                    </p>
+                  </div>
                 </div>
 
-                <button 
-                  onClick={() => window.location.href = meetingLink}
-                  style={{ padding: '16px 32px', background: '#fff', border: 'none', borderRadius: '12px', color: '#030712', fontSize: '1.1rem', fontWeight: 700, cursor: 'pointer', transition: 'transform 0.2s' }}
-                  onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
-                >
-                  Enter Meeting Room Now
-                </button>
+                <div style={{ textAlign: 'center' }}>
+                  <button 
+                    onClick={() => window.location.href = meetingLink}
+                    style={{ width: '100%', padding: '16px 32px', background: '#fff', border: 'none', borderRadius: '12px', color: '#030712', fontSize: '1.1rem', fontWeight: 700, cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', marginBottom: '24px' }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 20px rgba(255,255,255,0.2)' }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
+                  >
+                    Enter Secure Meeting Room
+                  </button>
+
+                  <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                    If you face any issues, feel free to reach out to us at <br/>
+                    <strong style={{ color: '#fff' }}>+91 6388 398 552</strong> or write an email to <strong style={{ color: '#fff' }}>contact.vpsdev@gmail.com</strong>
+                  </p>
+                </div>
               </div>
             )}
 

@@ -137,7 +137,7 @@ router.post('/book', async (req, res) => {
 
   } catch (error) {
     console.error('Error booking consultation:', error);
-    res.status(500).json({ error: 'Failed to book consultation.' });
+    res.status(500).json({ error: `Server failed to book consultation: ${error.message}` });
   }
 });
 
