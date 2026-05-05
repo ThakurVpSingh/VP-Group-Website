@@ -110,9 +110,11 @@ const BookingPage = () => {
       <ProjectNavbar />
       
       <div style={{ padding: '120px 20px 80px', position: 'relative', overflow: 'hidden' }}>
-        {/* Background Glows */}
-        <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 0 }} />
-        <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(34, 211, 238, 0.1) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 0 }} />
+        {/* Animated Background Glows */}
+        <div className="bg-blob blob-1" />
+        <div className="bg-blob blob-2" />
+        <div className="bg-blob blob-3" />
+        <div className="bg-grid-overlay" />
         
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px', margin: '0 auto' }}>
           
@@ -394,6 +396,51 @@ const BookingPage = () => {
       <style>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        
+        /* New Animated Background */
+        @keyframes blobBounce {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        
+        .bg-blob {
+          position: absolute;
+          filter: blur(80px);
+          z-index: 0;
+          opacity: 0.6;
+          animation: blobBounce 15s infinite alternate ease-in-out;
+          border-radius: 50%;
+        }
+        
+        .blob-1 {
+          top: -10%; left: -10%; width: 600px; height: 600px;
+          background: radial-gradient(circle, rgba(139, 92, 246, 0.25) 0%, transparent 70%);
+          animation-delay: 0s;
+        }
+        
+        .blob-2 {
+          bottom: -10%; right: -10%; width: 600px; height: 600px;
+          background: radial-gradient(circle, rgba(34, 211, 238, 0.2) 0%, transparent 70%);
+          animation-delay: -5s;
+        }
+        
+        .blob-3 {
+          top: 40%; left: 40%; width: 500px; height: 500px;
+          background: radial-gradient(circle, rgba(255, 78, 240, 0.15) 0%, transparent 70%);
+          animation-delay: -10s;
+        }
+
+        .bg-grid-overlay {
+          position: absolute;
+          inset: 0;
+          background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+          background-size: 50px 50px;
+          z-index: 0;
+          pointer-events: none;
+        }
       `}</style>
     </div>
   );

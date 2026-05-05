@@ -5,7 +5,7 @@ export const getApiUrl = (endpoint) => {
                   
   const BASE_URL = isLocal 
     ? 'http://localhost:5000'
-    : 'https://vp-group-website.onrender.com';
+    : 'https://vp-group-website-1.onrender.com';
   
   return `${BASE_URL}${endpoint}`;
 };

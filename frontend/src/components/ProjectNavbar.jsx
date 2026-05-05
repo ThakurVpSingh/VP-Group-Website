@@ -77,7 +77,7 @@ const ProjectNavbar = () => {
 
                         <Link to="/our-strategy" className="nav-link-btn">Our Strategy</Link>
                         
-                        <Link to="/consultation/book" className="nav-portal-btn" style={{ marginLeft: '16px', background: 'linear-gradient(135deg, #ff4ef0, #8b5cf6)', color: '#fff' }}>
+                        <Link to="/consultation/book" className="nav-portal-btn" style={{ marginLeft: '16px' }}>
                             Book Consultation
                         </Link>
                     </div>
@@ -215,23 +215,46 @@ const ProjectNavbar = () => {
                 .nav-dropdown:hover .drop-icon { transform: rotate(180deg); color: #ff4ef0; }
 
                 .nav-portal-btn {
+                    position: relative;
                     padding: 12px 28px;
-                    background: #fff;
-                    color: #030712;
+                    background: linear-gradient(135deg, #ff4ef0, #8b5cf6);
+                    color: #fff !important;
+                    text-decoration: none !important;
                     border: none;
-                    border-radius: 10px;
+                    border-radius: 30px;
                     fontWeight: 950;
                     font-size: 0.8rem;
                     cursor: pointer;
                     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                    box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+                    box-shadow: 0 4px 15px rgba(255, 78, 240, 0.3);
                     letter-spacing: 1px;
+                    overflow: hidden;
+                    z-index: 1;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
                 }
+                
+                .nav-portal-btn::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+                    transition: 0.6s ease;
+                    z-index: -1;
+                }
+
+                .nav-portal-btn:hover::before {
+                    left: 100%;
+                }
+
                 .nav-portal-btn:hover {
-                    transform: translateY(-3px);
-                    background: #ff4ef0;
-                    color: #fff;
-                    box-shadow: 0 15px 30px rgba(255, 78, 240, 0.4);
+                    transform: translateY(-3px) scale(1.02);
+                    box-shadow: 0 15px 30px rgba(255, 78, 240, 0.5);
+                    background: linear-gradient(135deg, #f03edb, #7e4de4);
                 }
 
                 .nav-dropdown { position: relative; padding-bottom: 15px; margin-bottom: -15px; }
