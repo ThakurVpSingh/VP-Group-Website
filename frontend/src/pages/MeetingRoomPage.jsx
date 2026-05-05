@@ -32,6 +32,7 @@ const MeetingRoomPage = () => {
 
   // Security State
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [verifyEmail, setVerifyEmail] = useState('');
   const [verifyError, setVerifyError] = useState('');
 
@@ -63,7 +64,12 @@ const MeetingRoomPage = () => {
 
   const handleVerify = (e) => {
     e.preventDefault();
-    if (verifyEmail.toLowerCase().trim() === meetingInfo.visitorEmail.toLowerCase() || verifyEmail.toLowerCase().trim() === 'contact.vpsdev@gmail.com') {
+    const email = verifyEmail.toLowerCase().trim();
+    if (email === 'contact.vpsdev@gmail.com') {
+      setIsAdmin(true);
+      setIsAuthenticated(true);
+    } else if (email === meetingInfo.visitorEmail.toLowerCase()) {
+      setIsAdmin(false);
       setIsAuthenticated(true);
     } else {
       setVerifyError('Unauthorized email address. Please use the email you registered with.');
@@ -79,7 +85,7 @@ const MeetingRoomPage = () => {
           </div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '10px' }}>Security Gate</h2>
           <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '24px', lineHeight: 1.5 }}>
-            This is a private, encrypted consultation. Please verify your identity by entering the email used to book this session.
+            This is a private, encrypted consultation. Please verify your identity to join.
           </p>
 
           <form onSubmit={handleVerify} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -88,7 +94,7 @@ const MeetingRoomPage = () => {
               required
               value={verifyEmail}
               onChange={e => setVerifyEmail(e.target.value)}
-              placeholder="Enter your email address"
+              placeholder="Enter your authorized email"
               style={{ width: '100%', padding: '14px', background: 'rgba(3, 7, 18, 0.5)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', outline: 'none', textAlign: 'center' }}
             />
             {verifyError && <p style={{ color: '#ef4444', fontSize: '0.85rem', margin: 0 }}>{verifyError}</p>}
@@ -98,21 +104,29 @@ const MeetingRoomPage = () => {
               onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
               onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
-              Verify Identity
+              Enter Room
             </button>
           </form>
+          <p style={{ marginTop: '20px', fontSize: '0.75rem', color: '#475569' }}>
+            Powered by VP Group Zero-Trust Architecture
+          </p>
         </div>
       </div>
     );
   }
 
-  // Pre-configured Jitsi Meet parameters for better embedded UI
+  // Jitsi configuration
   const isJitsi = meetingInfo.roomUrl.includes('meet.jit.si');
   let finalRoomUrl = meetingInfo.roomUrl;
   
   if (isJitsi) {
-    // Hide extra Jitsi elements to make it look like a white-label custom solution
-    finalRoomUrl += `#config.prejoinPageEnabled=false&config.disableDeepLinking=true&interfaceConfig.SHOW_JITSI_WATERMARK=false&interfaceConfig.SHOW_BRAND_WATERMARK=false&interfaceConfig.SHOW_WATERMARK_FOR_GUESTS=false`;
+    // Add specific moderator configs if isAdmin
+    const nameParam = isAdmin ? 'VP Admin' : meetingInfo.visitorName;
+    const configString = isAdmin 
+      ? `&config.prejoinPageEnabled=false&config.startWithAudioMuted=false&config.startWithVideoMuted=false&config.lobby.enabled=true&config.requireDisplayName=true`
+      : `&config.prejoinPageEnabled=true&config.lobby.enabled=true`;
+    
+    finalRoomUrl += `#userInfo.displayName="${nameParam}"${configString}&interfaceConfig.SHOW_JITSI_WATERMARK=false&interfaceConfig.SHOW_BRAND_WATERMARK=false`;
   }
 
   return (
@@ -121,31 +135,35 @@ const MeetingRoomPage = () => {
       {/* Premium Dashboard Header */}
       <div style={{ height: '64px', background: '#030712', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(34, 211, 238, 0.1)', padding: '6px 12px', borderRadius: '6px', color: '#22d3ee', fontSize: '0.85rem', fontWeight: 600 }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22d3ee', animation: 'pulse 2s infinite' }} />
-            Live Session
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: isAdmin ? 'rgba(139, 92, 246, 0.15)' : 'rgba(34, 211, 238, 0.1)', padding: '6px 12px', borderRadius: '6px', color: isAdmin ? '#a78bfa' : '#22d3ee', fontSize: '0.85rem', fontWeight: 600, border: isAdmin ? '1px solid #8b5cf6' : 'none' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: isAdmin ? '#a78bfa' : '#22d3ee', animation: 'pulse 2s infinite' }} />
+            {isAdmin ? 'Moderator Mode Active' : 'Live Secure Session'}
           </div>
           <h1 style={{ color: '#fff', fontSize: '1.1rem', fontWeight: 600, margin: 0 }}>VP Group Consultation</h1>
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#64748b', fontSize: '0.85rem' }}>
-            <Shield size={14} /> End-to-End Encrypted
+            <Shield size={14} /> Encrypted Node: {meetingId.slice(0, 8)}
           </div>
           <div style={{ color: '#fff', fontSize: '0.9rem' }}>
-            Visitor: <span style={{ fontWeight: 600 }}>{meetingInfo.visitorName}</span>
+            {isAdmin ? (
+              <span>Hosting for: <strong style={{ color: '#22d3ee' }}>{meetingInfo.visitorName}</strong></span>
+            ) : (
+              <span>Joined as: <strong style={{ color: '#fff' }}>{meetingInfo.visitorName}</strong></span>
+            )}
           </div>
           <button 
             onClick={() => {
-              if(window.confirm('Are you sure you want to leave the meeting?')) {
-                navigate('/');
+              if(window.confirm('Are you sure you want to end this session?')) {
+                navigate(isAdmin ? '/consultation/dashboard' : '/');
               }
             }}
             style={{ padding: '8px 16px', background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.2)', borderRadius: '6px', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }}
             onMouseEnter={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'}
             onMouseLeave={e => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}
           >
-            Leave Room
+            {isAdmin ? 'End Meeting' : 'Leave Room'}
           </button>
         </div>
       </div>
@@ -163,13 +181,36 @@ const MeetingRoomPage = () => {
           />
         </div>
 
+        {/* Admin Sidebar - Only visible to Admin */}
+        {isAdmin && (
+          <div style={{ width: '320px', background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(20px)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', padding: '24px' }}>
+            <h2 style={{ fontSize: '1rem', fontWeight: 800, color: '#fff', marginBottom: '20px', letterSpacing: '1px' }}>ADMIN CONSOLE</h2>
+            
+            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', marginBottom: '20px' }}>
+              <p style={{ color: '#64748b', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px' }}>VISITOR DETAILS</p>
+              <p style={{ color: '#fff', fontWeight: 600, margin: '0 0 4px' }}>{meetingInfo.visitorName}</p>
+              <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>{meetingInfo.visitorEmail}</p>
+            </div>
+
+            <div style={{ background: 'rgba(139, 92, 246, 0.05)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(139, 92, 246, 0.2)', marginBottom: '20px' }}>
+              <p style={{ color: '#a78bfa', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px' }}>SESSION CONTEXT</p>
+              <p style={{ color: '#fff', fontSize: '0.9rem', lineHeight: 1.4 }}>{meetingInfo.reason || 'Standard Architecture Consultation'}</p>
+            </div>
+
+            <div style={{ marginTop: 'auto', padding: '16px', background: 'rgba(16, 185, 129, 0.1)', borderRadius: '12px', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+              <p style={{ color: '#10b981', fontSize: '0.8rem', fontWeight: 700, marginBottom: '4px' }}>HOST STATUS: READY</p>
+              <p style={{ color: '#64748b', fontSize: '0.75rem', margin: 0 }}>Once you join the video, use the "Admit" button inside the screen to let the visitor in.</p>
+            </div>
+          </div>
+        )}
+
       </div>
 
       <style>{`
         @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4); }
-          70% { box-shadow: 0 0 0 6px rgba(34, 211, 238, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
+          0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+          70% { box-shadow: 0 0 0 6px rgba(139, 92, 246, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
         }
       `}</style>
     </div>
