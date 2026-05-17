@@ -76,6 +76,7 @@ const ProjectNavbar = () => {
                         </div>
 
                         <Link to="/our-strategy" className="nav-link-btn">Our Strategy</Link>
+                        <Link to="/owner" className="nav-link-btn">Founder Profile</Link>
                         
                         <Link to="/consultation/book" className="nav-portal-btn" style={{ marginLeft: '16px' }}>
                             Book Consultation
@@ -118,6 +119,7 @@ const ProjectNavbar = () => {
                             <label>RESOURCES</label>
                             <div className="drawer-links">
                                 <Link to="/our-strategy">Our Strategy</Link>
+                                <Link to="/owner">Founder Profile</Link>
                                 <Link to="/help/portfolio">Portfolio</Link>
                                 <Link to="/help/partners">Partners</Link>
                                 <Link to="/help/contact">Contact Us</Link>
