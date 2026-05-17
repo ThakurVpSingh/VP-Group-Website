@@ -23,6 +23,7 @@ import StrategyPage from './pages/StrategyPage';
 import BookingPage from './pages/BookingPage';
 import MeetingRoomPage from './pages/MeetingRoomPage';
 import ConsultationDashboard from './pages/ConsultationDashboard';
+import OwnerPage from './pages/OwnerPage';
 
 const SplashScreen = ({ onComplete }) => {
   const [phase, setPhase] = useState(0); // 0: logo in, 1: text in, 2: fade out
@@ -191,6 +192,7 @@ function App() {
           <Route path="/portfolio/vault-iam" element={<VaultCaseStudyPage />} />
 
           {/* Operations Hub (Dashboard) - Catch-all for sub-routes */}
+          <Route path="/owner" element={<OwnerPage />} />
           <Route path="/*" element={<Dashboard />} />
           
           {/* Fallback Route */}
