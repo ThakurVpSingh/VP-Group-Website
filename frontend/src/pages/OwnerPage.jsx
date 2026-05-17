@@ -6,9 +6,7 @@ export default function OwnerPage() {
   return (
     <>
       <ProjectNavbar />
-      <div className="pt-20">
-        <PersonalLanding />
-      </div>
+      <PersonalLanding />
       <Footer />
     </>
   );
