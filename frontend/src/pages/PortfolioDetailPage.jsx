@@ -39,10 +39,11 @@ const PortfolioDetailPage = () => {
                     <img 
                         src={project.thumbnail} 
                         alt={project.title} 
-                        style={{ width: '100%', height: '500px', objectFit: 'cover', borderRadius: '30px', marginBottom: '80px', border: '1px solid rgba(139, 92, 246, 0.2)' }}
+                        style={{ width: '100%', objectFit: 'cover', borderRadius: '30px', marginBottom: '40px', border: '1px solid rgba(139, 92, 246, 0.2)' }}
+                        className="detail-hero-img"
                     />
 
-                    <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : '2fr 1fr', gap: '80px' }}>
+                    <div className="details-grid" style={{ display: 'grid', gap: '40px' }}>
                         <div>
                             <section style={{ marginBottom: '60px' }}>
                                 <h2 style={{ fontSize: '1.8rem', fontWeight: '900', marginBottom: '24px', letterSpacing: '-1px' }}>The Challenge</h2>
@@ -121,6 +122,22 @@ const PortfolioDetailPage = () => {
                     transform: translateY(-3px);
                     box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
                     filter: brightness(1.1);
+                }
+                .detail-hero-img {
+                    height: 500px;
+                }
+                .details-grid {
+                    grid-template-columns: 2fr 1fr;
+                    gap: 80px !important;
+                }
+                @media (max-width: 968px) {
+                    .details-grid {
+                        grid-template-columns: 1fr;
+                        gap: 40px !important;
+                    }
+                    .detail-hero-img {
+                        height: 280px;
+                    }
                 }
             `}</style>
         </div>

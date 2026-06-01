@@ -76,8 +76,14 @@ const ProjectNavbar = () => {
                         </div>
 
                         <Link to="/our-strategy" className="nav-link-btn">Our Strategy</Link>
-                        <Link to="/owner" className="nav-link-btn">Founder Profile</Link>
-                        <Link to="/business-card" className="nav-link-btn">Business Card</Link>
+                        
+                        <div className="nav-dropdown">
+                            <button className="nav-link-btn">Founder Profile <ChevronDown size={12} className="drop-icon" /></button>
+                            <div className="dropdown-content">
+                                <Link to="/owner">Profile Overview</Link>
+                                <Link to="/business-card">Business Card</Link>
+                            </div>
+                        </div>
                         
                         <Link to="/consultation/book" className="nav-portal-btn" style={{ marginLeft: '16px' }}>
                             Book Consultation
