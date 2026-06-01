@@ -204,60 +204,60 @@ const ExperienceSection = () => (
     
     {/* Expertise Card */}
     <div 
-      className="group relative flex flex-col justify-between gap-6 rounded-2xl bg-gradient-to-b from-[#0f0f13] to-[#050507] p-[24px] lg:p-[32px] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(168,85,247,0.4)] overflow-hidden border border-white/10 hover:border-purple-500/50 box-border w-full"
+      className="group relative flex flex-col justify-between gap-8 rounded-3xl bg-gradient-to-b from-[#0f0f13] to-[#050507] p-8 md:p-10 lg:p-12 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(168,85,247,0.4)] overflow-hidden border border-white/10 hover:border-purple-500/50 box-border w-full"
       onMouseEnter={() => triggerExpression("surprised")}
       onMouseLeave={() => triggerExpression("neutral")}
     >
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/20 rounded-full blur-[50px] group-hover:bg-purple-500/40 transition-all duration-700 group-hover:scale-150 pointer-events-none" />
       
-      <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-transparent border border-purple-500/30 shadow-lg text-purple-400 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all duration-500 group-hover:animate-[float-icon_3s_ease-in-out_infinite] shrink-0">
-        <Code2 size={28} />
+      <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-transparent border border-purple-500/30 shadow-lg text-purple-400 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all duration-500 group-hover:animate-[float-icon_3s_ease-in-out_infinite] shrink-0">
+        <Code2 size={28} strokeWidth={1.5} />
       </div>
       
-      <div className="relative z-10 flex flex-col gap-3">
-        <h3 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 group-hover:to-white transition-all duration-500 tracking-tight text-left">Project Expertise</h3>
-        <p className="text-zinc-400 text-[15px] leading-relaxed text-left font-light">
-          Developed worldwide client solutions including <span className="text-white font-medium group-hover:text-purple-300 transition-colors">E-commerce platforms</span>, highly responsive landing pages, portfolios, and custom tools like <span className="text-purple-300 font-medium group-hover:text-purple-400 transition-colors">payment management</span> systems.
+      <div className="flex flex-col z-10 space-y-5 mt-4">
+        <h3 className="text-2xl font-bold text-white tracking-tight">Project Expertise</h3>
+        <p className="text-[15px] text-zinc-400 font-light leading-[1.85]">
+          Developed full-scale client solutions worldwide. Specializations include high-performance <strong className="text-white font-medium">E-commerce platforms</strong>, highly responsive landing pages, and custom startup tools such as <strong className="text-white font-medium">payment management systems</strong>.
         </p>
       </div>
     </div>
     
     {/* Global Card */}
     <div 
-      className="group relative flex flex-col justify-between gap-6 rounded-2xl bg-gradient-to-b from-[#0f0f13] to-[#050507] p-[24px] lg:p-[32px] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(6,182,212,0.4)] overflow-hidden border border-white/10 hover:border-cyan-500/50 box-border w-full"
+      className="group relative flex flex-col justify-between gap-8 rounded-3xl bg-gradient-to-b from-[#0f0f13] to-[#050507] p-8 md:p-10 lg:p-12 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(6,182,212,0.4)] overflow-hidden border border-white/10 hover:border-cyan-500/50 box-border w-full"
       onMouseEnter={() => triggerExpression("amazing")}
       onMouseLeave={() => triggerExpression("neutral")}
     >
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-cyan-500/20 rounded-full blur-[50px] group-hover:bg-cyan-500/40 transition-all duration-700 group-hover:scale-150 pointer-events-none" />
       
-      <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-500/30 shadow-lg text-cyan-400 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] transition-all duration-500 group-hover:animate-[float-icon_3s_ease-in-out_infinite] shrink-0">
-        <Globe2 size={28} />
+      <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-500/30 shadow-lg text-cyan-400 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] transition-all duration-500 group-hover:animate-[float-icon_3s_ease-in-out_infinite] shrink-0">
+        <Globe2 size={28} strokeWidth={1.5} />
       </div>
       
-      <div className="relative z-10 flex flex-col gap-3">
-        <h3 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 group-hover:to-white transition-all duration-500 tracking-tight text-left">Global Footprint</h3>
-        <p className="text-zinc-400 text-[15px] leading-relaxed text-left font-light">
-          Successfully delivered projects and collaborated with international clients across the <span className="text-white font-medium group-hover:text-cyan-300 transition-colors">UK, USA, Australia, Canada, and England</span>, adapting to global standards.
+      <div className="flex flex-col z-10 space-y-5 mt-4">
+        <h3 className="text-2xl font-bold text-white tracking-tight">Global Footprint</h3>
+        <p className="text-[15px] text-zinc-400 font-light leading-[1.85]">
+          Successfully delivered complex projects and collaborated seamlessly with international clients across the <strong className="text-white font-medium">UK, USA, Australia, Canada, and England</strong> — consistently adapting to global tech standards and workflows.
         </p>
       </div>
     </div>
 
     {/* Domestic Card */}
     <div 
-      className="group relative flex flex-col justify-between gap-6 rounded-2xl bg-gradient-to-b from-[#0f0f13] to-[#050507] p-[24px] lg:p-[32px] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(236,72,153,0.4)] overflow-hidden border border-white/10 hover:border-pink-500/50 box-border w-full"
+      className="group relative flex flex-col justify-between gap-8 rounded-3xl bg-gradient-to-b from-[#0f0f13] to-[#050507] p-8 md:p-10 lg:p-12 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(236,72,153,0.4)] overflow-hidden border border-white/10 hover:border-pink-500/50 box-border w-full"
       onMouseEnter={() => triggerExpression("smile")}
       onMouseLeave={() => triggerExpression("neutral")}
     >
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-pink-500/20 rounded-full blur-[50px] group-hover:bg-pink-500/40 transition-all duration-700 group-hover:scale-150 pointer-events-none" />
       
-      <div className="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500/20 to-transparent border border-pink-500/30 shadow-lg text-pink-400 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(236,72,153,0.5)] transition-all duration-500 group-hover:animate-[float-icon_3s_ease-in-out_infinite] shrink-0">
-        <MapPin size={28} />
+      <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500/20 to-transparent border border-pink-500/30 shadow-lg text-pink-400 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(236,72,153,0.5)] transition-all duration-500 group-hover:animate-[float-icon_3s_ease-in-out_infinite] shrink-0">
+        <MapPin size={28} strokeWidth={1.5} />
       </div>
       
-      <div className="relative z-10 flex flex-col gap-3">
-        <h3 className="text-xl lg:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400 group-hover:to-white transition-all duration-500 tracking-tight text-left">Domestic Footprint</h3>
-        <p className="text-zinc-400 text-[15px] leading-relaxed text-left font-light">
-          Partnered extensively with fast-growing Indian startups based in key tech hubs including <span className="text-white font-medium group-hover:text-pink-300 transition-colors">Hyderabad, Bengaluru, New Delhi, and Lucknow</span>.
+      <div className="flex flex-col z-10 space-y-5 mt-4">
+        <h3 className="text-2xl font-bold text-white tracking-tight">Domestic Footprint</h3>
+        <p className="text-[15px] text-zinc-400 font-light leading-[1.85]">
+          Partnered extensively with fast-growing Indian startups based in key tech hubs including <strong className="text-white font-medium">Hyderabad, Bengaluru, New Delhi, and Lucknow</strong>, delivering localized and highly scalable solutions.
         </p>
       </div>
     </div>
