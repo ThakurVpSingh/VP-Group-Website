@@ -12,12 +12,13 @@ const BusinessCardPage = () => {
 
   // Form states for customization
   const [name, setName] = useState('Vaibhav Pratap Singh');
-  const [role, setRole] = useState('Founder & Strategic Director');
-  const [email, setEmail] = useState('vaibhav@vpgroup.co');
-  const [phone, setPhone] = useState('+91 91515 92222');
-  const [company, setCompany] = useState('VP GROUP');
+  const [role, setRole] = useState('Founder and Strategic Director');
+  const [email, setEmail] = useState('contact.vpsdev@gmail.com');
+  const [phone, setPhone] = useState('+91 6388398552');
+  const [company, setCompany] = useState('VP Group & Technologies');
   const [slogan, setSlogan] = useState('Engineering Infinite Scale');
-  const [locationText, setLocationText] = useState('HQ Pratapgarh, IN');
+  const [locationText, setLocationText] = useState('Sector 33, Gurgaon, Haryana');
+  const [website, setWebsite] = useState('vp-group-website.vercel.app');
   const [github, setGithub] = useState('ThakurVpSingh');
   const [linkedin, setLinkedin] = useState('vaibhav-pratap-singh1');
 
@@ -34,12 +35,13 @@ const BusinessCardPage = () => {
   useEffect(() => {
     if (profileType === 'executive') {
       setName('Vaibhav Pratap Singh');
-      setRole('Founder & Strategic Director');
-      setEmail('vaibhav@vpgroup.co');
-      setPhone('+91 91515 92222');
-      setCompany('VP GROUP');
+      setRole('Founder and Strategic Director');
+      setEmail('contact.vpsdev@gmail.com');
+      setPhone('+91 6388398552');
+      setCompany('VP Group & Technologies');
       setSlogan('Engineering Infinite Scale');
-      setLocationText('HQ Pratapgarh, IN');
+      setLocationText('Sector 33, Gurgaon, Haryana');
+      setWebsite('vp-group-website.vercel.app');
       setGithub('ThakurVpSingh');
       setLinkedin('vaibhav-pratap-singh1');
       setAccentTheme('cyan');
@@ -52,6 +54,7 @@ const BusinessCardPage = () => {
       setCompany('VP GROUP & TECH');
       setSlogan('Scaling Next-Gen Systems');
       setLocationText('San Francisco, US');
+      setWebsite('yourdomain.com');
       setGithub('');
       setLinkedin('');
     }
@@ -333,6 +336,18 @@ const BusinessCardPage = () => {
                 />
               </div>
 
+              <div className="form-group">
+                <label className="input-label">Website Domain</label>
+                <input 
+                  type="text" 
+                  value={website} 
+                  onChange={(e) => setWebsite(e.target.value)}
+                  disabled={profileType === 'executive'}
+                  placeholder="vp-group-website.vercel.app" 
+                  className="terminal-input"
+                />
+              </div>
+
               {profileType === 'collaborator' && (
                 <div className="form-grid-2">
                   <div className="form-group">
@@ -545,7 +560,7 @@ const BusinessCardPage = () => {
                       </h2>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: activeTheme.accent, boxShadow: `0 0 8px ${activeTheme.accent}` }} />
-                        <span style={{ fontSize: '0.95rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                        <span style={{ fontSize: '0.95rem', fontWeight: '800', color: '#f1f5f9', textTransform: 'uppercase', letterSpacing: '1px' }}>
                           {role}
                         </span>
                       </div>
@@ -578,20 +593,20 @@ const BusinessCardPage = () => {
                     {/* Left details grid */}
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '30px 40px', maxWidth: '700px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <Mail size={16} color={activeTheme.accent} style={{ opacity: 0.8 }} />
-                        <span style={{ fontSize: '0.9rem', color: '#cbd5e1', fontWeight: '600' }}>{email}</span>
+                        <Mail size={16} color={activeTheme.accent} style={{ opacity: 1 }} />
+                        <span style={{ fontSize: '0.95rem', color: '#ffffff', fontWeight: '700' }}>{email}</span>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <Phone size={16} color={activeTheme.accent} style={{ opacity: 0.8 }} />
-                        <span style={{ fontSize: '0.9rem', color: '#cbd5e1', fontWeight: '600' }}>{phone}</span>
+                        <Phone size={16} color={activeTheme.accent} style={{ opacity: 1 }} />
+                        <span style={{ fontSize: '0.95rem', color: '#ffffff', fontWeight: '700' }}>{phone}</span>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <MapPin size={16} color={activeTheme.accent} style={{ opacity: 0.8 }} />
-                        <span style={{ fontSize: '0.9rem', color: '#cbd5e1', fontWeight: '600' }}>{locationText}</span>
+                        <MapPin size={16} color={activeTheme.accent} style={{ opacity: 1 }} />
+                        <span style={{ fontSize: '0.95rem', color: '#ffffff', fontWeight: '700' }}>{locationText}</span>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <Globe size={16} color={activeTheme.accent} style={{ opacity: 0.8 }} />
-                        <span style={{ fontSize: '0.9rem', color: '#cbd5e1', fontWeight: '600' }}>vpgroup.co</span>
+                        <Globe size={16} color={activeTheme.accent} style={{ opacity: 1 }} />
+                        <span style={{ fontSize: '0.95rem', color: '#ffffff', fontWeight: '700' }}>{website}</span>
                       </div>
                     </div>
 
