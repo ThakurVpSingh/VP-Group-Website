@@ -1,26 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PageTemplate from '../components/PageTemplate';
-import { CreditCard, Download, Shield, Eye, Settings, User, Mail, Phone, Globe, MapPin, Sparkles, Check } from 'lucide-react';
+import { CreditCard, Download, Eye, Mail, Phone, Globe, MapPin, Sparkles, Check } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 
 const BusinessCardPage = () => {
-  const [profileType, setProfileType] = useState('executive'); // 'executive' or 'collaborator'
   const [accentTheme, setAccentTheme] = useState('cyan'); // 'pink', 'purple', 'cyan', 'emerald'
   const [downloading, setDownloading] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
-  // Form states for customization
-  const [name, setName] = useState('Vaibhav Pratap Singh');
-  const [role, setRole] = useState('Founder and Strategic Director');
-  const [email, setEmail] = useState('contact.vpsdev@gmail.com');
-  const [phone, setPhone] = useState('+91 6388398552');
-  const [company, setCompany] = useState('VP Group & Technologies');
-  const [slogan, setSlogan] = useState('Engineering Infinite Scale');
-  const [locationText, setLocationText] = useState('Sector 33, Gurgaon, Haryana');
-  const [website, setWebsite] = useState('vp-group-website.vercel.app');
-  const [github, setGithub] = useState('ThakurVpSingh');
-  const [linkedin, setLinkedin] = useState('vaibhav-pratap-singh1');
+  // Executive details constants
+  const name = 'Vaibhav Pratap Singh';
+  const role = 'Founder and Strategic Director';
+  const email = 'contact.vpsdev@gmail.com';
+  const phone = '+91 6388398552';
+  const company = 'VP Group & Technologies';
+  const slogan = 'Engineering Infinite Scale';
+  const locationText = 'Sector 33, Gurgaon, Haryana';
+  const website = 'vp-group-website.vercel.app';
 
   // Preview container scale handler
   const [scale, setScale] = useState(1);
@@ -30,35 +27,6 @@ const BusinessCardPage = () => {
   // Mouse hover glow tracking
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
-
-  // Handle auto-populating default executive details
-  useEffect(() => {
-    if (profileType === 'executive') {
-      setName('Vaibhav Pratap Singh');
-      setRole('Founder and Strategic Director');
-      setEmail('contact.vpsdev@gmail.com');
-      setPhone('+91 6388398552');
-      setCompany('VP Group & Technologies');
-      setSlogan('Engineering Infinite Scale');
-      setLocationText('Sector 33, Gurgaon, Haryana');
-      setWebsite('vp-group-website.vercel.app');
-      setGithub('ThakurVpSingh');
-      setLinkedin('vaibhav-pratap-singh1');
-      setAccentTheme('cyan');
-    } else {
-      // Empty or user-customized details
-      setName('Your Name');
-      setRole('Technology Partner');
-      setEmail('partner@vpgroup.co');
-      setPhone('+91 99999 88888');
-      setCompany('VP GROUP & TECH');
-      setSlogan('Scaling Next-Gen Systems');
-      setLocationText('San Francisco, US');
-      setWebsite('yourdomain.com');
-      setGithub('');
-      setLinkedin('');
-    }
-  }, [profileType]);
 
   // Handle responsive scaling
   useEffect(() => {
@@ -189,199 +157,51 @@ const BusinessCardPage = () => {
 
   return (
     <PageTemplate
-      title="Business Card Studio"
-      subtitle="Interactive Branding Utility"
-      description="Access and configure your official VP Group digital identity. Instantly compile premium, high-DPI glassmorphism business cards tailored for web, print, and absolute Zero-Trust verification."
+      title="Executive Business Card"
+      subtitle="VP Group & Technologies"
+      description="View and download the official executive business card for Vaibhav Pratap Singh. Instantly compile premium, high-DPI glassmorphism business cards in PNG, JPEG, or PDF format for print, web, and absolute Zero-Trust verification."
       showStandardGrid={false}
       showContact={false}
       icon={CreditCard}
     >
       <div className="card-studio-container" style={{ padding: '0 5% 100px', maxWidth: '1400px', margin: '0 auto' }}>
         <div className="studio-grid">
-          
-          {/* Customizer Controls Panel */}
-          <div className="glass-panel studio-controls" style={{ padding: '40px', borderTop: `4px solid ${activeTheme.accent}` }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
-              <Settings size={22} color={activeTheme.accent} />
-              <h3 style={{ fontSize: '1.4rem', fontWeight: '900', margin: 0, letterSpacing: '-0.5px' }}>Customizer</h3>
-            </div>
-
-            {/* Profile Selection */}
-            <div className="form-group" style={{ marginBottom: '24px' }}>
-              <label className="input-label">Identity Profile</label>
-              <div className="profile-toggle-group">
-                <button 
-                  className={`toggle-option ${profileType === 'executive' ? 'active' : ''}`}
-                  onClick={() => setProfileType('executive')}
-                  style={{ borderColor: profileType === 'executive' ? activeTheme.accent : 'transparent' }}
-                >
-                  <Shield size={16} /> Executive (Vaibhav P. Singh)
-                </button>
-                <button 
-                  className={`toggle-option ${profileType === 'collaborator' ? 'active' : ''}`}
-                  onClick={() => setProfileType('collaborator')}
-                  style={{ borderColor: profileType === 'collaborator' ? activeTheme.accent : 'transparent' }}
-                >
-                  <User size={16} /> Partner / Collaborator
-                </button>
-              </div>
-            </div>
-
-            {/* Theme Selector */}
-            <div className="form-group" style={{ marginBottom: '32px' }}>
-              <label className="input-label">Visual Atmosphere</label>
-              <div className="theme-circles-container">
-                {Object.keys(themes).map((themeKey) => (
-                  <button
-                    key={themeKey}
-                    className={`theme-circle ${accentTheme === themeKey ? 'active' : ''}`}
-                    onClick={() => setAccentTheme(themeKey)}
-                    style={{ 
-                      background: themes[themeKey].gradient,
-                      borderColor: accentTheme === themeKey ? '#fff' : 'rgba(255,255,255,0.1)'
-                    }}
-                    title={`Theme: ${themeKey}`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <hr style={{ border: '0', height: '1px', background: 'rgba(255,255,255,0.08)', margin: '24px 0' }} />
-
-            {/* Fields Inputs */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div className="form-group">
-                <label className="input-label">Full Name</label>
-                <input 
-                  type="text" 
-                  value={name} 
-                  onChange={(e) => setName(e.target.value)}
-                  disabled={profileType === 'executive'}
-                  placeholder="Enter Full Name" 
-                  className="terminal-input"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="input-label">Title / Role</label>
-                <input 
-                  type="text" 
-                  value={role} 
-                  onChange={(e) => setRole(e.target.value)}
-                  disabled={profileType === 'executive'}
-                  placeholder="e.g. Lead Engineer" 
-                  className="terminal-input"
-                />
-              </div>
-
-              <div className="form-grid-2">
-                <div className="form-group">
-                  <label className="input-label">Email Address</label>
-                  <input 
-                    type="email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={profileType === 'executive'}
-                    placeholder="name@vpgroup.co" 
-                    className="terminal-input"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="input-label">Phone Number</label>
-                  <input 
-                    type="text" 
-                    value={phone} 
-                    onChange={(e) => setPhone(e.target.value)}
-                    disabled={profileType === 'executive'}
-                    placeholder="+91 XXXXX XXXXX" 
-                    className="terminal-input"
-                  />
-                </div>
-              </div>
-
-              <div className="form-grid-2">
-                <div className="form-group">
-                  <label className="input-label">Organization</label>
-                  <input 
-                    type="text" 
-                    value={company} 
-                    onChange={(e) => setCompany(e.target.value)}
-                    disabled={profileType === 'executive'}
-                    placeholder="VP GROUP" 
-                    className="terminal-input"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="input-label">HQ Location</label>
-                  <input 
-                    type="text" 
-                    value={locationText} 
-                    onChange={(e) => setLocationText(e.target.value)}
-                    disabled={profileType === 'executive'}
-                    placeholder="HQ Pratapgarh, IN" 
-                    className="terminal-input"
-                  />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="input-label">Corporate Slogan</label>
-                <input 
-                  type="text" 
-                  value={slogan} 
-                  onChange={(e) => setSlogan(e.target.value)}
-                  disabled={profileType === 'executive'}
-                  placeholder="Engineering Infinite Scale" 
-                  className="terminal-input"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="input-label">Website Domain</label>
-                <input 
-                  type="text" 
-                  value={website} 
-                  onChange={(e) => setWebsite(e.target.value)}
-                  disabled={profileType === 'executive'}
-                  placeholder="vp-group-website.vercel.app" 
-                  className="terminal-input"
-                />
-              </div>
-
-              {profileType === 'collaborator' && (
-                <div className="form-grid-2">
-                  <div className="form-group">
-                    <label className="input-label">GitHub Username (Optional)</label>
-                    <input 
-                      type="text" 
-                      value={github} 
-                      onChange={(e) => setGithub(e.target.value)}
-                      placeholder="username" 
-                      className="terminal-input"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="input-label">LinkedIn Slug (Optional)</label>
-                    <input 
-                      type="text" 
-                      value={linkedin} 
-                      onChange={(e) => setLinkedin(e.target.value)}
-                      placeholder="profile-slug" 
-                      className="terminal-input"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
 
           {/* Interactive Card Canvas Preview */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            <div className="preview-header-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', width: '100%' }}>
+            
+            <div className="preview-header-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <Eye size={18} color="#6b7280" />
-                <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '1px' }}>High-Res Preview</span>
+                <span style={{ fontSize: '0.85rem', fontWeight: '800', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '1px' }}>Executive Card Preview</span>
               </div>
+
+              {/* Theme Selector */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>Visual Atmosphere:</span>
+                <div className="theme-circles-container" style={{ display: 'flex', gap: '12px' }}>
+                  {Object.keys(themes).map((themeKey) => (
+                    <button
+                      key={themeKey}
+                      className={`theme-circle ${accentTheme === themeKey ? 'active' : ''}`}
+                      onClick={() => setAccentTheme(themeKey)}
+                      style={{ 
+                        width: '26px',
+                        height: '26px',
+                        borderRadius: '50%',
+                        cursor: 'pointer',
+                        border: accentTheme === themeKey ? '2px solid #fff' : '2px solid rgba(255, 255, 255, 0.1)',
+                        background: themes[themeKey].gradient,
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+                        padding: 0
+                      }}
+                      title={`Theme: ${themeKey}`}
+                    />
+                  ))}
+                </div>
+              </div>
+
               <div style={{ display: 'flex', gap: '8px' }}>
                 <span className="badge-secure" style={{ color: activeTheme.accent, borderColor: activeTheme.accent }}>
                   SECURE CHIP V1
@@ -716,81 +536,33 @@ const BusinessCardPage = () => {
 
       <style>{`
         .studio-grid {
-          display: grid;
-          grid-template-columns: 1.1fr 1.9fr;
-          gap: 50px;
-          align-items: start;
-        }
-
-        .studio-controls {
-          box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .input-label {
-          display: block;
-          font-size: 0.75rem;
-          font-weight: 800;
-          color: #94a3b8;
-          text-transform: uppercase;
-          letter-spacing: 1.5px;
-          margin-bottom: 10px;
-        }
-
-        .profile-toggle-group {
           display: flex;
-          gap: 12px;
-        }
-
-        .toggle-option {
-          flex: 1;
-          padding: 14px;
-          border-radius: 12px;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          color: #94a3b8;
-          font-size: 0.8rem;
-          font-weight: 800;
-          cursor: pointer;
-          display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: center;
-          gap: 8px;
-          transition: all 0.3s ease;
-        }
-
-        .toggle-option.active {
-          background: rgba(255, 255, 255, 0.06);
-          color: #fff;
-          border-width: 1px;
+          gap: 40px;
+          max-width: 1050px;
+          margin: 0 auto;
+          width: 100%;
         }
 
         .theme-circles-container {
           display: flex;
-          gap: 14px;
+          gap: 12px;
         }
 
         .theme-circle {
-          width: 32px;
-          height: 32px;
           border-radius: 50%;
           cursor: pointer;
-          border: 2px solid transparent;
           transition: all 0.3s ease;
           box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .theme-circle:hover {
-          transform: scale(1.1);
-        }
-
-        .theme-circle.active {
           transform: scale(1.15);
         }
 
-        .form-grid-2 {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
+        .theme-circle.active {
+          transform: scale(1.1);
         }
 
         .badge-secure {
