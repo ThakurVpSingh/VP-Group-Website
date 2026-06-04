@@ -116,21 +116,30 @@ const ProjectNavbar = () => {
                         <div className="drawer-section">
                             <label>OUR SERVICES</label>
                             <div className="drawer-links">
-                                <Link to="/services/web-development">Web Development</Link>
-                                <Link to="/services/software-engineering">Software Engineering</Link>
-                                <Link to="/services/technical-support">Technical Support</Link>
+                                <Link to="/services/web-development" onClick={() => setIsMenuOpen(false)}>Web Development</Link>
+                                <Link to="/services/software-engineering" onClick={() => setIsMenuOpen(false)}>Software Engineering</Link>
+                                <Link to="/services/technical-support" onClick={() => setIsMenuOpen(false)}>Technical Support</Link>
+                            </div>
+                        </div>
+
+                        <div className="drawer-section">
+                            <label>CLIENTS</label>
+                            <div className="drawer-links">
+                                <Link to="/clients/mother-bliss" onClick={() => setIsMenuOpen(false)}>Mother Bliss</Link>
+                                <Link to="/clients/institutional" onClick={() => setIsMenuOpen(false)}>Institutional</Link>
+                                <Link to="/clients/global-partners" onClick={() => setIsMenuOpen(false)}>Global Partners</Link>
                             </div>
                         </div>
 
                         <div className="drawer-section">
                             <label>RESOURCES</label>
                             <div className="drawer-links">
-                                <Link to="/our-strategy">Our Strategy</Link>
-                                <Link to="/owner">Founder Profile</Link>
-                                <Link to="/business-card">Business Card</Link>
-                                <Link to="/help/portfolio">Portfolio</Link>
-                                <Link to="/help/partners">Partners</Link>
-                                <Link to="/help/contact">Contact Us</Link>
+                                <Link to="/our-strategy" onClick={() => setIsMenuOpen(false)}>Our Strategy</Link>
+                                <Link to="/owner" onClick={() => setIsMenuOpen(false)}>Founder Profile</Link>
+                                <Link to="/business-card" onClick={() => setIsMenuOpen(false)}>Business Card</Link>
+                                <Link to="/help/portfolio" onClick={() => setIsMenuOpen(false)}>Portfolio</Link>
+                                <Link to="/help/partners" onClick={() => setIsMenuOpen(false)}>Partners</Link>
+                                <Link to="/help/contact" onClick={() => setIsMenuOpen(false)}>Contact Us</Link>
                             </div>
                         </div>
                         

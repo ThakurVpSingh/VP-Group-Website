@@ -221,6 +221,13 @@ const GlobalPartnersPage = () => {
                                         We design layouts optimized for the entire device spectrum—from ultra-wide screens to compact mobile displays. Visuals remain pixel-perfect and animations fluid everywhere.
                                     </p>
                                 </div>
+                                <div className="glass-panel pillar-panel">
+                                    <Globe size={32} color="#10b981" style={{ marginBottom: '20px' }} />
+                                    <h3 style={{ fontSize: '1.3rem', fontWeight: '900', marginBottom: '12px' }}>SEO & Full-Spectrum Integration</h3>
+                                    <p style={{ color: '#94a3b8', fontSize: '0.95rem', lineHeight: 1.7 }}>
+                                        We build search engine optimization (SEO) directly into the core code and engineer all usable, necessary features for web, software, and mobile app development—making all forms and cards fully responsive and user-friendly.
+                                    </p>
+                                </div>
                             </div>
                         </section>
 
@@ -336,7 +343,7 @@ const GlobalPartnersPage = () => {
 
                 .gp-services-grid {
                     display: grid;
-                    grid-template-columns: 1fr 1fr;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                     gap: 30px;
                 }
 

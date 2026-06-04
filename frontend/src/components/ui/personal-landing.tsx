@@ -200,11 +200,11 @@ const SocialsBlock: React.FC = () => (
 );
 
 const ExperienceSection = () => (
-  <div className="w-[90%] md:w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 z-10 md:px-8 mx-auto">
+  <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 z-10 px-6 md:px-8 mx-auto">
     
     {/* Expertise Card */}
     <div 
-      className="group relative flex flex-col justify-between gap-8 rounded-3xl bg-gradient-to-b from-[#0f0f13] to-[#050507] p-8 md:p-10 lg:p-12 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(168,85,247,0.4)] overflow-hidden border border-white/10 hover:border-purple-500/50 box-border w-full"
+      className="glass-panel owner-card expertise"
       onMouseEnter={() => triggerExpression("surprised")}
       onMouseLeave={() => triggerExpression("neutral")}
     >
@@ -224,7 +224,7 @@ const ExperienceSection = () => (
     
     {/* Global Card */}
     <div 
-      className="group relative flex flex-col justify-between gap-8 rounded-3xl bg-gradient-to-b from-[#0f0f13] to-[#050507] p-8 md:p-10 lg:p-12 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(6,182,212,0.4)] overflow-hidden border border-white/10 hover:border-cyan-500/50 box-border w-full"
+      className="glass-panel owner-card global"
       onMouseEnter={() => triggerExpression("amazing")}
       onMouseLeave={() => triggerExpression("neutral")}
     >
@@ -244,7 +244,7 @@ const ExperienceSection = () => (
 
     {/* Domestic Card */}
     <div 
-      className="group relative flex flex-col justify-between gap-8 rounded-3xl bg-gradient-to-b from-[#0f0f13] to-[#050507] p-8 md:p-10 lg:p-12 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(236,72,153,0.4)] overflow-hidden border border-white/10 hover:border-pink-500/50 box-border w-full"
+      className="glass-panel owner-card domestic"
       onMouseEnter={() => triggerExpression("smile")}
       onMouseLeave={() => triggerExpression("neutral")}
     >
@@ -283,7 +283,7 @@ const ConnectSection: React.FC = () => {
         {/* The Infinite Animated Button */}
         <Link
           to="/help/contact"
-          className="relative inline-flex items-center justify-center rounded-full px-[40px] py-[20px] sm:px-[48px] sm:py-[24px] text-xl sm:text-2xl font-extrabold text-white overflow-hidden border border-white/20"
+          className="relative inline-flex items-center justify-center rounded-full px-8 py-4 sm:px-12 sm:py-6 text-lg sm:text-xl font-extrabold text-white overflow-hidden border border-white/20"
           style={{
             background: 'linear-gradient(270deg, #ec4899, #a855f7, #06b6d4, #ec4899)',
             backgroundSize: '300% 300%',
@@ -334,6 +334,43 @@ export const PersonalLanding = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
         .font-outfit { font-family: 'Outfit', system-ui, sans-serif; }
+        
+        /* Owner Custom Card Style - Relatable to the rest of the site */
+        .owner-card {
+          background: rgba(17, 24, 39, 0.75) !important;
+          backdrop-filter: blur(20px) !important;
+          border: 1px solid rgba(255, 255, 255, 0.05) !important;
+          border-radius: 24px !important;
+          padding: 40px !important;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+          text-align: left;
+        }
+        
+        .owner-card:hover {
+          background: rgba(17, 24, 39, 0.85) !important;
+          transform: translateY(-8px) !important;
+        }
+
+        .owner-card.expertise:hover {
+          border-color: rgba(168, 85, 247, 0.4) !important;
+          box-shadow: 0 15px 40px rgba(168, 85, 247, 0.15) !important;
+        }
+
+        .owner-card.global:hover {
+          border-color: rgba(6, 182, 212, 0.4) !important;
+          box-shadow: 0 15px 40px rgba(6, 182, 212, 0.15) !important;
+        }
+
+        .owner-card.domestic:hover {
+          border-color: rgba(255, 78, 240, 0.4) !important;
+          box-shadow: 0 15px 40px rgba(255, 78, 240, 0.15) !important;
+        }
         
         @keyframes float-icon {
           0%, 100% { transform: translateY(0); }
