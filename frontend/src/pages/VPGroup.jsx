@@ -496,6 +496,9 @@ const VPGroup = () => {
                 >
                   {loading ? 'TRANSMITTING...' : 'INITIALIZE UPLINK'}
                 </button>
+                <p style={{ marginTop: '16px', fontSize: '0.75rem', color: '#6b7280', textAlign: 'center', lineHeight: '1.4' }}>
+                  By submitting this form, you agree to our <Link to="/terms-conditions" style={{ color: '#ff4ef0', textDecoration: 'underline' }}>Terms & Conditions</Link> and acknowledge our <Link to="/privacy-policy" style={{ color: '#ff4ef0', textDecoration: 'underline' }}>Privacy Policy</Link>.
+                </p>
                 {status && <div style={{ marginTop: '20px', textAlign: 'center', color: status.includes('Success') ? 'var(--success)' : 'var(--danger)', fontWeight: '700' }}>{status}</div>}
               </form>
             </div>

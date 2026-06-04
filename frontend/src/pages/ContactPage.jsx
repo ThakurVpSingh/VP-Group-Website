@@ -17,6 +17,7 @@ import {
     Terminal,
     Lock
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import ProjectNavbar from '../components/ProjectNavbar';
 import Footer from '../components/Footer';
 import { getApiUrl } from '../config';
@@ -277,13 +278,16 @@ const ContactPage = () => {
                                 ></textarea>
                             </div>
 
-                            <button type="submit" className="v-submit-btn" disabled={isSubmitting}>
+                             <button type="submit" className="v-submit-btn" disabled={isSubmitting}>
                                 {isSubmitting ? (
                                     <><Terminal size={18} className="spin" /> DEPLOYING INQUIRY...</>
                                 ) : (
                                     <><Zap size={18} /> INITIATE TRANSMISSION</>
                                 )}
                             </button>
+                            <p style={{ marginTop: '16px', fontSize: '0.75rem', color: '#6b7280', textAlign: 'center', lineHeight: '1.4' }}>
+                              By submitting this form, you agree to our <Link to="/terms-conditions" style={{ color: '#ff4ef0', textDecoration: 'underline' }}>Terms & Conditions</Link> and acknowledge our <Link to="/privacy-policy" style={{ color: '#ff4ef0', textDecoration: 'underline' }}>Privacy Policy</Link>.
+                            </p>
                         </form>
                     </div>
                 </div>

@@ -25,6 +25,8 @@ import MeetingRoomPage from './pages/MeetingRoomPage';
 import ConsultationDashboard from './pages/ConsultationDashboard';
 import OwnerPage from './pages/OwnerPage';
 import BusinessCardPage from './pages/BusinessCardPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsConditionsPage from './pages/TermsConditionsPage';
 
 const SplashScreen = ({ onComplete }) => {
   const [phase, setPhase] = useState(0); // 0: logo in, 1: text in, 2: fade out
@@ -192,6 +194,8 @@ function App() {
           <Route path="/clients/global-partners" element={<GlobalPartnersPage />} />
           <Route path="/portfolio/vault-iam" element={<VaultCaseStudyPage />} />
           <Route path="/business-card" element={<BusinessCardPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-conditions" element={<TermsConditionsPage />} />
 
           {/* Operations Hub (Dashboard) - Catch-all for sub-routes */}
           <Route path="/owner" element={<OwnerPage />} />

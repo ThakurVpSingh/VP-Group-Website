@@ -68,7 +68,12 @@ const Footer = () => {
 
         <div className="footer-bottom">
           <div className="footer-copyright">
-            © {new Date().getFullYear()} VP Group & Technologies. Operating under absolute Zero-Trust Security Architecture protocols.
+            © {new Date().getFullYear()} VP Group & Technologies. All rights reserved. 
+            <span className="desktop-only" style={{ margin: '0 8px', color: '#4b5563' }}>|</span>
+            <span className="mobile-only" style={{ display: 'block', height: '6px' }}></span>
+            <Link to="/privacy-policy" className="footer-policy-link">Privacy Policy</Link>
+            <span style={{ margin: '0 8px', color: '#4b5563' }}>|</span>
+            <Link to="/terms-conditions" className="footer-policy-link">Terms & Conditions</Link>
           </div>
           <div className="footer-social">
             <a href="https://github.com/ThakurVpSingh" target="_blank" className="social-link"><Github size={18} /></a>
@@ -121,8 +126,16 @@ const Footer = () => {
           gap: 20px;
         }
         .footer-copyright {
-          fontSize: 0.75rem;
+          font-size: 0.75rem;
           color: #4b5563;
+        }
+        .footer-policy-link {
+          color: #4b5563;
+          text-decoration: none;
+          transition: 0.3s;
+        }
+        .footer-policy-link:hover {
+          color: #ff4ef0;
         }
         .footer-social {
           display: flex;
