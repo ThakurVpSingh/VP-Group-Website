@@ -359,6 +359,43 @@ const UX3DVisualizer = ({ service }) => {
         </div>
     );
 };
+const serviceMetrics = {
+    'web-development': [
+        { value: '40%', label: 'Conversion Increase', desc: 'Average conversion rate optimization on upgraded landing pages.', percent: 40 },
+        { value: '60%', label: 'LCP Speedup', desc: 'Reduction in Largest Contentful Paint rendering speeds globally.', percent: 60 },
+        { value: '85%', label: 'Mobile Score', desc: 'Minimum Google Lighthouse mobile performance index target.', percent: 85 }
+    ],
+    'software-engineering': [
+        { value: '99.99%', label: 'SLA Reliability', desc: 'System availability standard for custom cloud microservices.', percent: 99 },
+        { value: '4.8x', label: 'Query Scalability', desc: 'Increase in database read-write throughput under heavy stress.', percent: 80 },
+        { value: '90%', label: 'Bug Mitigation', desc: 'Drop in regression errors through unit coverage and clean architectures.', percent: 90 }
+    ],
+    'technical-support': [
+        { value: '12m', label: 'Avg Support MTTR', desc: 'Mean time to resolve server or container warnings.', percent: 95 },
+        { value: '24/7', label: 'Active Surveillance', desc: 'Continuous endpoint uptime check frequency.', percent: 100 },
+        { value: '0', label: 'Vulnerability Leaks', desc: 'Zero database or gateway security compromises allowed.', percent: 100 }
+    ],
+    'it-consultation': [
+        { value: '3.5x', label: 'Execution Speed', desc: 'Acceleration in technology deployment cycles.', percent: 75 },
+        { value: '40%', label: 'Server Cost Cut', desc: 'Average operational savings through cloud configuration audits.', percent: 40 },
+        { value: '100%', label: 'Stack Integrity', desc: 'Alignment score with Zero-Trust compliance standards.', percent: 100 }
+    ],
+    'custom-ui-ux': [
+        { value: '150%', label: 'User Retention', desc: 'Growth in user sessions and engagement durations.', percent: 85 },
+        { value: '50%', label: 'Friction Reduction', desc: 'Drop in customer check-out or sign-up dropouts.', percent: 50 },
+        { value: '100%', label: 'Aesthetic Authority', desc: 'Bespoke design kits reflecting exclusive premium branding.', percent: 100 }
+    ],
+    'seo-analytics-setup': [
+        { value: '10x', label: 'Index Velocity', desc: 'Speed increase in Google Search Console page crawling.', percent: 90 },
+        { value: '100%', label: 'Telemetry Accuracy', desc: 'Visitor clicks and page views tracking validation.', percent: 100 },
+        { value: '35%', label: 'Avg CTR Growth', desc: 'Improvement in organic click-through rates within 3 months.', percent: 35 }
+    ],
+    'ai-automation': [
+        { value: '75%', label: 'Process Savings', desc: 'Drop in manual task operation costs via cognitive agents.', percent: 75 },
+        { value: '24/7', label: 'Agent Uptime', desc: 'Autonomous LLM system execution availability.', percent: 100 },
+        { value: '10x', label: 'Workflow Scale', desc: 'Scaling automated document classification and processing.', percent: 95 }
+    ]
+};
 
 const ServiceDetailPage = () => {
     const { serviceId } = useParams();
@@ -482,6 +519,57 @@ const ServiceDetailPage = () => {
                         </div>
                     </section>
 
+                    {/* Global Impact Dashboard (Each service) */}
+                    <section style={{ marginTop: '120px', position: 'relative', zIndex: 1 }}>
+                        <div className="section-title-box" style={{ justifyContent: 'center', textAlign: 'center', marginBottom: '60px' }}>
+                            <div style={{ textAlign: 'center' }}>
+                                <div style={{ fontSize: '0.7rem', fontWeight: '900', color: service.accentColor, letterSpacing: '4px', marginBottom: '16px', textTransform: 'uppercase' }}>Worldwide Impact Data</div>
+                                <h2 className="section-heading" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '900', color: '#fff', letterSpacing: '-1.5px' }}>Global Performance Metrics</h2>
+                            </div>
+                        </div>
+
+                        <div className="metrics-dashboard-grid">
+                            {(serviceMetrics[serviceId] || serviceMetrics['web-development']).map((metric, idx) => {
+                                const radius = 50;
+                                const circumference = 2 * Math.PI * radius; // ~314.16
+                                const strokeDashoffset = circumference - (circumference * metric.percent) / 100;
+                                return (
+                                    <div key={idx} className="glass-panel metric-dashboard-card" style={{ borderColor: `${service.accentColor}15` }}>
+                                        <div className="circle-progress-container">
+                                            <svg width="120" height="120" viewBox="0 0 120 120" className="progress-circle">
+                                                <circle cx="60" cy="60" r={radius} fill="transparent" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="6" />
+                                                <circle 
+                                                    cx="60" 
+                                                    cy="60" 
+                                                    r={radius} 
+                                                    fill="transparent" 
+                                                    stroke={service.accentColor} 
+                                                    strokeWidth="6"
+                                                    strokeDasharray={circumference}
+                                                    strokeDashoffset={strokeDashoffset}
+                                                    strokeLinecap="round"
+                                                    className="circle-bar"
+                                                    style={{
+                                                        transform: 'rotate(-90deg)',
+                                                        transformOrigin: '50% 50%',
+                                                        filter: `drop-shadow(0 0 6px ${service.accentColor})`
+                                                    }}
+                                                />
+                                            </svg>
+                                            <div className="circle-value" style={{ textShadow: `0 0 10px ${service.accentColor}60` }}>
+                                                {metric.value}
+                                            </div>
+                                        </div>
+                                        <div className="metric-dashboard-content">
+                                            <h3>{metric.label}</h3>
+                                            <p>{metric.desc}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </section>
+
                     {/* Final Call to Action */}
                     <section className="detail-footer" style={{ position: 'relative', zIndex: 1 }}>
                         <h2 className="footer-title">Architect Your Future.</h2>
@@ -575,6 +663,71 @@ const ServiceDetailPage = () => {
                     box-shadow: 0 20px 60px ${service.accentColor}40;
                 }
 
+                /* Metrics Dashboard styles */
+                .metrics-dashboard-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                    gap: 32px;
+                    margin-top: 60px;
+                }
+                .metric-dashboard-card {
+                    display: flex;
+                    align-items: center;
+                    gap: 28px;
+                    padding: 36px;
+                    background: rgba(255, 255, 255, 0.01);
+                    border: 1px solid rgba(255, 255, 255, 0.04);
+                    border-radius: 32px;
+                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+                .metric-dashboard-card:hover {
+                    transform: translateY(-8px);
+                    background: rgba(255, 255, 255, 0.03);
+                    border-color: ${service.accentColor}30;
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+                }
+                .circle-progress-container {
+                    position: relative;
+                    width: 120px;
+                    height: 120px;
+                    flex-shrink: 0;
+                }
+                .progress-circle {
+                    width: 100%;
+                    height: 100%;
+                }
+                .circle-value {
+                    position: absolute;
+                    inset: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.4rem;
+                    font-weight: 900;
+                    color: #fff;
+                }
+                .metric-dashboard-content h3 {
+                    font-size: 1.25rem;
+                    font-weight: 800;
+                    color: #fff;
+                    margin-bottom: 8px;
+                }
+                .metric-dashboard-content p {
+                    font-size: 0.95rem;
+                    color: #94a3b8;
+                    line-height: 1.6;
+                    margin: 0;
+                }
+                .circle-bar {
+                    stroke-dashoffset: 314.16;
+                    animation: circle-draw 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                }
+                @keyframes circle-draw {
+                    to {
+                        stroke-dashoffset: inherit;
+                    }
+                }
+
                 @media (max-width: 1024px) {
                     .metrics-inner-grid { grid-template-columns: 1fr; gap: 40px; }
                     .process-step-item { flex-direction: column; gap: 20px; }
@@ -593,6 +746,8 @@ const ServiceDetailPage = () => {
                     .section-heading { font-size: 2rem !important; }
                     .step-mesh-card { padding: 24px; border-radius: 20px; }
                     .process-step-item { padding: 24px; border-radius: 16px; }
+                    .metrics-dashboard-grid { grid-template-columns: 1fr; }
+                    .metric-dashboard-card { flex-direction: column; text-align: center; gap: 20px; }
                 }
             `}</style>
         </div>

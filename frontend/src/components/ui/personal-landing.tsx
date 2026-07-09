@@ -10,6 +10,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { animate, createTimeline, stagger } from "animejs";
 
 export const triggerExpression = (exp: string) => {
   window.dispatchEvent(new CustomEvent('avatar-expression', { detail: exp }));
@@ -60,7 +61,6 @@ const HeroSection: React.FC = () => {
     };
   }, []);
 
-  // Compute eye tracking logic
   const eyeX = mousePos.x * 8;
   const eyeY = mousePos.y * 8;
 
@@ -72,7 +72,7 @@ const HeroSection: React.FC = () => {
       mouthStyle = { width: '32px', height: '16px', borderRadius: '0 0 16px 16px', border: '4px solid #18181b', borderTop: 'none', transform: 'translateY(2px)' };
       eyeStyle = { height: '12px' };
       break;
-    case 'surprised': // ooo
+    case 'surprised':
       mouthStyle = { width: '14px', height: '14px', borderRadius: '50%', border: '4px solid #18181b', transform: 'translateY(6px)' };
       eyeStyle = { height: '14px', width: '14px' }; 
       break;
@@ -80,7 +80,7 @@ const HeroSection: React.FC = () => {
       mouthStyle = { width: '36px', height: '20px', borderRadius: '0 0 20px 20px', background: '#18181b', transform: 'translateY(2px)' };
       eyeStyle = { height: '6px', borderRadius: '6px 6px 0 0', transform: `translate(${eyeX}px, ${eyeY - 4}px)` };
       break;
-    default: // neutral
+    default:
       mouthStyle = { width: '22px', height: '4px', borderRadius: '2px', background: '#18181b', transform: 'translateY(8px)' };
       eyeStyle = { height: '12px' };
       break;
@@ -88,10 +88,9 @@ const HeroSection: React.FC = () => {
 
   return (
     <section className="w-full flex flex-col items-center text-center gap-8 z-10">
-      <div className="relative mb-4 group" style={{ perspective: '1000px' }}>
+      <div className="relative mb-4 group avatar-container" style={{ perspective: '1000px', opacity: 0 }}>
         <span className="absolute inset-0 rounded-full bg-gradient-to-tr from-cyan-400 via-purple-500 to-pink-500 opacity-60 blur-2xl group-hover:opacity-100 transition-all duration-700 animate-[pulse_3s_ease-in-out_infinite]" />
         
-        {/* Custom Interactive Avatar */}
         <div
           ref={avatarRef}
           style={{ 
@@ -100,9 +99,7 @@ const HeroSection: React.FC = () => {
           }}
           className="relative size-36 md:size-40 rounded-full border-4 border-white/20 shadow-[0_0_50px_rgba(255,255,255,0.15)] z-10 bg-zinc-100 flex flex-col items-center justify-center overflow-hidden"
         >
-          {/* Eyes Container */}
           <div className="flex gap-8 mb-1">
-            {/* Left Eye */}
             <div 
               className="w-3 h-3 bg-zinc-900 rounded-full transition-all duration-200"
               style={{ 
@@ -110,7 +107,6 @@ const HeroSection: React.FC = () => {
                 ...eyeStyle 
               }}
             />
-            {/* Right Eye */}
             <div 
               className="w-3 h-3 bg-zinc-900 rounded-full transition-all duration-200"
               style={{ 
@@ -120,7 +116,6 @@ const HeroSection: React.FC = () => {
             />
           </div>
           
-          {/* Dynamic Morphed Mouth */}
           <div 
             className="transition-all duration-300 ease-out"
             style={mouthStyle}
@@ -129,7 +124,7 @@ const HeroSection: React.FC = () => {
       </div>
       
       <div className="space-y-6 max-w-3xl">
-        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight drop-shadow-xl">
+        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight drop-shadow-xl hero-title" style={{ opacity: 0 }}>
           Hi, I'm <span 
             className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 cursor-default"
             onMouseEnter={() => triggerExpression("smile")}
@@ -138,7 +133,7 @@ const HeroSection: React.FC = () => {
             Vaibhav Pratap Singh
           </span>
         </h1>
-        <p className="text-lg md:text-xl text-zinc-300 mx-auto font-light leading-relaxed px-4 md:px-0">
+        <p className="text-lg md:text-xl text-zinc-300 mx-auto font-light leading-relaxed px-4 md:px-0 hero-desc" style={{ opacity: 0 }}>
           B.Tech CSE graduate focused on <strong className="text-white font-semibold">Software</strong>, <strong className="text-white font-semibold">MERN</strong>, <strong className="text-white font-semibold">Full-Stack Web</strong>, and <strong className="text-white font-semibold">Application Development</strong>. Experienced Freelancer delivering high-performance solutions for global clients.
         </p>
       </div>
@@ -188,10 +183,11 @@ const SocialsBlock: React.FC = () => (
         rel="noopener noreferrer"
         aria-label={link.label}
         className={twMerge(
-          'group flex items-center justify-center w-16 h-16 rounded-full border border-white/10 bg-[#09090b] shadow-xl transition-all duration-300 hover:-translate-y-2',
+          'group social-btn flex items-center justify-center w-16 h-16 rounded-full border border-white/10 bg-[#09090b] shadow-xl transition-all duration-300 hover:-translate-y-2',
           link.borderGlow,
           link.shadow
         )}
+        style={{ opacity: 0 }}
       >
         {link.icon}
       </a>
@@ -201,19 +197,16 @@ const SocialsBlock: React.FC = () => (
 
 const ExperienceSection = () => (
   <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 z-10 px-6 md:px-8 mx-auto">
-    
-    {/* Expertise Card */}
     <div 
       className="glass-panel owner-card expertise"
       onMouseEnter={() => triggerExpression("surprised")}
       onMouseLeave={() => triggerExpression("neutral")}
+      style={{ opacity: 0 }}
     >
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/20 rounded-full blur-[50px] group-hover:bg-purple-500/40 transition-all duration-700 group-hover:scale-150 pointer-events-none" />
-      
       <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-transparent border border-purple-500/30 shadow-lg text-purple-400 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all duration-500 group-hover:animate-[float-icon_3s_ease-in-out_infinite] shrink-0">
         <Code2 size={28} strokeWidth={1.5} />
       </div>
-      
       <div className="flex flex-col z-10 space-y-5 mt-4">
         <h3 className="text-2xl font-bold text-white tracking-tight">Project Expertise</h3>
         <p className="text-[15px] text-zinc-400 font-light leading-[1.85]">
@@ -222,18 +215,16 @@ const ExperienceSection = () => (
       </div>
     </div>
     
-    {/* Global Card */}
     <div 
       className="glass-panel owner-card global"
       onMouseEnter={() => triggerExpression("amazing")}
       onMouseLeave={() => triggerExpression("neutral")}
+      style={{ opacity: 0 }}
     >
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-cyan-500/20 rounded-full blur-[50px] group-hover:bg-cyan-500/40 transition-all duration-700 group-hover:scale-150 pointer-events-none" />
-      
       <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-500/30 shadow-lg text-cyan-400 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] transition-all duration-500 group-hover:animate-[float-icon_3s_ease-in-out_infinite] shrink-0">
         <Globe2 size={28} strokeWidth={1.5} />
       </div>
-      
       <div className="flex flex-col z-10 space-y-5 mt-4">
         <h3 className="text-2xl font-bold text-white tracking-tight">Global Footprint</h3>
         <p className="text-[15px] text-zinc-400 font-light leading-[1.85]">
@@ -242,18 +233,16 @@ const ExperienceSection = () => (
       </div>
     </div>
 
-    {/* Domestic Card */}
     <div 
       className="glass-panel owner-card domestic"
       onMouseEnter={() => triggerExpression("smile")}
       onMouseLeave={() => triggerExpression("neutral")}
+      style={{ opacity: 0 }}
     >
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-pink-500/20 rounded-full blur-[50px] group-hover:bg-pink-500/40 transition-all duration-700 group-hover:scale-150 pointer-events-none" />
-      
       <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500/20 to-transparent border border-pink-500/30 shadow-lg text-pink-400 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(236,72,153,0.5)] transition-all duration-500 group-hover:animate-[float-icon_3s_ease-in-out_infinite] shrink-0">
         <MapPin size={28} strokeWidth={1.5} />
       </div>
-      
       <div className="flex flex-col z-10 space-y-5 mt-4">
         <h3 className="text-2xl font-bold text-white tracking-tight">Domestic Footprint</h3>
         <p className="text-[15px] text-zinc-400 font-light leading-[1.85]">
@@ -261,16 +250,13 @@ const ExperienceSection = () => (
         </p>
       </div>
     </div>
-
   </div>
 );
 
 const ConnectSection: React.FC = () => {
   return (
-    <section className="w-full flex flex-col items-center text-center gap-6 mt-16 relative z-10 px-4 pb-8">
+    <section className="w-full flex flex-col items-center text-center gap-6 mt-16 relative z-10 px-4 pb-8 connect-section" style={{ opacity: 0 }}>
       <div className="relative inline-block group">
-        
-        {/* Massive Ambient Glow - Always Animating */}
         <div 
           className="absolute inset-0 rounded-full blur-[30px] opacity-70"
           style={{
@@ -280,7 +266,6 @@ const ConnectSection: React.FC = () => {
           }}
         />
         
-        {/* The Infinite Animated Button */}
         <Link
           to="/help/contact"
           className="relative inline-flex items-center justify-center rounded-full px-8 py-4 sm:px-12 sm:py-6 text-lg sm:text-xl font-extrabold text-white overflow-hidden border border-white/20"
@@ -290,9 +275,7 @@ const ConnectSection: React.FC = () => {
             animation: 'button-breathe 3s ease-in-out infinite, gradient-shift 4s ease infinite',
           }}
         >
-          {/* Inner metallic glass overlay for ultra-premium depth */}
           <div className="absolute inset-[2px] rounded-full bg-gradient-to-b from-white/20 via-zinc-900/60 to-zinc-950/90 mix-blend-overlay pointer-events-none" />
-          
           <span className="relative z-10 flex items-center gap-4 tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.6)] italic">
             Let's go
             <div className="bg-white/20 p-2 rounded-full backdrop-blur-md shadow-[0_0_15px_rgba(255,255,255,0.4)] animate-[pulse_2s_infinite]">
@@ -300,32 +283,125 @@ const ConnectSection: React.FC = () => {
             </div>
           </span>
         </Link>
-
       </div>
     </section>
   );
 };
 
+const OwnerStatsBlock: React.FC = () => {
+  return (
+    <div className="w-full max-w-5xl grid grid-cols-3 gap-4 md:gap-8 z-10 px-6 mx-auto my-12">
+      <div className="glass-panel stat-card-item text-center py-6 md:py-8 rounded-3xl border border-white/5 bg-zinc-900/40 relative overflow-hidden group hover:border-cyan-500/20 transition-all duration-300" style={{ opacity: 0 }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="text-2xl md:text-5xl font-black text-cyan-400 mb-2">
+          <span className="stat-number-val" data-target="45">0</span>+
+        </div>
+        <div className="text-[10px] md:text-xs font-semibold tracking-wider text-zinc-400 uppercase">PROJECTS COMPLETED</div>
+      </div>
+      
+      <div className="glass-panel stat-card-item text-center py-6 md:py-8 rounded-3xl border border-white/5 bg-zinc-900/40 relative overflow-hidden group hover:border-purple-500/20 transition-all duration-300" style={{ opacity: 0 }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="text-2xl md:text-5xl font-black text-purple-400 mb-2">
+          <span className="stat-number-val" data-target="100">0</span>%
+        </div>
+        <div className="text-[10px] md:text-xs font-semibold tracking-wider text-zinc-400 uppercase">CLIENT SATISFACTION</div>
+      </div>
+
+      <div className="glass-panel stat-card-item text-center py-6 md:py-8 rounded-3xl border border-white/5 bg-zinc-900/40 relative overflow-hidden group hover:border-pink-500/20 transition-all duration-300" style={{ opacity: 0 }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-pink-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="text-2xl md:text-5xl font-black text-pink-400 mb-2">
+          <span className="stat-number-val" data-target="3">0</span>+
+        </div>
+        <div className="text-[10px] md:text-xs font-semibold tracking-wider text-zinc-400 uppercase">YEARS EXPERIENCE</div>
+      </div>
+    </div>
+  );
+};
+
 export const PersonalLanding = () => {
+  useEffect(() => {
+    // Entrance Animations timeline
+    const tl = createTimeline({
+      defaults: {
+        easing: 'easeOutExpo'
+      }
+    });
+
+    tl.add({
+      targets: '.avatar-container',
+      scale: [0.3, 1],
+      opacity: [0, 1],
+      duration: 1200,
+    })
+    .add({
+      targets: '.hero-title',
+      translateY: [50, 0],
+      opacity: [0, 1],
+      duration: 1000,
+    }, '-=800')
+    .add({
+      targets: '.hero-desc',
+      translateY: [30, 0],
+      opacity: [0, 1],
+      duration: 800,
+    }, '-=700')
+    .add({
+      targets: '.stat-card-item',
+      translateY: [30, 0],
+      opacity: [0, 1],
+      delay: stagger(150),
+      duration: 800,
+      complete: () => {
+        // Trigger Stats Number Count Up animation
+        animate({
+          targets: '.stat-number-val',
+          innerHTML: [0, (el: HTMLElement) => el.getAttribute('data-target') || '0'],
+          round: 1,
+          easing: 'easeOutQuad',
+          duration: 2000,
+          delay: stagger(200)
+        });
+      }
+    }, '-=500')
+    .add({
+      targets: '.owner-card',
+      translateY: [40, 0],
+      opacity: [0, 1],
+      delay: stagger(150),
+      duration: 1000,
+    }, '-=600')
+    .add({
+      targets: '.social-btn',
+      scale: [0.5, 1],
+      opacity: [0, 1],
+      delay: stagger(100),
+      duration: 800,
+    }, '-=700')
+    .add({
+      targets: '.connect-section',
+      opacity: [0, 1],
+      duration: 600,
+    }, '-=500');
+  }, []);
+
   return (
     <div 
       className="w-full flex flex-col items-center justify-start bg-[#030712] text-zinc-50 font-outfit relative overflow-hidden"
       style={{ 
         paddingTop: '180px', 
-        paddingBottom: '120px' // Added clear massive gap before footer
+        paddingBottom: '120px' 
       }}
     >
-      {/* 3D Animated Background Blob */}
       <div 
         className="absolute w-[800px] h-[800px] bg-gradient-to-br from-purple-600/20 via-cyan-500/10 to-pink-500/10 rounded-full blur-[120px] animate-[pulse_6s_ease-in-out_infinite] pointer-events-none" 
         style={{ top: '80px', left: '50%', transform: 'translateX(-50%)', zIndex: 0 }}
       />
       
-      {/* Grid overlay for professional tech look */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" style={{ zIndex: 0 }} />
 
-      <div className="w-full flex flex-col items-center gap-12 sm:gap-16 relative" style={{ zIndex: 10 }}>
+      <div className="w-full flex flex-col items-center gap-6 sm:gap-10 relative" style={{ zIndex: 10 }}>
         <HeroSection />
+        <OwnerStatsBlock />
         <ExperienceSection />
         <SocialsBlock />
         <ConnectSection />
@@ -335,7 +411,6 @@ export const PersonalLanding = () => {
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
         .font-outfit { font-family: 'Outfit', system-ui, sans-serif; }
         
-        /* Owner Custom Card Style - Relatable to the rest of the site */
         .owner-card {
           background: rgba(17, 24, 39, 0.75) !important;
           backdrop-filter: blur(20px) !important;

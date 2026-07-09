@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { User, Users, Shield, ArrowRight, CheckCircle } from 'lucide-react';
+import { User, Users, Shield, ArrowRight, CheckCircle, HelpCircle } from 'lucide-react';
+
+// Import Shadcn UI Components
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Field, FieldLabel, FieldDescription, FieldGroup } from '../components/ui/field';
 
 const Register = () => {
   const [searchParams] = useSearchParams();
@@ -32,125 +38,141 @@ const Register = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#030712', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 5%' }}>
-      <div className="glass-panel" style={{ maxWidth: '600px', width: '100%', padding: '60px' }}>
+    <div style={{ minHeight: '100vh', background: '#030712', color: '#fff', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center', padding: '60px 5%' }}>
+      <Card className="w-full max-w-[560px] bg-zinc-950/80 border-white/10 backdrop-blur-xl shadow-2xl p-6 md:p-8 relative">
         
         {step < 3 && (
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: '900' }}>Account <span style={{ color: '#22d3ee' }}>Registration</span></h2>
-            <p style={{ color: '#9ca3af', marginTop: '8px' }}>Provisioning access for {plan.toUpperCase()} tier</p>
-          </div>
-        )}
-
-        {step === 1 && (
-          <form onSubmit={handleNext} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <label style={{ fontSize: '0.8rem', fontWeight: '700', color: '#22d3ee', letterSpacing: '1px' }}>SELECT OPERATIONAL ROLE</label>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px', marginBottom: '20px' }}>
-              {roles.map(r => (
-                <div 
-                  key={r.id}
-                  onClick={() => setFormData({...formData, role: r.id})}
-                  style={{ 
-                    padding: '24px', 
-                    borderRadius: '16px', 
-                    background: formData.role === r.id ? `${r.color}15` : 'rgba(255,255,255,0.02)',
-                    border: formData.role === r.id ? `2px solid ${r.color}` : '1px solid rgba(255,255,255,0.05)',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '20px',
-                    transition: '0.3s'
-                  }}
-                >
-                  <div style={{ color: r.color }}>{r.icon}</div>
-                  <span style={{ fontWeight: '700' }}>{r.label}</span>
-                </div>
-              ))}
+          <CardHeader className="text-center pb-6 flex flex-col items-center">
+            <div className="inline-flex p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 mb-4 justify-center mx-auto">
+              <HelpCircle size={28} className="text-cyan-400" />
             </div>
-            <button 
-              disabled={!formData.role}
-              className="btn-step"
-              style={{ padding: '18px', borderRadius: '12px', background: formData.role ? '#22d3ee' : '#1f2937', color: '#030712', fontWeight: '900', border: 'none', cursor: 'pointer' }}
-            >
-              CONTINUE TO DETAILS
-            </button>
-          </form>
-        )}
-
-        {step === 2 && (
-          <form onSubmit={handleNext} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <div className="form-group">
-              <input 
-                placeholder="Full Name" 
-                className="custom-input" 
-                required 
-                onChange={e => setFormData({...formData, name: e.target.value})}
-              />
-            </div>
-            <div className="form-group">
-              <input 
-                type="email" 
-                placeholder="Operational Email Address" 
-                className="custom-input" 
-                required 
-                onChange={e => setFormData({...formData, email: e.target.value})}
-              />
-            </div>
-            <div className="form-group">
-              <input 
-                placeholder="Institution / Company Name" 
-                className="custom-input" 
-                required 
-                onChange={e => setFormData({...formData, institution: e.target.value})}
-              />
-            </div>
-            <button className="btn-step" style={{ padding: '18px', borderRadius: '12px', background: '#22d3ee', color: '#030712', fontWeight: '900', border: 'none', cursor: 'pointer' }}>
-              COMPLETE PROVISIONING
-            </button>
-          </form>
-        )}
-
-        {step === 3 && (
-          <div style={{ textAlign: 'center' }}>
-            <CheckCircle size={80} color="#10b981" style={{ marginBottom: '24px' }} />
-            <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '16px' }}>Provisioning <span style={{ color: '#10b981' }}>Complete.</span></h2>
-            <p style={{ color: '#9ca3af', lineHeight: 1.6, marginBottom: '40px' }}>
-              Your unique User ID and Password have been generated and transmitted to <strong>{formData.email}</strong>.<br />
-              Please check your inbox (and spam folder) to proceed with the secure vault access.
+            <CardTitle className="text-3xl font-black tracking-tight text-white">
+              Account <span className="text-cyan-400">Registration</span>
+            </CardTitle>
+            <p className="text-xs text-zinc-400 uppercase tracking-wider font-extrabold mt-2">
+              Provisioning access for {plan.toUpperCase()} tier
             </p>
-            <button 
-              onClick={() => navigate('/pricing')}
-              className="btn-step" 
-              style={{ padding: '20px 40px', borderRadius: '12px', background: '#22d3ee', color: '#030712', border: 'none', fontWeight: '800', cursor: 'pointer' }}
-            >
-              EXPLORE SUBSCRIPTION PLANS <ArrowRight size={20} style={{ marginLeft: '12px', verticalAlign: 'middle' }} />
-            </button>
-          </div>
+          </CardHeader>
         )}
 
-      </div>
+        <CardContent className="p-0">
+          {step === 1 && (
+            <form onSubmit={handleNext}>
+              <FieldGroup className="flex flex-col gap-6">
+                <Field>
+                  <FieldLabel className="text-zinc-400 font-extrabold text-[10px] tracking-wider uppercase mb-3 block">
+                    SELECT OPERATIONAL ROLE
+                  </FieldLabel>
+                  <div className="flex flex-col gap-4">
+                    {roles.map(r => (
+                      <div 
+                        key={r.id}
+                        onClick={() => setFormData({...formData, role: r.id})}
+                        className="transition-all duration-300"
+                        style={{ 
+                          padding: '20px 24px', 
+                          borderRadius: '16px', 
+                          background: formData.role === r.id ? `${r.color}10` : 'rgba(255,255,255,0.01)',
+                          border: formData.role === r.id ? `2px solid ${r.color}` : '1px solid rgba(255,255,255,0.05)',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '16px'
+                        }}
+                      >
+                        <div style={{ color: r.color }}>{r.icon}</div>
+                        <span className="font-extrabold text-sm text-white">{r.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Field>
 
-      <style>{`
-        .glass-panel {
-          background: rgba(255, 255, 255, 0.03);
-          backdrop-filter: blur(40px);
-          border-radius: 32px;
-          border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .custom-input {
-          width: 100%;
-          padding: 18px;
-          background: rgba(0, 0, 0, 0.3);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
-          color: #fff;
-          font-family: inherit;
-        }
-        .btn-step:hover {
-          transform: translateY(-2px);
-          filter: brightness(1.1);
-        }
-      `}</style>
+                <Field className="mt-4">
+                  <button 
+                    disabled={!formData.role}
+                    className="btn btn-primary cursor-pointer w-full"
+                    style={{ 
+                      padding: '16px', 
+                      borderRadius: '12px', 
+                      background: formData.role ? '#22d3ee' : '#1f2937', 
+                      color: formData.role ? '#030712' : '#9ca3af',
+                      fontWeight: '900', 
+                      border: 'none',
+                      transition: 'all 0.3s'
+                    }}
+                  >
+                    CONTINUE TO DETAILS
+                  </button>
+                </Field>
+              </FieldGroup>
+            </form>
+          )}
+
+          {step === 2 && (
+            <form onSubmit={handleNext}>
+              <FieldGroup className="flex flex-col gap-4">
+                <Field>
+                  <FieldLabel htmlFor="name" className="text-zinc-400 font-extrabold text-[10px] tracking-wider uppercase mb-1 block">Full Name</FieldLabel>
+                  <Input 
+                    id="name"
+                    placeholder="E.g., Vaibhav Pratap Singh" 
+                    required 
+                    onChange={e => setFormData({...formData, name: e.target.value})}
+                    className="bg-zinc-900/40 border-white/5 text-white h-12 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/20"
+                  />
+                </Field>
+
+                <Field>
+                  <FieldLabel htmlFor="email" className="text-zinc-400 font-extrabold text-[10px] tracking-wider uppercase mb-1 block">Operational Email</FieldLabel>
+                  <Input 
+                    id="email"
+                    type="email"
+                    placeholder="E.g., email@yourcompany.com" 
+                    required 
+                    onChange={e => setFormData({...formData, email: e.target.value})}
+                    className="bg-zinc-900/40 border-white/5 text-white h-12 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/20"
+                  />
+                </Field>
+
+                <Field>
+                  <FieldLabel htmlFor="institution" className="text-zinc-400 font-extrabold text-[10px] tracking-wider uppercase mb-1 block">Institution / Company</FieldLabel>
+                  <Input 
+                    id="institution"
+                    placeholder="E.g., VP Group" 
+                    required 
+                    onChange={e => setFormData({...formData, institution: e.target.value})}
+                    className="bg-zinc-900/40 border-white/5 text-white h-12 rounded-xl focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/20"
+                  />
+                </Field>
+
+                <Field className="mt-4">
+                  <button className="btn btn-primary cursor-pointer w-full" style={{ padding: '16px', borderRadius: '12px', background: '#22d3ee', color: '#030712', fontWeight: '900', border: 'none' }}>
+                    COMPLETE PROVISIONING
+                  </button>
+                </Field>
+              </FieldGroup>
+            </form>
+          )}
+
+          {step === 3 && (
+            <div style={{ textAlign: 'center', padding: '20px 0' }}>
+              <CheckCircle size={80} color="#10b981" style={{ marginBottom: '24px', display: 'inline-block' }} />
+              <h2 className="text-3xl font-black text-white mb-4">Provisioning <span style={{ color: '#10b981' }}>Complete.</span></h2>
+              <p className="text-sm text-zinc-400 leading-relaxed mb-8">
+                Your unique User ID and Password have been generated and transmitted to <strong>{formData.email}</strong>.<br />
+                Please check your inbox (and spam folder) to proceed with the secure vault access.
+              </p>
+              <button 
+                onClick={() => navigate('/pricing')}
+                className="btn btn-primary cursor-pointer"
+                style={{ padding: '16px 32px', borderRadius: '12px', background: '#22d3ee', color: '#030712', border: 'none', fontWeight: '800', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+              >
+                EXPLORE SUBSCRIPTION PLANS <ArrowRight size={20} />
+              </button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };

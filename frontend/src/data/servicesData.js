@@ -1,4 +1,4 @@
-import { Layout, Terminal, Shield, Zap, Palette, Code2, Database, Server, Smartphone, Search, PenTool, CheckCircle2, Activity, ShieldCheck, Layers, Globe } from 'lucide-react';
+import { Layout, Terminal, Shield, Zap, Palette, Code2, Database, Server, Smartphone, Search, PenTool, CheckCircle2, Activity, ShieldCheck, Layers, Globe, Cpu } from 'lucide-react';
 
 export const servicesData = {
     'web-development': {
@@ -275,6 +275,51 @@ export const servicesData = {
             { phase: "Step 2: Analytics Setup", title: "GA4 Stream Configuration", desc: "Set up the GA4 property, configure correct time zones, and extract the measurement ID." },
             { phase: "Step 3: Tag Manager", title: "Container & Script Injection", desc: "Deploy the GTM header and body snippets, and link GA4 pageview triggers." },
             { phase: "Step 4: Real-time Audit", title: "Event Verification & Publish", desc: "Verify clicks and visits in the GTM debug panel and GA4 Realtime dashboard, then publish the container." }
+        ]
+    },
+    'ai-automation': {
+        title: "AI Automation",
+        subtitle: "Autonomous Agents, RAG Pipelines, and Workflow Orchestration",
+        description: "We design and deploy autonomous AI agents, semantic retrieval-augmented generation (RAG) knowledge systems, and custom LLM integrations that automate complex business processes and maximize operational scale.",
+        icon: Cpu,
+        accentColor: "#22d3ee",
+        visualizerData: {
+            1: { title: "01. COGNITIVE ENGINE", desc: "Designing autonomous reasoning loops, memory schemas, and dynamic decision-making trees for AI agents.", icon: Terminal },
+            2: { title: "02. KNOWLEDGE INTEGRATION", desc: "Semantic chunking and indexing of corporate records into vector databases for high-speed, secure RAG.", icon: Database },
+            3: { title: "03. OPERATIONAL ACTION", desc: "Connecting cognitive models to live webhooks, external APIs, database hooks, and internal business tools.", icon: Layers }
+        },
+        meshSteps: [
+            { icon: Search, title: "01. Operations Audit", desc: "Auditing manual processes and workflows to identify optimal, high-ROI opportunities for AI integration." },
+            { icon: Terminal, title: "02. Agentic Flow Design", desc: "Engineering prompts, memory databases, system constraints, and human-in-the-loop audit paths." },
+            { icon: Layers, title: "03. API & Tool Sync", desc: "Connecting the agent nodes to external applications, database servers, and notification channels." },
+            { icon: CheckCircle2, title: "04. Guardrail Deployment", desc: "Establishing strict output filters, query routing, token tracking, and security gatekeeping." }
+        ],
+        techDetails: [
+            "Agentic Logic: Custom cognitive loops utilizing LangChain, AutoGen, and native Gemini/OpenAI APIs.",
+            "Semantic RAG: High-accuracy document indexing using Pinecone, Qdrant, or pgvector.",
+            "Workflow Integration: Seamless pipeline automations connecting APIs, legacy code, and cloud hubs.",
+            "Cognitive Safety: Output filtering, PII masking, and rate-limiting guardrails to assure data integrity.",
+            "Resource Optimization: Dynamic context compression and prompt caching to minimize API costs."
+        ],
+        procedures: [
+            "Workflow Mapping: Charting human tasks and database steps for automation.",
+            "Vector Database Design: Designing embedding models, chunking strategies, and retrieval metadata.",
+            "Agent Tool Bindings: Building secure, sandboxed functions that the agent can invoke.",
+            "Hallucination Auditing: Rigorous testing of query responses to minimize hallucinations.",
+            "Cost & Token Audits: Setting up visual dashboards for usage billing and response speeds."
+        ],
+        suitability: [
+            "Customer Operations: Seeking 24/7 autonomous support agents and query routers.",
+            "Data Syncing Teams: Needing real-time processing, summarization, and database ingestion.",
+            "Marketing & Content: Automating product descriptions, translations, and multi-channel posting.",
+            "SaaS Companies: Adding native AI capabilities and semantic search tools into their software.",
+            "Modern Enterprises: Eliminating operational bottlenecks and scaling employee efficiency 10x."
+        ],
+        processSteps: [
+            { phase: "Step 1: Discover", title: "Process Identification", desc: "We audit your organization's manual steps to map out high-value, repeatable tasks prime for automation." },
+            { phase: "Step 2: Design", title: "Cognitive Architecture", desc: "Drafting the system prompt files, selecting embedding layers, and configuring vector indices." },
+            { phase: "Step 3: Build", title: "Tool Bindings & RAG Integration", desc: "Connecting the model to vector stores, programming function calling APIs, and loading document corpora." },
+            { phase: "Step 4: Launch", title: "Guardrails & Telemetry", desc: "Deploying rate limits, semantic safety filters, user-feedback loops, and usage-cost analytics." }
         ]
     }
 };

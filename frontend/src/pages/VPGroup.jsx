@@ -380,6 +380,11 @@ const VPGroup = () => {
               <h3>SEO & Analytics</h3>
               <p>Google Search Console, Analytics (GA4), and Tag Manager setup to index your site and track growth.</p>
             </div>
+            <div className="glass-panel service-card" onClick={() => navigate('/services/ai-automation')}>
+              <Cpu size={32} color="#22d3ee" />
+              <h3>AI Automation</h3>
+              <p>Autonomous AI agents, semantic RAG retrieval systems, and customized workflow automations.</p>
+            </div>
           </div>
         </section>
 

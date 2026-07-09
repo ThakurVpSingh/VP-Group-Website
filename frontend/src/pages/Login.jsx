@@ -4,6 +4,12 @@ import { AuthContext } from '../context/AuthContext';
 import { Shield, Lock, Mail, ArrowRight, ShieldCheck, Layout, ChevronLeft, Zap, CheckCircle } from 'lucide-react';
 import Footer from '../components/Footer';
 
+// Import Shadcn UI Components
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Field, FieldLabel, FieldDescription, FieldGroup } from '../components/ui/field';
+
 const SecurityBackground = () => {
   const canvasRef = useRef(null);
 
@@ -161,7 +167,7 @@ const Login = ({ portalType = "User" }) => {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center',
-        padding: '80px 20px 40px',
+        padding: '100px 20px 40px',
         position: 'relative',
         zIndex: 1
       }}>
@@ -205,204 +211,197 @@ const Login = ({ portalType = "User" }) => {
           </div>
         )}
 
-        <div className="glass-panel animate-fade-in" style={{ 
-          width: '100%', 
-          maxWidth: '420px', 
-          padding: '30px 40px',
-          position: 'relative',
-          border: '1px solid rgba(255,255,255,0.1)'
-        }}>
-          <div style={{ textAlign: 'center', marginBottom: '25px' }}>
-            <div style={{ 
-              display: 'inline-flex', 
-              padding: '12px', 
-              borderRadius: '16px', 
-              background: 'rgba(92, 124, 255, 0.1)', 
-              marginBottom: '16px',
-              border: '1px solid var(--bg-border)'
-            }}>
-              {portalType === "SuperAdmin" ? <Shield size={28} color="var(--primary)" /> : <Layout size={28} color="var(--primary)" />}
+        <Card className="w-full max-w-[440px] bg-zinc-950/80 border-white/10 backdrop-blur-xl shadow-2xl p-6 relative">
+          <CardHeader className="text-center pb-4 flex flex-col items-center">
+            <div className="inline-flex p-3 rounded-2xl bg-purple-500/10 border border-purple-500/20 mb-4 justify-center mx-auto">
+              {portalType === "SuperAdmin" ? <Shield size={28} className="text-purple-400" /> : <Layout size={28} className="text-purple-400" />}
             </div>
-            <h1 style={{ fontSize: '1.6rem', fontWeight: '900', letterSpacing: '-1px' }}>
+            <CardTitle className="text-2xl font-black tracking-tight text-white">
               {portalType === "SuperAdmin" ? "Secure Vault" : "VexioGate Access"}
-            </h1>
-          </div>
+            </CardTitle>
+          </CardHeader>
 
-          <div className="demo-hint" style={{ padding: '8px 12px', marginBottom: '16px', fontSize: '0.75rem' }}>
-            <strong>DEMO MODE:</strong> Use buttons below to auto-fill roles.
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginBottom: '24px' }}>
-            {[
-              { role: 'Emp', email: 'employee@vexio.local', long: 'Employee' },
-              { role: 'Mgr', email: 'manager@vexio.local', long: 'Manager' },
-              { role: 'Adm', email: 'admin@vexio.local', long: 'Admin' },
-              { role: 'Sup', email: 'superadmin@vexio.local', long: 'SuperAdmin' }
-            ].map(demo => (
-              <button
-                key={demo.role}
-                type="button"
-                onClick={() => {
-                   setEmail(demo.email);
-                   setPassword('password123');
-                   setIntendedRole(demo.long);
-                   setTimeout(() => document.getElementById('login-form-submit').click(), 500);
-                }}
-                style={{
-                  padding: '8px 4px',
-                  background: 'rgba(255,100,100,0.05)',
-                  border: '1px solid rgba(255,255,255,0.05)',
-                  borderRadius: '8px',
-                  color: 'white',
-                  fontSize: '0.65rem',
-                  fontWeight: '700',
-                  cursor: 'pointer'
-                }}
-              >
-                {demo.role}
-              </button>
-            ))}
-          </div>
-
-          {portalType === "SuperAdmin" && (
-            <div style={{ 
-              background: 'rgba(34, 211, 238, 0.05)', 
-              borderRadius: '12px', 
-              padding: '16px', 
-              marginBottom: '24px', 
-              border: '1px solid rgba(34, 211, 238, 0.2)',
-              textAlign: 'center'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#22d3ee', fontWeight: '800', fontSize: '0.8rem' }}>
-                <CheckCircle size={16} /> Have a unique ID and password
-              </div>
-              <p style={{ fontSize: '0.65rem', color: '#9ca3af', marginTop: '4px' }}>
-                Enter the credentials received via email after registration.
-              </p>
+          <CardContent className="p-0">
+            <div className="demo-hint" style={{ padding: '8px 12px', marginBottom: '16px', fontSize: '0.75rem' }}>
+              <strong>DEMO MODE:</strong> Use buttons below to auto-fill roles.
             </div>
-          )}
 
-          {portalType === "User" && (
-            <div style={{ 
-              display: 'flex', 
-              background: 'rgba(255,255,255,0.03)', 
-              borderRadius: '10px', 
-              padding: '3px', 
-              marginBottom: '24px', 
-              border: '1px solid var(--bg-border)' 
-            }}>
-              {['Employee', 'Manager', 'Admin'].map(role => (
-                <button 
-                  key={role}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginBottom: '24px' }}>
+              {[
+                { role: 'Emp', email: 'employee@vexio.local', long: 'Employee' },
+                { role: 'Mgr', email: 'manager@vexio.local', long: 'Manager' },
+                { role: 'Adm', email: 'admin@vexio.local', long: 'Admin' },
+                { role: 'Sup', email: 'superadmin@vexio.local', long: 'SuperAdmin' }
+              ].map(demo => (
+                <button
+                  key={demo.role}
                   type="button"
-                  onClick={() => setIntendedRole(role)}
+                  onClick={() => {
+                     setEmail(demo.email);
+                     setPassword('password123');
+                     setIntendedRole(demo.long);
+                     setTimeout(() => document.getElementById('login-form-submit').click(), 500);
+                  }}
                   style={{
-                    flex: 1,
-                    padding: '10px 4px',
+                    padding: '8px 4px',
+                    background: 'rgba(139, 92, 246, 0.05)',
+                    border: '1px solid rgba(255,255,255,0.05)',
                     borderRadius: '8px',
-                    fontSize: '0.7rem',
-                    fontWeight: '800',
-                    background: intendedRole === role ? 'var(--primary)' : 'transparent',
-                    color: intendedRole === role ? 'white' : 'var(--text-muted)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s'
+                    color: 'white',
+                    fontSize: '0.65rem',
+                    fontWeight: '700',
+                    cursor: 'pointer'
                   }}
                 >
-                  {role.toUpperCase()}
+                  {demo.role}
                 </button>
               ))}
             </div>
-          )}
 
-          <form onSubmit={handleLogin}>
-            {error && (
+            {portalType === "SuperAdmin" && (
               <div style={{ 
-                padding: '14px', 
-                background: 'rgba(239, 68, 68, 0.1)', 
+                background: 'rgba(34, 211, 238, 0.05)', 
                 borderRadius: '12px', 
-                color: '#fca5a5', 
-                fontSize: '0.85rem', 
-                marginBottom: '24px',
-                border: '1px solid rgba(239, 68, 68, 0.2)',
-                textAlign: 'center',
-                fontWeight: '600'
+                padding: '16px', 
+                marginBottom: '24px', 
+                border: '1px solid rgba(34, 211, 238, 0.2)',
+                textAlign: 'center'
               }}>
-                {error}
-              </div>
-            )}
-
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '0.65rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '6px', textTransform: 'uppercase' }}>Identifier</label>
-              <div style={{ position: 'relative' }}>
-                <Mail size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input 
-                  type="email" 
-                  className="glass-input" 
-                  placeholder="Email Address" 
-                  style={{ padding: '12px 12px 12px 48px' }}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
-            <div style={{ marginBottom: '24px' }}>
-              <label style={{ display: 'block', fontSize: '0.65rem', fontWeight: '800', color: 'var(--text-muted)', marginBottom: '6px', textTransform: 'uppercase' }}>Cipher</label>
-              <div style={{ position: 'relative' }}>
-                <Lock size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input 
-                  type="password" 
-                  className="glass-input" 
-                  placeholder="••••••••" 
-                  style={{ padding: '12px 12px 12px 48px' }}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-
-            {showMfa && (
-              <div className="animate-fade-in" style={{ marginBottom: '32px' }}>
-                <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--primary)', marginBottom: '8px', textTransform: 'uppercase' }}>Security Sync Token</label>
-                <div style={{ position: 'relative' }}>
-                  <ShieldCheck size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--primary)' }} />
-                  <input 
-                    type="text" 
-                    className="glass-input" 
-                    style={{ paddingLeft: '48px', borderColor: 'var(--primary)' }}
-                    placeholder="6-Digit Code" 
-                    value={mfaCode}
-                    onChange={(e) => setMfaCode(e.target.value)}
-                    required
-                  />
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#22d3ee', fontWeight: '800', fontSize: '0.8rem' }}>
+                  <CheckCircle size={16} /> Have a unique ID and password
                 </div>
+                <p style={{ fontSize: '0.65rem', color: '#9ca3af', marginTop: '4px' }}>
+                  Enter the credentials received via email after registration.
+                </p>
               </div>
             )}
 
-            <button 
-              id="login-form-submit"
-              type="submit" 
-              className="btn btn-primary" 
-              style={{ width: '100%', padding: '14px', fontSize: '1rem' }}
-              disabled={loading}
-            >
-              {loading ? "SCANNING..." : "AUTHORIZE ACCESS"} <ArrowRight size={18} />
-            </button>
-          </form>
+            {portalType === "User" && (
+              <div style={{ 
+                display: 'flex', 
+                background: 'rgba(255,255,255,0.03)', 
+                borderRadius: '10px', 
+                padding: '3px', 
+                marginBottom: '24px', 
+                border: '1px solid rgba(255,255,255,0.05)' 
+              }}>
+                {['Employee', 'Manager', 'Admin'].map(role => (
+                  <button 
+                    key={role}
+                    type="button"
+                    onClick={() => setIntendedRole(role)}
+                    style={{
+                      flex: 1,
+                      padding: '10px 4px',
+                      borderRadius: '8px',
+                      fontSize: '0.7rem',
+                      fontWeight: '800',
+                      background: intendedRole === role ? 'var(--primary)' : 'transparent',
+                      color: intendedRole === role ? 'white' : 'var(--text-muted)',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s'
+                    }}
+                  >
+                    {role.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            )}
 
-          <div style={{ marginTop: '24px', textAlign: 'center' }}>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              Need access? <Link to="/pricing" style={{ color: '#22d3ee', fontWeight: '800', textDecoration: 'none' }}>View subscription plans</Link>
-            </p>
-          </div>
+            <form onSubmit={handleLogin}>
+              {error && (
+                <div style={{ 
+                  padding: '14px', 
+                  background: 'rgba(239, 68, 68, 0.1)', 
+                  borderRadius: '12px', 
+                  color: '#fca5a5', 
+                  fontSize: '0.85rem', 
+                  marginBottom: '24px',
+                  border: '1px solid rgba(239, 68, 68, 0.2)',
+                  textAlign: 'center',
+                  fontWeight: '600'
+                }}>
+                  {error}
+                </div>
+              )}
 
-          <div style={{ marginTop: '16px', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            System ID: VX-{(Math.random() * 1000).toFixed(0)} | Zone: Global
-          </div>
-        </div>
+              <FieldGroup className="flex flex-col gap-4">
+                <Field>
+                  <FieldLabel htmlFor="email" className="text-zinc-400 font-extrabold text-[10px] tracking-wider uppercase mb-1 block">Identifier</FieldLabel>
+                  <div style={{ position: 'relative' }}>
+                    <Mail size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#71717a', zIndex: 10 }} />
+                    <Input 
+                      id="email"
+                      type="email" 
+                      placeholder="Email Address" 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="bg-zinc-900/40 border-white/5 text-white pl-12 h-12 rounded-xl focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20"
+                    />
+                  </div>
+                </Field>
+
+                <Field>
+                  <FieldLabel htmlFor="password" className="text-zinc-400 font-extrabold text-[10px] tracking-wider uppercase mb-1 block">Cipher</FieldLabel>
+                  <div style={{ position: 'relative' }}>
+                    <Lock size={16} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#71717a', zIndex: 10 }} />
+                    <Input 
+                      id="password"
+                      type="password" 
+                      placeholder="••••••••" 
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="bg-zinc-900/40 border-white/5 text-white pl-12 h-12 rounded-xl focus:border-purple-500 focus:ring-1 focus:ring-purple-500/20"
+                    />
+                  </div>
+                </Field>
+
+                {showMfa && (
+                  <Field className="animate-fade-in">
+                    <FieldLabel htmlFor="mfaCode" className="text-purple-400 font-extrabold text-[10px] tracking-wider uppercase mb-1 block">Security Sync Token</FieldLabel>
+                    <div style={{ position: 'relative' }}>
+                      <ShieldCheck size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--primary)', zIndex: 10 }} />
+                      <Input 
+                        id="mfaCode"
+                        type="text" 
+                        placeholder="6-Digit Code" 
+                        value={mfaCode}
+                        onChange={(e) => setMfaCode(e.target.value)}
+                        required
+                        className="bg-zinc-900/40 border-purple-500/30 text-white pl-12 h-12 rounded-xl focus:border-purple-500 focus:ring-1"
+                      />
+                    </div>
+                  </Field>
+                )}
+
+                <Field className="mt-2">
+                  <button 
+                    id="login-form-submit"
+                    type="submit" 
+                    className="btn btn-primary cursor-pointer" 
+                    style={{ width: '100%', padding: '14px', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                    disabled={loading}
+                  >
+                    {loading ? "SCANNING..." : "AUTHORIZE ACCESS"} <ArrowRight size={18} />
+                  </button>
+                </Field>
+              </FieldGroup>
+            </form>
+
+            <div style={{ marginTop: '24px', textAlign: 'center' }}>
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                Need access? <Link to="/pricing" style={{ color: '#22d3ee', fontWeight: '800', textDecoration: 'none' }}>View subscription plans</Link>
+              </p>
+            </div>
+
+            <div style={{ marginTop: '16px', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              System ID: VX-{(Math.random() * 1000).toFixed(0)} | Zone: Global
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <Footer />

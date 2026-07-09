@@ -49,6 +49,7 @@ const ProjectNavbar = () => {
                                 <Link to="/services/it-consultation">IT Consultation</Link>
                                 <Link to="/services/custom-ui-ux">Custom UI/UX</Link>
                                 <Link to="/services/seo-analytics-setup">SEO & Analytics Setup</Link>
+                                <Link to="/services/ai-automation">AI Automation</Link>
                             </div>
                         </div>
 
@@ -116,6 +117,7 @@ const ProjectNavbar = () => {
                                 <Link to="/services/software-engineering" onClick={() => setIsMenuOpen(false)}>Software Engineering</Link>
                                 <Link to="/services/technical-support" onClick={() => setIsMenuOpen(false)}>Technical Support</Link>
                                 <Link to="/services/seo-analytics-setup" onClick={() => setIsMenuOpen(false)}>SEO & Analytics Setup</Link>
+                                <Link to="/services/ai-automation" onClick={() => setIsMenuOpen(false)}>AI Automation</Link>
                             </div>
                         </div>
 
