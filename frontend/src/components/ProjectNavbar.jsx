@@ -74,14 +74,6 @@ const ProjectNavbar = () => {
 
                         <Link to="/our-strategy" className="nav-link-btn">Our Strategy</Link>
                         
-                        <div className="nav-dropdown">
-                            <button className="nav-link-btn">Founder Profile <ChevronDown size={12} className="drop-icon" /></button>
-                            <div className="dropdown-content">
-                                <Link to="/owner">Profile Overview</Link>
-                                <Link to="/business-card">Business Card</Link>
-                            </div>
-                        </div>
-                        
                         <Link to="/consultation/book" className="nav-portal-btn" style={{ marginLeft: '16px' }}>
                             Book Consultation
                         </Link>
@@ -134,8 +126,6 @@ const ProjectNavbar = () => {
                             <label>RESOURCES</label>
                             <div className="drawer-links">
                                 <Link to="/our-strategy" onClick={() => setIsMenuOpen(false)}>Our Strategy</Link>
-                                <Link to="/owner" onClick={() => setIsMenuOpen(false)}>Founder Profile</Link>
-                                <Link to="/business-card" onClick={() => setIsMenuOpen(false)}>Business Card</Link>
                                 <Link to="/help/portfolio" onClick={() => setIsMenuOpen(false)}>Portfolio</Link>
                                 <Link to="/help/partners" onClick={() => setIsMenuOpen(false)}>Partners</Link>
                                 <Link to="/help/contact" onClick={() => setIsMenuOpen(false)}>Contact Us</Link>

@@ -24,8 +24,6 @@ import StrategyPage from './pages/StrategyPage';
 import BookingPage from './pages/BookingPage';
 import MeetingRoomPage from './pages/MeetingRoomPage';
 import ConsultationDashboard from './pages/ConsultationDashboard';
-import OwnerPage from './pages/OwnerPage';
-import BusinessCardPage from './pages/BusinessCardPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsConditionsPage from './pages/TermsConditionsPage';
 
@@ -184,12 +182,10 @@ function App() {
           <Route path="/clients/institutional" element={<InstitutionalPage />} />
           <Route path="/clients/global-partners" element={<GlobalPartnersPage />} />
           <Route path="/portfolio/vault-iam" element={<VaultCaseStudyPage />} />
-          <Route path="/business-card" element={<BusinessCardPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-conditions" element={<TermsConditionsPage />} />
 
           {/* Operations Hub (Dashboard) - Catch-all for sub-routes */}
-          <Route path="/owner" element={<OwnerPage />} />
           <Route path="/*" element={<Dashboard />} />
           
           {/* Fallback Route */}
