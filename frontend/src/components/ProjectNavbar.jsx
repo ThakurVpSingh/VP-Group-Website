@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Zap, Menu, X, ChevronDown, Shield, ArrowRight, Globe, Layers, Mail } from 'lucide-react';
+import Logo from './Logo';
 
 const ProjectNavbar = () => {
     const navigate = useNavigate();
@@ -26,14 +27,8 @@ const ProjectNavbar = () => {
             <nav className={`project-navbar ${scrolled ? 'scrolled' : ''}`}>
                 <div className="nav-container">
                     <div className="nav-logo-section" onClick={() => navigate('/')}>
-                        <div className="nav-logo-box" style={{ overflow: 'hidden', padding: 0 }}>
-                            <img src="/logo.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                                 onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
-                            <svg viewBox="0 0 100 100" className="company-logo-svg" style={{ display: 'none' }}>
-                                <path d="M 5 20 L 95 20 L 50 45 Z" fill="#fff" />
-                                <path d="M 2 28 L 46 53 L 46 95 Z" fill="#fff" />
-                                <path d="M 98 28 L 54 53 L 54 95 Z" fill="#fff" />
-                            </svg>
+                        <div className="nav-logo-box">
+                            <Logo variant="icon" size="32px" className="company-logo-svg" />
                         </div>
                         <div className="logo-text">
                             <span className="brand-name">VP GROUP</span>
@@ -53,6 +48,7 @@ const ProjectNavbar = () => {
                                 <Link to="/services/technical-support">Technical Support</Link>
                                 <Link to="/services/it-consultation">IT Consultation</Link>
                                 <Link to="/services/custom-ui-ux">Custom UI/UX</Link>
+                                <Link to="/services/seo-analytics-setup">SEO & Analytics Setup</Link>
                             </div>
                         </div>
 
@@ -119,6 +115,7 @@ const ProjectNavbar = () => {
                                 <Link to="/services/web-development" onClick={() => setIsMenuOpen(false)}>Web Development</Link>
                                 <Link to="/services/software-engineering" onClick={() => setIsMenuOpen(false)}>Software Engineering</Link>
                                 <Link to="/services/technical-support" onClick={() => setIsMenuOpen(false)}>Technical Support</Link>
+                                <Link to="/services/seo-analytics-setup" onClick={() => setIsMenuOpen(false)}>SEO & Analytics Setup</Link>
                             </div>
                         </div>
 
@@ -189,14 +186,21 @@ const ProjectNavbar = () => {
                 .nav-logo-box {
                     width: 44px;
                     height: 44px;
-                    background: linear-gradient(135deg, #ff4ef0, #8b5cf6);
+                    background: rgba(255, 255, 255, 0.02);
+                    border: 1px solid rgba(255, 255, 255, 0.08);
                     border-radius: 12px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    box-shadow: 0 8px 16px rgba(255, 78, 240, 0.2);
+                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+                    transition: all 0.3s ease;
                 }
-                .company-logo-svg { width: 24px; height: 24px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+                .nav-logo-section:hover .nav-logo-box {
+                    border-color: rgba(139, 92, 246, 0.3);
+                    background: rgba(139, 92, 246, 0.05);
+                    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+                }
+                .company-logo-svg { width: 32px; height: 32px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
                 .brand-name { fontWeight: 950; fontSize: 1.3rem; color: #fff; line-height: 1; letter-spacing: -1px; }
                 .brand-sub { fontSize: 0.6rem; fontWeight: 900; color: #ff4ef0; letterSpacing: 4px; marginTop: 4px; display: block; opacity: 0.9; }
 

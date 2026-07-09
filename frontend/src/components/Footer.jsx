@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Twitter, Shield } from 'lucide-react';
+import Logo from './Logo';
 
 const Footer = () => {
   return (
@@ -18,13 +19,7 @@ const Footer = () => {
           <div className="footer-brand">
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
               <div style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.03)', borderRadius: '12px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <img src="/logo.png" alt="VP Group Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                     onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }} />
-                <svg viewBox="0 0 100 100" style={{ width: 24, height: 24, display: 'none' }}>
-                    <path d="M 5 20 L 95 20 L 50 45 Z" fill="#fff" />
-                    <path d="M 2 28 L 46 53 L 46 95 Z" fill="#fff" />
-                    <path d="M 98 28 L 54 53 L 54 95 Z" fill="#fff" />
-                </svg>
+                <Logo variant="icon" size="32px" />
               </div>
               <span style={{ fontWeight: '900', fontSize: '1.3rem', letterSpacing: '-0.5px', color: '#fff' }}>VP GROUP</span>
             </div>
@@ -41,6 +36,7 @@ const Footer = () => {
               <li><Link to="/services/technical-support">Technical Support</Link></li>
               <li><Link to="/services/it-consultation">IT Consultation</Link></li>
               <li><Link to="/services/custom-ui-ux">Custom UI/UX</Link></li>
+              <li><Link to="/services/seo-analytics-setup">SEO & Analytics Setup</Link></li>
             </ul>
           </div>
 

@@ -231,5 +231,50 @@ export const servicesData = {
             { phase: "Phase 3", title: "Visual Synthesis", desc: "Building the high-fidelity UI components and interactive prototypes." },
             { phase: "Phase 4", title: "Compliance Check", desc: "Reviewing the design for accessibility standards (WCAG)." }
         ]
+    },
+    'seo-analytics-setup': {
+        title: "SEO & Analytics Setup",
+        subtitle: "3-Tool Site Discovery & Traffic Intelligence Mesh",
+        description: "Google Search Console, Analytics (GA4), and Tag Manager setup. We configure, connect, and verify Google's premier measurement suite to index your pages immediately and log active user events.",
+        icon: Search,
+        accentColor: "#a855f7",
+        visualizerData: {
+            1: { title: "01. GOOGLE SEARCH CONSOLE", desc: "Submit sitemaps, verify domain ownership, request indexing, and monitor search impressions and keywords.", icon: Search },
+            2: { title: "02. GOOGLE ANALYTICS (GA4)", desc: "Configure web data streams to trace user demographics, traffic channels, session times, and user paths.", icon: Activity },
+            3: { title: "03. GOOGLE TAG MANAGER", desc: "Set up click events, form submissions, and custom triggers without modifying code in the future.", icon: Layers }
+        },
+        meshSteps: [
+            { icon: Search, title: "01. Search Console Setup", desc: "Registering GSC properties, submitting sitemap.xml, and requesting rapid Google crawling/indexing." },
+            { icon: Activity, title: "02. GA4 Property Configuration", desc: "Configuring the web data stream, session parameters, time-zone settings, and measurement IDs." },
+            { icon: Layers, title: "03. Tag Manager Integration", desc: "Deploying the GTM container code, connecting GA4 web streams, and setting up click trackers." },
+            { icon: CheckCircle2, title: "04. Real-time Audit & Publish", desc: "Verifying live triggers and active user counters in GA4 before publishing the final container." }
+        ],
+        techDetails: [
+            "Google Search Console: Direct Google indexing submission and search term tracking.",
+            "Google Analytics 4: Demographic profiling, user acquisition channels, and custom event streams.",
+            "Google Tag Manager: Code-free tag injection, custom click/scroll triggers, and variable configurations.",
+            "Sitemap Submission: Assuring all current and future sub-pages are crawled and indexed by Google.",
+            "Real-time Debugging: Using GTM Preview Mode to test event firing before publishing."
+        ],
+        procedures: [
+            "Domain Ownership Verification: Meta tag injection or HTML file upload to the public folder.",
+            "Data Stream Initialization: Configuring stream pipelines for web traffic analytics.",
+            "GA4 and GTM Handshake: Linking tag triggers directly to the GA4 measurement ID.",
+            "Event Trigger Creation: Tracking main CTA clicks, form submissions, and scroll depths.",
+            "Container Submission: Publishing clean, named versions of the GTM container."
+        ],
+        suitability: [
+            "Newly Launched Sites: Needing fast indexing and search discovery.",
+            "Marketing Campaigns: Tracing ROI, user acquisition, and conversion funnels.",
+            "Corporate Websites: Measuring traffic growth, page popularity, and organic keyword reach.",
+            "Product Landing Pages: Optimizing conversion rates by identifying where users drop off.",
+            "E-commerce Catalogs: Monitoring customer journeys and checkout button click engagement."
+        ],
+        processSteps: [
+            { phase: "Step 1: Search Console", title: "Index & Sitemap Submission", desc: "Verify domain ownership, submit sitemap.xml, and request immediate crawling to show up on Google." },
+            { phase: "Step 2: Analytics Setup", title: "GA4 Stream Configuration", desc: "Set up the GA4 property, configure correct time zones, and extract the measurement ID." },
+            { phase: "Step 3: Tag Manager", title: "Container & Script Injection", desc: "Deploy the GTM header and body snippets, and link GA4 pageview triggers." },
+            { phase: "Step 4: Real-time Audit", title: "Event Verification & Publish", desc: "Verify clicks and visits in the GTM debug panel and GA4 Realtime dashboard, then publish the container." }
+        ]
     }
 };

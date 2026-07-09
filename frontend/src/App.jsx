@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
+import Logo from './components/Logo';
 
 // Multi-page imports
 import VPGroup from './pages/VPGroup';
@@ -72,17 +73,7 @@ const SplashScreen = ({ onComplete }) => {
         opacity: phase >= 1 ? 1 : 0,
         transition: 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
       }}>
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
-          <defs>
-            <linearGradient id="splashGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style={{ stopColor: '#8b5cf6' }} />
-              <stop offset="100%" style={{ stopColor: '#22d3ee' }} />
-            </linearGradient>
-          </defs>
-          <path d="M50 10 L90 35 L50 55 Z" fill="url(#splashGrad)" opacity="0.9" />
-          <path d="M50 10 L10 35 L50 55 Z" fill="url(#splashGrad)" opacity="0.7" />
-          <path d="M50 55 L10 35 L50 90 L90 35 Z" fill="url(#splashGrad)" opacity="0.5" />
-        </svg>
+        <Logo variant="icon" size="80px" />
       </div>
 
       {/* Title */}

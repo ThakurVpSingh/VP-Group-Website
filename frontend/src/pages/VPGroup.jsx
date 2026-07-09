@@ -20,7 +20,8 @@ import {
   Cpu,
   Layers,
   Shield,
-  Users
+  Users,
+  Search
 } from 'lucide-react';
 import Footer from '../components/Footer';
 import ProjectNavbar from '../components/ProjectNavbar';
@@ -373,6 +374,11 @@ const VPGroup = () => {
               <Shield size={32} color="#10b981" />
               <h3>Technical Support</h3>
               <p>24/7 dedicated support mesh ensuring your digital infrastructure remains resilient and secure.</p>
+            </div>
+            <div className="glass-panel service-card" onClick={() => navigate('/services/seo-analytics-setup')}>
+              <Search size={32} color="#a855f7" />
+              <h3>SEO & Analytics</h3>
+              <p>Google Search Console, Analytics (GA4), and Tag Manager setup to index your site and track growth.</p>
             </div>
           </div>
         </section>
