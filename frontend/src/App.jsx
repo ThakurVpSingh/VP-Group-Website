@@ -1,7 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Logo from './components/Logo';
+import { animate, svg } from 'animejs';
 
 // Multi-page imports
 import VPGroup from './pages/VPGroup';
@@ -10,6 +11,13 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ServiceDetailPage from './pages/ServiceDetailPage';
+import WebDevServicePage from './pages/services/WebDevServicePage';
+import SoftwareEngServicePage from './pages/services/SoftwareEngServicePage';
+import TechSupportServicePage from './pages/services/TechSupportServicePage';
+import ITConsultServicePage from './pages/services/ITConsultServicePage';
+import CustomUIUXServicePage from './pages/services/CustomUIUXServicePage';
+import SEOAnalyticsServicePage from './pages/services/SEOAnalyticsServicePage';
+import AIAutomationServicePage from './pages/services/AIAutomationServicePage';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
 import PartnershipApplyPage from './pages/PartnershipApplyPage';
 import ContactPage from './pages/ContactPage';
@@ -31,10 +39,29 @@ const SplashScreen = ({ onComplete }) => {
   const [phase, setPhase] = useState(0); // 0: logo in, 1: text in, 2: fade out
 
   useEffect(() => {
+    // Staggered path drawing on mount
+    const timer = setTimeout(() => {
+      const paths = document.querySelectorAll('.splash-logo path');
+      if (paths.length > 0) {
+        const drawables = svg.createDrawable(paths, 0, 0);
+        animate(drawables, {
+          draw: '0 1',
+          easing: 'easeInOutCubic',
+          duration: 1600,
+          delay: (el, i) => i * 120
+        });
+      }
+    }, 50);
+
     const t1 = setTimeout(() => setPhase(1), 600);
     const t2 = setTimeout(() => setPhase(2), 2200);
     const t3 = setTimeout(() => onComplete(), 3000);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    return () => { 
+      clearTimeout(timer);
+      clearTimeout(t1); 
+      clearTimeout(t2); 
+      clearTimeout(t3); 
+    };
   }, [onComplete]);
 
   return (
@@ -63,15 +90,15 @@ const SplashScreen = ({ onComplete }) => {
 
       {/* Logo Diamond */}
       <div style={{
-        width: '80px',
-        height: '80px',
+        width: '100px',
+        height: '100px',
         position: 'relative',
         marginBottom: '32px',
         transform: phase >= 1 ? 'scale(1) rotate(0deg)' : 'scale(0.3) rotate(-180deg)',
         opacity: phase >= 1 ? 1 : 0,
         transition: 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
       }}>
-        <Logo variant="icon" size="80px" />
+        <Logo variant="icon" className="splash-logo" size="100px" />
       </div>
 
       {/* Title */}
@@ -157,7 +184,15 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/superadmin/access" element={<Login portalType="SuperAdmin" />} />
           
-          {/* Dynamic Service Routes */}
+          {/* Dedicated Service Routes - Unique layouts per service */}
+          <Route path="/services/web-development" element={<WebDevServicePage />} />
+          <Route path="/services/software-engineering" element={<SoftwareEngServicePage />} />
+          <Route path="/services/technical-support" element={<TechSupportServicePage />} />
+          <Route path="/services/it-consultation" element={<ITConsultServicePage />} />
+          <Route path="/services/custom-ui-ux" element={<CustomUIUXServicePage />} />
+          <Route path="/services/seo-analytics-setup" element={<SEOAnalyticsServicePage />} />
+          <Route path="/services/ai-automation" element={<AIAutomationServicePage />} />
+          {/* Fallback for any unknown service IDs */}
           <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
           
           {/* Dynamic Portfolio Routes */}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import PageTemplate from '../components/PageTemplate';
 import { servicesData } from '../data/servicesData';
+import { animate, remove, stagger, svg } from 'animejs';
 import { 
     ChevronRight, 
     ArrowRight, 
@@ -35,10 +36,454 @@ const getSpecIcon = (label) => {
 };
 
 const UX3DVisualizer = ({ service }) => {
+    const { serviceId } = useParams();
     const [activeLayer, setActiveLayer] = useState(1);
     const data = service.visualizerData;
-    const isWebDev = service.id === 'web-development';
-    const isITConsult = service.id === 'it-consultation';
+
+    useEffect(() => {
+        // Clear any running animations on layer components
+        remove('.ux-layer *');
+
+        // General entry fade-in for the active layer contents
+        animate(`.ux-layer.active *`, {
+            opacity: [0, 1],
+            scale: [0.9, 1],
+            duration: 600,
+            easing: 'easeOutQuad',
+            delay: stagger(40)
+        });
+
+        // Layer 1 Custom Service Animations
+        if (activeLayer === 1) {
+            if (serviceId === 'web-development') {
+                animate('.d1, .d2, .d3', {
+                    translateX: [0, 10],
+                    translateY: [0, 10],
+                    duration: 1500,
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutSine'
+                });
+            } else if (serviceId === 'software-engineering') {
+                animate('.packet', {
+                    translateY: [0, 30],
+                    translateX: [0, 15],
+                    opacity: [1, 0],
+                    loop: true,
+                    duration: 1200,
+                    easing: 'easeInOutQuad'
+                });
+            } else if (serviceId === 'technical-support') {
+                animate('.threat-particle', {
+                    translateX: [50, 0],
+                    translateY: [50, 0],
+                    opacity: [1, 0],
+                    scale: [1, 0.2],
+                    loop: true,
+                    duration: 1000,
+                    easing: 'easeInQuad',
+                    delay: stagger(300)
+                });
+            } else if (serviceId === 'custom-ui-ux') {
+                animate('.skeleton-card, .skeleton-circle', {
+                    borderColor: ['rgba(236, 72, 153, 0.2)', 'rgba(236, 72, 153, 0.6)'],
+                    duration: 1000,
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutSine'
+                });
+            } else if (serviceId === 'seo-analytics-setup') {
+                animate('.crawler-spider', {
+                    translateX: [-20, 20],
+                    translateY: [-20, 20],
+                    duration: 2000,
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutQuad'
+                });
+            } else if (serviceId === 'ai-automation') {
+                animate('.neural-node', {
+                    background: ['#22d3ee', '#ec4899', '#a855f7'],
+                    delay: stagger(150),
+                    duration: 1200,
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutSine'
+                });
+            }
+        }
+
+        // Layer 2 Custom Service Animations
+        if (activeLayer === 2) {
+            if (serviceId === 'software-engineering') {
+                animate('.db-replica', {
+                    borderColor: ['rgba(255,255,255,0.05)', 'rgba(168, 85, 247, 0.4)'],
+                    delay: stagger(300),
+                    duration: 1000,
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutSine'
+                });
+            } else if (serviceId === 'technical-support') {
+                animate('.sync-indicator', {
+                    scale: [0.8, 1.4],
+                    opacity: [0.4, 1],
+                    duration: 1200,
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutQuad'
+                });
+            } else if (serviceId === 'custom-ui-ux') {
+                animate('.color-swatch', {
+                    scale: [0.8, 1.2],
+                    delay: stagger(100),
+                    duration: 800,
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutSine'
+                });
+            } else if (serviceId === 'seo-analytics-setup') {
+                animate('.seo-progress', {
+                    width: ['0%', '85%'],
+                    duration: 1500,
+                    easing: 'easeOutExpo'
+                });
+            } else if (serviceId === 'ai-automation') {
+                animate('.rag-doc', {
+                    translateY: [-5, 5],
+                    duration: 1500,
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutSine'
+                });
+            }
+        }
+
+        // Layer 3 Custom Service Animations
+        if (activeLayer === 3) {
+            if (serviceId === 'web-development') {
+                animate('.flow-bullet', {
+                    left: ['0%', '100%'],
+                    loop: true,
+                    duration: 1000,
+                    easing: 'linear'
+                });
+            } else if (serviceId === 'software-engineering') {
+                animate('.msg-cell', {
+                    opacity: [0.2, 1],
+                    delay: stagger(150),
+                    duration: 600,
+                    direction: 'alternate',
+                    loop: true,
+                    easing: 'easeInOutSine'
+                });
+            } else if (serviceId === 'technical-support') {
+                const path = document.querySelector('.heartbeat-path');
+                if (path) {
+                    const drawables = svg.createDrawable(path, 0, 0);
+                    animate(drawables, {
+                        draw: '0 1',
+                        duration: 1500,
+                        loop: true,
+                        easing: 'linear'
+                    });
+                }
+            } else if (serviceId === 'custom-ui-ux') {
+                const runRipple = () => {
+                    animate('.ripple-ring', {
+                        scale: [1, 2.5],
+                        opacity: [1, 0],
+                        duration: 1000,
+                        easing: 'easeOutQuart',
+                        complete: () => {
+                            setTimeout(runRipple, 1500);
+                        }
+                    });
+                };
+                runRipple();
+            } else if (serviceId === 'ai-automation') {
+                animate('.orbit-particle', {
+                    translateX: [
+                        { value: -20 },
+                        { value: 0 },
+                        { value: 20 },
+                        { value: 0 }
+                    ],
+                    translateY: [
+                        { value: 0 },
+                        { value: 20 },
+                        { value: 0 },
+                        { value: -20 }
+                    ],
+                    loop: true,
+                    duration: 2000,
+                    easing: 'linear'
+                });
+            }
+        }
+    }, [activeLayer, serviceId]);
+
+    const renderLayer1 = () => {
+        switch (serviceId) {
+            case 'web-development':
+                return (
+                    <div className="web-dev-layer-1 relative h-full flex items-center justify-center">
+                        <div className="code-tag font-mono text-[9px] text-cyan-400 opacity-60 absolute t1">&lt;div class="dom"&gt;</div>
+                        <div className="code-tag font-mono text-[9px] text-cyan-400 opacity-60 absolute t2">&lt;main class="mesh"&gt;</div>
+                        <div className="code-tag font-mono text-[9px] text-cyan-400 opacity-60 absolute t3">&lt;Canvas /&gt;</div>
+                        <div className="dom-node d1 size-3 bg-white rounded absolute"></div>
+                        <div className="dom-node d2 size-3 bg-white rounded absolute"></div>
+                        <div className="dom-node d3 size-3 bg-white rounded absolute"></div>
+                    </div>
+                );
+            case 'software-engineering':
+                return (
+                    <div className="soft-eng-layer-1 relative h-full flex flex-col items-center justify-center gap-4">
+                        <div className="load-balancer border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 rounded-lg text-[9px] font-bold text-purple-400 tracking-wider">LOAD BALANCER</div>
+                        <div className="flex gap-4">
+                            <div className="worker-node w-12 h-6 border border-white/10 bg-white/5 rounded flex items-center justify-center text-[7px] text-zinc-400">Node A</div>
+                            <div className="worker-node w-12 h-6 border border-white/10 bg-white/5 rounded flex items-center justify-center text-[7px] text-zinc-400">Node B</div>
+                            <div className="worker-node w-12 h-6 border border-white/10 bg-white/5 rounded flex items-center justify-center text-[7px] text-zinc-400">Node C</div>
+                        </div>
+                        <div className="packet size-2 bg-purple-400 rounded-full absolute"></div>
+                    </div>
+                );
+            case 'technical-support':
+                return (
+                    <div className="tech-sup-layer-1 relative h-full flex items-center justify-center">
+                        <div className="shield-ring size-20 rounded-full border-2 border-dashed border-emerald-500/30 flex items-center justify-center animate-[spin_10s_linear_infinite]">
+                            <div className="size-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                                <Shield size={16} className="text-emerald-400" />
+                            </div>
+                        </div>
+                        <div className="threat-particle size-1.5 bg-rose-500 rounded-full absolute"></div>
+                        <div className="threat-particle size-1.5 bg-rose-500 rounded-full absolute"></div>
+                    </div>
+                );
+            case 'it-consultation':
+                return (
+                    <div className="it-consult-layer-1 relative h-full flex items-center justify-center gap-2">
+                        <div className="strat-node n1 size-3 bg-indigo-400 rounded-full"></div>
+                        <div className="strat-line h-0.5 w-12 bg-indigo-500/30"></div>
+                        <div className="strat-node n2 size-3 bg-indigo-400 rounded-full"></div>
+                        <div className="strat-line h-0.5 w-12 bg-indigo-500/30"></div>
+                        <div className="strat-node n3 size-3 bg-indigo-400 rounded-full"></div>
+                    </div>
+                );
+            case 'custom-ui-ux':
+                return (
+                    <div className="uiux-layer-1 relative h-full flex items-center justify-center gap-4">
+                        <div className="skeleton-card w-24 h-16 border border-dashed border-pink-500/30 rounded-xl flex flex-col justify-between p-2">
+                            <div className="h-1 w-8 bg-pink-500/20 rounded"></div>
+                            <div className="h-2 w-16 bg-pink-500/20 rounded"></div>
+                            <div className="h-2 w-10 bg-pink-500/20 rounded"></div>
+                        </div>
+                        <div className="skeleton-circle size-10 border border-dashed border-pink-500/30 rounded-full"></div>
+                    </div>
+                );
+            case 'seo-analytics-setup':
+                return (
+                    <div className="seo-layer-1 relative h-full flex items-center justify-center">
+                        <div className="crawler-spider size-6 bg-amber-500/10 border border-amber-500/30 rounded-full flex items-center justify-center"><Search size={10} className="text-amber-400" /></div>
+                        <svg className="absolute inset-0 w-full h-full">
+                            <path className="spider-web stroke-amber-500/20 fill-none" strokeWidth="1" d="M 20 20 L 100 100 M 180 20 L 100 100 M 20 180 L 100 100 M 180 180 L 100 100" />
+                        </svg>
+                    </div>
+                );
+            case 'ai-automation':
+                return (
+                    <div className="ai-layer-1 relative h-full flex items-center justify-center gap-6">
+                        <div className="neural-nodes flex flex-col gap-3">
+                            <div className="neural-node size-2 bg-cyan-400 rounded-full"></div>
+                            <div className="neural-node size-2 bg-cyan-400 rounded-full"></div>
+                        </div>
+                        <div className="neural-nodes flex flex-col gap-3">
+                            <div className="neural-node size-2 bg-purple-400 rounded-full"></div>
+                            <div className="neural-node size-2 bg-purple-400 rounded-full"></div>
+                            <div className="neural-node size-2 bg-purple-400 rounded-full"></div>
+                        </div>
+                        <div className="neural-nodes flex flex-col gap-3">
+                            <div className="neural-node size-2 bg-pink-400 rounded-full"></div>
+                            <div className="neural-node size-2 bg-pink-400 rounded-full"></div>
+                        </div>
+                    </div>
+                );
+            default:
+                return (
+                    <>
+                        <div className="mesh-grid"></div>
+                        <div className="interaction-point p1" style={{ borderColor: service.accentColor }}></div>
+                        <div className="interaction-point p2" style={{ borderColor: service.accentColor }}></div>
+                    </>
+                );
+        }
+    };
+
+    const renderLayer2 = () => {
+        switch (serviceId) {
+            case 'web-development':
+                return (
+                    <div className="web-dev-layer-2 relative h-full flex items-center justify-center p-4">
+                        <div className="grid-container w-full h-24 border border-dashed border-cyan-500/20 rounded-xl grid grid-cols-3 gap-2 p-2">
+                            <div className="grid-box bg-cyan-500/5 border border-cyan-500/10 rounded-lg"></div>
+                            <div className="grid-box bg-cyan-500/5 border border-cyan-500/10 rounded-lg col-span-2"></div>
+                        </div>
+                    </div>
+                );
+            case 'software-engineering':
+                return (
+                    <div className="soft-eng-layer-2 relative h-full flex items-center justify-center gap-6">
+                        <div className="db-master size-12 border border-purple-500/30 bg-purple-500/10 rounded-xl flex flex-col items-center justify-center text-[7px] text-purple-300">
+                            <Database size={12} />
+                            Master
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="db-replica w-12 h-5 border border-white/10 bg-white/5 rounded flex items-center justify-center text-[6px] text-zinc-400">Replica 1</div>
+                            <div className="db-replica w-12 h-5 border border-white/10 bg-white/5 rounded flex items-center justify-center text-[6px] text-zinc-400">Replica 2</div>
+                        </div>
+                    </div>
+                );
+            case 'technical-support':
+                return (
+                    <div className="tech-sup-layer-2 relative h-full flex items-center justify-center gap-4">
+                        <div className="host-server size-10 border border-white/10 bg-white/5 rounded flex items-center justify-center text-[7px] text-zinc-400">Active</div>
+                        <div className="sync-indicator size-3 border border-emerald-500/30 rounded-full flex items-center justify-center"><Activity size={8} className="text-emerald-400" /></div>
+                        <div className="backup-server size-10 border border-emerald-500/20 bg-emerald-500/5 rounded flex items-center justify-center text-[7px] text-emerald-400">Backup</div>
+                    </div>
+                );
+            case 'it-consultation':
+                return (
+                    <div className="it-consult-layer-2 relative h-full flex items-center justify-center p-4">
+                        <div className="stack-grid grid grid-cols-2 gap-2 w-full max-w-[140px]">
+                            <div className="stack-block h-6 bg-indigo-500/10 border border-indigo-500/20 rounded flex items-center justify-center text-[7px] text-indigo-300">Spring</div>
+                            <div className="stack-block h-6 bg-indigo-500/10 border border-indigo-500/20 rounded flex items-center justify-center text-[7px] text-indigo-300">Node</div>
+                            <div className="stack-block h-6 bg-indigo-500/10 border border-indigo-500/20 rounded flex items-center justify-center text-[7px] text-indigo-300 col-span-2">React / Next</div>
+                        </div>
+                    </div>
+                );
+            case 'custom-ui-ux':
+                return (
+                    <div className="uiux-layer-2 relative h-full flex flex-col items-center justify-center gap-2">
+                        <div className="palette flex gap-2">
+                            <div className="color-swatch size-4 bg-pink-500 rounded-full"></div>
+                            <div className="color-swatch size-4 bg-purple-500 rounded-full"></div>
+                            <div className="color-swatch size-4 bg-cyan-500 rounded-full"></div>
+                        </div>
+                        <div className="font-outfit text-[8px] font-bold text-white tracking-widest uppercase">Visual Tokens</div>
+                    </div>
+                );
+            case 'seo-analytics-setup':
+                return (
+                    <div className="seo-layer-2 relative h-full flex flex-col items-center justify-center gap-2 w-full p-4">
+                        <div className="flex justify-between w-full text-[7px] text-zinc-500 font-mono">
+                            <span>PAGEVIEWS</span>
+                            <span>94% MOB</span>
+                        </div>
+                        <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden">
+                            <div className="seo-progress bg-amber-500 h-full w-[85%] rounded-full"></div>
+                        </div>
+                    </div>
+                );
+            case 'ai-automation':
+                return (
+                    <div className="ai-layer-2 relative h-full flex flex-col items-center justify-center gap-2 p-2">
+                        <div className="rag-doc border border-cyan-500/30 bg-cyan-500/10 p-2 rounded text-[7px] text-cyan-300 font-mono w-24 text-center">
+                            doc_chunk_3.txt
+                        </div>
+                        <div className="flex gap-1 text-[6px] text-zinc-500 font-mono">
+                            <span>[0.12,</span><span>-0.89,</span><span>0.56]</span>
+                        </div>
+                    </div>
+                );
+            default:
+                return (
+                    <div className="ui-elements">
+                        <div className="ui-box card"></div>
+                        <div className="ui-box bar"></div>
+                        <div className="ui-box circle"></div>
+                    </div>
+                );
+        }
+    };
+
+    const renderLayer3 = () => {
+        switch (serviceId) {
+            case 'web-development':
+                return (
+                    <div className="web-dev-layer-3 relative h-full flex flex-col items-center justify-center gap-2">
+                        <div className="data-flow w-20 h-1 bg-cyan-500/10 rounded-full overflow-hidden relative">
+                            <div className="flow-bullet size-1.5 bg-cyan-400 rounded-full absolute"></div>
+                        </div>
+                        <div className="api-tag font-mono text-[7px] text-zinc-500 uppercase">GET /api/v1/hydrate</div>
+                    </div>
+                );
+            case 'software-engineering':
+                return (
+                    <div className="soft-eng-layer-3 relative h-full flex flex-col items-center justify-center gap-2">
+                        <div className="queue-line flex gap-1 bg-purple-500/5 p-1 rounded border border-purple-500/10">
+                            <div className="msg-cell size-3 bg-purple-500/20 rounded-sm"></div>
+                            <div className="msg-cell size-3 bg-purple-500/20 rounded-sm"></div>
+                            <div className="msg-cell size-3 bg-purple-500/20 rounded-sm"></div>
+                        </div>
+                        <div className="api-tag font-mono text-[7px] text-zinc-500 uppercase">Kafka Message Queue</div>
+                    </div>
+                );
+            case 'technical-support':
+                return (
+                    <div className="tech-sup-layer-3 relative h-full flex flex-col items-center justify-center gap-2">
+                        <svg className="w-24 h-8" viewBox="0 0 100 30">
+                            <path className="heartbeat-path stroke-emerald-400 fill-none" strokeWidth="1.5" d="M 0 15 L 20 15 L 25 5 L 30 25 L 35 15 L 55 15 L 60 5 L 65 25 L 70 15 L 100 15" />
+                        </svg>
+                        <div className="api-tag font-mono text-[7px] text-zinc-500 uppercase">Uptime Pulse Monitor</div>
+                    </div>
+                );
+            case 'it-consultation':
+                return (
+                    <div className="it-consult-layer-3 relative h-full flex flex-col items-center justify-center gap-2">
+                        <div className="globe-icon-box text-indigo-400 animate-[spin_20s_linear_infinite]"><Globe size={18} /></div>
+                        <div className="api-tag font-mono text-[7px] text-zinc-500 uppercase">Global Scale Route</div>
+                    </div>
+                );
+            case 'custom-ui-ux':
+                return (
+                    <div className="uiux-layer-3 relative h-full flex items-center justify-center">
+                        <div className="click-trigger size-8 bg-pink-500/20 border border-pink-500/40 rounded-xl flex items-center justify-center cursor-pointer text-pink-400 hover:scale-105 transition">
+                            <MousePointer2 size={12} />
+                        </div>
+                        <div className="ripple-ring size-4 border border-pink-500/50 rounded-full absolute opacity-0"></div>
+                    </div>
+                );
+            case 'seo-analytics-setup':
+                return (
+                    <div className="seo-layer-3 relative h-full flex flex-col items-center justify-center gap-2">
+                        <div className="flex gap-2">
+                            <div className="tag-box px-1.5 py-0.5 border border-amber-500/30 bg-amber-500/10 text-[6px] text-amber-400 font-mono rounded">GTM_TAG</div>
+                            <div className="tag-box px-1.5 py-0.5 border border-amber-500/30 bg-amber-500/10 text-[6px] text-amber-400 font-mono rounded">GA4_MEASURE</div>
+                        </div>
+                        <div className="api-tag font-mono text-[7px] text-zinc-500 uppercase">Container Execution</div>
+                    </div>
+                );
+            case 'ai-automation':
+                return (
+                    <div className="ai-layer-3 relative h-full flex flex-col items-center justify-center gap-2">
+                        <div className="agent-loop size-10 border border-cyan-400/30 rounded-full flex items-center justify-center relative">
+                            <div className="orbit-particle size-2 bg-cyan-400 rounded-full absolute"></div>
+                            <Cpu size={12} className="text-cyan-400" />
+                        </div>
+                        <div className="api-tag font-mono text-[6px] text-zinc-500 uppercase">Perceive-Plan-Act Loop</div>
+                    </div>
+                );
+            default:
+                return (
+                    <div className="logic-nodes">
+                        <div className="node n1" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
+                        <div className="node n2" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
+                        <div className="node n3" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
+                        <div className="node n4" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
+                    </div>
+                );
+        }
+    };
 
     return (
         <div className="ux-visualizer-container">
@@ -53,31 +498,7 @@ const UX3DVisualizer = ({ service }) => {
                             style={{ borderColor: activeLayer === 1 ? service.accentColor : 'rgba(255,255,255,0.05)' }}
                         >
                             <div className="layer-label" style={{ color: service.accentColor }}>{data[1].title}</div>
-                            
-                            {isWebDev ? (
-                                <div className="web-dev-layer-1">
-                                    <div className="code-tag t1">&lt;div&gt;</div>
-                                    <div className="code-tag t2">&lt;section&gt;</div>
-                                    <div className="code-tag t3">&lt;canvas /&gt;</div>
-                                    <div className="dom-node d1"></div>
-                                    <div className="dom-node d2"></div>
-                                    <div className="dom-node d3"></div>
-                                </div>
-                            ) : isITConsult ? (
-                                <div className="it-consult-layer-1">
-                                    <div className="strategy-node s1"></div>
-                                    <div className="strategy-node s2"></div>
-                                    <div className="strategy-line"></div>
-                                    <div className="roadmap-point r1"></div>
-                                    <div className="roadmap-point r2"></div>
-                                </div>
-                            ) : (
-                                <>
-                                    <div className="mesh-grid"></div>
-                                    <div className="interaction-point p1" style={{ borderColor: service.accentColor }}></div>
-                                    <div className="interaction-point p2" style={{ borderColor: service.accentColor }}></div>
-                                </>
-                            )}
+                            {renderLayer1()}
                         </div>
 
                         {/* Layer 2: Evolution/Visual */}
@@ -87,31 +508,7 @@ const UX3DVisualizer = ({ service }) => {
                             style={{ borderColor: activeLayer === 2 ? service.accentColor : 'rgba(255,255,255,0.05)' }}
                         >
                             <div className="layer-label" style={{ color: service.accentColor }}>{data[2].title}</div>
-                            
-                            {isWebDev ? (
-                                <div className="web-dev-layer-2">
-                                    <div className="css-grid-lines">
-                                        <div className="line-v"></div>
-                                        <div className="line-v"></div>
-                                        <div className="line-h"></div>
-                                    </div>
-                                    <div className="style-property s1">display: flex;</div>
-                                    <div className="style-property s2">gap: 20px;</div>
-                                </div>
-                            ) : isITConsult ? (
-                                <div className="it-consult-layer-2">
-                                    <div className="stack-block b1"></div>
-                                    <div className="stack-block b2"></div>
-                                    <div className="stack-block b3"></div>
-                                    <div className="connection-mesh"></div>
-                                </div>
-                            ) : (
-                                <div className="ui-elements">
-                                    <div className="ui-box card"></div>
-                                    <div className="ui-box bar"></div>
-                                    <div className="ui-box circle"></div>
-                                </div>
-                            )}
+                            {renderLayer2()}
                         </div>
 
                         {/* Layer 3: Transformation/Logic */}
@@ -121,37 +518,7 @@ const UX3DVisualizer = ({ service }) => {
                             style={{ borderColor: activeLayer === 3 ? service.accentColor : 'rgba(255,255,255,0.05)' }}
                         >
                             <div className="layer-label" style={{ color: service.accentColor }}>{data[3].title}</div>
-                            
-                            {isWebDev ? (
-                                <div className="web-dev-layer-3">
-                                    <div className="data-stream">
-                                        <div className="stream-particle"></div>
-                                        <div className="stream-particle"></div>
-                                        <div className="stream-particle"></div>
-                                    </div>
-                                    <div className="api-call">GET /api/v1/deploy</div>
-                                    <div className="logic-nodes">
-                                        <div className="node n1" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
-                                        <div className="node n2" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
-                                    </div>
-                                </div>
-                            ) : isITConsult ? (
-                                <div className="it-consult-layer-3">
-                                    <div className="global-pulse"></div>
-                                    <div className="enterprise-mesh">
-                                        <div className="e-node en1"></div>
-                                        <div className="e-node en2"></div>
-                                        <div className="e-node en3"></div>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="logic-nodes">
-                                    <div className="node n1" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
-                                    <div className="node n2" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
-                                    <div className="node n3" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
-                                    <div className="node n4" style={{ background: service.accentColor, boxShadow: `0 0 15px ${service.accentColor}` }}></div>
-                                </div>
-                            )}
+                            {renderLayer3()}
                         </div>
                     </div>
                 </div>
@@ -217,123 +584,96 @@ const UX3DVisualizer = ({ service }) => {
                 .layer-1 { transform: translateZ(120px); }
                 .layer-2 { transform: translateZ(60px); opacity: 0.8; }
                 /* IT Consultation Specialized Visuals */
-                .it-consult-layer-1 { position: relative; width: 100%; height: 100%; }
-                .strategy-node { 
-                    position: absolute; width: 15px; height: 15px; border-radius: 50%; 
-                    background: ${service.accentColor}; box-shadow: 0 0 15px ${service.accentColor};
-                }
-                .s1 { top: 20%; left: 20%; }
-                .s2 { top: 70%; left: 80%; }
-                .strategy-line { 
-                    position: absolute; top: 25%; left: 25%; width: 60%; height: 2px; 
-                    background: linear-gradient(to right, ${service.accentColor}, transparent);
-                    transform: rotate(35deg); transform-origin: left;
-                    animation: strategy-flow 2s infinite linear;
-                }
-                .roadmap-point {
-                    position: absolute; width: 8px; height: 8px; background: #fff; border-radius: 50%;
-                }
-                .r1 { top: 40%; left: 45%; }
-                .r2 { top: 55%; left: 65%; }
-
-                .it-consult-layer-2 { position: relative; width: 100%; height: 100%; display: flex; gap: 15px; align-items: center; justify-content: center; }
-                .stack-block { 
-                    width: 40px; height: 60px; background: rgba(255,255,255,0.05); 
-                    border: 1px solid ${service.accentColor}; border-radius: 4px;
-                    transition: 0.5s;
-                }
-                .b1 { transform: translateY(-10px); }
-                .b3 { transform: translateY(10px); }
-                .it-consult-layer-2:hover .stack-block { transform: scale(1.1); background: ${service.accentColor}20; }
-
-                .it-consult-layer-3 { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-                .global-pulse {
-                    position: absolute; width: 100px; height: 100px; border: 2px solid ${service.accentColor};
-                    border-radius: 50%; animation: ping 3s infinite cubic-bezier(0, 0, 0.2, 1);
-                }
-                .enterprise-mesh { position: relative; z-index: 2; display: flex; gap: 20px; }
-                .e-node { 
-                    width: 12px; height: 12px; background: #fff; border-radius: 2px;
-                    animation: node-pulse 2s infinite ease-in-out;
-                }
-                .en2 { animation-delay: 0.5s; }
-                .en3 { animation-delay: 1s; }
-
-                @keyframes strategy-flow {
-                    0% { opacity: 0.2; transform: rotate(35deg) scaleX(0); }
-                    50% { opacity: 1; transform: rotate(35deg) scaleX(1); }
-                    100% { opacity: 0.2; transform: rotate(35deg) scaleX(0); }
-                }
-
-                @keyframes node-pulse {
-                    0%, 100% { transform: scale(1); opacity: 0.5; }
-                    50% { transform: scale(1.5); opacity: 1; }
-                }
-
-                @keyframes ping {
-                    75%, 100% { transform: scale(2); opacity: 0; }
-                }
-                .layer-3 { transform: translateZ(0); opacity: 0.6; }
-
-                .ux-layer.active {
-                    background: rgba(255, 255, 255, 0.03);
-                    border-color: rgba(255, 255, 255, 0.4);
-                    transform: translateZ(150px) translateY(-20px);
-                    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
-                    opacity: 1;
-                }
-
-                .layer-label {
-                    font-size: 0.7rem;
-                    font-weight: 900;
-                    letter-spacing: 3px;
-                    margin-bottom: 24px;
-                    text-transform: uppercase;
-                }
-                
-                /* Generic Visuals */
-                .mesh-grid { flex: 1; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 25px 25px; }
-                .interaction-point { position: absolute; width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.02); border: 1px solid #fff; opacity: 0; animation: pulse 3s infinite; }
-                .p1 { top: 30%; left: 30%; animation-delay: 0s; }
-                .p2 { bottom: 20%; right: 40%; animation-delay: 1.5s; }
-                @keyframes pulse { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
-
-                /* Web Dev Specific Visuals */
-                .web-dev-layer-1 { position: relative; flex: 1; }
+                /* Custom Service Visualizer Styles */
+                /* Web Dev Specific */
+                .web-dev-layer-1 { position: relative; width: 100%; height: 100%; }
                 .code-tag { position: absolute; font-family: monospace; font-size: 0.6rem; color: ${service.accentColor}; opacity: 0.6; }
                 .t1 { top: 10%; left: 10%; }
                 .t2 { top: 40%; right: 10%; }
                 .t3 { bottom: 10%; left: 20%; }
-                .dom-node { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 2px; }
-                .d1 { top: 20%; left: 50%; } .d2 { top: 50%; left: 30%; } .d3 { top: 70%; left: 60%; }
+                .dom-node { position: absolute; width: 8px; height: 8px; background: #fff; border-radius: 2px; }
+                .d1 { top: 25%; left: 50%; } .d2 { top: 55%; left: 30%; } .d3 { top: 75%; left: 60%; }
 
-                .web-dev-layer-2 { position: relative; flex: 1; }
-                .css-grid-lines { position: absolute; inset: 0; border: 1px dashed rgba(255,255,255,0.1); }
-                .line-v { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.05); }
-                .line-v:nth-child(1) { left: 33.33%; }
-                .line-v:nth-child(2) { left: 66.66%; }
-                .line-h { position: absolute; left: 0; right: 0; height: 1px; top: 50%; background: rgba(255,255,255,0.05); }
-                .style-property { position: absolute; font-family: monospace; font-size: 0.5rem; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
-                .s1 { top: 20%; left: 10%; } .s2 { bottom: 20%; right: 10%; }
+                .web-dev-layer-2 { position: relative; width: 100%; height: 100%; }
+                .grid-container { width: 100%; height: 100%; min-height: 80px; }
+                .grid-box { transition: background 0.3s; }
 
-                .web-dev-layer-3 { position: relative; flex: 1; }
-                .data-stream { position: absolute; width: 100%; height: 100%; }
-                .stream-particle { position: absolute; width: 4px; height: 4px; background: ${service.accentColor}; border-radius: 50%; animation: stream 2s linear infinite; }
-                .stream-particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-                .stream-particle:nth-child(2) { left: 50%; animation-delay: 0.7s; }
-                .stream-particle:nth-child(3) { left: 80%; animation-delay: 1.4s; }
-                @keyframes stream { from { top: -10%; opacity: 0; } 50% { opacity: 1; } to { top: 110%; opacity: 0; } }
-                .api-call { position: absolute; bottom: 10px; width: 100%; text-align: center; font-family: monospace; font-size: 0.6rem; color: #94a3b8; }
+                .web-dev-layer-3 { position: relative; width: 100%; height: 100%; }
+                .data-flow { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); }
+                .flow-bullet { left: 0; top: -1px; }
 
-                .ui-elements { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-                .ui-box { background: rgba(255, 255, 255, 0.05); border-radius: 8px; height: 30px; }
-                .ui-box.card { grid-column: span 3; height: 100px; }
-                .ui-box.bar { grid-column: span 4; height: 10px; }
-                .ui-box.circle { width: 30px; border-radius: 50%; }
+                /* Software Engineering Specific */
+                .soft-eng-layer-1 { position: relative; width: 100%; height: 100%; }
+                .load-balancer { transition: all 0.3s; }
+                .worker-node { transition: all 0.3s; }
+                .packet { transition: transform 0.1s; }
 
-                .logic-nodes { position: relative; flex: 1; }
-                .node { position: absolute; width: 12px; height: 12px; border-radius: 50%; }
-                .n1 { top: 20%; left: 20%; } .n2 { top: 20%; right: 20%; } .n3 { bottom: 20%; left: 20%; } .n4 { bottom: 20%; right: 20%; }
+                .soft-eng-layer-2 { position: relative; width: 100%; height: 100%; }
+                .db-master { transition: all 0.3s; }
+                .db-replica { transition: all 0.3s; border: 1px solid rgba(255,255,255,0.05); }
+
+                .soft-eng-layer-3 { position: relative; width: 100%; height: 100%; }
+                .queue-line { transition: background 0.3s; }
+                .msg-cell { transition: opacity 0.3s; }
+
+                /* Technical Support Specific */
+                .tech-sup-layer-1 { position: relative; width: 100%; height: 100%; }
+                .shield-ring { transition: all 0.3s; }
+                .threat-particle { filter: drop-shadow(0 0 4px #f43f5e); }
+
+                .tech-sup-layer-2 { position: relative; width: 100%; height: 100%; }
+                .host-server, .backup-server { transition: all 0.3s; }
+                .sync-indicator { transition: transform 0.3s; }
+
+                .tech-sup-layer-3 { position: relative; width: 100%; height: 100%; }
+                .heartbeat-path { stroke-dasharray: 200; stroke-dashoffset: 0; }
+
+                /* IT Consultation Specific */
+                .it-consult-layer-1 { position: relative; width: 100%; height: 100%; }
+                .strat-node { transition: all 0.3s; box-shadow: 0 0 10px rgba(99, 102, 241, 0.4); }
+                .strat-line { transition: background 0.3s; }
+
+                .it-consult-layer-2 { position: relative; width: 100%; height: 100%; }
+                .stack-grid { transition: all 0.3s; }
+                .stack-block { transition: all 0.3s; }
+
+                .it-consult-layer-3 { position: relative; width: 100%; height: 100%; }
+                .globe-icon-box { transition: transform 0.3s; }
+
+                /* UIUX Specific */
+                .uiux-layer-1 { position: relative; width: 100%; height: 100%; }
+                .skeleton-card { border-style: dashed; }
+                .skeleton-circle { border-style: dashed; }
+
+                .uiux-layer-2 { position: relative; width: 100%; height: 100%; }
+                .color-swatch { transition: transform 0.3s; }
+
+                .uiux-layer-3 { position: relative; width: 100%; height: 100%; }
+                .click-trigger { transition: all 0.3s; }
+                .ripple-ring { transition: all 0.3s; transform: translate(-50%, -50%); top: 50%; left: 50%; }
+
+                /* SEO Specific */
+                .seo-layer-1 { position: relative; width: 100%; height: 100%; }
+                .crawler-spider { transition: all 0.3s; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+
+                .seo-layer-2 { position: relative; width: 100%; height: 100%; }
+                .seo-progress { transition: width 0.3s; }
+
+                .seo-layer-3 { position: relative; width: 100%; height: 100%; }
+                .tag-box { transition: all 0.3s; }
+
+                /* AI Specific */
+                .ai-layer-1 { position: relative; width: 100%; height: 100%; }
+                .neural-node { transition: background 0.3s; }
+
+                .ai-layer-2 { position: relative; width: 100%; height: 100%; }
+                .rag-doc { transition: all 0.3s; }
+
+                .ai-layer-3 { position: relative; width: 100%; height: 100%; }
+                .agent-loop { transition: all 0.3s; }
+                .orbit-particle { transition: transform 0.1s; filter: drop-shadow(0 0 4px #22d3ee); }
+
+                .api-tag { font-family: monospace; font-size: 0.6rem; color: #94a3b8; }
 
                 .layer-description-box {
                     padding: 40px;
