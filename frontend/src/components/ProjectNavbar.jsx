@@ -22,7 +22,7 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
 
     const scrollY = propScrollY !== undefined ? propScrollY : localScrollY;
     const isScrolled = propScrollY !== undefined ? propScrollY > 20 : scrolled;
-    const t = propScrollY !== undefined ? Math.min(1, propScrollY / 320) : 1;
+    const t = 1;
 
     // Close menu when route changes
     useEffect(() => {
@@ -34,12 +34,12 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
             <nav className={`project-navbar ${isScrolled ? 'scrolled' : ''} ${propScrollY !== undefined ? 'light-theme' : ''}`}>
                 <div className="nav-container">
                     <div className="nav-logo-section" onClick={() => navigate('/')}>
-                        <div className="nav-logo-box" style={{ opacity: t, transform: `scale(${0.8 + t * 0.2})`, transition: 'opacity 0.2s ease, transform 0.2s ease' }}>
+                        <div className="nav-logo-box">
                             <Logo variant="icon" size="32px" className="company-logo-svg" />
                         </div>
                         <div className="logo-text">
-                            <span className="brand-name" style={{ opacity: propScrollY !== undefined ? 0 : 1, visibility: propScrollY !== undefined ? 'hidden' : 'visible' }}>VP GROUP</span>
-                            <span className="brand-sub" style={{ opacity: t, transition: 'opacity 0.2s ease' }}>ENGINEERING</span>
+                            <span className="brand-name">VP GROUP</span>
+                            <span className="brand-sub">ENGINEERING</span>
                         </div>
                     </div>
                     
@@ -456,6 +456,9 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     background: rgba(246, 245, 242, 0.85);
                     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+                }
+                .project-navbar.light-theme .logo-text .brand-name {
+                    color: #000000;
                 }
                 .project-navbar.light-theme .logo-text .brand-sub {
                     color: #5C6170;

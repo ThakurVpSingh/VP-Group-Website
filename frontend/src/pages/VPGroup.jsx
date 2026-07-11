@@ -19,6 +19,338 @@ import Footer from '../components/Footer';
 
 const H = { font: "'Inter', sans-serif", mono: "'JetBrains Mono', ui-monospace, monospace" };
 
+const serviceNodesDef = [
+  { id: 1, label: 'React UI', service: 'Web Development', route: '/services/web-development', desc: 'Fluid, interactive web interfaces and custom component design systems.', rx: 0.18, ry: 0.22, radius: 46, color: '#ff4ef0' },
+  { id: 2, label: 'AI Agent', service: 'AI Automation', route: '/services/ai-automation', desc: 'Autonomous LLM agent integrations, RAG knowledge retrieval, and custom workflows.', rx: 0.46, ry: 0.16, radius: 52, color: '#8b5cf6' },
+  { id: 3, label: 'Zero-Trust', service: 'Cybersecurity', desc: 'Enterprise security firewalls, identity providers, and permission gateways.', rx: 0.78, ry: 0.22, radius: 54, color: '#22d3ee' },
+  { id: 4, label: 'API Gateway', service: 'Software Engineering', route: '/services/software-engineering', desc: 'Mission-critical serverless backends and microservice pipelines.', rx: 0.32, ry: 0.58, radius: 56, color: '#3b82f6' },
+  { id: 5, label: 'GA4 Analytics', service: 'SEO & Growth', desc: 'Google Analytics, indexation setup, and user conversion funnels.', rx: 0.64, ry: 0.52, radius: 48, color: '#10b981' },
+  { id: 6, label: 'Data Lake', service: 'Data Pipelines', desc: 'BigQuery ELT pipelines, cloud storage sync, and analytics databases.', rx: 0.86, ry: 0.56, radius: 50, color: '#f59e0b' }
+];
+
+const connections = [
+  { from: 1, to: 4 },
+  { from: 4, to: 6 },
+  { from: 2, to: 6 },
+  { from: 2, to: 4 },
+  { from: 3, to: 4 },
+  { from: 5, to: 1 }
+];
+
+const ServiceNetwork = ({ navigate }) => {
+  const containerRef = useRef(null);
+  const canvasRef = useRef(null);
+  const tooltipRef = useRef(null);
+  const [hoveredNode, setHoveredNode] = useState(null);
+
+  // Refs for tracking mouse positions with damping
+  const targetMousePosRef = useRef({ x: -9999, y: -9999 });
+  const currentMousePosRef = useRef({ x: -9999, y: -9999 });
+
+  const nodesRef = useRef(
+    serviceNodesDef.map(n => ({
+      ...n,
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+    }))
+  );
+
+  const pulsesRef = useRef(
+    connections.map((c) => ({
+      ...c,
+      progress: Math.random(),
+      speed: 0.003 + Math.random() * 0.004
+    }))
+  );
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+
+    const resizeCanvas = () => {
+      const rect = containerRef.current.getBoundingClientRect();
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    };
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const animate = (time) => {
+      const rect = containerRef.current.getBoundingClientRect();
+      
+      // Stop rendering if section is scrolled completely out of view to save GPU cycles
+      if (rect.bottom < 0) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+
+      const width = rect.width;
+      const height = rect.height;
+      const scaleFactor = width < 768 ? 0.65 : 1.0;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Smoothly update current mouse position towards target mouse position (liquid damping)
+      const targetMouse = targetMousePosRef.current;
+      const currentMouse = currentMousePosRef.current;
+      if (targetMouse.x === -9999) {
+        currentMouse.x = -9999;
+        currentMouse.y = -9999;
+      } else {
+        if (currentMouse.x === -9999) {
+          currentMouse.x = targetMouse.x;
+          currentMouse.y = targetMouse.y;
+        } else {
+          currentMouse.x += (targetMouse.x - currentMouse.x) * 0.08;
+          currentMouse.y += (targetMouse.y - currentMouse.y) * 0.08;
+        }
+      }
+
+      // 1. Update node physics & target positions
+      const nodes = nodesRef.current;
+      nodes.forEach((node) => {
+        const tx = node.rx * width;
+        const ty = node.ry * height;
+
+        // Drift logic
+        const driftX = Math.sin(time * 0.001 + node.id) * 12;
+        const driftY = Math.cos(time * 0.0012 + node.id) * 10;
+
+        // Mouse interaction force (using damped mousePos)
+        let fx = 0;
+        let fy = 0;
+        if (currentMouse.x !== -9999) {
+          const dx = currentMouse.x - (tx + driftX);
+          const dy = currentMouse.y - (ty + driftY);
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const attractionRadius = 220 * scaleFactor;
+          const repelRadius = 70 * scaleFactor;
+
+          if (dist < attractionRadius) {
+            const force = (attractionRadius - dist) / attractionRadius;
+            fx += (dx / dist) * force * 1.5;
+            fy += (dy / dist) * force * 1.5;
+
+            if (dist < repelRadius) {
+              const repel = (repelRadius - dist) / repelRadius;
+              fx -= (dx / dist) * repel * 4.0;
+              fy -= (dy / dist) * repel * 4.0;
+            }
+          }
+        }
+
+        // Apply forces with damping
+        node.vx = node.vx * 0.88 + fx;
+        node.vy = node.vy * 0.88 + fy;
+
+        node.x = tx + driftX + node.vx;
+        node.y = ty + driftY + node.vy;
+      });
+
+      // 2. Draw connections
+      const pulses = pulsesRef.current;
+      ctx.lineWidth = 1.5 * scaleFactor;
+      connections.forEach((conn, index) => {
+        const fromNode = nodes.find(n => n.id === conn.from);
+        const toNode = nodes.find(n => n.id === conn.to);
+        if (!fromNode || !toNode) return;
+
+        const grad = ctx.createLinearGradient(fromNode.x, fromNode.y, toNode.x, toNode.y);
+        grad.addColorStop(0, `${fromNode.color}22`);
+        grad.addColorStop(1, `${toNode.color}22`);
+        ctx.strokeStyle = grad;
+
+        ctx.beginPath();
+        ctx.moveTo(fromNode.x, fromNode.y);
+        ctx.lineTo(toNode.x, toNode.y);
+        ctx.stroke();
+
+        // 3. Draw pulse packet
+        const pulse = pulses[index];
+        pulse.progress += pulse.speed;
+        if (pulse.progress >= 1) {
+          pulse.progress = 0;
+          pulse.speed = 0.003 + Math.random() * 0.004;
+        }
+
+        const px = fromNode.x + (toNode.x - fromNode.x) * pulse.progress;
+        const py = fromNode.y + (toNode.y - fromNode.y) * pulse.progress;
+
+        ctx.beginPath();
+        ctx.arc(px, py, 3.5 * scaleFactor, 0, Math.PI * 2);
+        ctx.fillStyle = toNode.color;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = toNode.color;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // 4. Draw nodes
+      nodes.forEach((node) => {
+        const isHovered = hoveredNode && hoveredNode.id === node.id;
+        const rad = (isHovered ? node.radius + 4 : node.radius) * scaleFactor;
+
+        if (isHovered) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, rad + 6 * scaleFactor, 0, Math.PI * 2);
+          ctx.strokeStyle = `${node.color}33`;
+          ctx.lineWidth = 2 * scaleFactor;
+          ctx.stroke();
+        }
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, rad, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.03)';
+        ctx.shadowBlur = 15;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.strokeStyle = isHovered ? node.color : `${node.color}aa`;
+        ctx.lineWidth = isHovered ? 2.5 * scaleFactor : 1.5 * scaleFactor;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 4 * scaleFactor, 0, Math.PI * 2);
+        ctx.fillStyle = node.color;
+        ctx.fill();
+
+        ctx.fillStyle = '#000000';
+        ctx.font = `bold ${Math.floor(10 * scaleFactor)}px ${H.mono}`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(node.label, node.x, node.y + (14 * scaleFactor));
+
+        ctx.fillStyle = '#8E8E93';
+        ctx.font = `800 ${Math.floor(6 * scaleFactor)}px ${H.font}`;
+        ctx.fillText(node.service.toUpperCase(), node.x, node.y - (12 * scaleFactor));
+      });
+
+      // 5. Update HTML tooltip position dynamically
+      if (hoveredNode && tooltipRef.current) {
+        const activeNode = nodes.find(n => n.id === hoveredNode.id);
+        if (activeNode) {
+          tooltipRef.current.style.left = `${activeNode.x}px`;
+          tooltipRef.current.style.top = `${activeNode.y - (activeNode.radius * scaleFactor) - 20}px`;
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, [hoveredNode]);
+
+  const handleMouseMove = (e) => {
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    targetMousePosRef.current = { x, y };
+
+    const nodes = nodesRef.current;
+    const scaleFactor = rect.width < 768 ? 0.65 : 1.0;
+    let foundNode = null;
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      const dx = x - node.x;
+      const dy = y - node.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < node.radius * scaleFactor) {
+        foundNode = node;
+        break;
+      }
+    }
+    setHoveredNode(foundNode);
+  };
+
+  const handleMouseLeave = () => {
+    targetMousePosRef.current = { x: -9999, y: -9999 };
+    setHoveredNode(null);
+  };
+
+  const handleClick = () => {
+    if (hoveredNode) {
+      if (hoveredNode.route) {
+        navigate(hoveredNode.route);
+      } else {
+        document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 1,
+        cursor: hoveredNode ? 'pointer' : 'default',
+        overflow: 'hidden'
+      }}
+    >
+      <canvas ref={canvasRef} style={{ display: 'block' }} />
+
+      {hoveredNode && (
+        <div
+          ref={tooltipRef}
+          style={{
+            position: 'absolute',
+            left: '0px',
+            top: '0px',
+            transform: 'translate(-50%, -100%)',
+            background: 'rgba(255, 255, 255, 0.98)',
+            border: `1.5px solid ${hoveredNode.color}`,
+            borderRadius: '12px',
+            padding: '12px 16px',
+            width: '240px',
+            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.08)',
+            backdropFilter: 'blur(10px)',
+            pointerEvents: 'none',
+            zIndex: 10,
+            animation: 'fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: hoveredNode.color }} />
+            <span style={{ fontSize: '0.65rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '1px', color: '#8E8E93' }}>
+              {hoveredNode.service}
+            </span>
+          </div>
+          <h4 style={{ margin: '0 0 4px 0', fontSize: '0.85rem', fontWeight: 800, color: '#000000' }}>
+            {hoveredNode.label}
+          </h4>
+          <p style={{ margin: '0 0 8px 0', fontSize: '0.75rem', color: '#5C6170', lineHeight: 1.3 }}>
+            {hoveredNode.desc}
+          </p>
+          <div style={{ fontSize: '0.65rem', fontWeight: 800, color: hoveredNode.color, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            Click to explore details &rarr;
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default function VPGroup() {
   const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
@@ -99,25 +431,14 @@ export default function VPGroup() {
     setLoading(false);
   };
 
-  // Scroll dock calculation progress (0 to 1)
-  const t = Math.min(1, scrollY / 320);
-
-  const targetLeft = winWidth > 1400 ? (winWidth - 1400) / 2 + 82 : 82;
-  const targetScale = 18.4 / (winWidth * 0.13);
-  const scale = 1 - t * (1 - targetScale);
-
-  // Mouse parallax translate/rotations (fades to 0 when t approaches 1)
-  const mx = mousePos.x * 20 * (1 - t);
-  const my = mousePos.y * 15 * (1 - t);
-  const rx = -mousePos.y * 10 * (1 - t);
-  const ry = mousePos.x * 12 * (1 - t);
+  // Mouse parallax translate/rotations
+  const mx = mousePos.x * 25;
+  const my = mousePos.y * 18;
+  const rx = -mousePos.y * 12;
+  const ry = mousePos.x * 15;
 
   // Dynamic shadow casting from mouse position as a light source
-  const shadowX = -mousePos.x * 16 * (1 - t);
-  const shadowY = -mousePos.y * 16 * (1 - t);
-  const shadowBlur = 24 + (1 - t) * 8;
-  const shadowOpacity = 0.08 * (1 - t);
-  const textShadow = t >= 0.9 ? 'none' : `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0, 0, 0, ${shadowOpacity}), 0 4px 6px rgba(0, 0, 0, 0.03)`;
+  const textShadow = `${-mousePos.x * 20}px ${-mousePos.y * 20}px 28px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.03)`;
 
   return (
     <div style={{ minHeight: '100vh', background: '#F6F5F2', color: '#000000', fontFamily: H.font, position: 'relative', overflowX: 'hidden' }}>
@@ -125,46 +446,55 @@ export default function VPGroup() {
       {/* ── PROJECT NAVBAR ────────────────────────────────────── */}
       <ProjectNavbar scrollY={scrollY} />
 
-      {/* ── DOCKING TITLE ANIMATION ──────────────────────────── */}
-      <div style={{
-        position: 'fixed',
-        left: `calc(${50 - t * 50}% + ${t * targetLeft}px)`,
-        top: `calc(${50 - t * 50}% + ${t * 26}px)`,
-        transform: `translate(${-50 + t * 50}%, ${-50 + t * 50}%) scale(${scale})`,
-        transformOrigin: 'left top',
-        zIndex: 3500,
-        pointerEvents: 'none',
-        whiteSpace: 'nowrap',
-        perspective: '1000px'
-      }}>
-        <div style={{
-          transform: `translate3d(${mx}px, ${my}px, 0) rotateX(${rx}deg) rotateY(${ry}deg)`,
-          transformOrigin: 'center center',
-          fontFamily: H.font,
-          fontWeight: 950,
-          color: '#000000',
-          letterSpacing: '-0.04em',
-          fontSize: '13vw',
-          lineHeight: 1,
-          textShadow: textShadow,
-          transition: 'color 0.2s ease, opacity 0.2s ease !important',
-          WebkitTransition: 'color 0.2s ease, opacity 0.2s ease !important'
-        }} className="nothin-docking-title">
-          VP GROUP
-        </div>
-      </div>
-
       {/* ── MAIN CONTENT substrate ───────────────────────────────── */}
       <main style={{ position: 'relative', zIndex: 10 }}>
         
         {/* ── HERO SECTION ────────────────────────────────────────── */}
-        {/* Structured with a top spacer so the centered fixed title doesn't overlap content at Y = 0 */}
-        <section style={{ minHeight: '120vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '100px 24px 140px', boxSizing: 'border-box' }}>
-          
-          {/* Top spacer matching the title area */}
-          <div style={{ height: '45vh' }} />
+        <section style={{ 
+          minHeight: '100vh', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          justifyContent: 'space-between', 
+          padding: '120px 24px 80px', 
+          boxSizing: 'border-box',
+          position: 'relative'
+        }}>
+          {/* Interactive service-network background */}
+          <ServiceNetwork navigate={navigate} />
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', maxWidth: '1200px', margin: '0 auto' }} className="nothin-grid-2">
+          {/* Spacer to push title down from navbar */}
+          <div style={{ height: '40px', position: 'relative', zIndex: 2 }} />
+
+          {/* Giant 3D Movable Title */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            flex: 1,
+            perspective: '1000px',
+            pointerEvents: 'none',
+            position: 'relative',
+            zIndex: 2,
+            margin: '40px 0'
+          }}>
+            <div style={{
+              transform: `translate3d(${mx}px, ${my}px, 0) rotateX(${rx}deg) rotateY(${ry}deg)`,
+              transformOrigin: 'center center',
+              fontFamily: H.font,
+              fontWeight: 950,
+              color: '#000000',
+              letterSpacing: '-0.04em',
+              fontSize: '13vw',
+              lineHeight: 1,
+              textShadow: textShadow,
+              whiteSpace: 'nowrap'
+            }}>
+              VP GROUP
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 2 }} className="nothin-grid-2">
             <div>
               <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 24px 0', color: '#000000' }}>
                 Web & Software<br />
@@ -628,6 +958,17 @@ export default function VPGroup() {
           }
           .home-desktop-only {
             display: none !important;
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -90%) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, -100%) scale(1);
           }
         }
       `}</style>
