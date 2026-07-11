@@ -38,6 +38,7 @@ const SystemVisualization = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     let animationFrameId;
 
     const resizeCanvas = () => {
@@ -47,14 +48,15 @@ const SystemVisualization = () => {
       canvas.height = rect.height * window.devicePixelRatio;
       canvas.style.width = `${rect.width}px`;
       canvas.style.height = `${rect.height}px`;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     };
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    const w = canvas.width / window.devicePixelRatio;
-    const h = canvas.height / window.devicePixelRatio;
+    const w = Math.max(100, canvas.width / window.devicePixelRatio);
+    const h = Math.max(100, canvas.height / window.devicePixelRatio);
 
     // Initialize floating syntax/registry items
     const vocab = [
@@ -110,15 +112,15 @@ const SystemVisualization = () => {
         return;
       }
 
-      const wCurr = rect.width;
-      const hCurr = rect.height;
+      const wCurr = Math.max(100, rect.width);
+      const hCurr = Math.max(100, rect.height);
       
       // Handle resizing if bounds change
-      if (canvas.style.width !== `${wCurr}px` || canvas.style.height !== `${hCurr}px`) {
-        canvas.width = wCurr * window.devicePixelRatio;
-        canvas.height = hCurr * window.devicePixelRatio;
-        canvas.style.width = `${wCurr}px`;
-        canvas.style.height = `${hCurr}px`;
+      if (canvas.style.width !== `${rect.width}px` || canvas.style.height !== `${rect.height}px`) {
+        canvas.width = rect.width * window.devicePixelRatio;
+        canvas.height = rect.height * window.devicePixelRatio;
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
       }
@@ -206,6 +208,7 @@ const SystemVisualization = () => {
       // Draw and decay active memory cells
       Object.keys(memoryCellsRef.current).forEach((key) => {
         const cell = memoryCellsRef.current[key];
+        if (!cell) return;
         const [cStr, rStr] = key.split(',');
         const col = parseInt(cStr);
         const row = parseInt(rStr);
@@ -280,6 +283,7 @@ const SystemVisualization = () => {
       // Update and draw packets
       const packets = packetsRef.current;
       packets.forEach((pkt) => {
+        if (!pkt || !pkt.path) return;
         const fromNode = calculatedNodes.find(n => n.id === pkt.path.from);
         const toNode = calculatedNodes.find(n => n.id === pkt.path.to);
         if (!fromNode || !toNode) return;
@@ -309,6 +313,7 @@ const SystemVisualization = () => {
       const items = driftItemsRef.current;
       ctx.textAlign = 'left';
       items.forEach((item) => {
+        if (!item) return;
         item.y += item.speed;
         if (item.y > hCurr) {
           item.y = -20;
@@ -319,7 +324,7 @@ const SystemVisualization = () => {
           const dx = item.x - currentMouse.x;
           const dy = item.y - currentMouse.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
+          if (dist > 0 && dist < 100) {
             const force = (100 - dist) / 100;
             item.x += (dx / dist) * force * 2;
           }
@@ -414,6 +419,39 @@ export default function VPGroup() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      setScrollY(scrollPos);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus('Transmitting...');
+    
+    const result = await submitContactForm(formData, {
+        source: 'Main Landing Page'
+    });
+
+    if (result.success) {
+      setStatus('Success! Message received.');
+      alert(`Thanks for reaching out to us, ${formData.name}. We'll get back to you shortly within 24-48 hours.`);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } else {
+      setStatus(`Error: ${result.error || 'Failed'}`);
+      alert(result.error || "Submission failed. Please try again later.");
+    }
+    setLoading(false);
+  };
 
   return (
     <div style={{ minHeight: '100vh', background: '#F6F5F2', color: '#000000', fontFamily: H.font, position: 'relative', overflowX: 'hidden' }}>
