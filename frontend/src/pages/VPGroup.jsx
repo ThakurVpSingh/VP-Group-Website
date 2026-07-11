@@ -45,6 +45,20 @@ export default function VPGroup() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+      setMousePos({ x: dx, y: dy });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
@@ -92,6 +106,19 @@ export default function VPGroup() {
   const targetScale = 18.4 / (winWidth * 0.13);
   const scale = 1 - t * (1 - targetScale);
 
+  // Mouse parallax translate/rotations (fades to 0 when t approaches 1)
+  const mx = mousePos.x * 20 * (1 - t);
+  const my = mousePos.y * 15 * (1 - t);
+  const rx = -mousePos.y * 10 * (1 - t);
+  const ry = mousePos.x * 12 * (1 - t);
+
+  // Dynamic shadow casting from mouse position as a light source
+  const shadowX = -mousePos.x * 16 * (1 - t);
+  const shadowY = -mousePos.y * 16 * (1 - t);
+  const shadowBlur = 24 + (1 - t) * 8;
+  const shadowOpacity = 0.08 * (1 - t);
+  const textShadow = t >= 0.9 ? 'none' : `${shadowX}px ${shadowY}px ${shadowBlur}px rgba(0, 0, 0, ${shadowOpacity}), 0 4px 6px rgba(0, 0, 0, 0.03)`;
+
   return (
     <div style={{ minHeight: '100vh', background: '#F6F5F2', color: '#000000', fontFamily: H.font, position: 'relative', overflowX: 'hidden' }}>
       
@@ -106,18 +133,25 @@ export default function VPGroup() {
         transform: `translate(${-50 + t * 50}%, ${-50 + t * 50}%) scale(${scale})`,
         transformOrigin: 'left top',
         zIndex: 3500,
-        fontFamily: H.font,
-        fontWeight: 950,
-        color: '#000000',
-        letterSpacing: '-0.04em',
-        fontSize: '13vw',
-        lineHeight: 1,
         pointerEvents: 'none',
         whiteSpace: 'nowrap',
-        transition: 'color 0.2s ease, opacity 0.2s ease !important',
-        WebkitTransition: 'color 0.2s ease, opacity 0.2s ease !important'
-      }} className="nothin-docking-title">
-        VP GROUP
+        perspective: '1000px'
+      }}>
+        <div style={{
+          transform: `translate3d(${mx}px, ${my}px, 0) rotateX(${rx}deg) rotateY(${ry}deg)`,
+          transformOrigin: 'center center',
+          fontFamily: H.font,
+          fontWeight: 950,
+          color: '#000000',
+          letterSpacing: '-0.04em',
+          fontSize: '13vw',
+          lineHeight: 1,
+          textShadow: textShadow,
+          transition: 'color 0.2s ease, opacity 0.2s ease !important',
+          WebkitTransition: 'color 0.2s ease, opacity 0.2s ease !important'
+        }} className="nothin-docking-title">
+          VP GROUP
+        </div>
       </div>
 
       {/* ── MAIN CONTENT substrate ───────────────────────────────── */}
