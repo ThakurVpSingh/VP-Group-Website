@@ -3,19 +3,26 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Zap, Menu, X, ChevronDown, Shield, ArrowRight, Globe, Layers, Mail } from 'lucide-react';
 import Logo from './Logo';
 
-const ProjectNavbar = () => {
+const ProjectNavbar = ({ scrollY: propScrollY }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [localScrollY, setLocalScrollY] = useState(0);
 
     useEffect(() => {
+        if (propScrollY !== undefined) return;
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
+            setLocalScrollY(window.scrollY);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [propScrollY]);
+
+    const scrollY = propScrollY !== undefined ? propScrollY : localScrollY;
+    const isScrolled = propScrollY !== undefined ? propScrollY > 20 : scrolled;
+    const t = propScrollY !== undefined ? Math.min(1, propScrollY / 320) : 1;
 
     // Close menu when route changes
     useEffect(() => {
@@ -24,15 +31,15 @@ const ProjectNavbar = () => {
 
     return (
         <>
-            <nav className={`project-navbar ${scrolled ? 'scrolled' : ''}`}>
+            <nav className={`project-navbar ${isScrolled ? 'scrolled' : ''} ${propScrollY !== undefined ? 'light-theme' : ''}`}>
                 <div className="nav-container">
                     <div className="nav-logo-section" onClick={() => navigate('/')}>
-                        <div className="nav-logo-box">
+                        <div className="nav-logo-box" style={{ opacity: t, transform: `scale(${0.8 + t * 0.2})`, transition: 'opacity 0.2s ease, transform 0.2s ease' }}>
                             <Logo variant="icon" size="32px" className="company-logo-svg" />
                         </div>
                         <div className="logo-text">
-                            <span className="brand-name">VP GROUP</span>
-                            <span className="brand-sub">ENGINEERING</span>
+                            <span className="brand-name" style={{ opacity: propScrollY !== undefined ? 0 : 1, visibility: propScrollY !== undefined ? 'hidden' : 'visible' }}>VP GROUP</span>
+                            <span className="brand-sub" style={{ opacity: t, transition: 'opacity 0.2s ease' }}>ENGINEERING</span>
                         </div>
                     </div>
                     
@@ -436,6 +443,65 @@ const ProjectNavbar = () => {
                 @media (max-width: 1024px) {
                     .desktop-only { display: none; }
                     .hamburger-box { display: block; }
+                }
+
+                /* Light theme overrides */
+                .project-navbar.light-theme .nav-link-btn {
+                    color: #000000;
+                }
+                .project-navbar.light-theme .nav-link-btn:hover {
+                    color: #5B6BFF;
+                }
+                .project-navbar.light-theme.scrolled {
+                    background: rgba(246, 245, 242, 0.85);
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+                }
+                .project-navbar.light-theme .logo-text .brand-sub {
+                    color: #5C6170;
+                }
+                .project-navbar.light-theme .nav-logo-box {
+                    background: rgba(0, 0, 0, 0.02);
+                    border: 1px solid rgba(0, 0, 0, 0.08);
+                    box-shadow: none;
+                }
+                .project-navbar.light-theme .nav-dropdown .dropdown-content {
+                    background: #FAF9F6;
+                    border: 1px solid rgba(0, 0, 0, 0.05);
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                }
+                .project-navbar.light-theme .nav-dropdown .dropdown-content a {
+                    color: #5C6170;
+                }
+                .project-navbar.light-theme .nav-dropdown .dropdown-content a:hover {
+                    color: #000000;
+                    background: rgba(0, 0, 0, 0.02);
+                }
+                .project-navbar.light-theme .nav-portal-btn {
+                    background: #000000;
+                    color: #ffffff;
+                }
+                .project-navbar.light-theme .nav-portal-btn:hover {
+                    background: #222222;
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+                }
+                .project-navbar.light-theme .hamburger-inner,
+                .project-navbar.light-theme .hamburger-inner::before,
+                .project-navbar.light-theme .hamburger-inner::after {
+                    background: #000000;
+                }
+                .project-navbar.light-theme .side-drawer {
+                    background: rgba(246, 245, 242, 0.98);
+                    border-left: 1px solid rgba(0, 0, 0, 0.05);
+                }
+                .project-navbar.light-theme .drawer-main-link {
+                    color: #000000;
+                }
+                .project-navbar.light-theme .drawer-links a {
+                    color: #5C6170;
+                }
+                .project-navbar.light-theme .drawer-links a:hover {
+                    color: #000000;
                 }
             `}</style>
         </>

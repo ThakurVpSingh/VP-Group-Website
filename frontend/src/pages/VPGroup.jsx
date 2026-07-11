@@ -14,13 +14,15 @@ import {
   Mail,
   Phone
 } from 'lucide-react';
+import ProjectNavbar from '../components/ProjectNavbar';
+import Footer from '../components/Footer';
 
 const H = { font: "'Inter', sans-serif", mono: "'JetBrains Mono', ui-monospace, monospace" };
 
 export default function VPGroup() {
   const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [winWidth, setWinWidth] = useState(window.innerWidth);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -35,6 +37,12 @@ export default function VPGroup() {
     document.title = "VP Group & Technologies | Engineering Infinite Scale";
     // Ping backend on load
     fetch(getApiUrl('/api/contact')).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setWinWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
@@ -80,99 +88,24 @@ export default function VPGroup() {
   // Scroll dock calculation progress (0 to 1)
   const t = Math.min(1, scrollY / 320);
 
+  const targetLeft = winWidth > 1400 ? (winWidth - 1400) / 2 + 82 : 82;
+  const targetScale = 18.4 / (winWidth * 0.13);
+  const scale = 1 - t * (1 - targetScale);
+
   return (
     <div style={{ minHeight: '100vh', background: '#F6F5F2', color: '#000000', fontFamily: H.font, position: 'relative', overflowX: 'hidden' }}>
       
-      {/* ── FIXED HUD FRAME ───────────────────────────────────── */}
-      {/* Top HUD */}
-      <header style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '80px',
-        padding: '24px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        boxSizing: 'border-box',
-        zIndex: 2000,
-        pointerEvents: 'none'
-      }}>
-        {/* Left message (fades out as title docks) */}
-        <div style={{
-          fontSize: '0.75rem',
-          fontWeight: 700,
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
-          lineHeight: 1.3,
-          color: '#5C6170',
-          opacity: Math.max(0, 1 - t * 5),
-          pointerEvents: 'auto',
-          transition: 'opacity 0.2s ease'
-        }}>
-          Not a vendor, an engineering partner.<br />
-          Because scale is everything.
-        </div>
-
-        {/* Right Menu Toggle */}
-        <button 
-          onClick={() => setIsMenuOpen(true)}
-          style={{
-            background: 'none',
-            border: 'none',
-            fontFamily: H.mono,
-            fontSize: '0.8125rem',
-            fontWeight: 800,
-            cursor: 'pointer',
-            textTransform: 'uppercase',
-            color: '#000000',
-            letterSpacing: '2px',
-            pointerEvents: 'auto',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}
-        >
-          MENU ::
-        </button>
-      </header>
-
-      {/* Bottom HUD */}
-      <footer style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: '80px',
-        padding: '24px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        boxSizing: 'border-box',
-        zIndex: 2000,
-        pointerEvents: 'none',
-        fontSize: '0.75rem',
-        fontWeight: 600,
-        letterSpacing: '0.05em',
-        color: '#5C6170'
-      }}>
-        <div style={{ pointerEvents: 'auto' }}>VP Group / Pratapgarh / Paris</div>
-        <div style={{ pointerEvents: 'auto', display: 'flex', gap: '16px' }}>
-          <a href="https://www.linkedin.com/company/vpgroup" target="_blank" rel="noopener noreferrer" style={{ color: '#5C6170', textDecoration: 'none' }}>LINKEDIN</a>
-          <span>/</span>
-          <a href="https://github.com/ThakurVpSingh" target="_blank" rel="noopener noreferrer" style={{ color: '#5C6170', textDecoration: 'none' }}>GITHUB [EN]</a>
-        </div>
-      </footer>
+      {/* ── PROJECT NAVBAR ────────────────────────────────────── */}
+      <ProjectNavbar scrollY={scrollY} />
 
       {/* ── DOCKING TITLE ANIMATION ──────────────────────────── */}
       <div style={{
         position: 'fixed',
-        left: `calc(${50 - t * 50}% + ${t * 24}px)`,
-        top: `calc(${50 - t * 50}% + ${t * 28}px)`,
-        transform: `translate(${-50 + t * 50}%, ${-50 + t * 50}%) scale(${1 - t * 0.86})`,
+        left: `calc(${50 - t * 50}% + ${t * targetLeft}px)`,
+        top: `calc(${50 - t * 50}% + ${t * 26}px)`,
+        transform: `translate(${-50 + t * 50}%, ${-50 + t * 50}%) scale(${scale})`,
         transformOrigin: 'left top',
-        zIndex: 2500,
+        zIndex: 3500,
         fontFamily: H.font,
         fontWeight: 950,
         color: '#000000',
@@ -184,65 +117,7 @@ export default function VPGroup() {
         transition: 'color 0.2s ease, opacity 0.2s ease !important',
         WebkitTransition: 'color 0.2s ease, opacity 0.2s ease !important'
       }} className="nothin-docking-title">
-        {t >= 0.82 ? "VP'" : "VP GROUP"}
-      </div>
-
-      {/* ── MENU DRAWER ──────────────────────────────────────── */}
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(246, 245, 242, 0.98)',
-        backdropFilter: 'blur(16px)',
-        zIndex: 3000,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        padding: '10%',
-        boxSizing: 'border-box',
-        transition: 'opacity 0.4s ease, visibility 0.4s',
-        opacity: isMenuOpen ? 1 : 0,
-        visibility: isMenuOpen ? 'visible' : 'hidden'
-      }}>
-        {/* Close Button */}
-        <button 
-          onClick={() => setIsMenuOpen(false)}
-          style={{
-            position: 'absolute',
-            top: '32px',
-            right: '32px',
-            background: 'none',
-            border: 'none',
-            fontFamily: H.mono,
-            fontSize: '0.8125rem',
-            fontWeight: 800,
-            cursor: 'pointer',
-            color: '#000000',
-            letterSpacing: '2px'
-          }}
-        >
-          CLOSE X
-        </button>
-
-        {/* Links List */}
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-          <Link to="/" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '3rem', fontWeight: 900, textDecoration: 'none', color: '#000000', letterSpacing: '-0.03em' }}>Home</Link>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <span style={{ fontFamily: H.mono, fontSize: '0.75rem', fontWeight: 800, color: '#9AA0AE', letterSpacing: '2px', textTransform: 'uppercase' }}>Our Services</span>
-            <Link to="/services/web-development" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Web Development</Link>
-            <Link to="/services/software-engineering" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Software Engineering</Link>
-            <Link to="/services/technical-support" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Technical Support</Link>
-            <Link to="/services/seo-analytics-setup" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>SEO & Analytics</Link>
-            <Link to="/services/ai-automation" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>AI Automation</Link>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
-            <span style={{ fontFamily: H.mono, fontSize: '0.75rem', fontWeight: 800, color: '#9AA0AE', letterSpacing: '2px', textTransform: 'uppercase' }}>Help & Strategy</span>
-            <Link to="/our-strategy" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Our Strategy</Link>
-            <Link to="/consultation/book" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Book Consultation</Link>
-            <Link to="/help/contact" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Contact Us</Link>
-          </div>
-        </nav>
+        VP GROUP
       </div>
 
       {/* ── MAIN CONTENT substrate ───────────────────────────────── */}
@@ -257,10 +132,6 @@ export default function VPGroup() {
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', maxWidth: '1200px', margin: '0 auto' }} className="nothin-grid-2">
             <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', background: '#EAE9E6', borderRadius: '4px', fontSize: '0.6875rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '24px' }}>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#5B6BFF' }} />
-                ELITE DEVELOPMENT HUB
-              </div>
               <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 24px 0', color: '#000000' }}>
                 Web & Software<br />
                 At Infinite Scale.
@@ -286,7 +157,7 @@ export default function VPGroup() {
             </div>
 
             {/* Code Window visualizer */}
-            <div style={{ width: '100%', maxWidth: '400px', background: '#FFFFFF', border: '1px solid #EAE9E6', borderRadius: '16px', padding: '24px', boxSizing: 'border-box', boxShadow: '0 16px 40px rgba(0,0,0,0.03)' }} className="desktop-only">
+            <div style={{ width: '100%', maxWidth: '400px', background: '#FFFFFF', border: '1px solid #EAE9E6', borderRadius: '16px', padding: '24px', boxSizing: 'border-box', boxShadow: '0 16px 40px rgba(0,0,0,0.03)' }} className="home-desktop-only">
               <div style={{ display: 'flex', gap: '6px', marginBottom: '16px' }}>
                 {['#FF3A5C','#F5D547','#2BE08C'].map(c => <div key={c} style={{ width: '8px', height: '8px', borderRadius: '50%', background: c }} />)}
               </div>
@@ -476,12 +347,11 @@ export default function VPGroup() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', marginBottom: '80px' }}>
             {[
-              { coord: '[ 27.60° N, 77.04° E ]', label: 'Command Center', val: 'contact.vpsdev@gmail.com', tag: '24/7 Monitoring' },
-              { coord: '[ ACTIVE_HQ_HUB ]', label: 'Headquarters', val: 'Pratapgarh, Uttar Pradesh, India', tag: 'Regional Hub' },
-              { coord: '[ SYNC_READY ]', label: 'Business Line', val: 'Inquiry via Email Recommended', tag: 'Support Mesh' }
+              { label: 'Command Center', val: 'contact.vpsdev@gmail.com', tag: '24/7 Monitoring' },
+              { label: 'Headquarters', val: 'Pratapgarh, Uttar Pradesh, India', tag: 'Regional Hub' },
+              { label: 'Business Line', val: 'Inquiry via Email Recommended', tag: 'Support Mesh' }
             ].map((c, i) => (
               <div key={i} style={{ background: '#F0EFEA', border: '1px solid #EAE9E6', padding: '40px 32px', borderRadius: '16px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '220px' }}>
-                <span style={{ position: 'absolute', top: '16px', right: '16px', fontFamily: H.mono, fontSize: '0.6rem', color: '#9AA0AE' }}>{c.coord}</span>
                 <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#5C6170', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>{c.label}</span>
                 <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 16px 0', color: '#000000', wordBreak: 'break-word' }}>{c.val}</h4>
                 <div style={{ display: 'inline-block', alignSelf: 'flex-start', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1px', background: '#E2E1DD', padding: '4px 12px', borderRadius: '20px', textTransform: 'uppercase', color: '#5C6170' }}>{c.tag}</div>
@@ -550,16 +420,8 @@ export default function VPGroup() {
           </div>
         </section>
 
-        {/* Copyright Footer */}
-        <section style={{ padding: '60px 24px 140px', background: '#F0EFEA', borderTop: '1px solid #E2E1DD', textAlign: 'center' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px' }}>VP GROUP & TECHNOLOGIES</span>
-            <p style={{ fontSize: '0.75rem', color: '#5C6170', margin: 0 }}>
-              © 2026 VP Group. All rights reserved. Platform engineered for infinite scale.
-            </p>
-          </div>
-        </section>
-
+        {/* Original Footer */}
+        <Footer />
       </main>
 
       <style>{`
@@ -717,7 +579,7 @@ export default function VPGroup() {
           transform: translateY(-2px);
         }
 
-        .desktop-only {
+        .home-desktop-only {
           display: block;
         }
 
@@ -730,7 +592,7 @@ export default function VPGroup() {
             grid-template-columns: 1fr !important;
             gap: 32px !important;
           }
-          .desktop-only {
+          .home-desktop-only {
             display: none !important;
           }
         }
