@@ -3,145 +3,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getApiUrl } from '../config';
 import { submitContactForm } from '../services/formService';
 import { 
-  Globe, 
-  Terminal, 
-  Zap, 
-  Database, 
-  MapPin, 
-  Mail, 
-  Phone, 
   ArrowRight, 
-  Layout, 
-  Server,
-  Github,
-  Linkedin,
-  Twitter,
   ExternalLink,
-  Cpu,
-  Layers,
-  Shield,
   Users,
-  Search
+  Terminal,
+  Shield,
+  Layers,
+  Globe,
+  MapPin,
+  Mail,
+  Phone
 } from 'lucide-react';
-import Footer from '../components/Footer';
-import ProjectNavbar from '../components/ProjectNavbar';
 
-const CodingBackground = () => {
-  const canvasRef = useRef(null);
+const H = { font: "'Inter', sans-serif", mono: "'JetBrains Mono', ui-monospace, monospace" };
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    window.addEventListener('resize', resize);
-    resize();
-
-    const particles = [];
-    const particleCount = 60;
-    const lines = [
-      'const system = new vpx.Core();',
-      'system.deploy({ cloud: true });',
-      'import { AI } from "@vpgroup/neural";',
-      'await database.connect();',
-      'console.log("READY");',
-      'npm install @vpgroup/toolkit',
-      'git push origin master',
-      'docker-compose up -d',
-      '<Component />',
-      'while(true) { build(); }'
-    ];
-
-    class Particle {
-      constructor() {
-        this.reset();
-      }
-
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.text = lines[Math.floor(Math.random() * lines.length)];
-        this.alpha = Math.random() * 0.5;
-        this.fontSize = Math.random() * 10 + 10;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-          this.reset();
-        }
-      }
-
-      draw() {
-        ctx.font = `${this.fontSize}px monospace`;
-        ctx.fillStyle = `rgba(139, 92, 246, ${this.alpha * 0.3})`;
-        ctx.fillText(this.text, this.x, this.y);
-      }
-    }
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
-
-    const drawLine = (p1, p2) => {
-      const dist = Math.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2);
-      if (dist < 200) {
-        ctx.beginPath();
-        ctx.strokeStyle = `rgba(139, 92, 246, ${(1 - dist/200) * 0.1})`;
-        ctx.lineWidth = 0.5;
-        ctx.moveTo(p1.x, p1.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.stroke();
-      }
-    };
-
-    const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-        particles.forEach(p2 => drawLine(p, p2));
-      });
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  return (
-    <canvas 
-      ref={canvasRef} 
-      style={{ 
-        position: 'fixed', 
-        top: 0, 
-        left: 0, 
-        width: '100%', 
-        height: '100%', 
-        zIndex: 0, 
-        opacity: 0.6,
-        pointerEvents: 'none'
-      }} 
-    />
-  );
-};
-
-const VPGroup = () => {
+export default function VPGroup() {
   const navigate = useNavigate();
+  const [scrollY, setScrollY] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -153,9 +32,25 @@ const VPGroup = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "VP Group and Technologies | Engineering Infinite Scale";
-    // Ping backend on load to wake it up (Render cold start mitigation)
+    document.title = "VP Group & Technologies | Engineering Infinite Scale";
+    // Ping backend on load
     fetch(getApiUrl('/api/contact')).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      setScrollY(scrollPos);
+    };
+    
+    // Add scroll event listener to capture all scrolling events (including container element scrolls)
+    window.addEventListener('scroll', handleScroll, { capture: true, passive: true });
+    document.addEventListener('scroll', handleScroll, { capture: true, passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll, { capture: true });
+      document.removeEventListener('scroll', handleScroll, { capture: true });
+    };
   }, []);
 
   const handleInputChange = (e) => {
@@ -173,7 +68,7 @@ const VPGroup = () => {
 
     if (result.success) {
       setStatus('Success! Message received.');
-      alert(`Thanks for reaching out to us, ${formData.name}. We have received your request for ${formData.subject || 'consultation'}. We'll get back to you shortly within 24-48 hours or sooner through your contact details.`);
+      alert(`Thanks for reaching out to us, ${formData.name}. We'll get back to you shortly within 24-48 hours.`);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } else {
       setStatus(`Error: ${result.error || 'Failed'}`);
@@ -182,294 +77,433 @@ const VPGroup = () => {
     setLoading(false);
   };
 
+  // Scroll dock calculation progress (0 to 1)
+  const t = Math.min(1, scrollY / 320);
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#030712', color: '#f3f4f6', overflowX: 'hidden', fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#F6F5F2', color: '#000000', fontFamily: H.font, position: 'relative', overflowX: 'hidden' }}>
       
-      <CodingBackground />
+      {/* ── FIXED HUD FRAME ───────────────────────────────────── */}
+      {/* Top HUD */}
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '80px',
+        padding: '24px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        boxSizing: 'border-box',
+        zIndex: 2000,
+        pointerEvents: 'none'
+      }}>
+        {/* Left message (fades out as title docks) */}
+        <div style={{
+          fontSize: '0.75rem',
+          fontWeight: 700,
+          letterSpacing: '0.05em',
+          textTransform: 'uppercase',
+          lineHeight: 1.3,
+          color: '#5C6170',
+          opacity: Math.max(0, 1 - t * 5),
+          pointerEvents: 'auto',
+          transition: 'opacity 0.2s ease'
+        }}>
+          Not a vendor, an engineering partner.<br />
+          Because scale is everything.
+        </div>
 
-      <ProjectNavbar />
+        {/* Right Menu Toggle */}
+        <button 
+          onClick={() => setIsMenuOpen(true)}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontFamily: H.mono,
+            fontSize: '0.8125rem',
+            fontWeight: 800,
+            cursor: 'pointer',
+            textTransform: 'uppercase',
+            color: '#000000',
+            letterSpacing: '2px',
+            pointerEvents: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}
+        >
+          MENU ::
+        </button>
+      </header>
 
-      <main style={{ position: 'relative', zIndex: 10, marginTop: '100px' }}>
-        
-        {/* Hero Section */}
-        <section id="about" className="hero-section">
-          <div className="hero-content animate-fade-in">
-            <div className="hero-badge">
-              <div className="badge-dot"></div>
-              ELITE DEVELOPMENT HUB
-            </div>
-            <h1 className="hero-title">
-              Web & Software <br/>
-              <span className="text-gradient">At Infinite Scale.</span>
-            </h1>
-            <p className="hero-desc">
-              We specialize in high-fidelity web development, mission-critical software engineering, and 24/7 technical support. Our goal is to provide enterprise-grade digital infrastructure at an <strong style={{ color: '#ff4ef0' }}>affordable price point</strong>, empowering businesses of all sizes.
-            </p>
-            <div className="hero-actions">
-              <button 
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn-primary"
-              >
-                Launch Project <ArrowRight size={20} />
-              </button>
-              <button className="btn-secondary" onClick={() => document.getElementById('technologies')?.scrollIntoView({ behavior: 'smooth' })}>
-                Our Services
-              </button>
-            </div>
-          </div>
+      {/* Bottom HUD */}
+      <footer style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: '80px',
+        padding: '24px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        boxSizing: 'border-box',
+        zIndex: 2000,
+        pointerEvents: 'none',
+        fontSize: '0.75rem',
+        fontWeight: 600,
+        letterSpacing: '0.05em',
+        color: '#5C6170'
+      }}>
+        <div style={{ pointerEvents: 'auto' }}>VP Group / Pratapgarh / Paris</div>
+        <div style={{ pointerEvents: 'auto', display: 'flex', gap: '16px' }}>
+          <a href="https://www.linkedin.com/company/vpgroup" target="_blank" rel="noopener noreferrer" style={{ color: '#5C6170', textDecoration: 'none' }}>LINKEDIN</a>
+          <span>/</span>
+          <a href="https://github.com/ThakurVpSingh" target="_blank" rel="noopener noreferrer" style={{ color: '#5C6170', textDecoration: 'none' }}>GITHUB [EN]</a>
+        </div>
+      </footer>
+
+      {/* ── DOCKING TITLE ANIMATION ──────────────────────────── */}
+      <div style={{
+        position: 'fixed',
+        left: `calc(${50 - t * 50}% + ${t * 24}px)`,
+        top: `calc(${50 - t * 50}% + ${t * 28}px)`,
+        transform: `translate(${-50 + t * 50}%, ${-50 + t * 50}%) scale(${1 - t * 0.86})`,
+        transformOrigin: 'left top',
+        zIndex: 2500,
+        fontFamily: H.font,
+        fontWeight: 950,
+        color: '#000000',
+        letterSpacing: '-0.04em',
+        fontSize: '13vw',
+        lineHeight: 1,
+        pointerEvents: 'none',
+        whiteSpace: 'nowrap',
+        transition: 'color 0.2s ease, opacity 0.2s ease !important',
+        WebkitTransition: 'color 0.2s ease, opacity 0.2s ease !important'
+      }} className="nothin-docking-title">
+        {t >= 0.82 ? "VP'" : "VP GROUP"}
+      </div>
+
+      {/* ── MENU DRAWER ──────────────────────────────────────── */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(246, 245, 242, 0.98)',
+        backdropFilter: 'blur(16px)',
+        zIndex: 3000,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '10%',
+        boxSizing: 'border-box',
+        transition: 'opacity 0.4s ease, visibility 0.4s',
+        opacity: isMenuOpen ? 1 : 0,
+        visibility: isMenuOpen ? 'visible' : 'hidden'
+      }}>
+        {/* Close Button */}
+        <button 
+          onClick={() => setIsMenuOpen(false)}
+          style={{
+            position: 'absolute',
+            top: '32px',
+            right: '32px',
+            background: 'none',
+            border: 'none',
+            fontFamily: H.mono,
+            fontSize: '0.8125rem',
+            fontWeight: 800,
+            cursor: 'pointer',
+            color: '#000000',
+            letterSpacing: '2px'
+          }}
+        >
+          CLOSE X
+        </button>
+
+        {/* Links List */}
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          <Link to="/" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '3rem', fontWeight: 900, textDecoration: 'none', color: '#000000', letterSpacing: '-0.03em' }}>Home</Link>
           
-          <div className="hero-visual">
-            <div className="glass-panel code-window">
-              <div className="code-header">
-                 <div className="dot red"></div>
-                 <div className="dot yellow"></div>
-                 <div className="dot green"></div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <span style={{ fontFamily: H.mono, fontSize: '0.75rem', fontWeight: 800, color: '#9AA0AE', letterSpacing: '2px', textTransform: 'uppercase' }}>Our Services</span>
+            <Link to="/services/web-development" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Web Development</Link>
+            <Link to="/services/software-engineering" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Software Engineering</Link>
+            <Link to="/services/technical-support" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Technical Support</Link>
+            <Link to="/services/seo-analytics-setup" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>SEO & Analytics</Link>
+            <Link to="/services/ai-automation" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>AI Automation</Link>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+            <span style={{ fontFamily: H.mono, fontSize: '0.75rem', fontWeight: 800, color: '#9AA0AE', letterSpacing: '2px', textTransform: 'uppercase' }}>Help & Strategy</span>
+            <Link to="/our-strategy" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Our Strategy</Link>
+            <Link to="/consultation/book" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Book Consultation</Link>
+            <Link to="/help/contact" onClick={() => setIsMenuOpen(false)} style={{ fontSize: '1.2rem', fontWeight: 700, textDecoration: 'none', color: '#5C6170' }}>Contact Us</Link>
+          </div>
+        </nav>
+      </div>
+
+      {/* ── MAIN CONTENT substrate ───────────────────────────────── */}
+      <main style={{ position: 'relative', zIndex: 10 }}>
+        
+        {/* ── HERO SECTION ────────────────────────────────────────── */}
+        {/* Structured with a top spacer so the centered fixed title doesn't overlap content at Y = 0 */}
+        <section style={{ minHeight: '120vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '100px 24px 140px', boxSizing: 'border-box' }}>
+          
+          {/* Top spacer matching the title area */}
+          <div style={{ height: '45vh' }} />
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', maxWidth: '1200px', margin: '0 auto' }} className="nothin-grid-2">
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', background: '#EAE9E6', borderRadius: '4px', fontSize: '0.6875rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '24px' }}>
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#5B6BFF' }} />
+                ELITE DEVELOPMENT HUB
               </div>
-              <div className="code-content">
-                <span className="code-keyword">service</span> WebDevelopment {'{'}<br/>
-                &nbsp;&nbsp;<span className="code-keyword">get</span> expertise() {'{'}<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span className="code-return">return</span> ['Web', 'Software', 'Support'];<br/>
-                &nbsp;&nbsp;{'}'}<br/>
-                &nbsp;&nbsp;async build() {'{'}<br/>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span className="code-return">return</span> await this.deploy(budget: <span className="code-string">'Affordable'</span>);<br/>
-                &nbsp;&nbsp;{'}'}<br/>
+              <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 24px 0', color: '#000000' }}>
+                Web & Software<br />
+                At Infinite Scale.
+              </h1>
+              <p style={{ fontSize: '0.9375rem', color: '#5C6170', lineHeight: 1.6, maxWidth: '440px', margin: '0 0 32px 0' }}>
+                We specialize in high-fidelity web development, mission-critical software engineering, and 24/7 technical support. We build platforms that move the world.
+              </p>
+              <div style={{ display: 'flex', gap: '16px' }}>
+                <button 
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="nothin-btn-pill"
+                >
+                  Launch Project <ArrowRight size={16} />
+                </button>
+                <button 
+                  onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="nothin-btn-pill"
+                  style={{ background: 'transparent', border: '1px solid #000000', color: '#000000' }}
+                >
+                  Our Services
+                </button>
+              </div>
+            </div>
+
+            {/* Code Window visualizer */}
+            <div style={{ width: '100%', maxWidth: '400px', background: '#FFFFFF', border: '1px solid #EAE9E6', borderRadius: '16px', padding: '24px', boxSizing: 'border-box', boxShadow: '0 16px 40px rgba(0,0,0,0.03)' }} className="desktop-only">
+              <div style={{ display: 'flex', gap: '6px', marginBottom: '16px' }}>
+                {['#FF3A5C','#F5D547','#2BE08C'].map(c => <div key={c} style={{ width: '8px', height: '8px', borderRadius: '50%', background: c }} />)}
+              </div>
+              <div style={{ fontFamily: H.mono, fontSize: '0.75rem', lineHeight: 1.6, color: '#5C6170' }}>
+                <span style={{ color: '#000000', fontWeight: 600 }}>service</span> WebDevelopment {'{'}<br />
+                &nbsp;&nbsp;<span style={{ color: '#5B6BFF' }}>get</span> expertise() {'{'}<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: '#FF3A5C' }}>return</span> ['Web', 'Software', 'Support'];<br />
+                &nbsp;&nbsp;{'}'}<br />
+                &nbsp;&nbsp;async build() {'{'}<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: '#FF3A5C' }}>return</span> await this.deploy(budget: <span style={{ color: '#2BE08C' }}>'Affordable'</span>);<br />
+                &nbsp;&nbsp;{'}'}<br />
                 {'}'}
               </div>
             </div>
           </div>
         </section>
 
-        {/* 2. High-Impact Mission Statement */}
-        <section className="mission-section">
-          <div className="mission-container">
-            <div className="mission-icon-box">
-                <div className="line"></div>
-                <Terminal size={24} />
-                <div className="line"></div>
-            </div>
-            <h2 className="mission-text">
-                "Our aim is simple: To become the <span className="text-glow-cyan">global skeleton</span> of the secure digital infrastructure. <br/>
-                <span className="sub-mission">We engineer the platforms that move the world."</span>
-            </h2>
-          </div>
+        {/* ── MISSION STATEMENT SECTIONS ─────────────────────────── */}
+        <section style={{ padding: '160px 24px', display: 'flex', flexDirection: 'column', gap: '80px', maxWidth: '1200px', margin: '0 auto' }}>
+          <h2 style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, color: '#000000', margin: 0, maxWidth: '900px' }}>
+            Most agencies build templates.<br />
+            We prefer engineering.
+          </h2>
+          <h2 style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.1, color: '#000000', margin: 0, maxWidth: '900px', alignSelf: 'flex-end', textAlign: 'right' }}>
+            Good software communicates.<br />
+            Great software surprises.
+          </h2>
         </section>
 
-        {/* Products Section */}
-        <section id="products" className="section-container">
-          <div className="section-header">
-            <h2 className="section-title">The Portfolio</h2>
+        {/* ── WORKS SECTION (PORTFOLIO) ─────────────────────────── */}
+        <section style={{ padding: '120px 24px', maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #000000', paddingBottom: '16px', marginBottom: '60px' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>Selected Works</span>
+            <span style={{ fontSize: '0.8rem', color: '#5C6170' }}>The Portfolio</span>
           </div>
-          <div className="portfolio-grid">
-            
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
             {/* VexioGate Card */}
-            <div className="glass-panel portfolio-card">
-              <div className="portfolio-visual">
-                <div className="visual-overlay"></div>
-                <div className="visual-content">
-                  <Shield size={48} color="#a78bfa" />
-                  <div className="visual-title">VEXIOGATE</div>
+            <div className="nothin-project-row">
+              <div className="project-img-wrapper">
+                <div className="project-img-placeholder" style={{ background: '#EAE9E6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '3rem', fontWeight: 900, color: 'rgba(0,0,0,0.06)', letterSpacing: '4px' }}>VEXIOGATE</span>
                 </div>
               </div>
-              <div className="portfolio-info">
-                <div className="info-header">
-                  <h3>IAM Ecosystem</h3>
-                  <span className="badge-Employee">LIVE</span>
+              <div className="project-meta">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '20px' }}>
+                  <span style={{ fontSize: '2.5rem', fontFamily: H.mono, fontWeight: 300, color: '#9AA0AE' }}>01</span>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '2px', padding: '4px 10px', background: '#EAE9E6', borderRadius: '4px' }}>LIVE</span>
                 </div>
-                <p className="portfolio-desc">
-                  Next-gen identity tracking and secure gateway provisioning for enterprise workforce.
+                <h3 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px' }}>VexioGate IAM Ecosystem</h3>
+                <p style={{ fontSize: '0.95rem', color: '#5C6170', lineHeight: 1.6, marginBottom: '28px' }}>
+                  Next-generation identity tracking, secure workforce dashboard, and automated gateway provisioning for modern enterprises.
                 </p>
-                <div className="portfolio-tags">
-                  {['React', 'MERN', 'Security'].map(tag => (
-                    <span key={tag} className="tag">{tag.toUpperCase()}</span>
-                  ))}
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
+                  {['React', 'MERN', 'Security'].map(t => <span key={t} className="nothin-tag">{t}</span>)}
                 </div>
-                <div className="portfolio-actions">
-                  <button onClick={() => navigate('/portfolio/vault-iam')} className="btn-standard-accent">
-                    VIEW CASE STUDY <ArrowRight size={16} />
-                  </button>
-                </div>
+                <button onClick={() => navigate('/portfolio/vault-iam')} className="nothin-btn-pill">
+                  View Case Study <ArrowRight size={16} />
+                </button>
               </div>
             </div>
 
-            {/* Expansion Slot Placeholder */}
-            <div className="glass-panel expansion-slot">
-               <div className="slot-border"></div>
-               <div className="slot-content">
-                 <Layers size={36} color="#3b82f6" className="slot-icon" />
-                 <h3>NEURAL CORE</h3>
-                 <span className="slot-badge">IN DEVELOPMENT</span>
-                 <p>Future integration module. Our ecosystem is actively expanding to include autonomous neural tracking.</p>
-               </div>
+            {/* Neural Core */}
+            <div className="nothin-project-row" style={{ flexDirection: 'row-reverse' }}>
+              <div className="project-img-wrapper">
+                <div className="project-img-placeholder" style={{ background: '#EAE9E6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '3rem', fontWeight: 900, color: 'rgba(0,0,0,0.06)', letterSpacing: '4px' }}>NEURAL CORE</span>
+                </div>
+              </div>
+              <div className="project-meta">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '20px' }}>
+                  <span style={{ fontSize: '2.5rem', fontFamily: H.mono, fontWeight: 300, color: '#9AA0AE' }}>02</span>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '2px', padding: '4px 10px', background: '#EAE9E6', borderRadius: '4px', color: '#5B6BFF' }}>DEV</span>
+                </div>
+                <h3 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px' }}>Neural Core Platform</h3>
+                <p style={{ fontSize: '0.95rem', color: '#5C6170', lineHeight: 1.6, marginBottom: '28px' }}>
+                  Future integration module. Our ecosystem is actively expanding to include autonomous neural tracking and semantic reasoning loops.
+                </p>
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
+                  {['AI', 'Agents', 'RAG'].map(t => <span key={t} className="nothin-tag">{t}</span>)}
+                </div>
+                <div className="nothin-tag" style={{ display: 'inline-block', color: '#9AA0AE' }}>
+                  In Development
+                </div>
+              </div>
             </div>
-
           </div>
         </section>
 
-        {/* 4. Partners Section */}
-        <section id="clients" className="section-container cyan-tint">
-          <div className="section-header-left">
-            <div className="sub-badge">TRUSTED BY INNOVATORS</div>
-            <h2 className="section-title">Project <span className="text-glow-cyan">Partnerships.</span></h2>
-            <p className="section-desc">
-              We don't just build for clients; we partner with visionary leaders who entrust us with their ambitious projects.
-            </p>
-          </div>
-          
-          <div className="partners-grid">
-            
-            <div className="glass-panel partner-card">
-              <div className="partner-header">
+        {/* ── PARTNERSHIPS SECTION ──────────────────────────────── */}
+        <section style={{ padding: '120px 24px', background: '#F0EFEA' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #000000', paddingBottom: '16px', marginBottom: '60px' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>Partnerships</span>
+              <span style={{ fontSize: '0.8rem', color: '#5C6170' }}>Visionary Clients</span>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }} className="nothin-grid-2">
+              <div style={{ background: '#F6F5F2', border: '1px solid #E2E1DD', padding: '48px', borderRadius: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <h3 className="partner-name">Mother Bliss</h3>
-                  <p className="partner-type">Maternal E-Commerce</p>
-                </div>
-                <div className="partner-icon">
-                  <Globe size={24} color="#22d3ee" />
-                </div>
-              </div>
-              <p className="partner-desc">
-                A comprehensive maternal care ecosystem engineered by VP Group. We architected the full-stack infrastructure for seamless commerce.
-              </p>
-              <div className="partner-actions">
-                <a href="https://wwwmotherbliss-dd920f26.vercel.app/" target="_blank" rel="noopener noreferrer" className="btn-standard-accent-blue">
-                  PRODUCTION REALM <ExternalLink size={14} />
-                </a>
-                <a href="https://thakurvpsingh.github.io/mothers-bliss/" target="_blank" rel="noopener noreferrer" className="btn-standard-outline">
-                  LEGACY ARCHIVE <ExternalLink size={14} />
-                </a>
-              </div>
-            </div>
-
-            {/* Partner Expansion Slot */}
-            <div className="glass-panel expansion-slot cyan">
-               <div className="slot-border"></div>
-               <div className="slot-content">
-                 <Users size={36} color="#22d3ee" className="slot-icon" />
-                 <h4>NEW PARTNER</h4>
-                 <span className="slot-badge">AWAITING PROVISIONING</span>
-                 <p>Open socket for future enterprise partnerships. Join the infrastructure that moves the world.</p>
-               </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* Arsenal / Technologies Section */}
-        <section id="technologies" className="section-container dark-bg">
-          <div className="section-header">
-            <h2 className="section-title">Our Services</h2>
-          </div>
-          <div className="services-grid">
-            <div className="glass-panel service-card" onClick={() => navigate('/services/web-development')}>
-              <Layout size={32} color="#ff4ef0" />
-              <h3>Web Development</h3>
-              <p>Fluid React interfaces and robust e-commerce ecosystems engineered for high-velocity conversion.</p>
-            </div>
-            <div className="glass-panel service-card" onClick={() => navigate('/services/software-engineering')}>
-              <Server size={32} color="#a78bfa" />
-              <h3>Software Engineering</h3>
-              <p>Custom enterprise software solutions, mission-critical IAM platforms, and scalable backends.</p>
-            </div>
-            <div className="glass-panel service-card" onClick={() => navigate('/services/technical-support')}>
-              <Shield size={32} color="#10b981" />
-              <h3>Technical Support</h3>
-              <p>24/7 dedicated support mesh ensuring your digital infrastructure remains resilient and secure.</p>
-            </div>
-            <div className="glass-panel service-card" onClick={() => navigate('/services/seo-analytics-setup')}>
-              <Search size={32} color="#a855f7" />
-              <h3>SEO & Analytics</h3>
-              <p>Google Search Console, Analytics (GA4), and Tag Manager setup to index your site and track growth.</p>
-            </div>
-            <div className="glass-panel service-card" onClick={() => navigate('/services/ai-automation')}>
-              <Cpu size={32} color="#22d3ee" />
-              <h3>AI Automation</h3>
-              <p>Autonomous AI agents, semantic RAG retrieval systems, and customized workflow automations.</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Aim & Culture Section */}
-        <section id="culture" className="section-container">
-          <div className="glass-panel culture-panel">
-            <div className="culture-grid">
-              <div className="culture-main">
-                  <div className="sub-badge purple">OUR DNA</div>
-                  <h2 className="culture-title">Strategic Aim <br/> & <span className="text-glow-cyan">Culture.</span></h2>
-                  <p className="culture-desc">
-                      At VP Group, our mission is to democratize high-end engineering. We combine enterprise-grade security with accessible pricing models.
+                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#5B6BFF', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Maternal E-Commerce</div>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '16px' }}>Mother Bliss</h3>
+                  <p style={{ fontSize: '0.95rem', color: '#5C6170', lineHeight: 1.6, marginBottom: '32px' }}>
+                    A comprehensive maternal care ecosystem engineered by VP Group. We architected the full-stack infrastructure for seamless commerce and global scalability.
                   </p>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <a href="https://wwwmotherbliss-dd920f26.vercel.app/" target="_blank" rel="noopener noreferrer" className="nothin-btn-pill-action">
+                    Production Realm <ExternalLink size={14} />
+                  </a>
+                  <a href="https://thakurvpsingh.github.io/mothers-bliss/" target="_blank" rel="noopener noreferrer" className="nothin-btn-pill-action-secondary">
+                    Legacy Archive <ExternalLink size={14} />
+                  </a>
+                </div>
               </div>
-              
-              <div className="culture-sub-grid">
-                  <div className="culture-card">
-                      <h4>WORKING CULTURE</h4>
-                      <p>We thrive on radical transparency. Every engineer is a decision-maker in our flat-hierarchy mesh.</p>
-                  </div>
-                  <div className="culture-card">
-                      <h4>INDUSTRY STANDING</h4>
-                      <p>Positioned at the intersection of security and performance, solving the "Infinite Scale" problem.</p>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* 6. Standard Contact Information Section */}
-        <section id="contact" className="section-container dark-bg">
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <div className="sub-badge">INSTITUTIONAL REACH</div>
-            <h2 className="section-title">Direct <span className="text-glow-cyan">Communication.</span></h2>
-            <p className="section-desc" style={{ margin: '0 auto' }}>
-              Connect with our specialized departments for technical inquiries, partnership opportunities, or institutional support.
-            </p>
-          </div>
-
-          <div className="contact-details-grid">
-            <div className="glass-panel detail-card cyan">
-              <div className="card-coord">[ 27.60° N, 77.04° E ]</div>
-              <div className="detail-icon"><Mail size={28} color="#22d3ee" /></div>
-              <h3>COMMAND CENTER</h3>
-              <p>contact.vpsdev@gmail.com</p>
-              <div className="detail-tag">24/7 MONITORING</div>
-              <div className="card-trace"></div>
-            </div>
-
-            <div className="glass-panel detail-card purple">
-              <div className="card-coord">[ ACTIVE_HQ_HUB ]</div>
-              <div className="detail-icon"><MapPin size={28} color="#a78bfa" /></div>
-              <h3>HEADQUARTERS</h3>
-              <p>Pratapgarh, Uttar Pradesh, India</p>
-              <div className="detail-tag">REGIONAL HUB</div>
-              <div className="card-trace"></div>
-            </div>
-
-            <div className="glass-panel detail-card blue">
-              <div className="card-coord">[ SYNC_READY ]</div>
-              <div className="detail-icon"><Phone size={28} color="#60a5fa" /></div>
-              <h3>BUSINESS LINE</h3>
-              <p>Inquiry via Email Recommended</p>
-              <div className="detail-tag">SUPPORT MESH</div>
-              <div className="card-trace"></div>
-            </div>
-          </div>
-
-          <div className="contact-grid" style={{ marginTop: '80px' }}>
-            <div className="contact-info-stack">
-              <div style={{ padding: '40px', background: 'rgba(255,255,255,0.02)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <h3 style={{ fontSize: '1.5rem', marginBottom: '16px', color: '#fff' }}>Secure Transmission</h3>
-                <p style={{ color: '#94a3b8', fontSize: '0.95rem', lineHeight: 1.6 }}>
-                  Our communication lines are encrypted via end-to-end AES-256 protocols. Your inquiries are routed directly to our specialized operational nodes.
+              <div style={{ border: '2px dashed #D2D1CD', padding: '48px', borderRadius: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(0,0,0,0.03)', display: 'flex', alignItems: 'center', justify: 'center', marginBottom: '24px' }}>
+                  <Users size={20} color="#5C6170" />
+                </div>
+                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 8px 0' }}>New Partner Socket</h4>
+                <div style={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1.5px', background: '#E2E1DD', padding: '4px 10px', borderRadius: '20px', marginBottom: '16px' }}>AWAITING PROVISIONING</div>
+                <p style={{ fontSize: '0.875rem', color: '#5C6170', lineHeight: 1.5, margin: 0, maxWidth: '280px' }}>
+                  Open socket for future enterprise partnerships. Join the infrastructure that moves the world.
                 </p>
               </div>
             </div>
+          </div>
+        </section>
 
-            <div className="glass-panel" style={{ padding: '50px' }}>
+        {/* ── SERVICES SECTION ─────────────────────────────────── */}
+        <section id="services" style={{ padding: '120px 24px', maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #000000', paddingBottom: '16px', marginBottom: '60px' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>Services</span>
+            <span style={{ fontSize: '0.8rem', color: '#5C6170' }}>Our Capabilities</span>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2px', background: '#EAE9E6', border: '1px solid #EAE9E6' }}>
+            {[
+              { path: '/services/web-development', title: 'Web Development', desc: 'Fluid React interfaces and robust e-commerce ecosystems engineered for high-velocity conversion.' },
+              { path: '/services/software-engineering', title: 'Software Engineering', desc: 'Custom enterprise software solutions, mission-critical IAM platforms, and scalable backends.' },
+              { path: '/services/technical-support', title: 'Technical Support', desc: '24/7 dedicated support mesh ensuring your digital infrastructure remains resilient and secure.' },
+              { path: '/services/seo-analytics-setup', title: 'SEO & Analytics', desc: 'Google Search Console, Analytics (GA4), and Tag Manager setup to index your site and track growth.' },
+              { path: '/services/ai-automation', title: 'AI Automation', desc: 'Autonomous AI agents, semantic RAG retrieval systems, and customized workflow automations.' },
+            ].map((s, i) => (
+              <div key={i} onClick={() => navigate(s.path)} className="nothin-service-card">
+                <span style={{ fontSize: '0.8rem', fontFamily: H.mono, color: '#9AA0AE', display: 'block', marginBottom: '24px' }}>0{i+1}</span>
+                <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '12px', letterSpacing: '-0.015em' }}>{s.title}</h3>
+                <p style={{ fontSize: '0.9rem', color: '#5C6170', lineHeight: 1.6, margin: 0 }}>{s.desc}</p>
+                <div className="nothin-service-arrow">
+                  <ArrowRight size={16} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── DNA & CULTURE SECTION ────────────────────────────── */}
+        <section style={{ padding: '120px 24px', background: '#F0EFEA' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'center' }} className="nothin-grid-2">
+            <div>
+              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#5C6170', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>OUR DNA</div>
+              <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 850, letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: '24px' }}>Strategic Aim & Culture</h2>
+              <p style={{ fontSize: '1.05rem', color: '#5C6170', lineHeight: 1.7, margin: 0 }}>
+                At VP Group, our mission is to democratize high-end engineering. We combine enterprise-grade security and scale with accessible pricing models, ensuring every business has access to top-tier digital infrastructure.
+              </p>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              <div style={{ background: '#F6F5F2', border: '1px solid #E2E1DD', padding: '32px', borderRadius: '12px' }}>
+                <h4 style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', margin: '0 0 12px 0' }}>Working Culture</h4>
+                <p style={{ fontSize: '0.9rem', color: '#5C6170', lineHeight: 1.5, margin: 0 }}>We thrive on radical transparency. Every engineer is a decision-maker in our flat-hierarchy network.</p>
+              </div>
+              <div style={{ background: '#F6F5F2', border: '1px solid #E2E1DD', padding: '32px', borderRadius: '12px' }}>
+                <h4 style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', margin: '0 0 12px 0' }}>Industry Standing</h4>
+                <p style={{ fontSize: '0.9rem', color: '#5C6170', lineHeight: 1.5, margin: 0 }}>Positioned at the intersection of security and performance, solving the "Infinite Scale" problem.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── CONTACT & COMMUNICATIONS SECTION ─────────────────── */}
+        <section id="contact" style={{ padding: '120px 24px 200px', maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #000000', paddingBottom: '16px', marginBottom: '80px' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>Direct Communication</span>
+            <span style={{ fontSize: '0.8rem', color: '#5C6170' }}>Command Center</span>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', marginBottom: '80px' }}>
+            {[
+              { coord: '[ 27.60° N, 77.04° E ]', label: 'Command Center', val: 'contact.vpsdev@gmail.com', tag: '24/7 Monitoring' },
+              { coord: '[ ACTIVE_HQ_HUB ]', label: 'Headquarters', val: 'Pratapgarh, Uttar Pradesh, India', tag: 'Regional Hub' },
+              { coord: '[ SYNC_READY ]', label: 'Business Line', val: 'Inquiry via Email Recommended', tag: 'Support Mesh' }
+            ].map((c, i) => (
+              <div key={i} style={{ background: '#F0EFEA', border: '1px solid #EAE9E6', padding: '40px 32px', borderRadius: '16px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '220px' }}>
+                <span style={{ position: 'absolute', top: '16px', right: '16px', fontFamily: H.mono, fontSize: '0.6rem', color: '#9AA0AE' }}>{c.coord}</span>
+                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#5C6170', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>{c.label}</span>
+                <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 16px 0', color: '#000000', wordBreak: 'break-word' }}>{c.val}</h4>
+                <div style={{ display: 'inline-block', alignSelf: 'flex-start', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1px', background: '#E2E1DD', padding: '4px 12px', borderRadius: '20px', textTransform: 'uppercase', color: '#5C6170' }}>{c.tag}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '60px' }} className="nothin-grid-2">
+            <div>
+              <h3 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px' }}>Secure Transmission</h3>
+              <p style={{ fontSize: '0.95rem', color: '#5C6170', lineHeight: 1.6, margin: 0 }}>
+                Our communication lines are encrypted via end-to-end protocols. Your inquiries are routed directly to our specialized operational nodes. We typically reply within 24-48 hours.
+              </p>
+            </div>
+
+            <div style={{ background: '#F0EFEA', padding: '40px', borderRadius: '16px', border: '1px solid #E2E1DD' }}>
               <form onSubmit={handleSubmit}>
-                <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }} className="nothin-grid-2">
                   <input 
                     type="text" 
                     placeholder="Full Name" 
-                    className="terminal-input"
+                    className="nothin-input"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     required
@@ -477,7 +511,7 @@ const VPGroup = () => {
                   <input 
                     type="email" 
                     placeholder="Email Address" 
-                    className="terminal-input"
+                    className="nothin-input"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     required
@@ -486,649 +520,221 @@ const VPGroup = () => {
                 <input 
                   type="text" 
                   placeholder="Subject" 
-                  className="terminal-input" 
-                  style={{ marginBottom: '20px' }}
+                  className="nothin-input" 
+                  style={{ marginBottom: '16px' }}
                   value={formData.subject}
                   onChange={(e) => setFormData({...formData, subject: e.target.value})}
                   required
                 />
                 <textarea 
                   placeholder="Message Payload..." 
-                  className="terminal-input" 
-                  style={{ minHeight: '150px', marginBottom: '30px', resize: 'none' }}
+                  className="nothin-input" 
+                  style={{ minHeight: '120px', marginBottom: '24px', resize: 'none' }}
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                   required
                 ></textarea>
                 <button 
                   type="submit" 
-                  className="attractive-submit"
+                  className="nothin-btn-submit"
                   disabled={loading}
                 >
-                  {loading ? 'TRANSMITTING...' : 'INITIALIZE UPLINK'}
+                  {loading ? 'Transmitting...' : 'Initialize Uplink'}
                 </button>
-                <p style={{ marginTop: '16px', fontSize: '0.75rem', color: '#6b7280', textAlign: 'center', lineHeight: '1.4' }}>
-                  By submitting this form, you agree to our <Link to="/terms-conditions" style={{ color: '#ff4ef0', textDecoration: 'underline' }}>Terms & Conditions</Link> and acknowledge our <Link to="/privacy-policy" style={{ color: '#ff4ef0', textDecoration: 'underline' }}>Privacy Policy</Link>.
+                <p style={{ marginTop: '16px', fontSize: '0.7rem', color: '#9AA0AE', textAlign: 'center', lineHeight: '1.4', margin: '16px 0 0 0' }}>
+                  By submitting this form, you agree to our <Link to="/terms-conditions" style={{ color: '#000000', textDecoration: 'underline', fontWeight: 600 }}>Terms & Conditions</Link> and <Link to="/privacy-policy" style={{ color: '#000000', textDecoration: 'underline', fontWeight: 600 }}>Privacy Policy</Link>.
                 </p>
-                {status && <div style={{ marginTop: '20px', textAlign: 'center', color: status.includes('Success') ? 'var(--success)' : 'var(--danger)', fontWeight: '700' }}>{status}</div>}
+                {status && <div style={{ marginTop: '20px', textAlign: 'center', color: status.includes('Success') ? '#2BE08C' : '#FF3A5C', fontWeight: '700' }}>{status}</div>}
               </form>
             </div>
           </div>
         </section>
 
-        <Footer />
+        {/* Copyright Footer */}
+        <section style={{ padding: '60px 24px 140px', background: '#F0EFEA', borderTop: '1px solid #E2E1DD', textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px' }}>VP GROUP & TECHNOLOGIES</span>
+            <p style={{ fontSize: '0.75rem', color: '#5C6170', margin: 0 }}>
+              © 2026 VP Group. All rights reserved. Platform engineered for infinite scale.
+            </p>
+          </div>
+        </section>
+
       </main>
 
       <style>{`
-        /* Core Section Layout - Fix for Overlapping */
-        .section-container {
-          padding: 120px 5%;
-          max-width: 1400px;
-          margin: 0 auto;
-          width: 100%;
-          position: relative;
-          z-index: 10;
-          overflow: hidden;
+        .nothin-docking-title {
+          transition: color 0.2s ease, opacity 0.2s ease !important;
+          -webkit-transition: color 0.2s ease, opacity 0.2s ease !important;
         }
-        .dark-bg { background: #000; }
-        .cyan-tint { background: rgba(34, 211, 238, 0.02); }
-
-        /* Hero Section */
-        .hero-section {
-          min-height: calc(100vh - 100px);
-          padding: 60px 5%;
-          max-width: 1400px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: 1.2fr 0.8fr;
-          gap: 80px;
+        .nothin-project-row {
+          display: flex;
+          gap: 64px;
           align-items: center;
         }
-        .hero-content { text-align: left; }
-        .hero-visual { width: 100%; position: relative; }
-        
-        .hero-badge {
+        .project-img-wrapper {
+          flex: 1.2;
+          width: 100%;
+        }
+        .project-img-placeholder {
+          width: 100%;
+          aspect-ratio: 16/10;
+          border-radius: 12px;
+          border: 1px solid #E2E1DD;
+        }
+        .project-meta {
+          flex: 0.8;
+          width: 100%;
+        }
+        .nothin-tag {
+          font-family: ${H.mono};
+          font-size: 0.7rem;
+          font-weight: 600;
+          color: #000000;
+          background: #EAE9E6;
+          padding: 6px 12px;
+          border-radius: 40px;
+          letter-spacing: 0.5px;
+        }
+        .nothin-btn-pill {
           display: inline-flex;
           align-items: center;
-          gap: 12px;
-          padding: 10px 24px;
-          background: rgba(255, 78, 240, 0.05);
-          backdrop-filter: blur(10px);
-          color: #ff4ef0;
-          border-radius: 40px;
-          font-size: 0.75rem;
-          font-weight: 900;
-          letter-spacing: 3px;
-          margin-bottom: 40px;
-          border: 1px solid rgba(255, 78, 240, 0.2);
-          text-transform: uppercase;
-        }
-        .badge-dot { 
-            width: 10px; height: 10px; border-radius: 50%; background: #ff4ef0; 
-            box-shadow: 0 0 15px #ff4ef0;
-            animation: pulse-neon 2s infinite;
-        }
-        @keyframes pulse-neon {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0.5; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .hero-title {
-          font-size: clamp(3rem, 8vw, 5.5rem);
-          font-weight: 950;
-          line-height: 1;
-          margin-bottom: 32px;
-          letter-spacing: -4px;
-          color: #fff;
-        }
-        .hero-desc {
-          font-size: clamp(1.1rem, 2.8vw, 1.3rem);
-          color: #94a3b8;
-          line-height: 1.8;
-          max-width: 650px;
-          margin-bottom: 56px;
-        }
-        .hero-actions { display: flex; gap: 24px; flex-wrap: wrap; }
-        
-        /* Premium Buttons */
-        .btn-primary {
-          background: #fff;
-          color: #030712;
+          gap: 8px;
+          background: #000000;
+          color: #FFFFFF;
           border: none;
-          padding: 20px 40px;
-          border-radius: 16px;
-          font-size: 1.1rem;
-          font-weight: 900;
+          border-radius: 30px;
+          padding: 12px 24px;
+          font-weight: 700;
           cursor: pointer;
-          display: flex;
+          transition: all 0.2s ease;
+          font-size: 0.85rem;
+        }
+        .nothin-btn-pill:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+        }
+        .nothin-btn-pill-action {
+          display: inline-flex;
           align-items: center;
-          gap: 12px;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          overflow: hidden;
-        }
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.8), transparent);
-            transform: rotate(45deg);
-            transition: 0.6s;
-            opacity: 0;
-        }
-        .btn-primary:hover { 
-            transform: translateY(-5px) scale(1.02); 
-            box-shadow: 0 20px 40px rgba(255,255,255,0.15);
-        }
-        .btn-primary:hover::after { left: 100%; opacity: 1; }
-        
-        .btn-secondary {
-          background: rgba(255,255,255,0.02);
-          color: #fff;
-          border: 1px solid rgba(255,255,255,0.1);
-          padding: 20px 40px;
-          border-radius: 16px;
-          font-size: 1.1rem;
-          font-weight: 800;
-          cursor: pointer;
-          transition: 0.3s;
-          backdrop-filter: blur(10px);
-        }
-        .btn-secondary:hover { 
-            background: rgba(255,255,255,0.08); 
-            border-color: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Portfolio & Partner Button View - Enhanced */
-        .btn-standard-accent { 
-            width: 100%; 
-            padding: 20px; 
-            background: linear-gradient(135deg, #22d3ee, #0ea5e9); 
-            border: none; 
-            color: #fff; 
-            border-radius: 16px; 
-            font-weight: 950; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 12px; 
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            margin-bottom: 16px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
-        .btn-standard-accent:hover { 
-            transform: translateY(-4px);
-            box-shadow: 0 15px 30px rgba(34, 211, 238, 0.3);
-            filter: brightness(1.1);
-        }
-
-        .btn-standard-outline { 
-            width: 100%; 
-            padding: 18px; 
-            background: transparent; 
-            border: 2px solid rgba(255,255,255,0.1); 
-            color: #fff; 
-            border-radius: 16px; 
-            font-weight: 800; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 12px; 
-            transition: 0.3s; 
-            font-size: 0.9rem;
-        }
-        .btn-standard-outline:hover { 
-            background: rgba(255,255,255,0.05); 
-            border-color: rgba(255,255,255,0.3); 
-            transform: translateY(-2px);
-        }
-
-        .btn-standard-accent-blue { 
-            width: 100%; 
-            padding: 20px; 
-            background: linear-gradient(to right, #22d3ee, #0ea5e9); 
-            border: none; 
-            color: #fff; 
-            border-radius: 16px; 
-            font-weight: 950; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 12px; 
-            transition: 0.4s; 
-            text-decoration: none; 
-            margin-bottom: 16px; 
-            box-shadow: 0 10px 20px rgba(34, 211, 238, 0.1);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .btn-standard-accent-blue:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(34, 211, 238, 0.4);
-            filter: brightness(1.1);
-        }
-
-        /* Mission Section - High Impact */
-        .mission-section {
-            padding: 80px 5%;
-            margin: 0 auto;
-            max-width: 1200px;
-            display: flex;
-            justify-content: center;
-            position: relative;
-            z-index: 10;
-        }
-        .mission-container {
-            background: rgba(10, 15, 30, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 40px;
-            padding: 80px 40px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-        .mission-container::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 50%; transform: translateX(-50%);
-            width: 50%; height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.5), transparent);
-        }
-        .mission-icon-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 40px;
-            color: #22d3ee;
-        }
-        .mission-icon-box .line {
-            flex: 1;
-            height: 1px;
-            background: rgba(34, 211, 238, 0.3);
-            margin: 0 20px;
-        }
-        .mission-text {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            font-weight: 900;
-            line-height: 1.4;
-            color: #fff;
-            max-width: 900px;
-            letter-spacing: -1px;
-        }
-        .sub-mission {
-            display: block;
-            margin-top: 24px;
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            color: #94a3b8;
-            font-weight: 500;
-            letter-spacing: 0;
-        }
-
-        /* Section Titles & Sub-badges */
-        .section-header { margin-bottom: 60px; text-align: center; }
-        .section-title { 
-            font-size: clamp(2.5rem, 6vw, 4rem); 
-            font-weight: 900; color: #fff; 
-            letter-spacing: -2px; margin: 20px 0;
-        }
-        .sub-badge {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 950;
-            color: #22d3ee;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            padding: 8px 16px;
-            background: rgba(34, 211, 238, 0.05);
-            border-radius: 4px;
-            border-left: 3px solid #22d3ee;
-        }
-        .sub-badge.purple { color: #a78bfa; background: rgba(167, 139, 250, 0.05); border-left-color: #a78bfa; }
-
-        /* Grids */
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 48px; }
-        .partners-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 30px;
-          margin-top: 60px;
-        }
-        .services-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 30px;
-          margin-top: 60px;
-        }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; }
-        
-        /* Cards */
-        .portfolio-card { 
-            padding: 0; overflow: hidden; display: flex; flex-direction: column; 
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .portfolio-card:hover { 
-            transform: translateY(-10px); 
-            border-color: rgba(167, 139, 250, 0.2); 
-            background: rgba(255,255,255,0.01);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-        }
-
-        .portfolio-visual { height: 240px; background: #0f172a; position: relative; display: flex; align-items: center; justify-content: center; }
-        .visual-overlay { position: absolute; inset: 0; background: radial-gradient(circle, rgba(167, 139, 250, 0.2) 0%, transparent 70%); }
-        .visual-content { position: relative; z-index: 1; text-align: center; }
-        .visual-title { font-size: 1.8rem; font-weight: 950; margin-top: 16px; letter-spacing: 5px; color: #fff; text-transform: uppercase; }
-        
-        .portfolio-info { padding: 40px; flex: 1; display: flex; flex-direction: column; gap: 20px; }
-        .info-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0px; }
-        .portfolio-desc { color: #94a3b8; font-size: 1rem; line-height: 1.7; margin-bottom: 10px; }
-        .portfolio-tags { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
-        .tag { font-size: 0.65rem; font-weight: 900; color: #a78bfa; background: rgba(167, 139, 250, 0.1); padding: 6px 16px; border-radius: 30px; letter-spacing: 1px; }
-        .portfolio-actions { margin-top: auto; }
-
-        .partner-card { 
-            padding: 50px; 
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: 0.4s;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        .partner-card:hover { 
-            transform: translateY(-10px); 
-            background: rgba(255,255,255,0.02);
-            border-color: rgba(34, 211, 238, 0.3);
-        }
-        .partner-actions { margin-top: auto; padding-top: 30px; display: flex; flex-direction: column; gap: 12px; }
-        .partner-name { font-size: 2rem; font-weight: 950; color: #fff; letter-spacing: -1px; }
-        .partner-type { color: #22d3ee; font-size: 0.75rem; font-weight: 950; text-transform: uppercase; margin-top: 8px; letter-spacing: 3px; opacity: 0.8; }
-        
-        /* Expansion Slots (Placeholders) */
-        .expansion-slot {
-            align-self: center;
-            background: rgba(3, 7, 18, 0.4);
-            border: 2px dashed rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: default;
-        }
-        .expansion-slot:hover {
-            border-color: rgba(59, 130, 246, 0.4);
-            background: rgba(59, 130, 246, 0.02);
-            transform: translateY(-5px);
-        }
-        .expansion-slot.cyan:hover {
-            border-color: rgba(34, 211, 238, 0.4);
-            background: rgba(34, 211, 238, 0.02);
-        }
-        .slot-content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-        }
-        .slot-icon {
-            opacity: 0.6;
-            transition: 0.4s;
-        }
-        .expansion-slot:hover .slot-icon {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-        .expansion-slot h3, .expansion-slot h4 {
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: #94a3b8;
-            letter-spacing: 2px;
-            margin: 0;
-        }
-        .expansion-slot:hover h3, .expansion-slot:hover h4 { color: #fff; }
-        .slot-badge {
-            font-size: 0.65rem;
-            font-weight: 950;
-            letter-spacing: 2px;
-            padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.05);
-            color: #64748b;
-            border-radius: 20px;
-        }
-        .expansion-slot p {
-            color: #64748b;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin: 0;
-            max-width: 80%;
-        }
-        
-        .service-card {
-          padding: 40px;
-          text-align: left;
-          cursor: pointer;
-          transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          border: 1px solid rgba(255,255,255,0.05);
-          position: relative;
-          overflow: hidden;
-        }
-        .service-card:hover {
-          transform: translateY(-10px);
-          background: rgba(255,255,255,0.02);
-          border-color: rgba(255,255,255,0.1);
-        }
-        .service-card h3 { font-size: 1.5rem; margin: 24px 0 16px; color: #fff; }
-        .service-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
-
-        /* Culture */
-        .culture-panel { padding: clamp(30px, 5vw, 100px); border-radius: 40px; }
-        .culture-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
-        .culture-title { font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 950; margin-bottom: 32px; letter-spacing: -2.5px; }
-        .culture-desc { color: #94a3b8; line-height: 1.8; font-size: 1.15rem; margin-bottom: 40px; }
-        .culture-card { 
-            padding: 48px; background: rgba(255,255,255,0.02); border-radius: 32px; 
-            border: 1px solid rgba(255,255,255,0.04); 
-            transition: 0.4s;
-        }
-        .culture-card:hover { transform: scale(1.02); background: rgba(255,255,255,0.04); }
-
-        /* Unique Contact Command Center View */
-        .contact-details-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 32px;
-          margin-top: 80px;
-        }
-        .detail-card {
-          padding: 80px 40px;
-          text-align: center;
-          transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-          border: 1px solid rgba(255,255,255,0.03);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          position: relative;
-          background: rgba(10, 15, 30, 0.4);
-          border-radius: 32px;
-          overflow: hidden;
-          min-height: 400px;
           justify-content: center;
+          gap: 8px;
+          background: #000000;
+          color: #FFFFFF;
+          border: none;
+          border-radius: 12px;
+          padding: 16px;
+          font-weight: 700;
+          cursor: pointer;
+          text-decoration: none;
+          text-align: center;
+          transition: all 0.2s ease;
+          font-size: 0.875rem;
         }
-        .detail-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            opacity: 0;
-            transition: 0.5s;
+        .nothin-btn-pill-action:hover {
+          background: #222222;
+          transform: translateY(-2px);
         }
-        .detail-card:hover { 
-            transform: translateY(-15px) scale(1.02); 
-            background: rgba(255,255,255,0.02); 
-            border-color: rgba(255,255,255,0.1);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        .nothin-btn-pill-action-secondary {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: transparent;
+          color: #000000;
+          border: 1px solid #C2C1BD;
+          border-radius: 12px;
+          padding: 16px;
+          font-weight: 700;
+          cursor: pointer;
+          text-decoration: none;
+          text-align: center;
+          transition: all 0.2s ease;
+          font-size: 0.875rem;
         }
-        .detail-card:hover::before { opacity: 1; }
-
-        .card-coord {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            font-family: 'Monospace', sans-serif;
-            font-size: 0.6rem;
-            color: rgba(255,255,255,0.2);
-            letter-spacing: 1px;
+        .nothin-btn-pill-action-secondary:hover {
+          background: rgba(0,0,0,0.03);
+          border-color: #000000;
         }
-        .card-trace {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 1px solid transparent;
-            border-radius: 32px;
-            pointer-events: none;
-            transition: 0.5s;
+        .nothin-service-card {
+          background: #F6F5F2;
+          padding: 48px;
+          cursor: pointer;
+          position: relative;
+          transition: all 0.3s ease;
         }
-        .detail-card:hover .card-trace {
-            border-color: rgba(34, 211, 238, 0.2);
-            box-shadow: inset 0 0 30px rgba(34, 211, 238, 0.05);
+        .nothin-service-card:hover {
+          background: #FAF9F6;
         }
-
-        .detail-icon { 
-            width: 80px; height: 80px; border-radius: 24px; 
-            background: rgba(255,255,255,0.03); 
-            display: flex; align-items: center; justify-content: center; 
-            margin-bottom: 32px;
-            transition: 0.5s;
+        .nothin-service-arrow {
+          position: absolute;
+          bottom: 32px;
+          right: 32px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: #EAE9E6;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transform: translateX(-10px);
+          transition: all 0.3s ease;
         }
-        .detail-card:hover .detail-icon {
-            transform: rotateY(180deg);
-            background: rgba(255,255,255,0.08);
+        .nothin-service-card:hover .nothin-service-arrow {
+          opacity: 1;
+          transform: translateX(0);
         }
-
-        .detail-card h3 { font-size: 0.75rem; font-weight: 900; letter-spacing: 4px; color: #64748b; margin-bottom: 16px; text-transform: uppercase; }
-        .detail-card p { font-size: 1.3rem; font-weight: 900; color: #fff; margin-bottom: 24px; line-height: 1.3; }
-        .detail-tag { font-size: 0.6rem; font-weight: 950; letter-spacing: 2px; padding: 8px 20px; border-radius: 40px; background: rgba(255,255,255,0.05); color: #94a3b8; text-transform: uppercase; }
-
-        .detail-card.cyan:hover .card-trace { border-color: rgba(34, 211, 238, 0.4); }
-        .detail-card.purple:hover .card-trace { border-color: rgba(167, 139, 250, 0.4); }
-        .detail-card.blue:hover .card-trace { border-color: rgba(96, 165, 250, 0.4); }
-
-        /* Tablet/Mobile Responsive */
-        @media (max-width: 1024px) {
-            .contact-details-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-            .detail-card.blue { grid-column: span 2; }
-            .detail-card { min-height: 350px; padding: 40px 20px; }
+        .nothin-input {
+          width: 100%;
+          background: #F6F5F2;
+          border: 1px solid #C2C1BD;
+          border-radius: 8px;
+          padding: 14px;
+          color: #000000;
+          font-size: 0.95rem;
+          transition: all 0.2s;
         }
-        @media (max-width: 768px) {
-            .contact-details-grid { grid-template-columns: 1fr; gap: 15px; }
-            .detail-card.blue { grid-column: span 1; }
-            .detail-card { padding: 40px 20px; min-height: 300px; border-radius: 24px; }
-            .detail-card p { font-size: 1.1rem; }
-            .detail-icon { width: 60px; height: 60px; margin-bottom: 20px; }
+        .nothin-input:focus {
+          border-color: #000000;
+          outline: none;
+          background: #FFFFFF;
         }
-
-        /* Contact Section */
-        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; margin-top: 60px; }
-        .contact-info-stack { display: flex; flex-direction: column; gap: 20px; }
-        .contact-item { 
-            padding: 30px; display: flex; align-items: center; gap: 20px; 
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s ease;
-        }
-        .contact-item:hover { transform: translateX(10px); background: rgba(255,255,255,0.04); }
-        .contact-icon-box { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); }
-        .contact-text h4 { font-size: 1rem; color: #fff; margin-bottom: 4px; }
-        .contact-text p { color: #94a3b8; font-size: 0.9rem; }
-
-        .terminal-input { 
-          width: 100%; 
-          background: rgba(3, 7, 18, 0.6); 
-          border: 1.5px solid rgba(255, 255, 255, 0.05); 
-          padding: 20px; 
-          border-radius: 12px; 
-          color: #fff; 
+        .nothin-btn-submit {
+          width: 100%;
+          padding: 16px;
+          background: #000000;
+          color: #FFFFFF;
+          border: none;
+          border-radius: 8px;
+          font-weight: 700;
           font-size: 1rem;
-          transition: all 0.3s;
+          cursor: pointer;
+          transition: all 0.2s;
         }
-        .terminal-input:focus { 
-            border-color: #22d3ee; 
-            background: rgba(34, 211, 238, 0.03); 
-            box-shadow: 0 0 20px rgba(34, 211, 238, 0.1);
-        }
-        
-        .attractive-submit { 
-            width: 100%; padding: 24px; 
-            background: linear-gradient(135deg, #ff4ef0, #8b5cf6); 
-            border: none; border-radius: 20px; color: #fff; 
-            font-weight: 950; cursor: pointer; display: flex; 
-            align-items: center; justify-content: center; gap: 16px; 
-            transition: 0.4s; font-size: 1.2rem; 
-            letter-spacing: 1px; text-transform: uppercase;
-        }
-        .attractive-submit:hover:not(:disabled) { 
-            transform: translateY(-6px); 
-            box-shadow: 0 25px 50px rgba(255, 78, 240, 0.4); 
+        .nothin-btn-submit:hover:not(:disabled) {
+          background: #222222;
+          transform: translateY(-2px);
         }
 
-        /* Responsive Overrides */
-        @media (max-width: 1200px) {
-          .hero-section { grid-template-columns: 1fr; gap: 60px; text-align: center; }
-          .hero-content { text-align: center; }
-          .hero-desc { margin-left: auto; margin-right: auto; }
-          .hero-actions { justify-content: center; }
-          .hero-visual { max-width: 600px; margin: 0 auto; }
+        .desktop-only {
+          display: block;
         }
 
-        @media (max-width: 768px) {
-          .section-container { padding: 60px 4%; }
-          .hero-title { font-size: clamp(2.5rem, 10vw, 3.5rem); letter-spacing: -2px; }
-          .hero-section { padding-top: 100px; min-height: auto; }
-          .contact-grid { grid-template-columns: 1fr; }
-          .culture-grid { grid-template-columns: 1fr; gap: 40px; }
-          .form-row { grid-template-columns: 1fr; }
-          .hero-actions .btn-primary, .hero-actions .btn-secondary { width: 100%; justify-content: center; padding: 16px 24px; }
-          .portfolio-grid { grid-template-columns: 1fr; gap: 30px; }
-          .partners-grid { grid-template-columns: 1fr; gap: 20px; }
-          .services-grid { grid-template-columns: 1fr; gap: 20px; }
-          .contact-details-grid { grid-template-columns: 1fr; }
-          .partner-card { padding: 30px; }
-          .portfolio-info { padding: 24px; }
-          .detail-card { padding: 40px 24px; min-height: auto; }
-          .mission-container { padding: 40px 20px; border-radius: 24px; }
-        }
-
-        @media (max-width: 480px) {
-          .hero-badge { padding: 8px 16px; font-size: 0.65rem; letter-spacing: 1px; }
-          .service-card { padding: 24px; }
-          .section-title { font-size: 2rem; letter-spacing: -1px; }
-          .section-container { padding: 40px 4%; }
-          .btn-primary, .btn-secondary { font-size: 0.95rem; padding: 14px 20px; }
+        @media (max-width: 960px) {
+          .nothin-project-row {
+            flex-direction: column !important;
+            gap: 32px;
+          }
+          .nothin-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+          .desktop-only {
+            display: none !important;
+          }
         }
       `}</style>
     </div>
   );
-};
-
-export default VPGroup;
+}
