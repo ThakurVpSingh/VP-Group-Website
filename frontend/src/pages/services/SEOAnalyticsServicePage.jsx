@@ -1,284 +1,236 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { animate, stagger } from 'animejs';
 import ProjectNavbar from '../../components/ProjectNavbar';
 import Footer from '../../components/Footer';
-import { ArrowRight, Search, Activity, Layers, TrendingUp, Globe, BarChart2, Tag, CheckCircle2 } from 'lucide-react';
+import StatTile from '../../components/halo/StatTile';
+import HaloCard from '../../components/halo/HaloCard';
+import Chip from '../../components/halo/Chip';
+import { ArrowRight, Search, BarChart2, TrendingUp, Globe, Tag, MousePointer, Layers, Settings } from 'lucide-react';
 
-const ACCENT = '#a855f7';
-const ACCENT2 = '#06b6d4';
+const H = { font: "'Inter', sans-serif", mono: "'JetBrains Mono', ui-monospace, monospace" };
 
-const toolSteps = [
-  {
-    tool: 'Google Search Console',
-    color: '#4285f4',
-    icon: Search,
-    steps: [
-      'Domain ownership verification via HTML meta tag',
-      'Submit sitemap.xml for immediate crawling',
-      'Request indexing of all main pages',
-      'Monitor search impressions & keyword rankings',
-    ],
-    stat: '10x faster indexing',
-  },
-  {
-    tool: 'Google Analytics 4',
-    color: '#f59e0b',
-    icon: Activity,
-    steps: [
-      'Create GA4 property & configure data stream',
-      'Set correct timezone & session parameters',
-      'Extract measurement ID for GTM integration',
-      'Enable enhanced measurement for key events',
-    ],
-    stat: '100% visitor tracking accuracy',
-  },
-  {
-    tool: 'Google Tag Manager',
-    color: ACCENT,
-    icon: Tag,
-    steps: [
-      'Deploy GTM container code (header + body)',
-      'Create GA4 configuration tag from measurement ID',
-      'Set up click trackers for all CTA buttons',
-      'Enable debug mode, verify & publish container',
-    ],
-    stat: 'Zero code changes needed post-setup',
-  },
-];
+const sparkSearch  = [70,75,80,84,87,89,91,92,93,93]; // 93% sessions start with search
+const sparkClicks  = [40,50,58,62,65,68,70,71,71,71]; // 71% click page-1
+const sparkROI     = [100,150,220,300,380,430,480,520,545,550]; // 550% SEO ROI
+const sparkSearchV = [6.5,7.0,7.3,7.7,8.0,8.1,8.3,8.4,8.5,8.5]; // 8.5B searches/day
 
 const chartData = [
-  { month: 'Jan', value: 12 },
-  { month: 'Feb', value: 18 },
-  { month: 'Mar', value: 24 },
-  { month: 'Apr', value: 31 },
-  { month: 'May', value: 45 },
-  { month: 'Jun', value: 58 },
-  { month: 'Jul', value: 72 },
+  { label:'Organic',    before:22, after:68, color:'#3DD7E5' },
+  { label:'Direct',     before:31, after:18, color:'#5B6BFF' },
+  { label:'Referral',   before:15, after:8,  color:'#9AA0AE' },
+  { label:'Paid',       before:32, after:6,  color:'#F5D547' },
 ];
 
 const capabilities = [
-  { icon: Search, title: 'Search Console Mastery', desc: 'Comprehensive GSC property setup including domain verification, sitemap submission, coverage reports, and manual indexing requests.' },
-  { icon: Activity, title: 'GA4 Property Configuration', desc: 'End-to-end GA4 setup: data streams, event parameters, conversion goals, audience segments, and custom dashboard creation.' },
-  { icon: Tag, title: 'Tag Manager Architecture', desc: 'Professional GTM container build with organized tag structure, reusable variables, and trigger logic that requires zero developer involvement.' },
-  { icon: TrendingUp, title: 'SEO Optimization', desc: 'Technical SEO audit: page speed, Core Web Vitals, schema markup, meta tags, and canonical URL enforcement across your site.' },
-  { icon: Globe, title: 'Sitemap Optimization', desc: 'Dynamic XML sitemap generation ensuring every page, blog post, and product listing is crawled and indexed rapidly.' },
-  { icon: BarChart2, title: 'Real-Time Verification', desc: 'Live testing of every tag and event trigger in GTM preview mode before publishing — zero guesswork, guaranteed accuracy.' },
+  { icon:Search,      title:'Technical SEO Audit',       desc:'Crawl errors, Core Web Vitals, schema markup, canonical tags, and sitemap health — fully diagnosed.' },
+  { icon:Tag,         title:'Keyword Architecture',      desc:'Topic-cluster strategy mapping commercial, informational, and navigational intent across your site.' },
+  { icon:TrendingUp,  title:'Content Velocity Engine',   desc:'Publishing cadence strategy with AI-assisted briefs optimised for target keywords and featured snippets.' },
+  { icon:Globe,       title:'Google Search Console',     desc:'Full GSC setup — property verification, sitemap submission, and performance monitoring dashboard.' },
+  { icon:BarChart2,   title:'GA4 & Analytics Setup',     desc:'GA4 event taxonomy, funnel configuration, custom dashboards, and monthly performance reports.' },
+  { icon:Settings,    title:'Google Tag Manager',        desc:'GTM container setup with triggers, variables, and tag firing for conversion and behaviour tracking.' },
+];
+
+const toolsData = [
+  {
+    id:'gsc', label:'Google Search Console',
+    desc:'Index coverage, Core Web Vitals, search performance, and manual action monitoring.',
+    steps:['Verify property (DNS or HTML tag)','Submit sitemap.xml','Monitor coverage report','Track position & impression data'],
+  },
+  {
+    id:'ga4', label:'Google Analytics 4',
+    desc:'Event-based tracking, audience segments, conversion funnel, and cross-device reporting.',
+    steps:['Install GA4 Measurement ID','Configure key events (leads, purchases)','Build funnel exploration','Set data retention to 14 months'],
+  },
+  {
+    id:'gtm', label:'Google Tag Manager',
+    desc:'Centralised tag deployment — fire any tracking pixel without touching the codebase.',
+    steps:['Create GTM workspace','Deploy GA4 via GTM tag','Configure scroll, click & form triggers','Preview > Publish to live'],
+  },
 ];
 
 export default function SEOAnalyticsServicePage() {
-  const [activeTab, setActiveTab] = useState(0);
-  const [animatedBars, setAnimatedBars] = useState(false);
-  const sectionRef = useRef(null);
+  const [activeTab, setActiveTab] = useState('gsc');
+  const activeTool = toolsData.find(t => t.id === activeTab);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'SEO & Analytics Setup | VP Group';
-
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !animatedBars) { setAnimatedBars(true); } },
-      { threshold: 0.3 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, [animatedBars]);
-
-  useEffect(() => {
-    if (animatedBars) {
-      animate('.seo-bar', {
-        height: (el) => el.getAttribute('data-height') + 'px',
-        duration: 1000,
-        delay: stagger(100),
-        easing: 'easeOutQuart'
-      });
-    }
-  }, [animatedBars]);
-
-  useEffect(() => {
-    animate('.seo-cap-card', {
-      opacity: [0, 1],
-      translateY: [24, 0],
-      duration: 500,
-      delay: stagger(80),
-      easing: 'easeOutQuart'
-    });
+    document.title = 'SEO & Analytics | VP Group';
   }, []);
 
-  const maxVal = Math.max(...chartData.map(d => d.value));
+  useEffect(() => {
+    animate('.seo-stat', { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(80), easing:'easeOutQuart' });
+    animate('.seo-cap',  { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(70), easing:'easeOutQuart' });
+    animate('.seo-bar',  { width:['0%','100%'], duration:900, delay:stagger(80), easing:'easeOutQuart' });
+  }, []);
+
+  const max = Math.max(...chartData.flatMap(d => [d.before, d.after]));
 
   return (
-    <div style={{ background: '#060010', minHeight: '100vh', fontFamily: '"Plus Jakarta Sans", sans-serif', color: '#fff' }}>
+    <div className="halo-page" style={{ fontFamily:H.font }}>
       <ProjectNavbar />
 
-      {/* HERO: Search/Analytics Dashboard */}
-      <section style={{ minHeight: '100vh', padding: 'clamp(100px, 10vw, 140px) 5% clamp(60px, 8vw, 100px)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: `${ACCENT}15`, border: `1px solid ${ACCENT}30`, borderRadius: '100px', padding: '6px 16px', marginBottom: '40px' }}>
-            <Search size={14} color={ACCENT} />
-            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '3px', textTransform: 'uppercase' }}>SEO & Analytics Setup</span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+      {/* ── HERO ─────────────────────────────────────────────── */}
+      <section className="halo-section" style={{ minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'100px', position:'relative', overflow:'hidden' }}>
+        <div className="halo-container" style={{ width:'100%', position:'relative', zIndex:1 }}>
+          <div className="halo-hero-grid">
             <div>
-              <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 950, lineHeight: 1.05, letterSpacing: '-2px', marginBottom: '28px' }}>
-                <span style={{ display: 'block', color: '#fff' }}>Make Google</span>
-                <span style={{ display: 'block', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Find Your Website</span>
+              <div style={{ marginBottom:'28px' }}>
+                <Chip variant="info"><Search size={11} style={{ marginRight:4 }} />SEO & ANALYTICS</Chip>
+              </div>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'#F2F4F8', marginBottom:'20px' }}>
+                Rank Higher.<br /><span style={{ color:'#3DD7E5' }}>Track Everything.</span>
               </h1>
-              <p style={{ fontSize: '1.1rem', color: '#94a3b8', lineHeight: 1.8, marginBottom: '40px' }}>
-                We configure Search Console, GA4, and Tag Manager as a connected measurement suite — so you know exactly who visits, where they come from, and what they do.
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
+                Full-stack SEO implementation and analytics infrastructure — from keyword architecture and Core Web Vitals to GA4 event taxonomy and GTM deployment.
               </p>
 
-              {/* Simulated search bar */}
-              <div style={{ background: '#0f0018', border: `1px solid ${ACCENT}20`, borderRadius: '14px', padding: '16px 20px', marginBottom: '40px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Search size={18} color='#475569' />
-                <span style={{ color: '#475569', fontSize: '0.9rem' }}>vp-group-website.vercel.app —</span>
-                <span style={{ color: ACCENT, fontSize: '0.9rem', fontWeight: 700 }}>Indexed ✓</span>
-                <div style={{ marginLeft: 'auto', padding: '4px 10px', background: `${ACCENT}20`, borderRadius: '8px', fontSize: '0.75rem', color: ACCENT, fontWeight: 700 }}>Position #1</div>
+              {/* 3-tool badges */}
+              <div style={{ display:'flex', gap:'10px', flexWrap:'wrap', marginBottom:'36px' }}>
+                {['Google Search Console','Google Analytics 4','Google Tag Manager'].map((t,i)=>(
+                  <Chip key={i} variant="info">{t}</Chip>
+                ))}
               </div>
 
-              <Link to="/help/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', padding: '16px 32px', borderRadius: '14px', fontWeight: 800, textDecoration: 'none', fontSize: '0.95rem', transition: 'all 0.3s ease' }}
-                onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-3px)'}
-                onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-                Get Indexed Today <ArrowRight size={18} />
+              <Link to="/help/contact" className="halo-btn-primary">
+                Start Ranking Now <ArrowRight size={16} />
               </Link>
             </div>
 
-            {/* Analytics Dashboard Mockup */}
-            <div style={{ background: '#0a0015', border: `1px solid ${ACCENT}20`, borderRadius: '20px', overflow: 'hidden', boxShadow: `0 40px 80px rgba(0,0,0,0.6), 0 0 60px ${ACCENT}08` }}>
-              <div style={{ padding: '16px 20px', background: '#0f0020', borderBottom: `1px solid ${ACCENT}15`, display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Activity size={16} color={ACCENT} />
-                <span style={{ fontSize: '0.8rem', color: '#fff', fontWeight: 700 }}>GA4 Realtime Dashboard</span>
-                <div style={{ marginLeft: 'auto', width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 8px #22c55e' }} />
-              </div>
-              {/* Chart area */}
-              <div ref={sectionRef} style={{ padding: '24px' }}>
-                <div style={{ fontSize: '0.7rem', color: '#475569', marginBottom: '8px', letterSpacing: '2px' }}>ORGANIC SESSIONS / MONTH</div>
-                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '10px', height: '160px', marginBottom: '12px' }}>
-                  {chartData.map((d, i) => {
-                    const h = Math.round((d.value / maxVal) * 130);
-                    return (
-                      <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', height: '100%', justifyContent: 'flex-end' }}>
-                        <div className="seo-bar" data-height={h} style={{ width: '100%', height: '4px', borderRadius: '4px 4px 0 0', background: `linear-gradient(180deg, ${ACCENT}, ${ACCENT2})`, transition: 'height 0.1s ease' }} />
-                        <span style={{ fontSize: '0.6rem', color: '#334155' }}>{d.month}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginTop: '16px' }}>
-                  {[
-                    { v: '72K', l: 'Monthly Visitors' },
-                    { v: '35%', l: 'CTR Growth' },
-                    { v: '#1', l: 'Search Ranking' },
-                  ].map((s, i) => (
-                    <div key={i} style={{ padding: '12px', background: `${ACCENT}08`, borderRadius: '10px', textAlign: 'center' }}>
-                      <div style={{ fontSize: '1.2rem', fontWeight: 900, color: ACCENT }}>{s.v}</div>
-                      <div style={{ fontSize: '0.65rem', color: '#475569', marginTop: '2px' }}>{s.l}</div>
-                    </div>
-                  ))}
+            {/* Bar chart */}
+            <HaloCard elevated>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'24px' }}>
+                <div className="halo-label">Traffic Source Distribution</div>
+                <div style={{ display:'flex', gap:'12px' }}>
+                  <Chip variant="muted">Before SEO</Chip>
+                  <Chip variant="info">After SEO</Chip>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 70% 40%, ${ACCENT}06 0%, transparent 60%)`, pointerEvents: 'none' }} />
-      </section>
-
-      {/* 3-TOOL TABS */}
-      <section style={{ padding: 'clamp(80px, 10vw, 140px) 5%', background: 'rgba(255,255,255,0.01)', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '56px' }}>
-            <div style={{ width: '4px', height: '40px', borderRadius: '4px', background: `linear-gradient(${ACCENT}, ${ACCENT2})` }} />
-            <div>
-              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '6px' }}>The 3-Tool Stack</div>
-              <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 950, letterSpacing: '-1.5px', color: '#fff', margin: 0 }}>One Afternoon. Three Tools. Complete Visibility.</h2>
-            </div>
-          </div>
-
-          {/* Tab selector */}
-          <div style={{ display: 'flex', gap: '12px', marginBottom: '40px', flexWrap: 'wrap' }}>
-            {toolSteps.map((tool, i) => (
-              <button key={i} onClick={() => setActiveTab(i)} style={{ padding: '12px 24px', borderRadius: '12px', border: `1px solid ${activeTab === i ? tool.color : 'rgba(255,255,255,0.08)'}`, background: activeTab === i ? `${tool.color}15` : 'transparent', color: activeTab === i ? tool.color : '#475569', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', transition: 'all 0.3s ease', fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
-                {tool.tool}
-              </button>
-            ))}
-          </div>
-
-          {/* Active tool detail */}
-          {toolSteps[activeTab] && (
-            <div style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${toolSteps[activeTab].color}20`, borderRadius: '24px', padding: '40px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'center' }}>
               <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '24px' }}>
-                  <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: `${toolSteps[activeTab].color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {React.createElement(toolSteps[activeTab].icon, { size: 24, color: toolSteps[activeTab].color })}
-                  </div>
-                  <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff', margin: 0 }}>{toolSteps[activeTab].tool}</h3>
-                </div>
-                <div style={{ marginBottom: '24px' }}>
-                  {toolSteps[activeTab].steps.map((step, i) => (
-                    <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '14px', alignItems: 'flex-start' }}>
-                      <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: `${toolSteps[activeTab].color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.7rem', fontWeight: 700, color: toolSteps[activeTab].color }}>
-                        {i + 1}
-                      </div>
-                      <span style={{ color: '#cbd5e1', fontSize: '0.95rem', lineHeight: 1.6 }}>{step}</span>
+                {chartData.map((row,i)=>(
+                  <div key={i} style={{ marginBottom:'18px' }}>
+                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'6px' }}>
+                      <span style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE' }}>{row.label}</span>
+                      <span style={{ fontFamily:H.mono, fontSize:'0.8125rem', color:row.color }}>{row.after}%</span>
                     </div>
-                  ))}
-                </div>
+                    <div style={{ display:'grid', gridTemplateRows:'auto auto', gap:'4px' }}>
+                      <div style={{ height:'6px', background:'#1E2029', borderRadius:'4px', overflow:'hidden' }}>
+                        <div className="seo-bar" style={{ height:'100%', width:`${(row.before/max)*100}%`, background:'#3A3D4A', borderRadius:'4px' }} />
+                      </div>
+                      <div style={{ height:'6px', background:'#1E2029', borderRadius:'4px', overflow:'hidden' }}>
+                        <div className="seo-bar" style={{ height:'100%', width:`${(row.after/max)*100}%`, background:row.color, borderRadius:'4px' }} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div style={{ textAlign: 'center', padding: '40px', background: `${toolSteps[activeTab].color}06`, borderRadius: '20px', border: `1px solid ${toolSteps[activeTab].color}20` }}>
-                <div style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 950, color: toolSteps[activeTab].color, marginBottom: '12px', letterSpacing: '-1px' }}>✓</div>
-                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>{toolSteps[activeTab].stat}</div>
-                <div style={{ fontSize: '0.9rem', color: '#64748b' }}>Guaranteed outcome</div>
+              <div style={{ marginTop:'20px', padding:'10px 14px', background:'rgba(43,224,140,0.08)', border:'1px solid rgba(43,224,140,0.2)', borderRadius:'8px' }}>
+                <span style={{ fontFamily:H.mono, fontSize:'0.75rem', color:'#2BE08C' }}>↑ +46% organic share · avg client result after 6 months</span>
               </div>
-            </div>
-          )}
+            </HaloCard>
+          </div>
+        </div>
+        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse at 65% 40%, rgba(61,215,229,0.05) 0%, transparent 55%)', pointerEvents:'none' }} />
+      </section>
+
+      {/* ── STAT TILES ───────────────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div className="halo-label" style={{ marginBottom:'24px' }}>Global Search Landscape — Market Data 2024</div>
+          <div className="halo-grid-4">
+            <div className="seo-stat"><StatTile eyebrow="Sessions Start With Search" metric="93%" description="of online experiences begin on a search engine" trend="up" trendLabel="Google dominates 92%" accent="info" sparkData={sparkSearch} /></div>
+            <div className="seo-stat"><StatTile eyebrow="Page-1 Click Share" metric="71%" description="of all search clicks go to first-page results" trend="up" trendLabel="Page-2 gets 6%" accent="primary" sparkData={sparkClicks} /></div>
+            <div className="seo-stat"><StatTile eyebrow="SEO ROI vs Paid Ads" metric="550%" description="Return over a 36-month content investment" trend="up" trendLabel="Compound growth effect" accent="success" sparkData={sparkROI} /></div>
+            <div className="seo-stat"><StatTile eyebrow="Daily Google Searches" metric="8.5B" description="Opportunities to be discovered every day" trend="up" trendLabel="Growing 7% YoY" accent="warning" sparkData={sparkSearchV} /></div>
+          </div>
         </div>
       </section>
 
-      {/* CAPABILITIES */}
-      <section style={{ padding: 'clamp(80px, 10vw, 140px) 5%' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '16px' }}>Full Scope of Work</div>
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 950, letterSpacing: '-2px', color: '#fff', margin: 0 }}>Everything Included. Nothing Missed.</h2>
+      {/* ── 3-TOOL WALKTHROUGH ───────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'16px' }}>
+            <div style={{ width:'2px', height:'32px', background:'#3DD7E5', borderRadius:'2px' }} />
+            <div>
+              <div className="halo-label" style={{ marginBottom:'4px' }}>Three Essential Tools</div>
+              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Your Analytics Foundation</h2>
+            </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
-            {capabilities.map((cap, i) => (
-              <div key={i} className="seo-cap-card" style={{ padding: '36px', background: 'rgba(168, 85, 247, 0.03)', border: '1px solid rgba(168, 85, 247, 0.1)', borderRadius: '24px', transition: 'all 0.4s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT + '40'; e.currentTarget.style.transform = 'translateY(-8px)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.1)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `${ACCENT}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-                  <cap.icon size={24} color={ACCENT} />
-                </div>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>{cap.title}</h3>
-                <p style={{ color: '#64748b', lineHeight: 1.7, fontSize: '0.92rem', margin: 0 }}>{cap.desc}</p>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'540px' }}>
+            We configure all three Google tools in one afternoon — then you own the data forever.
+          </p>
+
+          <div className="halo-tabs" style={{ marginBottom:'32px' }}>
+            {toolsData.map(t=>(
+              <button key={t.id} className={`halo-tab${activeTab===t.id?' active':''}`} onClick={()=>setActiveTab(t.id)}>{t.label}</button>
+            ))}
+          </div>
+
+          <HaloCard elevated accent="info">
+            <div className="halo-grid-2" style={{ gap:'48px' }}>
+              <div>
+                <h3 style={{ fontFamily:H.font, fontSize:'1.5rem', fontWeight:600, letterSpacing:'-0.015em', color:'#F2F4F8', marginBottom:'12px' }}>{activeTool.label}</h3>
+                <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'0' }}>{activeTool.desc}</p>
+              </div>
+              <div>
+                <div className="halo-label" style={{ marginBottom:'16px' }}>Setup Checklist</div>
+                {activeTool.steps.map((step,i)=>(
+                  <div key={i} style={{ display:'flex', gap:'12px', alignItems:'flex-start', marginBottom:'12px' }}>
+                    <div style={{ width:'20px', height:'20px', borderRadius:'50%', background:'rgba(61,215,229,0.15)', border:'1px solid rgba(61,215,229,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:'1px' }}>
+                      <span style={{ fontFamily:H.mono, fontSize:'0.65rem', color:'#3DD7E5', fontWeight:600 }}>{i+1}</span>
+                    </div>
+                    <span style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', lineHeight:1.5 }}>{step}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </HaloCard>
+        </div>
+      </section>
+
+      {/* ── SEO CAPABILITIES ─────────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div style={{ textAlign:'center', marginBottom:'56px' }}>
+            <div className="halo-label" style={{ marginBottom:'12px' }}>Full Service SEO</div>
+            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Everything to Win on Search</h2>
+          </div>
+          <div className="halo-grid-3">
+            {capabilities.map((cap,i)=>(
+              <div key={i} className="seo-cap">
+                <HaloCard hoverable accent="info">
+                  <div style={{ width:'36px', height:'36px', borderRadius:'8px', background:'rgba(61,215,229,0.1)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'16px', paddingTop:'6px' }}>
+                    <cap.icon size={16} color="#3DD7E5" />
+                  </div>
+                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'#F2F4F8', marginBottom:'10px' }}>{cap.title}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55 }}>{cap.desc}</div>
+                </HaloCard>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: 'clamp(100px, 12vw, 180px) 5%', textAlign: 'center', background: `radial-gradient(ellipse at 50% 0%, ${ACCENT}10 0%, transparent 60%)` }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 950, letterSpacing: '-2.5px', color: '#fff', marginBottom: '24px' }}>
-            Get <span style={{ color: ACCENT }}>Discovered.</span>
+      {/* ── CTA ──────────────────────────────────────────────── */}
+      <section className="halo-section" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(61,215,229,0.05) 0%, transparent 55%)' }}>
+        <div style={{ maxWidth:'600px', margin:'0 auto' }}>
+          <div className="halo-label" style={{ marginBottom:'20px' }}>Search Visibility</div>
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'20px' }}>
+            Be Found. <span style={{ color:'#3DD7E5' }}>Be Chosen.</span>
           </h2>
-          <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '48px', lineHeight: 1.8 }}>
-            Your website exists. Let Google and your customers actually find it — today.
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
+            93% of journeys start on a search engine. Make sure yours ends on your website.
           </p>
-          <Link to="/help/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', padding: '20px 48px', borderRadius: '16px', fontWeight: 800, textDecoration: 'none', fontSize: '1rem', letterSpacing: '1px', textTransform: 'uppercase', transition: 'all 0.3s ease' }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 20px 60px ${ACCENT}40`; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
-            Set Up Analytics Now <ArrowRight size={20} />
+          <Link to="/help/contact" className="halo-btn-primary" style={{ height:'48px', padding:'0 28px', fontSize:'0.9375rem' }}>
+            Audit My Website Now <ArrowRight size={18} />
           </Link>
         </div>
       </section>
 
       <Footer />
       <style>{`
-        @media (max-width: 768px) {
-          section > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-        }
+        @media(max-width:960px){ .halo-grid-4{grid-template-columns:1fr 1fr!important} section>.halo-container>div[style*="grid-template-columns: 1fr 1fr"]{ display:block!important; } }
+        @media(max-width:720px){ .halo-grid-4,.halo-grid-3,.halo-grid-2{grid-template-columns:1fr!important} .halo-tabs{width:100%;overflow-x:auto;flex-wrap:nowrap} }
       `}</style>
     </div>
   );

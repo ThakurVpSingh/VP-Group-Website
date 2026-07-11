@@ -1,0 +1,301 @@
+/* ============================================================
+   HALO DESIGN SYSTEM — CSS Custom Properties
+   Version: alpha | Theme: dark
+   ============================================================ */
+
+:root {
+  /* ── Surface tiers ─────────────────────────────────────── */
+  --halo-bg:              #0A0B0F;
+  --halo-surface:         #14151C;
+  --halo-elevated:        #1E2029;
+
+  /* ── Borders ────────────────────────────────────────────── */
+  --halo-border:          #2A2D38;
+  --halo-border-strong:   #3A3D4A;
+
+  /* ── Foreground ─────────────────────────────────────────── */
+  --halo-on-surface:      #F2F4F8;
+  --halo-muted:           #9AA0AE;
+  --halo-faint:           #5C6170;
+
+  /* ── Brand & actions ────────────────────────────────────── */
+  --halo-primary:         #5B6BFF;
+  --halo-primary-hover:   #7886FF;
+  --halo-primary-pressed: #4A59E6;
+
+  /* ── Signal colors ──────────────────────────────────────── */
+  --halo-success:         #2BE08C;
+  --halo-warning:         #F5D547;
+  --halo-info:            #3DD7E5;
+  --halo-error:           #FF3A5C;
+
+  /* ── Focus ──────────────────────────────────────────────── */
+  --halo-focus:           rgba(91, 107, 255, 0.35);
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --halo-font-ui:         'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --halo-font-mono:       'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── Radius ─────────────────────────────────────────────── */
+  --halo-r-sm:   6px;
+  --halo-r-md:   10px;
+  --halo-r-lg:   16px;
+  --halo-r-xl:   24px;
+  --halo-r-full: 999px;
+
+  /* ── Spacing ────────────────────────────────────────────── */
+  --halo-xs:   4px;
+  --halo-sm:   8px;
+  --halo-md:   16px;
+  --halo-lg:   24px;
+  --halo-xl:   40px;
+  --halo-xxl:  64px;
+
+  /* ── Elevation ──────────────────────────────────────────── */
+  --halo-shadow-sm: 0 1px 0 rgba(255,255,255,0.02) inset, 0 1px 2px rgba(0,0,0,0.4);
+  --halo-shadow-md: 0 8px 24px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.03) inset;
+  --halo-shadow-lg: 0 24px 60px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.04) inset;
+  --halo-shadow-focus: 0 0 0 3px rgba(91, 107, 255, 0.35);
+
+  /* ── Motion ─────────────────────────────────────────────── */
+  --halo-dur-fast:   120ms;
+  --halo-dur-base:   150ms;
+  --halo-dur-slow:   240ms;
+  --halo-ease:       cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+/* ── Global Halo page reset ───────────────────────────────── */
+.halo-page {
+  background: var(--halo-bg);
+  color: var(--halo-on-surface);
+  font-family: var(--halo-font-ui);
+  min-height: 100vh;
+}
+
+/* ── Utility: label-sm eyebrow ───────────────────────────── */
+.halo-label {
+  font-family: var(--halo-font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--halo-muted);
+}
+
+/* ── Utility: metric (large mono number) ─────────────────── */
+.halo-metric {
+  font-family: var(--halo-font-mono);
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--halo-on-surface);
+}
+
+/* ── Utility: mono-sm ────────────────────────────────────── */
+.halo-mono-sm {
+  font-family: var(--halo-font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ── Primary button ─────────────────────────────────────── */
+.halo-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--halo-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--halo-r-md);
+  height: 44px;
+  padding: 0 20px;
+  font-family: var(--halo-font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--halo-dur-base) var(--halo-ease),
+              box-shadow var(--halo-dur-base) var(--halo-ease),
+              transform var(--halo-dur-base) var(--halo-ease);
+}
+.halo-btn-primary:hover {
+  background: var(--halo-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--halo-shadow-md);
+}
+.halo-btn-primary:active {
+  background: var(--halo-primary-pressed);
+  transform: translateY(0);
+  box-shadow: var(--halo-shadow-sm);
+}
+.halo-btn-primary:focus-visible {
+  outline: none;
+  box-shadow: var(--halo-shadow-focus);
+}
+
+/* ── Secondary button ───────────────────────────────────── */
+.halo-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--halo-surface);
+  color: var(--halo-on-surface);
+  border: 1px solid var(--halo-border-strong);
+  border-radius: var(--halo-r-md);
+  height: 44px;
+  padding: 0 20px;
+  font-family: var(--halo-font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--halo-dur-base) var(--halo-ease),
+              border-color var(--halo-dur-base) var(--halo-ease);
+}
+.halo-btn-secondary:hover {
+  background: var(--halo-elevated);
+  border-color: var(--halo-primary);
+}
+
+/* ── Card ───────────────────────────────────────────────── */
+.halo-card {
+  background: var(--halo-surface);
+  border: 1px solid var(--halo-border);
+  border-radius: var(--halo-r-lg);
+  padding: var(--halo-lg);
+  transition: border-color var(--halo-dur-slow) var(--halo-ease),
+              transform var(--halo-dur-slow) var(--halo-ease);
+}
+.halo-card:hover {
+  border-color: var(--halo-border-strong);
+}
+.halo-card-elevated {
+  background: var(--halo-elevated);
+  border: 1px solid var(--halo-border-strong);
+  border-radius: var(--halo-r-lg);
+  padding: var(--halo-lg);
+  box-shadow: var(--halo-shadow-md);
+}
+
+/* ── Chip ───────────────────────────────────────────────── */
+.halo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(91, 107, 255, 0.12);
+  color: var(--halo-primary-hover);
+  border-radius: var(--halo-r-full);
+  height: 24px;
+  padding: 0 10px;
+  font-family: var(--halo-font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.halo-chip-success { background: rgba(43,224,140,0.12); color: var(--halo-success); }
+.halo-chip-warning { background: rgba(245,213,71,0.12); color: var(--halo-warning); }
+.halo-chip-info    { background: rgba(61,215,229,0.12); color: var(--halo-info); }
+.halo-chip-error   { background: rgba(255,58,92,0.12);  color: var(--halo-error); }
+
+/* ── Stat tile ──────────────────────────────────────────── */
+.halo-stat-tile {
+  position: relative;
+  background: var(--halo-surface);
+  border: 1px solid var(--halo-border);
+  border-radius: var(--halo-r-lg);
+  padding: 20px;
+  overflow: hidden;
+  transition: border-color var(--halo-dur-slow) var(--halo-ease),
+              transform var(--halo-dur-slow) var(--halo-ease);
+}
+.halo-stat-tile::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: var(--halo-r-lg) var(--halo-r-lg) 0 0;
+}
+.halo-stat-tile:hover {
+  border-color: var(--halo-border-strong);
+  transform: translateY(-2px);
+}
+.halo-stat-tile[data-accent="primary"]::before  { background: var(--halo-primary); }
+.halo-stat-tile[data-accent="success"]::before  { background: var(--halo-success); }
+.halo-stat-tile[data-accent="warning"]::before  { background: var(--halo-warning); }
+.halo-stat-tile[data-accent="info"]::before     { background: var(--halo-info); }
+.halo-stat-tile[data-accent="error"]::before    { background: var(--halo-error); }
+
+/* ── Section rhythm ─────────────────────────────────────── */
+.halo-section {
+  padding: clamp(56px, 8vw, 96px) clamp(20px, 4vw, 48px);
+}
+.halo-section-divider {
+  border-top: 1px solid var(--halo-border);
+}
+.halo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Grid helpers ────────────────────────────────────────── */
+.halo-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--halo-lg); }
+.halo-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--halo-lg); }
+.halo-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--halo-lg); }
+
+.halo-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+@media (max-width: 960px) {
+  .halo-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .halo-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .halo-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 720px) {
+  .halo-grid-2,
+  .halo-grid-3,
+  .halo-grid-4 { grid-template-columns: 1fr; }
+}
+
+/* ── Tabs (segmented) ───────────────────────────────────── */
+.halo-tabs {
+  display: inline-flex;
+  background: var(--halo-surface);
+  border: 1px solid var(--halo-border);
+  border-radius: var(--halo-r-full);
+  padding: 4px;
+  gap: 2px;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+.halo-tabs::-webkit-scrollbar {
+  display: none;
+}
+.halo-tab {
+  background: transparent;
+  color: var(--halo-muted);
+  border: 1px solid transparent;
+  border-radius: var(--halo-r-full);
+  height: 32px;
+  padding: 0 14px;
+  font-family: var(--halo-font-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--halo-dur-base) var(--halo-ease);
+  flex-shrink: 0;
+}
+.halo-tab:hover { background: var(--halo-elevated); color: var(--halo-on-surface); }
+.halo-tab.active {
+  background: var(--halo-elevated);
+  color: var(--halo-on-surface);
+  border-color: var(--halo-primary);
+}

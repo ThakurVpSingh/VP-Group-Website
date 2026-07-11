@@ -3,244 +3,250 @@ import { Link } from 'react-router-dom';
 import { animate, stagger } from 'animejs';
 import ProjectNavbar from '../../components/ProjectNavbar';
 import Footer from '../../components/Footer';
-import { ArrowRight, Shield, Activity, Database, ShieldCheck, AlertTriangle, CheckCircle, Clock, Wifi, Server, RefreshCw, Eye } from 'lucide-react';
+import StatTile from '../../components/halo/StatTile';
+import HaloCard from '../../components/halo/HaloCard';
+import Chip from '../../components/halo/Chip';
+import { ArrowRight, Shield, Activity, Database, ShieldCheck, Wifi, Server, RefreshCw, Eye } from 'lucide-react';
 
-const ACCENT = '#10b981';
-const ACCENT2 = '#06b6d4';
+const H = { font: "'Inter', sans-serif", mono: "'JetBrains Mono', ui-monospace, monospace" };
+
+const sparkUp     = [97.5,98,98.5,99,99.2,99.5,99.7,99.8,99.9,99.9];
+const sparkMTTR   = [38,32,28,24,20,18,16,14,13,12];
+const sparkReduce = [20,28,35,42,48,53,57,60,63,64];
+const sparkCost   = [280,290,295,299,300,300,300,300,300,300]; // $K/hr (flat threat)
 
 const alertLog = [
-  { time: '09:41:02', level: 'INFO', msg: 'Monitoring agent started on cluster-01', status: 'ok' },
-  { time: '09:41:05', level: 'INFO', msg: 'All 47 endpoints healthy — response < 12ms', status: 'ok' },
-  { time: '09:43:22', level: 'WARN', msg: 'CPU spike detected on node-4 (78%)', status: 'warn' },
-  { time: '09:43:24', level: 'AUTO', msg: 'Auto-scaling triggered: adding node-5 to pool', status: 'ok' },
-  { time: '09:43:31', level: 'INFO', msg: 'Load redistributed — node-4 CPU normalized (41%)', status: 'ok' },
-  { time: '09:51:07', level: 'ALERT', msg: 'Potential brute-force detected on /auth/login', status: 'alert' },
-  { time: '09:51:08', level: 'BLOCK', msg: 'IP 185.220.101.x rate-limited & flagged', status: 'ok' },
-  { time: '10:02:00', level: 'INFO', msg: 'Backup snapshot completed — 0 data loss', status: 'ok' },
-  { time: '10:15:00', level: 'INFO', msg: 'Security patch CVE-2024-21351 applied to all nodes', status: 'ok' },
+  { time:'09:41:02', level:'INFO',  msg:'Monitoring agent started on cluster-01' },
+  { time:'09:41:05', level:'INFO',  msg:'All 47 endpoints healthy — response < 12ms' },
+  { time:'09:43:22', level:'WARN',  msg:'CPU spike detected on node-4 (78%)' },
+  { time:'09:43:24', level:'AUTO',  msg:'Auto-scaling triggered: adding node-5 to pool' },
+  { time:'09:43:31', level:'INFO',  msg:'Load redistributed — node-4 CPU normalized (41%)' },
+  { time:'09:51:07', level:'ALERT', msg:'Potential brute-force detected on /auth/login' },
+  { time:'09:51:08', level:'BLOCK', msg:'IP 185.220.101.x rate-limited & flagged' },
+  { time:'10:02:00', level:'INFO',  msg:'Backup snapshot completed — 0 data loss' },
+  { time:'10:15:00', level:'INFO',  msg:'Security patch CVE-2024-21351 applied to all nodes' },
 ];
 
 const uptimeNodes = [
-  { name: 'API Gateway', uptime: '99.97%', latency: '3ms', status: 'green' },
-  { name: 'Auth Service', uptime: '100%', latency: '8ms', status: 'green' },
-  { name: 'Database Cluster', uptime: '99.99%', latency: '1ms', status: 'green' },
-  { name: 'CDN Network', uptime: '100%', latency: '22ms', status: 'green' },
-  { name: 'Email Workers', uptime: '99.8%', latency: '45ms', status: 'yellow' },
-  { name: 'File Storage', uptime: '100%', latency: '12ms', status: 'green' },
+  { name:'API Gateway',      uptime:'99.97%', latency:'3ms',  status:'success' },
+  { name:'Auth Service',     uptime:'100%',   latency:'8ms',  status:'success' },
+  { name:'Database Cluster', uptime:'99.99%', latency:'1ms',  status:'success' },
+  { name:'CDN Network',      uptime:'100%',   latency:'22ms', status:'success' },
+  { name:'Email Workers',    uptime:'99.8%',  latency:'45ms', status:'warning' },
+  { name:'File Storage',     uptime:'100%',   latency:'12ms', status:'success' },
 ];
 
 const capabilities = [
-  { icon: Eye, title: '24/7 Uptime Surveillance', desc: 'AI-driven anomaly detection monitors all endpoints every 30 seconds, identifying issues before users notice.' },
-  { icon: Shield, title: 'Zero-Day Patch Deployment', desc: 'Critical vulnerability patches applied within hours of CVE disclosure across your entire infrastructure.' },
-  { icon: Database, title: 'Encrypted Backup Mesh', desc: 'Hourly snapshots with AES-256 encryption — guaranteed restore within 15 minutes of any failure event.' },
-  { icon: RefreshCw, title: 'Disaster Recovery Drills', desc: 'Monthly simulated failure scenarios testing your full recovery pipeline from alert to full restoration.' },
-  { icon: Wifi, title: 'Multi-Region Redundancy', desc: 'Traffic routes across failover regions automatically — users never experience downtime even during outages.' },
-  { icon: Activity, title: 'Predictive Maintenance', desc: 'Machine-learning models forecast hardware degradation and capacity limits weeks before they become critical.' },
+  { icon:Eye,       title:'24/7 Uptime Surveillance',  desc:'AI-driven anomaly detection monitors all endpoints every 30 seconds, identifying issues before users notice.' },
+  { icon:Shield,    title:'Zero-Day Patch Deployment', desc:'Critical vulnerability patches applied within hours of CVE disclosure across your entire infrastructure.' },
+  { icon:Database,  title:'Encrypted Backup Mesh',     desc:'Hourly snapshots with AES-256 encryption — guaranteed restore within 15 minutes of any failure event.' },
+  { icon:RefreshCw, title:'Disaster Recovery Drills',  desc:'Monthly simulated failure scenarios testing your full recovery pipeline from alert to full restoration.' },
+  { icon:Wifi,      title:'Multi-Region Redundancy',   desc:'Traffic routes across failover regions automatically — users never experience downtime even during outages.' },
+  { icon:Activity,  title:'Predictive Maintenance',    desc:'Machine-learning models forecast hardware degradation and capacity limits weeks before they become critical.' },
 ];
+
+const logColor = (l) => l==='ALERT'?'#FF3A5C':l==='WARN'?'#F5D547':l==='BLOCK'||l==='AUTO'?'#3DD7E5':'#2BE08C';
+const logVariant = (l) => l==='ALERT'?'error':l==='WARN'?'warning':l==='BLOCK'||l==='AUTO'?'info':'success';
 
 export default function TechSupportServicePage() {
   const [logLines, setLogLines] = useState([]);
-  const [pulseActive, setPulseActive] = useState(true);
   const logRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = 'Technical Support | VP Group';
+    
+    let active = true;
+    let timeoutId;
+    let intervalId;
 
-    let idx = 0;
-    const interval = setInterval(() => {
-      if (idx < alertLog.length) {
-        setLogLines(prev => [...prev, alertLog[idx]]);
-        idx++;
-        if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
-      } else {
-        idx = 0;
-        setTimeout(() => setLogLines([]), 2000);
-      }
-    }, 600);
+    const runLoop = () => {
+      let idx = 0;
+      setLogLines([]);
+      
+      intervalId = setInterval(() => {
+        if (!active) return;
+        if (idx < alertLog.length) {
+          const lineToAdd = alertLog[idx];
+          setLogLines(p => [...p, lineToAdd]);
+          idx++;
+          if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
+        } else {
+          clearInterval(intervalId);
+          timeoutId = setTimeout(() => {
+            if (active) runLoop();
+          }, 2500);
+        }
+      }, 600);
+    };
 
-    const pulse = setInterval(() => setPulseActive(p => !p), 1500);
-    return () => { clearInterval(interval); clearInterval(pulse); };
+    runLoop();
+
+    return () => {
+      active = false;
+      clearInterval(intervalId);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   useEffect(() => {
-    animate('.ts-cap-card', {
-      opacity: [0, 1],
-      translateY: [30, 0],
-      duration: 500,
-      delay: stagger(80),
-      easing: 'easeOutQuart'
-    });
-    animate('.ts-uptime-bar', {
-      width: ['0%', '100%'],
-      duration: 1200,
-      delay: stagger(150),
-      easing: 'easeOutQuart'
-    });
+    animate('.ts-stat',  { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(80), easing:'easeOutQuart' });
+    animate('.ts-cap',   { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(70), easing:'easeOutQuart' });
+    animate('.ts-upbar', { width:['0%','100%'], duration:1400, delay:stagger(120), easing:'easeOutQuart' });
   }, []);
 
-  const logColor = (level) => {
-    if (level === 'ALERT') return '#ef4444';
-    if (level === 'WARN') return '#f59e0b';
-    if (level === 'BLOCK' || level === 'AUTO') return ACCENT2;
-    return ACCENT;
-  };
-
   return (
-    <div style={{ background: '#020f0a', minHeight: '100vh', fontFamily: '"Plus Jakarta Sans", sans-serif', color: '#fff' }}>
+    <div className="halo-page" style={{ fontFamily: H.font }}>
       <ProjectNavbar />
 
-      {/* HERO: Ops Dashboard Style */}
-      <section style={{ minHeight: '100vh', padding: 'clamp(100px, 10vw, 140px) 5% clamp(60px, 8vw, 100px)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: `${ACCENT}15`, border: `1px solid ${ACCENT}30`, borderRadius: '100px', padding: '6px 16px', marginBottom: '40px' }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: ACCENT, animation: 'pulse 1.5s ease-in-out infinite', boxShadow: `0 0 8px ${ACCENT}` }} />
-            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '3px', textTransform: 'uppercase' }}>Live Technical Support</span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+      {/* ── HERO ─────────────────────────────────────────────── */}
+      <section className="halo-section" style={{ minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'100px', position:'relative', overflow:'hidden' }}>
+        <div className="halo-container" style={{ width:'100%', position:'relative', zIndex:1 }}>
+          <div className="halo-hero-grid">
             <div>
-              <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 950, lineHeight: 1.05, letterSpacing: '-2px', marginBottom: '28px' }}>
-                <span style={{ display: 'block', color: '#fff' }}>24/7 Resilience</span>
-                <span style={{ display: 'block', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Infrastructure Shield</span>
+              <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'28px' }}>
+                <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#2BE08C', boxShadow:'0 0 8px #2BE08C', animation:'ts-pulse 1.5s ease-in-out infinite' }} />
+                <Chip variant="success">LIVE TECHNICAL SUPPORT</Chip>
+              </div>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'#F2F4F8', marginBottom:'20px' }}>
+                24/7 Resilience<br /><span style={{ color:'#2BE08C' }}>Infrastructure Shield</span>
               </h1>
-              <p style={{ fontSize: '1.1rem', color: '#94a3b8', lineHeight: 1.8, marginBottom: '40px' }}>
-                Your infrastructure, continuously monitored. Our predictive surveillance and instant response protocols keep your systems online, secure, and optimized — always.
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
+                Your infrastructure, continuously monitored. Our predictive surveillance and instant response protocols keep your systems online, secure, and optimised — always.
               </p>
 
-              {/* Live uptime stats */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '40px' }}>
-                {[
-                  { v: '99.9%', l: 'Uptime SLA' },
-                  { v: '12min', l: 'Avg MTTR' },
-                  { v: '24/7', l: 'Engineer Watch' },
-                ].map((s, i) => (
-                  <div key={i} style={{ padding: '20px', background: `${ACCENT}08`, border: `1px solid ${ACCENT}20`, borderRadius: '16px', textAlign: 'center' }}>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 950, color: ACCENT, letterSpacing: '-1px' }}>{s.v}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '4px' }}>{s.l}</div>
+              {/* Quick stats row */}
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'12px', marginBottom:'36px' }}>
+                {[{v:'99.9%',l:'Uptime SLA'},{v:'12min',l:'Avg MTTR'},{v:'24/7',l:'Engineer Watch'}].map((s,i)=>(
+                  <div key={i} style={{ padding:'16px', background:'#14151C', border:'1px solid #2A2D38', borderRadius:'12px', textAlign:'center' }}>
+                    <div style={{ fontFamily:H.mono, fontSize:'1.4rem', fontWeight:600, letterSpacing:'-0.02em', color:'#2BE08C', marginBottom:'4px' }}>{s.v}</div>
+                    <div style={{ fontFamily:H.font, fontSize:'0.75rem', color:'#5C6170' }}>{s.l}</div>
                   </div>
                 ))}
               </div>
 
-              <Link to="/help/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', padding: '16px 32px', borderRadius: '14px', fontWeight: 800, textDecoration: 'none', fontSize: '0.95rem', transition: 'all 0.3s ease' }}
-                onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-3px)'}
-                onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-                Get Protected Now <ArrowRight size={18} />
+              <Link to="/help/contact" className="halo-btn-primary">
+                Get Protected Now <ArrowRight size={16} />
               </Link>
             </div>
 
-            {/* Live Log Dashboard */}
-            <div style={{ background: '#030f08', border: `1px solid ${ACCENT}20`, borderRadius: '20px', overflow: 'hidden', boxShadow: `0 40px 80px rgba(0,0,0,0.6), 0 0 60px ${ACCENT}08` }}>
-              {/* Dashboard header */}
-              <div style={{ padding: '16px 20px', background: '#041410', borderBottom: `1px solid ${ACCENT}15`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: ACCENT, boxShadow: `0 0 10px ${ACCENT}` }} />
-                  <span style={{ fontSize: '0.8rem', color: ACCENT, fontWeight: 700, fontFamily: 'monospace' }}>VP-SENTINEL MONITOR v2.1</span>
+            {/* Live log */}
+            <div style={{ background:'#14151C', border:'1px solid #2A2D38', borderRadius:'16px', overflow:'hidden', boxShadow:'0 24px 60px rgba(0,0,0,0.55)' }}>
+              <div style={{ padding:'12px 16px', background:'#1E2029', borderBottom:'1px solid #2A2D38', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+                <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
+                  <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#2BE08C', boxShadow:'0 0 6px #2BE08C' }} />
+                  <span style={{ fontFamily:H.mono, fontSize:'0.72rem', color:'#2BE08C', fontWeight:500 }}>VP-SENTINEL MONITOR v2.1</span>
                 </div>
-                <span style={{ fontSize: '0.7rem', color: '#475569', fontFamily: 'monospace' }}>All Systems Nominal</span>
+                <Chip variant="success">All Systems Nominal</Chip>
               </div>
-
-              {/* Log stream */}
-              <div ref={logRef} style={{ padding: '20px', fontFamily: 'monospace', fontSize: '0.72rem', lineHeight: 1.7, height: '300px', overflowY: 'auto' }}>
-                {logLines.map((line, i) => (
-                  <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '2px', animation: 'slideIn 0.2s ease' }}>
-                    <span style={{ color: '#334155', flexShrink: 0 }}>{line.time}</span>
-                    <span style={{ color: logColor(line.level), minWidth: '48px', flexShrink: 0 }}>[{line.level}]</span>
-                    <span style={{ color: '#94a3b8' }}>{line.msg}</span>
+              <div ref={logRef} style={{ padding:'18px', fontFamily:H.mono, fontSize:'0.72rem', lineHeight:1.75, height:'290px', overflowY:'auto' }}>
+                {logLines.map((l,i)=>(
+                  <div key={i} style={{ display:'flex', gap:'12px', marginBottom:'1px', animation:'ts-fadein 0.2s ease' }}>
+                    <span style={{ color:'#3A3D4A', flexShrink:0 }}>{l.time}</span>
+                    <span style={{ color:logColor(l.level), minWidth:'44px', flexShrink:0 }}>[{l.level}]</span>
+                    <span style={{ color:'#9AA0AE' }}>{l.msg}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </div>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: `radial-gradient(ellipse at 70% 40%, ${ACCENT}06 0%, transparent 60%)`, pointerEvents: 'none' }} />
+        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse at 70% 50%, rgba(43,224,140,0.05) 0%, transparent 60%)', pointerEvents:'none' }} />
       </section>
 
-      {/* ENDPOINT STATUS BOARD */}
-      <section style={{ padding: 'clamp(80px, 10vw, 120px) 5%', background: 'rgba(255,255,255,0.01)', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '56px' }}>
-            <div style={{ width: '4px', height: '40px', borderRadius: '4px', background: `linear-gradient(${ACCENT}, ${ACCENT2})` }} />
+      {/* ── STAT TILES ───────────────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div className="halo-label" style={{ marginBottom:'24px' }}>Operational Impact Metrics — Industry Data 2024</div>
+          <div className="halo-grid-4">
+            <div className="ts-stat"><StatTile eyebrow="SLA Guarantee" metric="99.9%" description="Uptime across all monitored services" trend="up" trendLabel="Edge redundancy" accent="success" sparkData={sparkUp} /></div>
+            <div className="ts-stat"><StatTile eyebrow="Mean Time To Resolve" metric="12min" description="Average incident response & fix" trend="up" trendLabel="↓ from 38min industry avg" accent="info" sparkData={sparkMTTR} /></div>
+            <div className="ts-stat"><StatTile eyebrow="Incident Reduction" metric="64%" description="Fewer alerts via proactive monitoring" trend="up" trendLabel="vs reactive support model" accent="primary" sparkData={sparkReduce} /></div>
+            <div className="ts-stat"><StatTile eyebrow="Enterprise Downtime Cost" metric="$300K" description="Per hour — why prevention matters" trend="down" trendLabel="Our avg $0 loss/client" accent="error" sparkData={sparkCost} /></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENDPOINT STATUS BOARD ────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'16px' }}>
+            <div style={{ width:'2px', height:'32px', background:'#2BE08C', borderRadius:'2px' }} />
             <div>
-              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '6px' }}>Live Status Board</div>
-              <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 950, letterSpacing: '-1.5px', color: '#fff', margin: 0 }}>All Endpoints Monitored</h2>
+              <div className="halo-label" style={{ marginBottom:'4px' }}>Live Status Board</div>
+              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>All Endpoints Monitored</h2>
             </div>
           </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
-            {uptimeNodes.map((node, i) => (
-              <div key={i} style={{ padding: '24px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', display: 'flex', alignItems: 'center', gap: '16px', transition: 'all 0.3s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT + '40'; e.currentTarget.style.background = `${ACCENT}05`; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; }}>
-                <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: node.status === 'green' ? ACCENT : '#f59e0b', flexShrink: 0, boxShadow: `0 0 8px ${node.status === 'green' ? ACCENT : '#f59e0b'}80` }} />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, color: '#fff', marginBottom: '6px', fontSize: '0.95rem' }}>{node.name}</div>
-                  <div style={{ height: '3px', background: 'rgba(255,255,255,0.05)', borderRadius: '4px', overflow: 'hidden' }}>
-                    <div className="ts-uptime-bar" style={{ height: '100%', background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT2})`, borderRadius: '4px', width: '0%' }} />
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'540px' }}>
+            Real-time pulse on every critical service in your infrastructure stack.
+          </p>
+          <div className="halo-grid-2">
+            {uptimeNodes.map((node,i)=>(
+              <HaloCard key={i} hoverable accent={node.status} padding="20px">
+                <div style={{ display:'flex', alignItems:'center', gap:'14px' }}>
+                  <div style={{ width:'10px', height:'10px', borderRadius:'50%', background: node.status==='success'?'#2BE08C':'#F5D547', flexShrink:0, boxShadow:`0 0 8px ${node.status==='success'?'#2BE08C':'#F5D547'}60` }} />
+                  <div style={{ flex:1 }}>
+                    <div style={{ fontFamily:H.font, fontWeight:600, color:'#F2F4F8', marginBottom:'8px', fontSize:'0.9375rem' }}>{node.name}</div>
+                    <div style={{ height:'3px', background:'#1E2029', borderRadius:'4px', overflow:'hidden' }}>
+                      <div className="ts-upbar" style={{ height:'100%', background: node.status==='success'?'#2BE08C':'#F5D547', borderRadius:'4px', width:'0%' }} />
+                    </div>
+                  </div>
+                  <div style={{ textAlign:'right', flexShrink:0 }}>
+                    <div style={{ fontFamily:H.mono, fontSize:'1.1rem', fontWeight:600, color: node.status==='success'?'#2BE08C':'#F5D547' }}>{node.uptime}</div>
+                    <div style={{ fontFamily:H.mono, fontSize:'0.72rem', color:'#5C6170' }}>{node.latency}</div>
                   </div>
                 </div>
-                <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 800, color: ACCENT }}>{node.uptime}</div>
-                  <div style={{ fontSize: '0.75rem', color: '#475569' }}>{node.latency} avg</div>
-                </div>
+              </HaloCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CAPABILITIES ─────────────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div style={{ textAlign:'center', marginBottom:'56px' }}>
+            <div className="halo-label" style={{ marginBottom:'12px' }}>What We Protect</div>
+            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Full Spectrum Infrastructure Defense</h2>
+          </div>
+          <div className="halo-grid-3">
+            {capabilities.map((cap,i)=>(
+              <div key={i} className="ts-cap">
+                <HaloCard hoverable accent="success">
+                  <div style={{ width:'36px', height:'36px', borderRadius:'8px', background:'rgba(43,224,140,0.1)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'16px', paddingTop:'6px' }}>
+                    <cap.icon size={16} color="#2BE08C" />
+                  </div>
+                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, letterSpacing:'-0.01em', color:'#F2F4F8', marginBottom:'10px' }}>{cap.title}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55 }}>{cap.desc}</div>
+                </HaloCard>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CAPABILITIES GRID */}
-      <section style={{ padding: 'clamp(80px, 10vw, 140px) 5%' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '16px' }}>What We Protect</div>
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 950, letterSpacing: '-2px', color: '#fff', margin: 0 }}>Full Spectrum Infrastructure Defense</h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
-            {capabilities.map((cap, i) => (
-              <div key={i} className="ts-cap-card" style={{ padding: '36px', background: 'rgba(16, 185, 129, 0.03)', border: '1px solid rgba(16, 185, 129, 0.1)', borderRadius: '24px', transition: 'all 0.4s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT + '40'; e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.background = `${ACCENT}06`; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.1)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.background = 'rgba(16, 185, 129, 0.03)'; }}>
-                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `${ACCENT}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-                  <cap.icon size={24} color={ACCENT} />
-                </div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>{cap.title}</h3>
-                <p style={{ color: '#64748b', lineHeight: 1.7, fontSize: '0.95rem', margin: 0 }}>{cap.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section style={{ padding: 'clamp(100px, 12vw, 180px) 5%', textAlign: 'center', background: `radial-gradient(ellipse at 50% 0%, ${ACCENT}10 0%, transparent 60%)` }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <ShieldCheck size={56} color={ACCENT} style={{ marginBottom: '24px' }} />
-          <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 950, letterSpacing: '-2.5px', color: '#fff', marginBottom: '24px' }}>
-            Never Go <span style={{ color: '#ef4444' }}>Offline</span> Again.
+      {/* ── CTA ──────────────────────────────────────────────── */}
+      <section className="halo-section" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(43,224,140,0.06) 0%, transparent 60%)' }}>
+        <div style={{ maxWidth:'600px', margin:'0 auto' }}>
+          <ShieldCheck size={40} color="#2BE08C" style={{ marginBottom:'20px' }} />
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'16px' }}>
+            Never Go <span style={{ color:'#FF3A5C' }}>Offline</span> Again.
           </h2>
-          <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '48px', lineHeight: 1.8 }}>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
             Let our 24/7 guardian mesh protect your infrastructure while you focus on growing your business.
           </p>
-          <Link to="/help/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', padding: '20px 48px', borderRadius: '16px', fontWeight: 800, textDecoration: 'none', fontSize: '1rem', letterSpacing: '1px', textTransform: 'uppercase', transition: 'all 0.3s ease' }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 20px 60px ${ACCENT}40`; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
-            Activate Protection <ArrowRight size={20} />
+          <Link to="/help/contact" className="halo-btn-primary" style={{ height:'48px', padding:'0 28px', fontSize:'0.9375rem' }}>
+            Activate Protection <ArrowRight size={18} />
           </Link>
         </div>
       </section>
 
       <Footer />
       <style>{`
-        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.3);} }
-        @keyframes slideIn { from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);} }
-        @media (max-width: 768px) {
-          section > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-          section > div[style*="grid-template-columns: 1fr 1fr 1fr"] { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 480px) {
-          section > div[style*="grid-template-columns: 1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
-        }
+        @keyframes ts-pulse  { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)} }
+        @keyframes ts-fadein { from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none} }
+        @media(max-width:960px){ .halo-grid-4{grid-template-columns:1fr 1fr!important} section>.halo-container>div[style*="grid-template-columns: 1fr 1fr"]{ display:block!important; } }
+        @media(max-width:720px){ .halo-grid-4,.halo-grid-3,.halo-grid-2{grid-template-columns:1fr!important} }
       `}</style>
     </div>
   );

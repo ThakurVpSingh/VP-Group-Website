@@ -147,6 +147,9 @@ const ProjectNavbar = () => {
                     top: 0;
                     left: 0;
                     right: 0;
+                    width: 100vw;
+                    max-width: 100%;
+                    box-sizing: border-box;
                     z-index: 3000;
                     padding: 32px 0;
                     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -161,8 +164,10 @@ const ProjectNavbar = () => {
                 }
                 .nav-container {
                     max-width: 1400px;
+                    width: 100%;
                     margin: 0 auto;
-                    padding: 0 5%;
+                    padding: 0 24px;
+                    box-sizing: border-box;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;

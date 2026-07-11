@@ -3,205 +3,193 @@ import { Link } from 'react-router-dom';
 import { animate, stagger } from 'animejs';
 import ProjectNavbar from '../../components/ProjectNavbar';
 import Footer from '../../components/Footer';
-import { ArrowRight, Cpu, Brain, Database, Zap, Bot, Network, GitBranch, Layers, TrendingUp } from 'lucide-react';
+import StatTile from '../../components/halo/StatTile';
+import HaloCard from '../../components/halo/HaloCard';
+import Chip from '../../components/halo/Chip';
+import { ArrowRight, Cpu, Brain, Database, Zap, Bot, Network, GitBranch, TrendingUp } from 'lucide-react';
 
-const ACCENT = '#22d3ee';
-const ACCENT2 = '#a855f7';
-const ACCENT3 = '#ec4899';
+const H = { font: "'Inter', sans-serif", mono: "'JetBrains Mono', ui-monospace, monospace" };
+
+/* ── Sparklines ─────────────────────────────────────────────── */
+const sparkCost   = [100,90,80,70,60,50,40,32,26,25];    // cost % of original (decreasing = good)
+const sparkHrs    = [0.5,1,1.5,2.2,3,4,4.8,5.5,6,6.3];  // hrs saved/employee/wk
+const sparkMarket = [200,350,500,700,900,1100,1300,1500,1700,1800]; // AI market $B toward 2030
+const sparkPerf   = [1,1.2,1.5,1.8,2.2,2.6,3.0,3.2,3.4,3.5]; // outperformance multiplier
 
 const agentLoop = [
-  { id: 'perceive', label: 'PERCEIVE', desc: 'Agent observes inputs from APIs, databases, and user queries', color: ACCENT, icon: '👁' },
-  { id: 'plan', label: 'PLAN', desc: 'Cognitive reasoning loop selects tools and builds action sequence', color: ACCENT2, icon: '🧠' },
-  { id: 'act', label: 'ACT', desc: 'Function calls execute: APIs, DB writes, external webhooks', color: '#f59e0b', icon: '⚡' },
-  { id: 'reflect', label: 'REFLECT', desc: 'Output evaluated, memory updated, feedback loop closes', color: '#10b981', icon: '🔄' },
+  { label:'PERCEIVE', desc:'Agent observes inputs from APIs, databases, and user queries.', accent:'info',    icon:'👁', accentColor:'#3DD7E5' },
+  { label:'PLAN',     desc:'Cognitive reasoning loop selects tools and builds the action sequence.', accent:'primary', icon:'🧠', accentColor:'#5B6BFF' },
+  { label:'ACT',      desc:'Function calls execute: API reads, DB writes, external webhooks.', accent:'warning', icon:'⚡', accentColor:'#F5D547' },
+  { label:'REFLECT',  desc:'Output evaluated, memory updated, feedback loop closes the cycle.', accent:'success', icon:'🔄', accentColor:'#2BE08C' },
 ];
 
 const useCases = [
-  { title: 'Customer Support Agent', desc: 'Autonomous 24/7 support agent that handles tickets, escalations, and FAQ resolution without human intervention.', impact: '80% ticket deflection', icon: Bot },
-  { title: 'Document Intelligence', desc: 'RAG pipeline that indexes your internal knowledge base and gives employees instant, accurate answers from company documents.', impact: '10x faster knowledge retrieval', icon: Database },
-  { title: 'Content Automation', desc: 'LLM pipeline that generates product descriptions, social posts, and marketing copy at scale — reviewed, consistent, brand-aligned.', impact: '20h/week saved per marketer', icon: Zap },
-  { title: 'Data Extraction & Sync', desc: 'Agentic workflows that monitor external data sources, extract structured data, and sync directly to your internal databases.', impact: '99.9% accuracy on structured data', icon: Network },
-  { title: 'Sales Intelligence', desc: 'AI agent that researches leads, drafts personalized outreach, and logs activity to CRM — while your team focuses on closing.', impact: '3x more qualified conversations', icon: TrendingUp },
-  { title: 'Code Review Assistant', desc: 'Automated PR reviewer that checks for security issues, performance bugs, and style violations before human review begins.', impact: '60% reduction in review time', icon: GitBranch },
+  { title:'Customer Support Agent',  desc:'Autonomous 24/7 support that handles tickets, escalations, and FAQ resolution without human intervention.', impact:'80% ticket deflection',  icon:Bot },
+  { title:'Document Intelligence',   desc:'RAG pipeline that indexes your knowledge base and gives employees instant, accurate answers from internal docs.', impact:'10x knowledge retrieval', icon:Database },
+  { title:'Content Automation',      desc:'LLM pipeline generating product descriptions, social copy, and marketing content at scale — brand-aligned.', impact:'20h/week saved per marketer', icon:Zap },
+  { title:'Data Extraction & Sync',  desc:'Agentic workflows monitoring data sources, extracting structured data, and syncing directly to your databases.', impact:'99.9% accuracy',          icon:Network },
+  { title:'Sales Intelligence',      desc:'AI agent researches leads, drafts personalised outreach, and logs CRM activity — while your team closes.', impact:'3x qualified conversations', icon:TrendingUp },
+  { title:'Code Review Assistant',   desc:'Automated PR reviewer checking security issues, performance bugs, and style violations before human review.', impact:'60% faster review cycle', icon:GitBranch },
 ];
 
 const techStack = [
-  { label: 'Orchestration', value: 'LangChain, AutoGen, LangGraph', color: ACCENT },
-  { label: 'LLM APIs', value: 'Gemini, OpenAI GPT-4, Anthropic Claude', color: ACCENT2 },
-  { label: 'Vector DBs', value: 'Pinecone, Qdrant, pgvector, Chroma', color: ACCENT3 },
-  { label: 'Safety Layer', value: 'Guardrails AI, PII masking, Rate limiting', color: '#f59e0b' },
+  { label:'Orchestration', value:'LangChain, AutoGen, LangGraph',          accent:'primary' },
+  { label:'LLM APIs',      value:'Gemini, OpenAI GPT-4, Anthropic Claude', accent:'info' },
+  { label:'Vector DBs',    value:'Pinecone, Qdrant, pgvector, Chroma',     accent:'success' },
+  { label:'Safety Layer',  value:'Guardrails AI, PII masking, Rate limiting', accent:'warning' },
 ];
 
-const globalStats = [
-  { v: '75%', l: 'Avg Cost Reduction', sub: 'in manual operational tasks' },
-  { v: '24/7', l: 'Agent Uptime', sub: 'autonomous execution' },
-  { v: '10x', l: 'Workflow Scale', sub: 'vs. manual processing' },
-  { v: '6wk', l: 'Time to Deploy', sub: 'from audit to live agent' },
+const RAG_NODES = [
+  { id:'doc', label:'Docs', x:'12%', y:'30%', r:8, color:'#FF3A5C' },
+  { id:'pdf', label:'PDF',  x:'12%', y:'55%', r:8, color:'#FF3A5C' },
+  { id:'db',  label:'DB',   x:'12%', y:'80%', r:8, color:'#FF3A5C' },
+  { id:'e1',  label:'',     x:'33%', y:'30%', r:6, color:'#5B6BFF' },
+  { id:'e2',  label:'',     x:'33%', y:'55%', r:6, color:'#5B6BFF' },
+  { id:'e3',  label:'',     x:'33%', y:'80%', r:6, color:'#5B6BFF' },
+  { id:'llm', label:'LLM',  x:'56%', y:'42%', r:10,color:'#3DD7E5' },
+  { id:'ag',  label:'Agent',x:'56%', y:'72%', r:10,color:'#3DD7E5' },
+  { id:'out', label:'Result',x:'80%',y:'57%', r:12,color:'#2BE08C' },
 ];
+
+const ACCENTMAP = { primary:'#5B6BFF', success:'#2BE08C', warning:'#F5D547', info:'#3DD7E5', error:'#FF3A5C' };
 
 export default function AIAutomationServicePage() {
   const [activeNode, setActiveNode] = useState(0);
-  const neuralRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = 'AI Automation | VP Group';
-
-    const interval = setInterval(() => setActiveNode(n => (n + 1) % agentLoop.length), 2000);
-    return () => clearInterval(interval);
+    const iv = setInterval(() => setActiveNode(n => (n + 1) % agentLoop.length), 2200);
+    return () => clearInterval(iv);
   }, []);
 
   useEffect(() => {
-    // Neural pulse animation on dots
-    animate('.ai-neural-dot', {
-      scale: [0.8, 1.4, 0.8],
-      opacity: [0.5, 1, 0.5],
-      duration: 2000,
-      loop: true,
-      delay: stagger(300),
-      easing: 'easeInOutSine'
+    animate('.ai-node', {
+      scale:[0.85, 1.15, 0.85],
+      opacity:[0.6, 1, 0.6],
+      duration:2000, loop:true, delay:stagger(350), easing:'easeInOutSine'
     });
-    // Edge connection pulses
-    animate('.ai-edge-line', {
-      strokeDashoffset: [300, 0],
-      duration: 2000,
-      loop: true,
-      delay: stagger(400),
-      easing: 'linear'
-    });
-    animate('.ai-usecase-card', {
-      opacity: [0, 1],
-      translateY: [30, 0],
-      duration: 500,
-      delay: stagger(80),
-      easing: 'easeOutQuart'
-    });
+    animate('.ai-stat', { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(80), easing:'easeOutQuart' });
+    animate('.ai-case', { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(70), easing:'easeOutQuart' });
   }, []);
 
   return (
-    <div style={{ background: '#00080f', minHeight: '100vh', fontFamily: '"Plus Jakarta Sans", sans-serif', color: '#fff' }}>
+    <div className="halo-page" style={{ fontFamily:H.font }}>
       <ProjectNavbar />
 
-      {/* HERO: Neural Lab */}
-      <section style={{ minHeight: '100vh', padding: 'clamp(100px, 10vw, 140px) 5% clamp(60px, 8vw, 100px)', position: 'relative', overflow: 'hidden' }}>
-        {/* Animated neural background */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-          <svg width="100%" height="100%" style={{ opacity: 0.07 }}>
-            <defs><pattern id="neural-grid" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill={ACCENT} /></pattern></defs>
-            <rect width="100%" height="100%" fill="url(#neural-grid)" />
-          </svg>
+      {/* ── HERO ─────────────────────────────────────────────── */}
+      <section className="halo-section" style={{ minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'100px', position:'relative', overflow:'hidden' }}>
+        {/* Neural dot grid */}
+        <div style={{ position:'absolute', inset:0, opacity:0.05, pointerEvents:'none' }}>
+          <svg width="100%" height="100%"><defs><pattern id="ndot" width="36" height="36" patternUnits="userSpaceOnUse"><circle cx="18" cy="18" r="1.2" fill="#5B6BFF" /></pattern></defs><rect width="100%" height="100%" fill="url(#ndot)" /></svg>
         </div>
 
-        <div style={{ maxWidth: '1300px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: `${ACCENT}15`, border: `1px solid ${ACCENT}30`, borderRadius: '100px', padding: '6px 16px', marginBottom: '40px' }}>
-            <Cpu size={14} color={ACCENT} />
-            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '3px', textTransform: 'uppercase' }}>AI Automation</span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+        <div className="halo-container" style={{ width:'100%', position:'relative', zIndex:1 }}>
+          <div className="halo-hero-grid">
             <div>
-              <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 950, lineHeight: 1.05, letterSpacing: '-2px', marginBottom: '28px' }}>
-                <span style={{ display: 'block', color: '#fff' }}>Autonomous Agents.</span>
-                <span style={{ display: 'block', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Infinite Scale.</span>
+              <div style={{ marginBottom:'28px' }}>
+                <Chip variant="default"><Cpu size={11} style={{ marginRight:4 }} />AI AUTOMATION</Chip>
+              </div>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'#F2F4F8', marginBottom:'20px' }}>
+                Autonomous Agents.<br /><span style={{ color:'#5B6BFF' }}>Infinite Scale.</span>
               </h1>
-              <p style={{ fontSize: '1.1rem', color: '#94a3b8', lineHeight: 1.8, marginBottom: '40px' }}>
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
                 We design and deploy autonomous AI agents, RAG knowledge pipelines, and custom LLM integrations that automate complex workflows — 24/7, without human bottlenecks.
               </p>
-              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                <Link to="/help/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', padding: '16px 32px', borderRadius: '14px', fontWeight: 800, textDecoration: 'none', fontSize: '0.95rem', transition: 'all 0.3s ease' }}
-                  onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-3px)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-                  Deploy Your AI Agent <ArrowRight size={18} />
-                </Link>
+
+              {/* Agent uptime badge */}
+              <div style={{ display:'inline-flex', alignItems:'center', gap:'8px', padding:'10px 16px', background:'rgba(91,107,255,0.08)', border:'1px solid rgba(91,107,255,0.2)', borderRadius:'12px', marginBottom:'36px' }}>
+                <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#2BE08C', boxShadow:'0 0 8px #2BE08C', animation:'ai-pulse 1.5s ease-in-out infinite' }} />
+                <span style={{ fontFamily:H.mono, fontSize:'0.8125rem', color:'#9AA0AE' }}>Agent runtime: <span style={{ color:'#2BE08C' }}>24/7 autonomous</span></span>
+              </div>
+
+              <div style={{ display:'flex', gap:'12px' }}>
+                <Link to="/help/contact" className="halo-btn-primary">Deploy Your AI Agent <ArrowRight size={16} /></Link>
               </div>
             </div>
 
-            {/* Agent Loop Diagram */}
-            <div style={{ background: '#000d1a', border: `1px solid ${ACCENT}20`, borderRadius: '24px', padding: '36px', position: 'relative' }}>
-              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '3px', marginBottom: '28px' }}>AUTONOMOUS AGENT LOOP</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                {agentLoop.map((node, i) => (
-                  <div key={i} style={{ padding: '20px', background: activeNode === i ? `${node.color}12` : 'rgba(255,255,255,0.02)', border: `1px solid ${activeNode === i ? node.color + '50' : 'rgba(255,255,255,0.06)'}`, borderRadius: '16px', transition: 'all 0.4s ease', cursor: 'default' }}
-                    onClick={() => setActiveNode(i)}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                      <div style={{ fontSize: '1.5rem' }}>{node.icon}</div>
-                      <span style={{ fontSize: '0.7rem', fontWeight: 800, color: node.color, letterSpacing: '2px' }}>{node.label}</span>
+            {/* Agent Loop */}
+            <div>
+              <HaloCard elevated>
+                <div className="halo-label" style={{ marginBottom:'20px' }}>AUTONOMOUS AGENT LOOP</div>
+                <div className="halo-grid-2" style={{ gap:'12px' }}>
+                  {agentLoop.map((node,i)=>(
+                    <div key={i}
+                      style={{ padding:'18px', background:activeNode===i?`${node.accentColor}0E`:'transparent', border:`1px solid ${activeNode===i?node.accentColor+'40':'#2A2D38'}`, borderRadius:'12px', cursor:'pointer', transition:'all 0.3s', position:'relative', overflow:'hidden' }}
+                      onClick={()=>setActiveNode(i)}>
+                      {activeNode===i && <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:node.accentColor, borderRadius:'12px 12px 0 0' }} />}
+                      <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'8px' }}>
+                        <span style={{ fontSize:'1.2rem' }}>{node.icon}</span>
+                        <span style={{ fontFamily:H.mono, fontSize:'0.7rem', fontWeight:600, color:activeNode===i?node.accentColor:'#5C6170', letterSpacing:'0.08em' }}>{node.label}</span>
+                      </div>
+                      <p style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#5C6170', lineHeight:1.5, margin:0 }}>{node.desc}</p>
                     </div>
-                    <p style={{ color: '#64748b', fontSize: '0.8rem', lineHeight: 1.5, margin: 0 }}>{node.desc}</p>
-                    {activeNode === i && <div style={{ height: '2px', background: `linear-gradient(90deg, ${node.color}, transparent)`, borderRadius: '4px', marginTop: '12px' }} />}
-                  </div>
-                ))}
-              </div>
-              {/* Center flow indicator */}
-              <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '40px', height: '40px', borderRadius: '50%', background: `radial-gradient(circle, ${ACCENT}40, ${ACCENT2}20)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', zIndex: 2, boxShadow: `0 0 20px ${ACCENT}40` }}>
-                🤖
-              </div>
+                  ))}
+                </div>
+                <div style={{ display:'flex', justifyContent:'center', marginTop:'20px' }}>
+                  <div style={{ width:'36px', height:'36px', borderRadius:'50%', background:'rgba(91,107,255,0.15)', border:'1px solid rgba(91,107,255,0.3)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.2rem' }}>🤖</div>
+                </div>
+              </HaloCard>
             </div>
+          </div>
+        </div>
+        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse at 40% 50%, rgba(91,107,255,0.06) 0%, transparent 55%)', pointerEvents:'none' }} />
+      </section>
+
+      {/* ── STAT TILES ───────────────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div className="halo-label" style={{ marginBottom:'24px' }}>AI Automation Market Impact — Global Research 2024–30</div>
+          <div className="halo-grid-4">
+            <div className="ai-stat"><StatTile eyebrow="Avg Cost Reduction" metric="75%" description="In manual operational tasks post-AI" trend="up" trendLabel="McKinsey 2024" accent="success" sparkData={sparkCost} /></div>
+            <div className="ai-stat"><StatTile eyebrow="Time Saved Per Employee" metric="6.3hrs" description="Per week with AI workflow tools" trend="up" trendLabel="Microsoft Work Trend" accent="primary" sparkData={sparkHrs} /></div>
+            <div className="ai-stat"><StatTile eyebrow="AI Market by 2030" metric="$1.8T" description="Global artificial intelligence market size" trend="up" trendLabel="Grand View Research" accent="info" sparkData={sparkMarket} /></div>
+            <div className="ai-stat"><StatTile eyebrow="Competitive Advantage" metric="3.5x" description="More likely to outperform with AI" trend="up" trendLabel="BCG AI Leaders Study" accent="warning" sparkData={sparkPerf} /></div>
           </div>
         </div>
       </section>
 
-      {/* GLOBAL STATS */}
-      <section style={{ padding: 'clamp(60px, 8vw, 100px) 5%', background: `linear-gradient(135deg, ${ACCENT}06 0%, ${ACCENT2}04 100%)`, borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '40px', textAlign: 'center' }}>
-          {globalStats.map((s, i) => (
-            <div key={i}>
-              <div style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 950, letterSpacing: '-2px', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '8px' }}>{s.v}</div>
-              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#fff', marginBottom: '4px' }}>{s.l}</div>
-              <div style={{ fontSize: '0.8rem', color: '#64748b' }}>{s.sub}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* NEURAL ARCHITECTURE VISUAL + TECH STACK */}
-      <section style={{ padding: 'clamp(80px, 10vw, 140px) 5%' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
-            {/* Neural network SVG */}
-            <div style={{ background: '#000d1a', border: `1px solid ${ACCENT}15`, borderRadius: '24px', padding: '40px' }}>
-              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '3px', marginBottom: '24px' }}>RAG PIPELINE ARCHITECTURE</div>
-              <svg viewBox="0 0 200 160" style={{ width: '100%', height: '320px' }}>
+      {/* ── RAG PIPELINE + TECH STACK ────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div className="halo-hero-grid" style={{ alignItems:'start' }}>
+            {/* RAG SVG */}
+            <HaloCard elevated>
+              <div className="halo-label" style={{ marginBottom:'20px' }}>RAG PIPELINE ARCHITECTURE</div>
+              <svg viewBox="0 0 100 100" style={{ width:'100%', height:'280px' }}>
                 {/* Edges */}
-                {[[30,40,80,40],[30,80,80,80],[30,120,80,120],[80,40,130,60],[80,80,130,100],[80,120,130,60],[80,120,130,100],[130,60,170,80],[130,100,170,80]].map(([x1,y1,x2,y2], i) => (
-                  <line key={i} className="ai-edge-line" x1={x1} y1={y1} x2={x2} y2={y2} stroke={ACCENT} strokeWidth="0.8" strokeOpacity="0.3" strokeDasharray="4,4" strokeDashoffset="300" />
+                {[['12%','30%','33%','30%'],['12%','55%','33%','55%'],['12%','80%','33%','80%'],
+                  ['33%','30%','56%','42%'],['33%','55%','56%','57%'],['33%','80%','56%','72%'],
+                  ['56%','42%','80%','57%'],['56%','72%','80%','57%']].map(([x1,y1,x2,y2],i)=>(
+                  <line key={i} className="ai-node" x1={x1} y1={y1} x2={x2} y2={y2}
+                    stroke="#2A2D38" strokeWidth="0.8" strokeDasharray="2,2" opacity="0.6" />
                 ))}
-                {/* Input nodes */}
-                {[[30,40,'Doc'],[30,80,'PDF'],[30,120,'DB']].map(([cx,cy,label], i) => (
-                  <g key={i}><circle cx={cx} cy={cy} r="10" fill={ACCENT3} opacity="0.8" className="ai-neural-dot" /><text x={cx} y={cy+20} textAnchor="middle" fill="#64748b" fontSize="6">{label}</text></g>
+                {RAG_NODES.map((n,i)=>(
+                  <g key={i} className="ai-node">
+                    <circle cx={n.x} cy={n.y} r={n.r} fill={n.color} opacity="0.85" />
+                    <circle cx={n.x} cy={n.y} r={n.r+4} fill="none" stroke={n.color} strokeWidth="0.5" opacity="0.25" />
+                    {n.label && <text x={n.x} y={`calc(${n.y} + 12px)`} textAnchor="middle" fill="#5C6170" fontSize="4" fontFamily="sans-serif">{n.label}</text>}
+                  </g>
                 ))}
-                {/* Hidden layer (vector embed) */}
-                {[[80,40],[80,80],[80,120]].map(([cx,cy], i) => (
-                  <g key={i}><circle cx={cx} cy={cy} r="8" fill={ACCENT2} opacity="0.8" className="ai-neural-dot" /></g>
+                {[{x:'12%',y:'14%',l:'SOURCES'},{x:'33%',y:'14%',l:'EMBED'},{x:'56%',y:'14%',l:'REASON'},{x:'80%',y:'14%',l:'OUTPUT'}].map((lbl,i)=>(
+                  <text key={i} x={lbl.x} y={lbl.y} textAnchor="middle" fill="#3A3D4A" fontSize="3.5" fontWeight="600" fontFamily="sans-serif">{lbl.l}</text>
                 ))}
-                {/* Middle nodes */}
-                {[[130,60,'LLM'],[130,100,'Agent']].map(([cx,cy,label], i) => (
-                  <g key={i}><circle cx={cx} cy={cy} r="12" fill={ACCENT} opacity="0.9" className="ai-neural-dot" /><text x={cx} y={cy+20} textAnchor="middle" fill="#64748b" fontSize="6">{label}</text></g>
-                ))}
-                {/* Output */}
-                <circle cx="170" cy="80" r="14" fill="#10b981" opacity="0.9" className="ai-neural-dot" />
-                <text x="170" y="100" textAnchor="middle" fill="#64748b" fontSize="6">Output</text>
-
-                {/* Labels */}
-                <text x="30" y="15" textAnchor="middle" fill="#334155" fontSize="5" fontWeight="bold">SOURCES</text>
-                <text x="80" y="15" textAnchor="middle" fill="#334155" fontSize="5" fontWeight="bold">EMBED</text>
-                <text x="130" y="15" textAnchor="middle" fill="#334155" fontSize="5" fontWeight="bold">REASON</text>
-                <text x="170" y="15" textAnchor="middle" fill="#334155" fontSize="5" fontWeight="bold">RESULT</text>
               </svg>
-            </div>
+            </HaloCard>
 
+            {/* Tech stack */}
             <div>
-              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '16px' }}>Technical Stack</div>
-              <h2 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3rem)', fontWeight: 950, letterSpacing: '-1.5px', color: '#fff', marginBottom: '36px' }}>Enterprise AI Infrastructure We Build On</h2>
-              {techStack.map((item, i) => (
-                <div key={i} style={{ padding: '20px 24px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '14px', marginBottom: '12px', transition: 'all 0.3s ease', cursor: 'default' }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = item.color + '40'; e.currentTarget.style.background = `${item.color}06`; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
-                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: item.color, flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: item.color, letterSpacing: '2px', textTransform: 'uppercase' }}>{item.label}</span>
+              <div className="halo-label" style={{ marginBottom:'16px' }}>Enterprise AI Stack</div>
+              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', marginBottom:'32px' }}>Infrastructure We Build On</h2>
+              {techStack.map((item,i)=>(
+                <div key={i} style={{ padding:'20px', background:'#14151C', border:'1px solid #2A2D38', borderRadius:'12px', marginBottom:'10px', transition:'all 0.2s', cursor:'default' }}
+                  onMouseEnter={e=>{ e.currentTarget.style.borderColor=ACCENTMAP[item.accent]+'40'; e.currentTarget.style.background=`${ACCENTMAP[item.accent]}06`; }}
+                  onMouseLeave={e=>{ e.currentTarget.style.borderColor='#2A2D38'; e.currentTarget.style.background='#14151C'; }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'6px' }}>
+                    <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:ACCENTMAP[item.accent], flexShrink:0 }} />
+                    <span className="halo-label" style={{ color:ACCENTMAP[item.accent] }}>{item.label}</span>
                   </div>
-                  <span style={{ fontSize: '0.95rem', color: '#cbd5e1', paddingLeft: '20px' }}>{item.value}</span>
+                  <span style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#F2F4F8', paddingLeft:'18px' }}>{item.value}</span>
                 </div>
               ))}
             </div>
@@ -209,57 +197,52 @@ export default function AIAutomationServicePage() {
         </div>
       </section>
 
-      {/* USE CASES */}
-      <section style={{ padding: 'clamp(80px, 10vw, 140px) 5%', background: 'rgba(255,255,255,0.01)', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '16px' }}>What We Build</div>
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 950, letterSpacing: '-2px', color: '#fff', margin: 0 }}>AI Systems That Transform Operations</h2>
+      {/* ── USE CASES ────────────────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div style={{ textAlign:'center', marginBottom:'56px' }}>
+            <div className="halo-label" style={{ marginBottom:'12px' }}>AI Systems We Deploy</div>
+            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Agents That Transform Operations</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '24px' }}>
-            {useCases.map((uc, i) => (
-              <div key={i} className="ai-usecase-card" style={{ padding: '36px', background: `${ACCENT}03`, border: `1px solid ${ACCENT}12`, borderRadius: '24px', position: 'relative', overflow: 'hidden', transition: 'all 0.4s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT + '40'; e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = `0 20px 40px ${ACCENT}08`; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = `${ACCENT}12`; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
-                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `${ACCENT}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-                  <uc.icon size={24} color={ACCENT} />
-                </div>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff', marginBottom: '12px' }}>{uc.title}</h3>
-                <p style={{ color: '#64748b', lineHeight: 1.7, fontSize: '0.92rem', marginBottom: '20px' }}>{uc.desc}</p>
-                <div style={{ padding: '8px 14px', background: `${ACCENT}10`, border: `1px solid ${ACCENT}20`, borderRadius: '100px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                  <Zap size={12} color={ACCENT} />
-                  <span style={{ fontSize: '0.75rem', color: ACCENT, fontWeight: 700 }}>{uc.impact}</span>
-                </div>
+          <div className="halo-grid-3">
+            {useCases.map((uc,i)=>(
+              <div key={i} className="ai-case">
+                <HaloCard hoverable accent="primary">
+                  <div style={{ width:'36px', height:'36px', borderRadius:'8px', background:'rgba(91,107,255,0.1)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'16px', paddingTop:'6px' }}>
+                    <uc.icon size={16} color="#5B6BFF" />
+                  </div>
+                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'#F2F4F8', marginBottom:'10px', letterSpacing:'-0.01em' }}>{uc.title}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'16px' }}>{uc.desc}</div>
+                  <Chip variant="success"><Zap size={10} style={{ marginRight:3 }} />{uc.impact}</Chip>
+                </HaloCard>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: 'clamp(100px, 12vw, 180px) 5%', textAlign: 'center', background: `radial-gradient(ellipse at 50% 0%, ${ACCENT}12 0%, transparent 60%)` }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div style={{ fontSize: '4rem', marginBottom: '24px' }}>🤖</div>
-          <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 950, letterSpacing: '-2.5px', color: '#fff', marginBottom: '24px' }}>
-            Automate What Humans <span style={{ background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Shouldn't.</span>
+      {/* ── CTA ──────────────────────────────────────────────── */}
+      <section className="halo-section" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(91,107,255,0.07) 0%, transparent 55%)' }}>
+        <div style={{ maxWidth:'600px', margin:'0 auto' }}>
+          <div style={{ fontSize:'2.5rem', marginBottom:'16px' }}>🤖</div>
+          <div className="halo-label" style={{ marginBottom:'20px' }}>AI Deployment</div>
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'20px' }}>
+            Automate What Humans <span style={{ color:'#5B6BFF' }}>Shouldn't.</span>
           </h2>
-          <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '48px', lineHeight: 1.8 }}>
-            Let our AI architects audit your workflows and deploy agents that work around the clock — eliminating bottlenecks and 10x-ing your operational throughput.
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
+            Our AI architects audit your workflows and deploy agents that work around the clock — eliminating bottlenecks and 10x-ing operational throughput.
           </p>
-          <Link to="/help/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', padding: '20px 48px', borderRadius: '16px', fontWeight: 800, textDecoration: 'none', fontSize: '1rem', letterSpacing: '1px', textTransform: 'uppercase', transition: 'all 0.3s ease' }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 20px 60px ${ACCENT}40`; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
-            Deploy Your First AI Agent <ArrowRight size={20} />
+          <Link to="/help/contact" className="halo-btn-primary" style={{ height:'48px', padding:'0 28px', fontSize:'0.9375rem' }}>
+            Deploy Your First AI Agent <ArrowRight size={18} />
           </Link>
         </div>
       </section>
 
       <Footer />
       <style>{`
-        @media (max-width: 768px) {
-          section > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-          section > div[style*="grid-template-columns: 1fr 1fr 1fr"] { grid-template-columns: 1fr 1fr !important; }
-        }
+        @keyframes ai-pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)} }
+        @media(max-width:960px){ .halo-grid-4{grid-template-columns:1fr 1fr!important} section>.halo-container>div[style*="grid-template-columns: 1fr 1fr"]{ display:block!important; } }
+        @media(max-width:720px){ .halo-grid-4,.halo-grid-3,.halo-grid-2{grid-template-columns:1fr!important} }
       `}</style>
     </div>
   );

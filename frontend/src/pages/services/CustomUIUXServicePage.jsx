@@ -3,252 +3,229 @@ import { Link } from 'react-router-dom';
 import { animate, stagger } from 'animejs';
 import ProjectNavbar from '../../components/ProjectNavbar';
 import Footer from '../../components/Footer';
-import { ArrowRight, Palette, Layers, Smartphone, MousePointer2, Eye, Zap, CheckCircle, Layout } from 'lucide-react';
+import StatTile from '../../components/halo/StatTile';
+import HaloCard from '../../components/halo/HaloCard';
+import Chip from '../../components/halo/Chip';
+import { ArrowRight, Pen, Layers, Eye, MousePointer, Smartphone, Monitor, Zap, Users } from 'lucide-react';
 
-const ACCENT = '#ec4899';
-const ACCENT2 = '#8b5cf6';
+const H = { font: "'Inter', sans-serif", mono: "'JetBrains Mono', ui-monospace, monospace" };
 
-const designPrinciples = [
-  { title: 'Cognitive Load Management', desc: 'We engineer interfaces that guide user attention without causing sensory overload — every element has a deliberate hierarchy.' },
-  { title: 'Emotional Color Theory', desc: 'Colors are chosen using psychological principles to evoke trust, urgency, or delight at precisely the right moments in the user journey.' },
-  { title: 'Micro-interaction Mesh', desc: 'Subtle, high-performance animations provide instant feedback — making the software feel alive and responsive to every user action.' },
-  { title: 'Atomic Design Systems', desc: 'Every component we build is part of a scalable design language, ensuring visual consistency from MVP to enterprise scale.' },
+const sparkROI     = [20,35,55,80,120,180,260,380,540,9900];  // $1 → $100 ROI
+const sparkConv    = [80,100,120,140,160,175,185,195,200,200]; // 200% conversion lift
+const sparkReturn  = [40,50,55,62,68,74,79,84,87,88]; // 88% won't return
+const sparkMobile  = [42,45,48,51,54,56,58,59,60,60];  // mobile traffic %
+
+const principles = [
+  { num:'01', icon:Eye,         title:'Research First',       desc:'User interviews, competitor audits, and heatmap analysis before a single wireframe is drawn.' },
+  { num:'02', icon:Layers,      title:'Information Architecture', desc:'Content hierarchy, navigation flows, and user journey maps that feel intuitive — not designed.' },
+  { num:'03', icon:Pen,         title:'High-Fidelity Design', desc:'Pixel-perfect Figma prototypes with interactive states, micro-animations, and design tokens.' },
+  { num:'04', icon:MousePointer,'title':'Usability Testing',  desc:'5-user prototype tests to validate assumptions and eliminate friction before development starts.' },
 ];
 
-const processPhases = [
-  { num: '01', title: 'Persona & Empathy Mapping', icon: Eye, desc: 'We study your target demographics, create detailed behavioral personas, and map emotional journeys before any visual design begins.' },
-  { num: '02', title: 'Wireframe & Information Architecture', icon: Layout, desc: 'Building the logical skeleton — structuring every navigation path, content hierarchy, and user flow before applying any aesthetics.' },
-  { num: '03', title: 'High-Fidelity Visual Design', icon: Palette, desc: 'Translating wireframes into polished, pixel-perfect interfaces using our proprietary premium design language and component library.' },
-  { num: '04', title: 'Interactive Prototyping & QA', icon: MousePointer2, desc: 'Delivering fully interactive Figma prototypes and testing every micro-interaction, animation timing, and gesture with real users.' },
+const deliverables = [
+  { label:'Design System',   desc:'Reusable component library, token set, and Figma documentation for consistent scale' },
+  { label:'UX Research Pack', desc:'User personas, journey maps, pain-point analysis, and opportunity matrix' },
+  { label:'Interactive Prototype', desc:'High-fidelity clickable prototype for stakeholder sign-off and dev handoff' },
+  { label:'Accessibility Audit', desc:'WCAG 2.1 AA compliance check and remediation guide' },
 ];
 
-const designTokens = [
-  { label: 'Primary', color: '#ec4899', hex: '#EC4899' },
-  { label: 'Accent', color: '#8b5cf6', hex: '#8B5CF6' },
-  { label: 'Surface', color: '#1e293b', hex: '#1E293B' },
-  { label: 'Neutral', color: '#64748b', hex: '#64748B' },
-  { label: 'Success', color: '#10b981', hex: '#10B981' },
-  { label: 'Warning', color: '#f59e0b', hex: '#F59E0B' },
-];
-
-const metrics = [
-  { value: '150%', label: 'User Retention Growth', desc: 'Avg increase in session duration after UI/UX redesign' },
-  { value: '50%', label: 'Friction Reduction', desc: 'Drop in checkout and form abandonment rates' },
-  { value: '4.9★', label: 'Client Satisfaction', desc: 'Average post-delivery design review score' },
+const wireBlocks = [
+  { x:'5%', y:'8%', w:'40%', h:'18%', color:'#5B6BFF', label:'Hero' },
+  { x:'50%', y:'8%', w:'45%', h:'18%', color:'#3A3D4A', label:'Nav' },
+  { x:'5%', y:'32%', w:'28%', h:'28%', color:'#2A2D38', label:'Card' },
+  { x:'38%', y:'32%', w:'28%', h:'28%', color:'#2A2D38', label:'Card' },
+  { x:'71%', y:'32%', w:'24%', h:'28%', color:'#2A2D38', label:'Card' },
+  { x:'5%', y:'66%', w:'90%', h:'14%', color:'#1E2029', label:'Footer' },
 ];
 
 export default function CustomUIUXServicePage() {
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [activeToken, setActiveToken] = useState(null);
   const canvasRef = useRef(null);
+  const [cursor, setCursor] = useState({ x: 50, y: 50 });
+  const [activeBlock, setActiveBlock] = useState(null);
+  const [activeTab, setActiveTab] = useState('research');
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Custom UI/UX | VP Group';
-
-    const handleMouseMove = (e) => {
-      const rect = canvasRef.current?.getBoundingClientRect();
-      if (rect) {
-        setCursorPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-      }
-    };
-    canvasRef.current?.addEventListener('mousemove', handleMouseMove);
-    return () => canvasRef.current?.removeEventListener('mousemove', handleMouseMove);
+    document.title = 'Custom UI/UX Design | VP Group';
   }, []);
 
   useEffect(() => {
-    animate('.uiux-phase-card', {
-      opacity: [0, 1],
-      translateY: [30, 0],
-      duration: 600,
-      delay: stagger(120),
-      easing: 'easeOutQuart'
-    });
-    animate('.uiux-principle', {
-      opacity: [0, 1],
-      translateX: [-20, 0],
-      duration: 500,
-      delay: stagger(100),
-      easing: 'easeOutQuart'
-    });
-    // Gradient morph on hero
-    animate('.uiux-gradient-orb', {
-      scale: [1, 1.3, 1],
-      opacity: [0.4, 0.8, 0.4],
-      duration: 4000,
-      loop: true,
-      easing: 'easeInOutSine',
-      delay: stagger(800)
-    });
+    animate('.uiux-stat',  { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(80),  easing:'easeOutQuart' });
+    animate('.uiux-prin',  { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(90),  easing:'easeOutQuart' });
+    animate('.uiux-deliv', { opacity:[0,1], translateX:[-12,0], duration:500, delay:stagger(80), easing:'easeOutQuart' });
   }, []);
 
+  const handleCanvasMove = (e) => {
+    if (!canvasRef.current) return;
+    const rect = canvasRef.current.getBoundingClientRect();
+    setCursor({ x: ((e.clientX - rect.left) / rect.width) * 100, y: ((e.clientY - rect.top) / rect.height) * 100 });
+  };
+
+  const tabs = [
+    { id:'research',   label:'Research' },
+    { id:'wireframe',  label:'Wireframe' },
+    { id:'prototype',  label:'Prototype' },
+    { id:'handoff',    label:'Dev Handoff' },
+  ];
+
   return (
-    <div style={{ background: '#080010', minHeight: '100vh', fontFamily: '"Plus Jakarta Sans", sans-serif', color: '#fff' }}>
+    <div className="halo-page" style={{ fontFamily:H.font }}>
       <ProjectNavbar />
 
-      {/* HERO: Design Canvas */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 'clamp(100px, 10vw, 140px) 5% clamp(60px, 8vw, 100px)', position: 'relative', overflow: 'hidden' }}>
-        {/* Floating gradient orbs */}
-        <div className="uiux-gradient-orb" style={{ position: 'absolute', top: '15%', left: '60%', width: '400px', height: '400px', borderRadius: '50%', background: `radial-gradient(circle, ${ACCENT}20 0%, transparent 70%)`, pointerEvents: 'none' }} />
-        <div className="uiux-gradient-orb" style={{ position: 'absolute', bottom: '20%', right: '5%', width: '300px', height: '300px', borderRadius: '50%', background: `radial-gradient(circle, ${ACCENT2}20 0%, transparent 70%)`, pointerEvents: 'none' }} />
-
-        <div style={{ maxWidth: '1300px', margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: `${ACCENT}15`, border: `1px solid ${ACCENT}30`, borderRadius: '100px', padding: '6px 16px', marginBottom: '40px' }}>
-            <Palette size={14} color={ACCENT} />
-            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '3px', textTransform: 'uppercase' }}>Custom UI/UX Design</span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+      {/* ── HERO ─────────────────────────────────────────────── */}
+      <section className="halo-section" style={{ minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'100px', position:'relative', overflow:'hidden' }}>
+        <div className="halo-container" style={{ width:'100%', position:'relative', zIndex:1 }}>
+          <div className="halo-hero-grid">
             <div>
-              <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 950, lineHeight: 1.05, letterSpacing: '-2px', marginBottom: '28px' }}>
-                <span style={{ display: 'block', color: '#fff' }}>Design That</span>
-                <span style={{ display: 'block', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Converts & Captivates</span>
+              <div style={{ marginBottom:'28px' }}>
+                <Chip variant="error"><Pen size={11} style={{ marginRight:4 }} />UI/UX DESIGN</Chip>
+              </div>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'#F2F4F8', marginBottom:'20px' }}>
+                Interfaces People<br /><span style={{ color:'#FF3A5C' }}>Fall in Love With</span>
               </h1>
-              <p style={{ fontSize: '1.1rem', color: '#94a3b8', lineHeight: 1.8, marginBottom: '40px' }}>
-                We don't draw interfaces — we engineer emotional and cognitive experiences. Rooted in behavioral psychology, our designs make users fall in love with your product.
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
+                Research-driven, pixel-perfect design systems that transform how users feel about your product — and convert that feeling into measurable revenue.
               </p>
-              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                <Link to="/help/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', padding: '16px 32px', borderRadius: '14px', fontWeight: 800, textDecoration: 'none', fontSize: '0.95rem', transition: 'all 0.3s ease' }}
-                  onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-3px)'}
-                  onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-                  Start Your Design <ArrowRight size={18} />
-                </Link>
+
+              {/* Process tabs */}
+              <div className="halo-tabs" style={{ marginBottom:'36px' }}>
+                {tabs.map(t=>(
+                  <button key={t.id} className={`halo-tab${activeTab===t.id?' active':''}`} onClick={()=>setActiveTab(t.id)}>{t.label}</button>
+                ))}
               </div>
+
+              <div style={{ padding:'18px', background:'#14151C', border:'1px solid #2A2D38', borderRadius:'12px', minHeight:'80px', marginBottom:'32px' }}>
+                {activeTab==='research'  && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', margin:0, lineHeight:1.55 }}>User interviews, heatmaps, A/B test analysis, and competitor benchmarking to uncover real pain points before design begins.</p>}
+                {activeTab==='wireframe' && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', margin:0, lineHeight:1.55 }}>Low-to-mid fidelity wireframes mapping information architecture, user flows, and interaction patterns across all key screens.</p>}
+                {activeTab==='prototype' && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', margin:0, lineHeight:1.55 }}>Interactive Figma prototypes with real micro-animations, hover states, and transitions — ready for usability testing sessions.</p>}
+                {activeTab==='handoff'   && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', margin:0, lineHeight:1.55 }}>Annotated Figma with component properties, design tokens, accessibility specs, and developer-ready asset exports.</p>}
+              </div>
+
+              <Link to="/help/contact" className="halo-btn-primary">
+                Start Your Design Sprint <ArrowRight size={16} />
+              </Link>
             </div>
 
-            {/* Design Canvas Mockup */}
-            <div ref={canvasRef} style={{ background: '#0f0018', border: `1px solid ${ACCENT}20`, borderRadius: '24px', padding: '32px', position: 'relative', overflow: 'hidden', cursor: 'none', minHeight: '400px' }}>
-              {/* Custom cursor */}
-              <div style={{ position: 'absolute', width: '20px', height: '20px', border: `2px solid ${ACCENT}`, borderRadius: '50%', pointerEvents: 'none', transform: `translate(${cursorPos.x - 10}px, ${cursorPos.y - 10}px)`, transition: 'transform 0.05s linear', zIndex: 10 }} />
-
-              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '3px', marginBottom: '24px' }}>DESIGN CANVAS</div>
-
-              {/* Wireframe elements */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
-                {['Hero Banner', 'Navigation'].map((label, i) => (
-                  <div key={i} style={{ padding: '20px', border: `1px dashed ${ACCENT}30`, borderRadius: '10px', textAlign: 'center', fontSize: '0.75rem', color: '#475569', background: `${ACCENT}05`, transition: 'all 0.3s ease', cursor: 'default' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.background = `${ACCENT}10`; e.currentTarget.style.color = ACCENT; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = `${ACCENT}30`; e.currentTarget.style.background = `${ACCENT}05`; e.currentTarget.style.color = '#475569'; }}>
-                    {label}
-                  </div>
+            {/* Interactive wireframe canvas */}
+            <div ref={canvasRef} onMouseMove={handleCanvasMove}
+              style={{ background:'#14151C', border:'1px solid #2A2D38', borderRadius:'16px', padding:'24px', position:'relative', overflow:'hidden', cursor:'none', height:'420px', boxShadow:'0 24px 60px rgba(0,0,0,0.55)' }}>
+              <div className="halo-label" style={{ marginBottom:'16px' }}>// INTERACTIVE WIREFRAME CANVAS</div>
+              {/* Custom cursor glow */}
+              <div style={{ position:'absolute', width:'60px', height:'60px', borderRadius:'50%', background:`radial-gradient(circle, rgba(255,58,92,0.15) 0%, transparent 70%)`, left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:10 }} />
+              <div style={{ position:'absolute', width:'8px', height:'8px', borderRadius:'50%', background:'#FF3A5C', left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:11 }} />
+              {/* Wireframe blocks */}
+              <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }}>
+                {wireBlocks.map((b,i)=>(
+                  <g key={i} style={{ cursor:'pointer' }}
+                    onMouseEnter={()=>setActiveBlock(i)}
+                    onMouseLeave={()=>setActiveBlock(null)}>
+                    <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="6" ry="6"
+                      fill={activeBlock===i?'rgba(255,58,92,0.15)':b.color}
+                      stroke={activeBlock===i?'#FF3A5C':'#3A3D4A'}
+                      strokeWidth={activeBlock===i?'1.5':'1'}
+                      style={{ transition:'all 0.15s' }}
+                    />
+                    <text x={`calc(${b.x} + ${parseFloat(b.w)/2}%)`} y="50%" dominantBaseline="middle" textAnchor="middle"
+                      fill={activeBlock===i?'#FF3A5C':'#5C6170'} fontSize="8" fontFamily="sans-serif"
+                      style={{ pointerEvents:'none' }}>
+                    </text>
+                  </g>
                 ))}
-              </div>
-              <div style={{ padding: '30px', border: `1px dashed ${ACCENT2}30`, borderRadius: '10px', textAlign: 'center', fontSize: '0.75rem', color: '#475569', marginBottom: '12px', background: `${ACCENT2}05`, transition: 'all 0.3s ease', cursor: 'default' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT2; e.currentTarget.style.color = ACCENT2; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = `${ACCENT2}30`; e.currentTarget.style.color = '#475569'; }}>
-                Main Content Block
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '16px' }}>
-                {['Card 1', 'Card 2', 'Card 3'].map((c, i) => (
-                  <div key={i} style={{ padding: '16px', border: `1px dashed rgba(255,255,255,0.1)`, borderRadius: '8px', textAlign: 'center', fontSize: '0.7rem', color: '#334155', transition: 'all 0.3s ease' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.color = '#fff'; }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#334155'; }}>{c}</div>
-                ))}
-              </div>
-
-              {/* Design tokens strip */}
-              <div style={{ display: 'flex', gap: '8px', marginTop: '24px', flexWrap: 'wrap' }}>
-                {designTokens.map((token, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 10px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s ease' }}
-                    onMouseEnter={e => { e.currentTarget.style.borderColor = token.color + '60'; setActiveToken(i); }}
-                    onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; setActiveToken(null); }}>
-                    <div style={{ width: '12px', height: '12px', borderRadius: '3px', background: token.color, boxShadow: activeToken === i ? `0 0 8px ${token.color}` : 'none' }} />
-                    <span style={{ fontSize: '0.65rem', color: '#475569', fontFamily: 'monospace' }}>{token.hex}</span>
-                  </div>
-                ))}
+              </svg>
+              <div style={{ position:'absolute', bottom:'16px', left:'50%', transform:'translateX(-50%)' }}>
+                <Chip variant="error"><MousePointer size={10} style={{ marginRight:3 }} />Move cursor to interact</Chip>
               </div>
             </div>
           </div>
         </div>
+        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse at 65% 40%, rgba(255,58,92,0.04) 0%, transparent 55%)', pointerEvents:'none' }} />
       </section>
 
-      {/* METRICS */}
-      <section style={{ padding: 'clamp(60px, 8vw, 100px) 5%', background: 'rgba(255,255,255,0.01)', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '32px' }}>
-          {metrics.map((m, i) => (
-            <div key={i} style={{ padding: '40px', background: `${ACCENT}05`, border: `1px solid ${ACCENT}15`, borderRadius: '24px', textAlign: 'center', transition: 'all 0.3s ease' }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.borderColor = ACCENT + '40'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = ACCENT + '15'; }}>
-              <div style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 950, letterSpacing: '-2px', color: ACCENT, marginBottom: '10px' }}>{m.value}</div>
-              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>{m.label}</div>
-              <div style={{ fontSize: '0.85rem', color: '#64748b' }}>{m.desc}</div>
-            </div>
-          ))}
+      {/* ── STAT TILES ───────────────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div className="halo-label" style={{ marginBottom:'24px' }}>UX Industry Research — Why Design ROI Matters</div>
+          <div className="halo-grid-4">
+            <div className="uiux-stat"><StatTile eyebrow="UX Return on Investment" metric="9,900%" description="Every $1 in UX returns $100 in value" trend="up" trendLabel="Forrester Research" accent="error" sparkData={sparkROI} /></div>
+            <div className="uiux-stat"><StatTile eyebrow="Conversion Increase" metric="+200%" description="Better UX drives higher conversion rate" trend="up" trendLabel="vs poor UX baseline" accent="success" sparkData={sparkConv} /></div>
+            <div className="uiux-stat"><StatTile eyebrow="User Retention Risk" metric="88%" description="Won't return after a bad experience" trend="down" trendLabel="One strike rule" accent="warning" sparkData={sparkReturn} /></div>
+            <div className="uiux-stat"><StatTile eyebrow="Mobile Traffic" metric="60%" description="Of all web sessions are on mobile" trend="up" trendLabel="Mobile-first mandate" accent="primary" sparkData={sparkMobile} /></div>
+          </div>
         </div>
       </section>
 
-      {/* DESIGN PRINCIPLES */}
-      <section style={{ padding: 'clamp(80px, 10vw, 140px) 5%' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '64px' }}>
-            <div style={{ width: '4px', height: '40px', borderRadius: '4px', background: `linear-gradient(${ACCENT}, ${ACCENT2})` }} />
+      {/* ── DESIGN PRINCIPLES ────────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div style={{ textAlign:'center', marginBottom:'56px' }}>
+            <div className="halo-label" style={{ marginBottom:'12px' }}>Design Philosophy</div>
+            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Research → Architecture → Pixels → Ship</h2>
+          </div>
+          <div className="halo-grid-4">
+            {principles.map((p,i)=>(
+              <div key={i} className="uiux-prin">
+                <HaloCard hoverable accent="error">
+                  <div style={{ fontFamily:H.mono, fontSize:'0.7rem', fontWeight:600, color:'#2A2D38', marginBottom:'16px', paddingTop:'6px' }}>{p.num}</div>
+                  <div style={{ width:'36px', height:'36px', borderRadius:'8px', background:'rgba(255,58,92,0.1)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'14px' }}>
+                    <p.icon size={16} color="#FF3A5C" />
+                  </div>
+                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'#F2F4F8', marginBottom:'10px' }}>{p.title}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55 }}>{p.desc}</div>
+                </HaloCard>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── DELIVERABLES ─────────────────────────────────────── */}
+      <section className="halo-section halo-section-divider">
+        <div className="halo-container">
+          <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'48px' }}>
+            <div style={{ width:'2px', height:'32px', background:'#FF3A5C', borderRadius:'2px' }} />
             <div>
-              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '6px' }}>Our Design Philosophy</div>
-              <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 950, letterSpacing: '-1.5px', color: '#fff', margin: 0 }}>The Science Behind Beautiful UI</h2>
+              <div className="halo-label" style={{ marginBottom:'4px' }}>What You Get</div>
+              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Design Deliverables</h2>
             </div>
           </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-            {designPrinciples.map((p, i) => (
-              <div key={i} className="uiux-principle" style={{ padding: '36px', background: 'rgba(236, 72, 153, 0.03)', border: '1px solid rgba(236, 72, 153, 0.1)', borderRadius: '24px', transition: 'all 0.4s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT + '40'; e.currentTarget.style.transform = 'translateY(-6px)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.1)'; e.currentTarget.style.transform = 'translateY(0)'; }}>
-                <div style={{ width: '40px', height: '3px', background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT2})`, borderRadius: '4px', marginBottom: '24px' }} />
-                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>{p.title}</h3>
-                <p style={{ color: '#64748b', lineHeight: 1.7, fontSize: '0.95rem', margin: 0 }}>{p.desc}</p>
+          <div className="halo-grid-2">
+            {deliverables.map((d,i)=>(
+              <div key={i} className="uiux-deliv">
+                <HaloCard hoverable>
+                  <div style={{ display:'flex', gap:'14px' }}>
+                    <div style={{ width:'10px', height:'10px', borderRadius:'50%', background:'#FF3A5C', marginTop:'5px', flexShrink:0 }} />
+                    <div>
+                      <div style={{ fontFamily:H.font, fontWeight:600, fontSize:'1.125rem', color:'#F2F4F8', marginBottom:'8px', letterSpacing:'-0.01em' }}>{d.label}</div>
+                      <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55 }}>{d.desc}</div>
+                    </div>
+                  </div>
+                </HaloCard>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* DESIGN PROCESS */}
-      <section style={{ padding: 'clamp(80px, 10vw, 140px) 5%', background: 'rgba(255,255,255,0.01)', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '16px' }}>Our Creative Process</div>
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 950, letterSpacing: '-2px', color: '#fff', margin: 0 }}>From Blank Canvas to Premium Product</h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '24px' }}>
-            {processPhases.map((phase, i) => (
-              <div key={i} className="uiux-phase-card" style={{ padding: '40px 32px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', position: 'relative', overflow: 'hidden', transition: 'all 0.4s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT + '40'; e.currentTarget.style.transform = 'translateY(-8px)'; e.currentTarget.style.boxShadow = `0 20px 40px ${ACCENT}10`; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
-                <div style={{ position: 'absolute', top: '20px', right: '24px', fontSize: '3.5rem', fontWeight: 950, color: `${ACCENT}10`, lineHeight: 1 }}>{phase.num}</div>
-                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: `linear-gradient(135deg, ${ACCENT}30, ${ACCENT2}20)`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-                  <phase.icon size={24} color={ACCENT} />
-                </div>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff', marginBottom: '14px' }}>{phase.title}</h3>
-                <p style={{ color: '#64748b', lineHeight: 1.7, fontSize: '0.92rem', margin: 0 }}>{phase.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section style={{ padding: 'clamp(100px, 12vw, 180px) 5%', textAlign: 'center', background: `radial-gradient(ellipse at 50% 0%, ${ACCENT}12 0%, transparent 60%)` }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <div style={{ fontSize: '0.7rem', fontWeight: 700, color: ACCENT, letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '24px' }}>Ready to Transform Your UX?</div>
-          <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 950, letterSpacing: '-2.5px', color: '#fff', marginBottom: '24px' }}>
-            Design That <span style={{ background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Makes Users Stay.</span>
+      {/* ── CTA ──────────────────────────────────────────────── */}
+      <section className="halo-section" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(255,58,92,0.05) 0%, transparent 55%)' }}>
+        <div style={{ maxWidth:'600px', margin:'0 auto' }}>
+          <div className="halo-label" style={{ marginBottom:'20px' }}>Design Partnership</div>
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'20px' }}>
+            Make Users <span style={{ color:'#FF3A5C' }}>Love It.</span>
           </h2>
-          <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '48px', lineHeight: 1.8 }}>
-            Let our design team craft an interface so intuitive and beautiful, your users will never want to leave.
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
+            From wireframe to design system — we make every pixel intentional and every interaction delightful.
           </p>
-          <Link to="/help/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', background: `linear-gradient(135deg, ${ACCENT}, ${ACCENT2})`, color: '#fff', padding: '20px 48px', borderRadius: '16px', fontWeight: 800, textDecoration: 'none', fontSize: '1rem', letterSpacing: '1px', textTransform: 'uppercase', transition: 'all 0.3s ease' }}
-            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 20px 60px ${ACCENT}40`; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
-            Start Design Sprint <ArrowRight size={20} />
+          <Link to="/help/contact" className="halo-btn-primary" style={{ height:'48px', padding:'0 28px', fontSize:'0.9375rem' }}>
+            Start Your Design Project <ArrowRight size={18} />
           </Link>
         </div>
       </section>
 
       <Footer />
       <style>{`
-        @media (max-width: 768px) {
-          section > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-        }
+        @media(max-width:960px){ .halo-grid-4{grid-template-columns:1fr 1fr!important} section>.halo-container>div[style*="grid-template-columns: 1fr 1fr"]{ display:block!important; } }
+        @media(max-width:720px){ .halo-grid-4,.halo-grid-3,.halo-grid-2{grid-template-columns:1fr!important} }
       `}</style>
     </div>
   );
