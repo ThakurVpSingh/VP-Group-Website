@@ -274,10 +274,11 @@
   max-width: 100%;
   overflow-x: auto;
   white-space: nowrap;
-  scrollbar-width: none;
+  scrollbar-width: none; /* Firefox & Chrome 121+ */
+  -ms-overflow-style: none; /* IE, Edge legacy */
 }
 .halo-tabs::-webkit-scrollbar {
-  display: none;
+  display: none; /* Chrome, Safari, iOS Safari, Samsung Internet */
 }
 .halo-tab {
   background: transparent;
