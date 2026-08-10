@@ -300,3 +300,65 @@
   color: var(--halo-on-surface);
   border-color: var(--halo-primary);
 }
+
+/* ── Global Scroll Reveal Animation ─────────────────────── */
+.scroll-reveal-target {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.scroll-reveal-target.scroll-animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Global Mobile & Tablet Responsiveness ───────────────── */
+@media (max-width: 960px) {
+  .halo-hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+  .halo-grid-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  .halo-grid-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .halo-section {
+    padding: 48px 16px !important;
+  }
+  .halo-container {
+    padding: 0 4px !important;
+  }
+  .halo-grid-2,
+  .halo-grid-3,
+  .halo-grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .halo-tabs {
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    border-radius: 16px !important;
+    padding: 6px !important;
+  }
+  .halo-tab {
+    height: 36px !important;
+    padding: 0 12px !important;
+    font-size: 0.78rem !important;
+  }
+  .halo-card,
+  .halo-stat-tile {
+    padding: 16px !important;
+    border-radius: 14px !important;
+  }
+}
+

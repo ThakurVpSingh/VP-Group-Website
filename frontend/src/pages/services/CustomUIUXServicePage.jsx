@@ -19,7 +19,7 @@ const principles = [
   { num:'01', icon:Eye,         title:'Research First',       desc:'User interviews, competitor audits, and heatmap analysis before a single wireframe is drawn.' },
   { num:'02', icon:Layers,      title:'Information Architecture', desc:'Content hierarchy, navigation flows, and user journey maps that feel intuitive — not designed.' },
   { num:'03', icon:Pen,         title:'High-Fidelity Design', desc:'Pixel-perfect Figma prototypes with interactive states, micro-animations, and design tokens.' },
-  { num:'04', icon:MousePointer,'title':'Usability Testing',  desc:'5-user prototype tests to validate assumptions and eliminate friction before development starts.' },
+  { num:'04', icon:MousePointer,title:'Usability Testing',  desc:'5-user prototype tests to validate assumptions and eliminate friction before development starts.' },
 ];
 
 const deliverables = [
@@ -46,19 +46,78 @@ export default function CustomUIUXServicePage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = 'Custom UI/UX Design | VP Group';
+    document.title = 'Custom UI/UX Design | VP Group & Technologies';
   }, []);
 
+  // ── IntersectionObserver for Scroll-Triggered Entrance Animations ────
   useEffect(() => {
-    animate('.uiux-stat',  { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(80),  easing:'easeOutQuart' });
-    animate('.uiux-prin',  { opacity:[0,1], translateY:[16,0], duration:500, delay:stagger(90),  easing:'easeOutQuart' });
-    animate('.uiux-deliv', { opacity:[0,1], translateX:[-12,0], duration:500, delay:stagger(80), easing:'easeOutQuart' });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('scroll-animated');
+
+            // Staggered reveal for stats section
+            if (entry.target.classList.contains('stats-observer-target')) {
+              animate(entry.target.querySelectorAll('.uiux-stat'), {
+                opacity: [0, 1],
+                translateY: [24, 0],
+                duration: 600,
+                delay: stagger(100),
+                easing: 'easeOutQuart'
+              });
+            }
+            
+            // Staggered reveal for principles
+            if (entry.target.classList.contains('prin-observer-target')) {
+              animate(entry.target.querySelectorAll('.uiux-prin'), {
+                opacity: [0, 1],
+                translateY: [24, 0],
+                duration: 600,
+                delay: stagger(100),
+                easing: 'easeOutQuart'
+              });
+            }
+
+            // Staggered reveal for deliverables
+            if (entry.target.classList.contains('deliv-observer-target')) {
+              animate(entry.target.querySelectorAll('.uiux-deliv'), {
+                opacity: [0, 1],
+                translateX: [-20, 0],
+                duration: 600,
+                delay: stagger(100),
+                easing: 'easeOutQuart'
+              });
+            }
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    const targets = document.querySelectorAll('.scroll-reveal-target, .stats-observer-target, .prin-observer-target, .deliv-observer-target');
+    targets.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
   }, []);
 
   const handleCanvasMove = (e) => {
     if (!canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
-    setCursor({ x: ((e.clientX - rect.left) / rect.width) * 100, y: ((e.clientY - rect.top) / rect.height) * 100 });
+    setCursor({ 
+      x: Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100)), 
+      y: Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100)) 
+    });
+  };
+
+  const handleTouchMove = (e) => {
+    if (!canvasRef.current || !e.touches[0]) return;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    setCursor({ 
+      x: Math.max(0, Math.min(100, ((touch.clientX - rect.left) / rect.width) * 100)), 
+      y: Math.max(0, Math.min(100, ((touch.clientY - rect.top) / rect.height) * 100)) 
+    });
   };
 
   const tabs = [
@@ -69,26 +128,26 @@ export default function CustomUIUXServicePage() {
   ];
 
   return (
-    <div className="halo-page" style={{ fontFamily:H.font }}>
+    <div className="halo-page" style={{ fontFamily:H.font, overflowX:'hidden' }}>
       <ProjectNavbar />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="halo-section" style={{ minHeight:'100vh', display:'flex', alignItems:'center', paddingTop:'100px', position:'relative', overflow:'hidden' }}>
+      <section className="halo-section" style={{ minHeight:'85vh', display:'flex', alignItems:'center', paddingTop:'120px', position:'relative', overflow:'hidden' }}>
         <div className="halo-container" style={{ width:'100%', position:'relative', zIndex:1 }}>
           <div className="halo-hero-grid">
             <div>
-              <div style={{ marginBottom:'28px' }}>
+              <div style={{ marginBottom:'24px' }}>
                 <Chip variant="error"><Pen size={11} style={{ marginRight:4 }} />UI/UX DESIGN</Chip>
               </div>
-              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'#F2F4F8', marginBottom:'20px' }}>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:800, letterSpacing:'-0.03em', lineHeight:1.08, color:'#F2F4F8', marginBottom:'20px' }}>
                 Interfaces People<br /><span style={{ color:'#FF3A5C' }}>Fall in Love With</span>
               </h1>
-              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.6, marginBottom:'36px', maxWidth:'480px' }}>
                 Research-driven, pixel-perfect design systems that transform how users feel about your product — and convert that feeling into measurable revenue.
               </p>
 
               {/* Process tabs */}
-              <div className="halo-tabs" style={{ marginBottom:'36px' }}>
+              <div className="halo-tabs" style={{ marginBottom:'28px', flexWrap:'wrap' }}>
                 {tabs.map(t=>(
                   <button key={t.id} className={`halo-tab${activeTab===t.id?' active':''}`} onClick={()=>setActiveTab(t.id)}>{t.label}</button>
                 ))}
@@ -107,8 +166,26 @@ export default function CustomUIUXServicePage() {
             </div>
 
             {/* Interactive wireframe canvas */}
-            <div ref={canvasRef} onMouseMove={handleCanvasMove}
-              style={{ background:'#14151C', border:'1px solid #2A2D38', borderRadius:'16px', padding:'24px', position:'relative', overflow:'hidden', cursor:'none', height:'420px', boxShadow:'0 24px 60px rgba(0,0,0,0.55)' }}>
+            <div 
+              ref={canvasRef} 
+              onMouseMove={handleCanvasMove}
+              onTouchMove={handleTouchMove}
+              onTouchStart={handleTouchMove}
+              className="halo-hero-canvas"
+              style={{ 
+                background:'#14151C', 
+                border:'1px solid #2A2D38', 
+                borderRadius:'16px', 
+                padding:'24px', 
+                position:'relative', 
+                overflow:'hidden', 
+                cursor:'none', 
+                height:'clamp(300px, 45vh, 420px)', 
+                width:'100%',
+                boxShadow:'0 24px 60px rgba(0,0,0,0.55)',
+                touchAction:'none'
+              }}
+            >
               <div className="halo-label" style={{ marginBottom:'16px' }}>// INTERACTIVE WIREFRAME CANVAS</div>
               {/* Custom cursor glow */}
               <div style={{ position:'absolute', width:'60px', height:'60px', borderRadius:'50%', background:`radial-gradient(circle, rgba(255,58,92,0.15) 0%, transparent 70%)`, left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:10 }} />
@@ -118,22 +195,20 @@ export default function CustomUIUXServicePage() {
                 {wireBlocks.map((b,i)=>(
                   <g key={i} style={{ cursor:'pointer' }}
                     onMouseEnter={()=>setActiveBlock(i)}
-                    onMouseLeave={()=>setActiveBlock(null)}>
+                    onMouseLeave={()=>setActiveBlock(null)}
+                    onTouchStart={()=>setActiveBlock(i)}
+                  >
                     <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="6" ry="6"
                       fill={activeBlock===i?'rgba(255,58,92,0.15)':b.color}
                       stroke={activeBlock===i?'#FF3A5C':'#3A3D4A'}
                       strokeWidth={activeBlock===i?'1.5':'1'}
                       style={{ transition:'all 0.15s' }}
                     />
-                    <text x={`calc(${b.x} + ${parseFloat(b.w)/2}%)`} y="50%" dominantBaseline="middle" textAnchor="middle"
-                      fill={activeBlock===i?'#FF3A5C':'#5C6170'} fontSize="8" fontFamily="sans-serif"
-                      style={{ pointerEvents:'none' }}>
-                    </text>
                   </g>
                 ))}
               </svg>
-              <div style={{ position:'absolute', bottom:'16px', left:'50%', transform:'translateX(-50%)' }}>
-                <Chip variant="error"><MousePointer size={10} style={{ marginRight:3 }} />Move cursor to interact</Chip>
+              <div style={{ position:'absolute', bottom:'16px', left:'50%', transform:'translateX(-50%)', width:'max-content' }}>
+                <Chip variant="error"><MousePointer size={10} style={{ marginRight:3 }} />Touch or move cursor to interact</Chip>
               </div>
             </div>
           </div>
@@ -142,7 +217,7 @@ export default function CustomUIUXServicePage() {
       </section>
 
       {/* ── STAT TILES ───────────────────────────────────────── */}
-      <section className="halo-section halo-section-divider">
+      <section className="halo-section halo-section-divider scroll-reveal-target stats-observer-target">
         <div className="halo-container">
           <div className="halo-label" style={{ marginBottom:'24px' }}>UX Industry Research — Why Design ROI Matters</div>
           <div className="halo-grid-4">
@@ -155,11 +230,11 @@ export default function CustomUIUXServicePage() {
       </section>
 
       {/* ── DESIGN PRINCIPLES ────────────────────────────────── */}
-      <section className="halo-section halo-section-divider">
+      <section className="halo-section halo-section-divider scroll-reveal-target prin-observer-target">
         <div className="halo-container">
-          <div style={{ textAlign:'center', marginBottom:'56px' }}>
+          <div style={{ textAlign:'center', marginBottom:'48px' }}>
             <div className="halo-label" style={{ marginBottom:'12px' }}>Design Philosophy</div>
-            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Research → Architecture → Pixels → Ship</h2>
+            <h2 style={{ fontFamily:H.font, fontSize:'clamp(1.75rem, 4vw, 2.5rem)', fontWeight:700, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Research → Architecture → Pixels → Ship</h2>
           </div>
           <div className="halo-grid-4">
             {principles.map((p,i)=>(
@@ -179,13 +254,13 @@ export default function CustomUIUXServicePage() {
       </section>
 
       {/* ── DELIVERABLES ─────────────────────────────────────── */}
-      <section className="halo-section halo-section-divider">
+      <section className="halo-section halo-section-divider scroll-reveal-target deliv-observer-target">
         <div className="halo-container">
           <div style={{ display:'flex', alignItems:'center', gap:'12px', marginBottom:'48px' }}>
             <div style={{ width:'2px', height:'32px', background:'#FF3A5C', borderRadius:'2px' }} />
             <div>
               <div className="halo-label" style={{ marginBottom:'4px' }}>What You Get</div>
-              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Design Deliverables</h2>
+              <h2 style={{ fontFamily:H.font, fontSize:'clamp(1.75rem, 4vw, 2.5rem)', fontWeight:700, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Design Deliverables</h2>
             </div>
           </div>
           <div className="halo-grid-2">
@@ -207,10 +282,10 @@ export default function CustomUIUXServicePage() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────── */}
-      <section className="halo-section" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(255,58,92,0.05) 0%, transparent 55%)' }}>
+      <section className="halo-section scroll-reveal-target" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(255,58,92,0.05) 0%, transparent 55%)' }}>
         <div style={{ maxWidth:'600px', margin:'0 auto' }}>
           <div className="halo-label" style={{ marginBottom:'20px' }}>Design Partnership</div>
-          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'20px' }}>
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:700, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'20px' }}>
             Make Users <span style={{ color:'#FF3A5C' }}>Love It.</span>
           </h2>
           <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
@@ -224,8 +299,26 @@ export default function CustomUIUXServicePage() {
 
       <Footer />
       <style>{`
-        @media(max-width:960px){ .halo-grid-4{grid-template-columns:1fr 1fr!important} section>.halo-container>div[style*="grid-template-columns: 1fr 1fr"]{ display:block!important; } }
-        @media(max-width:720px){ .halo-grid-4,.halo-grid-3,.halo-grid-2{grid-template-columns:1fr!important} }
+        .scroll-reveal-target {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: opacity, transform;
+        }
+        .scroll-reveal-target.scroll-animated {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        @media(max-width:960px){ 
+          .halo-hero-grid { grid-template-columns:1fr !important; gap:36px !important; }
+          .halo-grid-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+        }
+        @media(max-width:640px){ 
+          .halo-grid-4, .halo-grid-3, .halo-grid-2 { grid-template-columns:1fr !important; gap: 16px !important; }
+          .halo-tabs { width: 100% !important; flex-wrap: wrap !important; justify-content: flex-start !important; gap: 6px !important; }
+          .halo-section { padding: 48px 16px !important; }
+        }
       `}</style>
     </div>
   );
