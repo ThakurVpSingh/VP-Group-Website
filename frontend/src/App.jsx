@@ -10,7 +10,6 @@ import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import ServiceDetailPage from './pages/ServiceDetailPage';
 import WebDevServicePage from './pages/services/WebDevServicePage';
 import SoftwareEngServicePage from './pages/services/SoftwareEngServicePage';
 import TechSupportServicePage from './pages/services/TechSupportServicePage';
@@ -18,6 +17,12 @@ import ITConsultServicePage from './pages/services/ITConsultServicePage';
 import CustomUIUXServicePage from './pages/services/CustomUIUXServicePage';
 import SEOAnalyticsServicePage from './pages/services/SEOAnalyticsServicePage';
 import AIAutomationServicePage from './pages/services/AIAutomationServicePage';
+import SaaSDevServicePage from './pages/services/SaaSDevServicePage';
+import DigitalMarketingServicePage from './pages/services/DigitalMarketingServicePage';
+import CRMDevServicePage from './pages/services/CRMDevServicePage';
+import CybersecurityServicePage from './pages/services/CybersecurityServicePage';
+import CloudDevOpsServicePage from './pages/services/CloudDevOpsServicePage';
+import WhatsAppWidget from './components/WhatsAppWidget';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
 import PartnershipApplyPage from './pages/PartnershipApplyPage';
 import ContactPage from './pages/ContactPage';
@@ -173,6 +178,9 @@ function App() {
     <AuthProvider>
       {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
       <Router>
+        {/* Global Floating WhatsApp Support Widget (+916388398552) */}
+        <WhatsAppWidget />
+        
         <Routes>
           {/* Main Landing & Company Pages */}
           <Route path="/" element={<VPGroup />} />
@@ -184,16 +192,22 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/superadmin/access" element={<Login portalType="SuperAdmin" />} />
           
-          {/* Dedicated Service Routes - Unique layouts per service */}
+          {/* Comprehensive 12-Service Ecosystem Routes */}
           <Route path="/services/web-development" element={<WebDevServicePage />} />
+          <Route path="/services/website-development" element={<WebDevServicePage />} />
           <Route path="/services/software-engineering" element={<SoftwareEngServicePage />} />
+          <Route path="/services/custom-software" element={<SoftwareEngServicePage />} />
           <Route path="/services/technical-support" element={<TechSupportServicePage />} />
           <Route path="/services/it-consultation" element={<ITConsultServicePage />} />
           <Route path="/services/custom-ui-ux" element={<CustomUIUXServicePage />} />
           <Route path="/services/seo-analytics-setup" element={<SEOAnalyticsServicePage />} />
+          <Route path="/services/seo-services" element={<SEOAnalyticsServicePage />} />
           <Route path="/services/ai-automation" element={<AIAutomationServicePage />} />
-          {/* Fallback for any unknown service IDs */}
-          <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
+          <Route path="/services/saas-development" element={<SaaSDevServicePage />} />
+          <Route path="/services/digital-marketing" element={<DigitalMarketingServicePage />} />
+          <Route path="/services/crm-development" element={<CRMDevServicePage />} />
+          <Route path="/services/cybersecurity" element={<CybersecurityServicePage />} />
+          <Route path="/services/cloud-devops" element={<CloudDevOpsServicePage />} />
           
           {/* Dynamic Portfolio Routes */}
           <Route path="/portfolio/:projectId" element={<PortfolioDetailPage />} />

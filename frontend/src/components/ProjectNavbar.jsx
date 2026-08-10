@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Zap, Menu, X, ChevronDown, Shield, ArrowRight, Globe, Layers, Mail } from 'lucide-react';
+import { 
+  Zap, Menu, X, ChevronDown, Shield, ArrowRight, Globe, Layers, Mail,
+  Sparkles, Terminal, Users, Activity, Cpu, ShieldCheck 
+} from 'lucide-react';
 import Logo from './Logo';
 
 const ProjectNavbar = ({ scrollY: propScrollY }) => {
@@ -20,9 +23,7 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [propScrollY]);
 
-    const scrollY = propScrollY !== undefined ? propScrollY : localScrollY;
     const isScrolled = propScrollY !== undefined ? propScrollY > 20 : scrolled;
-    const t = 1;
 
     // Close menu when route changes
     useEffect(() => {
@@ -47,19 +48,112 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     <div className="nav-links desktop-only">
                         <Link to="/" className="nav-link-btn">Home</Link>
                         
-                        <div className="nav-dropdown">
+                        {/* ── SERVICES MULTI-COLUMN HORIZONTAL MEGA MENU ── */}
+                        <div className="nav-dropdown mega-dropdown">
                             <button className="nav-link-btn">Services <ChevronDown size={12} className="drop-icon" /></button>
-                            <div className="dropdown-content">
-                                <Link to="/services/web-development">Web Development</Link>
-                                <Link to="/services/software-engineering">Software Engineering</Link>
-                                <Link to="/services/technical-support">Technical Support</Link>
-                                <Link to="/services/it-consultation">IT Consultation</Link>
-                                <Link to="/services/custom-ui-ux">Custom UI/UX</Link>
-                                <Link to="/services/seo-analytics-setup">SEO & Analytics Setup</Link>
-                                <Link to="/services/ai-automation">AI Automation</Link>
+                            <div className="dropdown-content mega-content">
+                                {/* Column 1: AI & Core Software */}
+                                <div className="mega-column">
+                                    <div className="mega-col-title">AI & CORE SOFTWARE</div>
+                                    <Link to="/services/ai-automation" className="mega-item">
+                                        <Sparkles size={16} color="#FF3A5C" />
+                                        <div>
+                                            <span className="mega-item-name">AI & Automation</span>
+                                            <span className="mega-item-sub">LLM Agents & RAG Pipelines</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/saas-development" className="mega-item">
+                                        <Layers size={16} color="#5B6BFF" />
+                                        <div>
+                                            <span className="mega-item-name">SaaS Development</span>
+                                            <span className="mega-item-sub">Multi-tenant & Billing Engine</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/software-engineering" className="mega-item">
+                                        <Terminal size={16} color="#3DD7E5" />
+                                        <div>
+                                            <span className="mega-item-name">Custom Software & ERP</span>
+                                            <span className="mega-item-sub">Enterprise System Core</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/crm-development" className="mega-item">
+                                        <Users size={16} color="#2BE08C" />
+                                        <div>
+                                            <span className="mega-item-name">CRM Development</span>
+                                            <span className="mega-item-sub">AI Lead Scoring & Pipelines</span>
+                                        </div>
+                                    </Link>
+                                </div>
+
+                                {/* Column 2: Web & Digital Growth */}
+                                <div className="mega-column">
+                                    <div className="mega-col-title">WEB & DIGITAL GROWTH</div>
+                                    <Link to="/services/web-development" className="mega-item">
+                                        <Globe size={16} color="#2BE08C" />
+                                        <div>
+                                            <span className="mega-item-name">Website Development</span>
+                                            <span className="mega-item-sub">React & Next.js Ecosystem</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/seo-analytics-setup" className="mega-item">
+                                        <Activity size={16} color="#F5D547" />
+                                        <div>
+                                            <span className="mega-item-name">SEO & Analytics</span>
+                                            <span className="mega-item-sub">GA4 & Search Intelligence</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/digital-marketing" className="mega-item">
+                                        <Zap size={16} color="#FF3A5C" />
+                                        <div>
+                                            <span className="mega-item-name">Digital Marketing</span>
+                                            <span className="mega-item-sub">Paid Performance & CRO</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/custom-ui-ux" className="mega-item">
+                                        <Layers size={16} color="#3DD7E5" />
+                                        <div>
+                                            <span className="mega-item-name">Custom UI/UX Design</span>
+                                            <span className="mega-item-sub">Prototyping & Design Systems</span>
+                                        </div>
+                                    </Link>
+                                </div>
+
+                                {/* Column 3: Cloud & Security Ops */}
+                                <div className="mega-column">
+                                    <div className="mega-col-title">CLOUD & SECURITY OPS</div>
+                                    <Link to="/services/cybersecurity" className="mega-item">
+                                        <Shield size={16} color="#FF3A5C" />
+                                        <div>
+                                            <span className="mega-item-name">Cybersecurity Mesh</span>
+                                            <span className="mega-item-sub">Zero-Trust & Pentesting</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/cloud-devops" className="mega-item">
+                                        <Cpu size={16} color="#3DD7E5" />
+                                        <div>
+                                            <span className="mega-item-name">Cloud & DevOps</span>
+                                            <span className="mega-item-sub">Kubernetes & CI/CD Pipelines</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/technical-support" className="mega-item">
+                                        <ShieldCheck size={16} color="#5B6BFF" />
+                                        <div>
+                                            <span className="mega-item-name">24/7 Technical Support</span>
+                                            <span className="mega-item-sub">Dedicated SLA Monitoring</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/it-consultation" className="mega-item">
+                                        <Globe size={16} color="#F5D547" />
+                                        <div>
+                                            <span className="mega-item-name">IT Consultation</span>
+                                            <span className="mega-item-sub">Tech Strategy & Cloud Audit</span>
+                                        </div>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
 
+                        {/* Clients Dropdown */}
                         <div className="nav-dropdown">
                             <button className="nav-link-btn">Clients <ChevronDown size={12} className="drop-icon" /></button>
                             <div className="dropdown-content">
@@ -69,6 +163,7 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                             </div>
                         </div>
 
+                        {/* Help Dropdown */}
                         <div className="nav-dropdown">
                             <button className="nav-link-btn">Help <ChevronDown size={12} className="drop-icon" /></button>
                             <div className="dropdown-content">
@@ -96,7 +191,7 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     </button>
                 </div>
 
-                {/* Standard Side Drawer (Not Full Screen) */}
+                {/* Standard Side Drawer (Mobile) */}
                 <div className={`drawer-backdrop ${isMenuOpen ? 'open' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
                 
                 <div className={`side-drawer ${isMenuOpen ? 'open' : ''}`}>
@@ -112,11 +207,18 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                         <div className="drawer-section">
                             <label>OUR SERVICES</label>
                             <div className="drawer-links">
-                                <Link to="/services/web-development" onClick={() => setIsMenuOpen(false)}>Web Development</Link>
+                                <Link to="/services/ai-automation" onClick={() => setIsMenuOpen(false)}>AI & Automation</Link>
+                                <Link to="/services/saas-development" onClick={() => setIsMenuOpen(false)}>SaaS Development</Link>
                                 <Link to="/services/software-engineering" onClick={() => setIsMenuOpen(false)}>Software Engineering</Link>
+                                <Link to="/services/web-development" onClick={() => setIsMenuOpen(false)}>Web Development</Link>
+                                <Link to="/services/seo-analytics-setup" onClick={() => setIsMenuOpen(false)}>SEO & Analytics</Link>
+                                <Link to="/services/digital-marketing" onClick={() => setIsMenuOpen(false)}>Digital Marketing</Link>
+                                <Link to="/services/crm-development" onClick={() => setIsMenuOpen(false)}>CRM Development</Link>
+                                <Link to="/services/cybersecurity" onClick={() => setIsMenuOpen(false)}>Cybersecurity Mesh</Link>
+                                <Link to="/services/cloud-devops" onClick={() => setIsMenuOpen(false)}>Cloud & DevOps</Link>
                                 <Link to="/services/technical-support" onClick={() => setIsMenuOpen(false)}>Technical Support</Link>
-                                <Link to="/services/seo-analytics-setup" onClick={() => setIsMenuOpen(false)}>SEO & Analytics Setup</Link>
-                                <Link to="/services/ai-automation" onClick={() => setIsMenuOpen(false)}>AI Automation</Link>
+                                <Link to="/services/it-consultation" onClick={() => setIsMenuOpen(false)}>IT Consultation</Link>
+                                <Link to="/services/custom-ui-ux" onClick={() => setIsMenuOpen(false)}>Custom UI/UX Design</Link>
                             </div>
                         </div>
 
@@ -144,8 +246,8 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                                 Book Consultation
                             </Link>
                         </div>
-                        </div>
                     </div>
+                </div>
             </nav>
 
             <style>{`
@@ -153,155 +255,149 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     position: fixed;
                     top: 0;
                     left: 0;
-                    right: 0;
-                    width: 100vw;
-                    max-width: 100%;
-                    box-sizing: border-box;
+                    width: 100%;
                     z-index: 3000;
-                    padding: 32px 0;
-                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    padding: 20px 40px;
+                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
                     background: transparent;
                 }
+
                 .project-navbar.scrolled {
-                    background: rgba(3, 7, 18, 0.85);
-                    backdrop-filter: blur(25px);
-                    padding: 16px 0;
+                    padding: 12px 40px;
+                    background: rgba(10, 11, 15, 0.85);
+                    backdrop-filter: blur(20px) saturate(180%);
                     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
                 }
+
                 .nav-container {
-                    max-width: 1400px;
-                    width: 100%;
+                    max-width: 1300px;
                     margin: 0 auto;
-                    padding: 0 24px;
-                    box-sizing: border-box;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                 }
+
                 .nav-logo-section {
                     display: flex;
                     align-items: center;
-                    gap: 14px;
+                    gap: 12px;
                     cursor: pointer;
-                    transition: 0.3s;
                 }
-                .nav-logo-section:hover { transform: scale(1.02); }
+
                 .nav-logo-box {
-                    width: 44px;
-                    height: 44px;
-                    background: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(255, 255, 255, 0.08);
+                    width: 42px;
+                    height: 42px;
+                    background: rgba(255, 255, 255, 0.03);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
                     border-radius: 12px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-                    transition: all 0.3s ease;
-                }
-                .nav-logo-section:hover .nav-logo-box {
-                    border-color: rgba(139, 92, 246, 0.3);
-                    background: rgba(139, 92, 246, 0.05);
-                    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
-                }
-                .company-logo-svg { width: 32px; height: 32px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
-                .brand-name { fontWeight: 950; fontSize: 1.3rem; color: #fff; line-height: 1; letter-spacing: -1px; }
-                .brand-sub { fontSize: 0.6rem; fontWeight: 900; color: #ff4ef0; letterSpacing: 4px; marginTop: 4px; display: block; opacity: 0.9; }
-
-                .nav-links { display: flex; gap: 40px; align-items: center; }
-                .nav-link-btn {
-                    background: none;
-                    border: none;
-                    color: #94a3b8;
-                    font-size: 0.85rem;
-                    fontWeight: 800;
-                    cursor: pointer;
-                    text-decoration: none;
-                    text-transform: uppercase;
-                    letter-spacing: 1.5px;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    position: relative;
-                    padding: 8px 0;
                     transition: 0.3s;
                 }
-                .nav-link-btn::after {
-                    content: '';
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 0;
-                    height: 2px;
-                    background: #ff4ef0;
-                    transition: 0.3s ease;
+
+                .nav-logo-section:hover .nav-logo-box {
+                    border-color: #5B6BFF;
+                    box-shadow: 0 0 20px rgba(91, 107, 255, 0.3);
                 }
-                .nav-link-btn:hover { color: #fff; }
-                .nav-link-btn:hover::after { width: 100%; }
-                .drop-icon { transition: 0.3s; }
-                .nav-dropdown:hover .drop-icon { transform: rotate(180deg); color: #ff4ef0; }
+
+                .logo-text {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .brand-name {
+                    font-size: 1rem;
+                    font-weight: 900;
+                    letter-spacing: -0.02em;
+                    color: #F2F4F8;
+                    line-height: 1;
+                }
+
+                .brand-sub {
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 0.6rem;
+                    font-weight: 700;
+                    letterSpacing: 2px;
+                    color: #5B6BFF;
+                    margin-top: 3px;
+                }
+
+                .nav-links {
+                    display: flex;
+                    align-items: center;
+                    gap: 32px;
+                }
+
+                .nav-link-btn {
+                    color: #94A3B8;
+                    text-decoration: none;
+                    font-size: 0.88rem;
+                    font-weight: 700;
+                    letter-spacing: 0.3px;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    transition: 0.25s;
+                    padding: 8px 0;
+                }
+
+                .nav-link-btn:hover {
+                    color: #F2F4F8;
+                }
+
+                .drop-icon {
+                    transition: transform 0.3s;
+                }
+
+                .nav-dropdown:hover .drop-icon {
+                    transform: rotate(180deg);
+                    color: #5B6BFF;
+                }
 
                 .nav-portal-btn {
-                    position: relative;
-                    padding: 12px 28px;
-                    background: linear-gradient(135deg, #ff4ef0, #8b5cf6);
-                    color: #fff !important;
-                    text-decoration: none !important;
-                    border: none;
-                    border-radius: 30px;
-                    fontWeight: 950;
-                    font-size: 0.8rem;
-                    cursor: pointer;
-                    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                    box-shadow: 0 4px 15px rgba(255, 78, 240, 0.3);
-                    letter-spacing: 1px;
-                    overflow: hidden;
-                    z-index: 1;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-                
-                .nav-portal-btn::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: -100%;
-                    width: 100%;
-                    height: 100%;
-                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-                    transition: 0.6s ease;
-                    z-index: -1;
-                }
-
-                .nav-portal-btn:hover::before {
-                    left: 100%;
+                    padding: 10px 22px;
+                    border-radius: 25px;
+                    background: linear-gradient(135deg, #5B6BFF, #3DD7E5);
+                    color: #ffffff;
+                    text-decoration: none;
+                    font-size: 0.82rem;
+                    font-weight: 800;
+                    letter-spacing: 0.5px;
+                    box-shadow: 0 4px 15px rgba(91, 107, 255, 0.3);
+                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
                 }
 
                 .nav-portal-btn:hover {
-                    transform: translateY(-3px) scale(1.02);
-                    box-shadow: 0 15px 30px rgba(255, 78, 240, 0.5);
-                    background: linear-gradient(135deg, #f03edb, #7e4de4);
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(61, 215, 229, 0.4);
                 }
 
+                /* ── DROPDOWN STYLES ── */
                 .nav-dropdown { position: relative; padding-bottom: 15px; margin-bottom: -15px; }
+
                 .dropdown-content {
                     position: absolute;
                     top: 100%;
                     left: 50%;
-                    transform: translateX(-50%) translateY(20px);
-                    background: rgba(15, 23, 42, 0.95);
-                    backdrop-filter: blur(20px);
-                    border-radius: 16px;
+                    transform: translateX(-50%) translateY(15px);
+                    background: rgba(13, 15, 23, 0.96);
+                    backdrop-filter: blur(24px) saturate(180%);
+                    border-radius: 20px;
                     min-width: 240px;
-                    padding: 16px 0;
+                    padding: 12px 0;
                     opacity: 0;
                     visibility: hidden;
-                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-                    border: 1px solid rgba(255,255,255,0.1);
+                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                    box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 30px rgba(91, 107, 255, 0.12);
+                    border: 1px solid rgba(91, 107, 255, 0.25);
                     pointer-events: none;
                 }
+
                 .nav-dropdown::after {
                     content: '';
                     position: absolute;
@@ -311,138 +407,215 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     height: 25px;
                     background: transparent;
                 }
+
                 .nav-dropdown:hover .dropdown-content { 
                     opacity: 1; 
                     visibility: visible; 
                     transform: translateX(-50%) translateY(0);
                     pointer-events: auto;
                 }
+
                 .dropdown-content a {
                     display: block;
-                    padding: 14px 28px;
+                    padding: 10px 24px;
                     color: #94a3b8;
                     text-decoration: none;
-                    font-size: 0.9rem;
-                    fontWeight: 700;
-                    transition: 0.3s;
-                }
-                .dropdown-content a:hover { 
-                    background: rgba(255, 78, 240, 0.08); 
-                    color: #ff4ef0; 
-                    padding-left: 36px; 
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    transition: 0.25s;
                 }
 
-                /* Standard Hamburger */
+                .dropdown-content a:hover { 
+                    background: rgba(91, 107, 255, 0.1); 
+                    color: #3DD7E5; 
+                    padding-left: 28px; 
+                }
+
+                /* ── MULTI-COLUMN HORIZONTAL MEGA MENU (Services) ── */
+                .mega-content {
+                    min-width: 760px !important;
+                    padding: 24px !important;
+                    display: grid !important;
+                    grid-template-columns: repeat(3, 1fr) !important;
+                    gap: 16px !important;
+                    left: 50% !important;
+                    transform: translateX(-50%) translateY(15px) !important;
+                }
+
+                .mega-column {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                }
+
+                .mega-col-title {
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 0.62rem;
+                    font-weight: 800;
+                    letter-spacing: 1.5px;
+                    color: #5B6BFF;
+                    margin-bottom: 8px;
+                    padding-left: 6px;
+                    text-transform: uppercase;
+                }
+
+                .mega-item {
+                    display: flex !important;
+                    align-items: center !important;
+                    gap: 12px !important;
+                    padding: 8px 10px !important;
+                    border-radius: 12px !important;
+                    text-decoration: none !important;
+                    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                    background: transparent !important;
+                    border: 1px solid transparent !important;
+                }
+
+                .mega-item:hover {
+                    background: rgba(91, 107, 255, 0.1) !important;
+                    border-color: rgba(91, 107, 255, 0.25) !important;
+                    transform: translateX(3px) !important;
+                    padding-left: 12px !important;
+                }
+
+                .mega-item-name {
+                    display: block;
+                    font-size: 0.8rem;
+                    font-weight: 800;
+                    color: #F2F4F8;
+                    line-height: 1.25;
+                }
+
+                .mega-item-sub {
+                    display: block;
+                    font-size: 0.65rem;
+                    color: #64748b;
+                    line-height: 1.2;
+                    margin-top: 2px;
+                    font-weight: 500;
+                }
+
+                /* Mobile Side Drawer */
                 .hamburger-box {
                     display: none;
-                    width: 40px;
-                    height: 40px;
+                    width: 42px;
+                    height: 42px;
                     background: rgba(255,255,255,0.03);
-                    border: 1px solid rgba(255,255,255,0.05);
+                    border: 1px solid rgba(255,255,255,0.1);
                     border-radius: 10px;
                     cursor: pointer;
                     position: relative;
                     z-index: 3200;
                     transition: 0.3s;
                 }
-                .hamburger-box:hover { background: rgba(255,255,255,0.08); }
-                .hamburger-inner {
-                    position: absolute;
-                    width: 24px;
-                    height: 2px;
-                    background: #fff;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    transition: 0.3s;
-                }
-                .hamburger-inner::before, .hamburger-inner::after {
-                    content: '';
-                    position: absolute;
-                    width: 24px;
-                    height: 2px;
-                    background: #fff;
-                    left: 0;
-                    transition: 0.3s;
-                }
-                .hamburger-inner::before { top: -8px; }
-                .hamburger-inner::after { top: 8px; }
-                .hamburger-box.active .hamburger-inner { background: transparent; }
-                .hamburger-box.active .hamburger-inner::before { transform: rotate(45deg); top: 0; }
-                .hamburger-box.active .hamburger-inner::after { transform: rotate(-45deg); top: 0; }
 
-                /* Standard Side Drawer */
+                @media (max-width: 992px) {
+                    .desktop-only { display: none !important; }
+                    .hamburger-box { display: flex; align-items: center; justify-content: center; }
+                    .project-navbar { padding: 16px 20px; }
+                }
+
                 .drawer-backdrop {
                     position: fixed;
                     inset: 0;
-                    background: rgba(0, 0, 0, 0.6);
+                    background: rgba(0,0,0,0.7);
                     backdrop-filter: blur(8px);
+                    z-index: 3050;
                     opacity: 0;
-                    visibility: hidden;
-                    transition: 0.4s;
-                    z-index: 2800;
+                    pointer-events: none;
+                    transition: 0.3s;
                 }
-                .drawer-backdrop.open { opacity: 1; visibility: visible; }
+
+                .drawer-backdrop.open {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
 
                 .side-drawer {
                     position: fixed;
                     top: 0;
-                    right: -340px;
-                    width: 320px;
+                    right: -320px;
+                    width: 300px;
                     height: 100vh;
-                    background: #030712;
-                    border-left: 1px solid rgba(255, 255, 255, 0.08);
-                    z-index: 2900;
-                    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    background: rgba(13, 15, 23, 0.98);
+                    border-left: 1px solid rgba(255,255,255,0.1);
+                    z-index: 3100;
+                    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    padding: 32px 24px;
                     display: flex;
                     flex-direction: column;
-                    box-shadow: -20px 0 50px rgba(0,0,0,0.5);
+                    overflow-y: auto;
                 }
-                .side-drawer.open { right: 0; }
-                
+
+                .side-drawer.open {
+                    transform: translateX(-320px);
+                }
+
                 .drawer-header {
-                    padding: 32px 24px;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                    margin-bottom: 28px;
+                    padding-bottom: 16px;
+                    border-bottom: 1px solid rgba(255,255,255,0.08);
                 }
-                .drawer-title { font-size: 0.75rem; font-weight: 950; color: #64748b; letter-spacing: 3px; }
-                .close-drawer { width: 40px; height: 40px; background: rgba(255,255,255,0.03); border: none; border-radius: 10px; color: #94a3b8; cursor: pointer; transition: 0.3s; }
-                .close-drawer:hover { background: rgba(255,255,255,0.08); color: #fff; }
 
-                .drawer-content { padding: 40px 24px; flex: 1; overflow-y: auto; }
-                .drawer-section { margin-bottom: 48px; }
-                .drawer-section label { display: block; font-size: 0.7rem; font-weight: 950; color: #475569; letter-spacing: 2px; margin-bottom: 24px; text-transform: uppercase; }
-                .drawer-main-link { font-size: 1.8rem; font-weight: 950; color: #fff; text-decoration: none; letter-spacing: -1px; transition: 0.3s; }
-                .drawer-main-link:hover { color: #ff4ef0; }
-                .drawer-links { display: flex; flex-direction: column; gap: 20px; }
-                .drawer-links a { font-size: 1.1rem; font-weight: 800; color: #94a3b8; text-decoration: none; transition: 0.3s; }
-                .drawer-links a:hover { color: #fff; transform: translateX(10px); }
+                .drawer-title {
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 0.7rem;
+                    font-weight: 800;
+                    letter-spacing: 2px;
+                    color: #5B6BFF;
+                }
 
-                .drawer-footer { padding: 32px 24px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+                .drawer-section {
+                    margin-bottom: 24px;
+                }
+
+                .drawer-section label {
+                    display: block;
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 0.65rem;
+                    font-weight: 700;
+                    letter-spacing: 1.5px;
+                    color: #64748b;
+                    margin-bottom: 12px;
+                    text-transform: uppercase;
+                }
+
+                .drawer-main-link {
+                    font-size: 1.1rem;
+                    font-weight: 800;
+                    color: #F2F4F8;
+                    text-decoration: none;
+                }
+
+                .drawer-links {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                }
+
+                .drawer-links a {
+                    color: #94A3B8;
+                    text-decoration: none;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    transition: 0.2s;
+                }
+
+                .drawer-links a:hover {
+                    color: #3DD7E5;
+                }
+
                 .drawer-portal-btn {
-                    width: 100%;
-                    padding: 20px;
-                    background: linear-gradient(135deg, #ff4ef0, #8b5cf6);
+                    display: block;
+                    text-align: center;
+                    padding: 12px;
+                    border-radius: 20px;
+                    background: linear-gradient(135deg, #5B6BFF, #3DD7E5);
                     color: #fff;
-                    border: none;
-                    border-radius: 16px;
-                    font-weight: 950;
-                    font-size: 0.9rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 12px;
-                    transition: 0.4s;
-                    box-shadow: 0 10px 20px rgba(255, 78, 240, 0.2);
-                    letter-spacing: 1px;
-                }
-                .drawer-portal-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255, 78, 240, 0.4); }
-
-                @media (max-width: 1024px) {
-                    .desktop-only { display: none; }
-                    .hamburger-box { display: block; }
+                    font-weight: 800;
+                    text-decoration: none;
+                    font-size: 0.85rem;
+                    margin-top: 16px;
                 }
 
                 /* Light theme overrides */
@@ -470,41 +643,21 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                 }
                 .project-navbar.light-theme .nav-dropdown .dropdown-content {
                     background: #FAF9F6;
-                    border: 1px solid rgba(0, 0, 0, 0.05);
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                    border: 1px solid rgba(0, 0, 0, 0.08);
+                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+                }
+                .project-navbar.light-theme .mega-item-name {
+                    color: #000000;
+                }
+                .project-navbar.light-theme .mega-item-sub {
+                    color: #64748b;
                 }
                 .project-navbar.light-theme .nav-dropdown .dropdown-content a {
                     color: #5C6170;
                 }
                 .project-navbar.light-theme .nav-dropdown .dropdown-content a:hover {
                     color: #000000;
-                    background: rgba(0, 0, 0, 0.02);
-                }
-                .project-navbar.light-theme .nav-portal-btn {
-                    background: #000000;
-                    color: #ffffff;
-                }
-                .project-navbar.light-theme .nav-portal-btn:hover {
-                    background: #222222;
-                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-                }
-                .project-navbar.light-theme .hamburger-inner,
-                .project-navbar.light-theme .hamburger-inner::before,
-                .project-navbar.light-theme .hamburger-inner::after {
-                    background: #000000;
-                }
-                .project-navbar.light-theme .side-drawer {
-                    background: rgba(246, 245, 242, 0.98);
-                    border-left: 1px solid rgba(0, 0, 0, 0.05);
-                }
-                .project-navbar.light-theme .drawer-main-link {
-                    color: #000000;
-                }
-                .project-navbar.light-theme .drawer-links a {
-                    color: #5C6170;
-                }
-                .project-navbar.light-theme .drawer-links a:hover {
-                    color: #000000;
+                    background: rgba(0, 0, 0, 0.04);
                 }
             `}</style>
         </>

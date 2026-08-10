@@ -12,7 +12,13 @@ import {
   Globe,
   MapPin,
   Mail,
-  Phone
+  Phone,
+  Sparkles,
+  Cpu,
+  ShieldCheck,
+  Activity,
+  Zap,
+  Play
 } from 'lucide-react';
 import ProjectNavbar from '../components/ProjectNavbar';
 import Footer from '../components/Footer';
@@ -1058,68 +1064,90 @@ export default function VPGroup() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // ── GSAP hero text reveal ──────────────────────────────────────
+  // ── GSAP ScrollTrigger Animations Across All Sections ────────────────
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Staggered word clip-up reveal on load
-      const words = heroTextRef.current?.querySelectorAll('.hero-word');
-      if (words && words.length) {
-        gsap.fromTo(words,
-          { y: '120%', opacity: 0 },
-          {
-            y: '0%',
-            opacity: 1,
-            duration: 1.1,
-            stagger: 0.12,
-            ease: 'power4.out',
-            delay: 0.3,
-          }
+      // Hero Title reveal
+      if (heroTextRef.current) {
+        gsap.fromTo(heroTextRef.current,
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1.2, ease: 'power4.out', delay: 0.2 }
         );
       }
-      // Subtitle fade-in
-      gsap.fromTo(heroSubRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1, ease: 'power2.out', delay: 0.9 }
-      );
-      // Scroll indicator bounce
-      gsap.fromTo(heroScrollRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 1.6 }
-      );
 
-      // Scroll-linked hero text parallax exit
-      gsap.to(heroTextRef.current, {
-        scrollTrigger: {
-          trigger: heroTextRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2,
-        },
-        y: -80,
-        opacity: 0,
-        ease: 'none',
-      });
+      // Scroll-linked hero exit
+      if (heroTextRef.current) {
+        gsap.to(heroTextRef.current, {
+          scrollTrigger: {
+            trigger: heroTextRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1.2,
+          },
+          y: -80,
+          opacity: 0,
+          ease: 'none',
+        });
+      }
 
-      // Services cards 3D entrance
+      // Services 3D cards entrance
       const cards = serviceCardsRef.current?.querySelectorAll('.svc-card-3d');
       if (cards && cards.length) {
         gsap.fromTo(cards,
-          { rotateX: -35, y: 60, opacity: 0, transformPerspective: 900 },
+          { rotateX: -25, y: 50, opacity: 0, transformPerspective: 900 },
           {
             rotateX: 0,
             y: 0,
             opacity: 1,
-            duration: 0.9,
-            stagger: 0.1,
+            duration: 0.85,
+            stagger: 0.08,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: serviceCardsRef.current,
-              start: 'top 80%',
+              start: 'top 82%',
               toggleActions: 'play none none none',
             },
           }
         );
       }
+
+      // Universal ScrollTrigger animation for all sections
+      const sections = document.querySelectorAll('main > section');
+      sections.forEach((sec) => {
+        gsap.fromTo(sec,
+          { y: 45, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sec,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      });
+
+      // Staggered entrance for Project Rows & Cards
+      const projectRows = document.querySelectorAll('.nothin-project-row');
+      projectRows.forEach((row) => {
+        gsap.fromTo(row,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: row,
+              start: 'top 80%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      });
     });
     return () => ctx.revert();
   }, []);
@@ -1157,103 +1185,178 @@ export default function VPGroup() {
       {/* ── MAIN CONTENT substrate ───────────────────────────────── */}
       <main style={{ position: 'relative', zIndex: 10 }}>
         
-        {/* ── CINEMATIC HERO ────────────────────────────────────────── */}
+        {/* ── CINEMATIC HERO (STATIC ENTERPRISE BACKDROP) ────────────────────── */}
         <section style={{
-          height: '100vh',
+          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           position: 'relative',
           overflow: 'hidden',
+          padding: '120px 20px 60px'
         }}>
-          {/* Three.js WebGL 3D background */}
-          <HeroScene scrollYRef={scrollYRef} />
-
-          {/* Radial gradient vignette over the canvas */}
+          {/* Static Clean Corporate Backdrop */}
           <div style={{
-            position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none',
-            background: 'radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(10,11,15,0.65) 100%)',
-          }} />
+            position: 'absolute',
+            inset: 0,
+            zIndex: 1,
+            background: '#0A0B0F',
+            overflow: 'hidden',
+            pointerEvents: 'none'
+          }}>
+            {/* Ambient Radial Mesh Gradient Lights */}
+            <div style={{
+              position: 'absolute',
+              top: '-15%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '85vw',
+              height: '650px',
+              background: 'radial-gradient(ellipse at center, rgba(91, 107, 255, 0.15) 0%, rgba(61, 215, 229, 0.08) 45%, transparent 70%)',
+              filter: 'blur(60px)',
+              pointerEvents: 'none'
+            }} />
+            
+            <div style={{
+              position: 'absolute',
+              bottom: '0%',
+              left: '15%',
+              width: '500px',
+              height: '500px',
+              background: 'radial-gradient(circle, rgba(255, 58, 92, 0.08) 0%, transparent 70%)',
+              filter: 'blur(80px)',
+              pointerEvents: 'none'
+            }} />
 
-          {/* Hero text — each word wrapped for clip-up reveal */}
+            <div style={{
+              position: 'absolute',
+              bottom: '0%',
+              right: '15%',
+              width: '500px',
+              height: '500px',
+              background: 'radial-gradient(circle, rgba(43, 224, 140, 0.06) 0%, transparent 70%)',
+              filter: 'blur(80px)',
+              pointerEvents: 'none'
+            }} />
+
+            {/* Subtle Tech Grid Pattern */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)`,
+              backgroundSize: '60px 60px',
+              opacity: 0.5,
+              maskImage: 'radial-gradient(ellipse at 50% 50%, black 35%, transparent 80%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at 50% 50%, black 35%, transparent 80%)'
+            }} />
+          </div>
+
+          {/* Central Hero Text */}
           <div
-            ref={heroTextRef}
             style={{
               textAlign: 'center',
               position: 'relative',
-              zIndex: 3,
-              pointerEvents: 'none',
-              willChange: 'transform, opacity',
+              zIndex: 5,
+              pointerEvents: 'auto',
+              maxWidth: '960px',
             }}
           >
-            {/* Eyebrow tag */}
-            <div style={{
-              overflow: 'hidden',
-              marginBottom: '20px',
-            }}>
-              <div className="hero-word" style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                fontFamily: H.mono,
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                letterSpacing: '4px',
-                color: '#5B6BFF',
-                textTransform: 'uppercase',
-                opacity: 0,
-              }}>
-                <span style={{ width: '24px', height: '1.5px', background: '#5B6BFF', display: 'inline-block', borderRadius: '2px' }} />
-                VP Group & Technologies
-                <span style={{ width: '24px', height: '1.5px', background: '#5B6BFF', display: 'inline-block', borderRadius: '2px' }} />
-              </div>
-            </div>
-
-            {/* Main title — words split for stagger */}
+            {/* Main title */}
             <h1 style={{
               fontFamily: H.font,
-              fontWeight: 900,
-              color: '#F2F4F8',
+              fontWeight: 950,
               letterSpacing: '-0.045em',
-              fontSize: 'clamp(4rem, 13vw, 14rem)',
+              fontSize: 'clamp(3.5rem, 11vw, 11rem)',
               lineHeight: 0.92,
               margin: '0 0 28px 0',
               textTransform: 'uppercase',
-              overflow: 'hidden',
-              textShadow: '0 0 80px rgba(91,107,255,0.12)',
+              filter: 'drop-shadow(0 0 40px rgba(91,107,255,0.35))',
+              background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 35%, #5B6BFF 75%, #3DD7E5 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
             }}>
-              {'VP GROUP'.split('').map((char, i) => (
-                <span
-                  key={i}
-                  className="hero-word"
-                  style={{
-                    display: 'inline-block',
-                    opacity: 0,
-                    marginRight: char === ' ' ? '0.25em' : '0',
-                    willChange: 'transform',
-                  }}
-                >
-                  {char === ' ' ? '\u00A0' : char}
-                </span>
-              ))}
+              VP GROUP
             </h1>
 
             {/* Subtitle */}
-            <div ref={heroSubRef} style={{
-              overflow: 'hidden',
-              opacity: 0,
-            }}>
+            <div style={{ overflow: 'hidden' }}>
               <div style={{
                 fontFamily: H.mono,
-                fontSize: 'clamp(0.75rem, 1.8vw, 1.1rem)',
-                fontWeight: 600,
-                color: '#5B6BFF',
+                fontSize: 'clamp(0.85rem, 2vw, 1.25rem)',
+                fontWeight: 700,
+                color: '#3DD7E5',
                 letterSpacing: '8px',
                 textTransform: 'uppercase',
+                textShadow: '0 0 20px rgba(61, 215, 229, 0.4)',
+                marginBottom: '36px'
               }}>
-                Engineering Infinite Scale
+                ENGINEERING INFINITE SCALE
               </div>
+            </div>
+
+            {/* Main Interactive Action Buttons (CTAs) */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '16px',
+              flexWrap: 'wrap',
+              marginBottom: '36px'
+            }}>
+              <button
+                onClick={() => {
+                  const el = document.getElementById('services-section');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  else navigate('/services/software-engineering');
+                }}
+                style={{
+                  padding: '14px 36px',
+                  borderRadius: '30px',
+                  background: 'linear-gradient(135deg, #5B6BFF 0%, #3DD7E5 100%)',
+                  color: '#ffffff',
+                  fontSize: '0.9rem',
+                  fontWeight: 800,
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  boxShadow: '0 0 30px rgba(91, 107, 255, 0.45)',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+                }}
+                className="hero-cta-btn"
+              >
+                <span>Explore Ecosystem</span>
+                <ArrowRight size={18} />
+              </button>
+
+              <button
+                onClick={() => navigate('/consultation/book')}
+                style={{
+                  padding: '14px 32px',
+                  borderRadius: '30px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(16px)',
+                  color: '#F2F4F8',
+                  fontSize: '0.9rem',
+                  fontWeight: 700,
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase',
+                  border: '1px solid rgba(255, 255, 255, 0.18)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  transition: 'all 0.3s ease'
+                }}
+                className="hero-secondary-btn"
+              >
+                <Play size={15} color="#3DD7E5" />
+                <span>Book Consultation</span>
+              </button>
             </div>
 
             {/* Live data ticker */}
@@ -1262,12 +1365,12 @@ export default function VPGroup() {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '24px',
-              marginTop: '40px',
-              opacity: 0.45,
+              opacity: 0.75,
+              flexWrap: 'wrap'
             }}>
-              {['Web', 'Software', 'AI', 'Support', 'SEO'].map((s, i) => (
-                <span key={i} style={{ fontFamily: H.mono, fontSize: '0.65rem', fontWeight: 700, letterSpacing: '2px', color: '#9AA0AE', textTransform: 'uppercase' }}>
-                  {i > 0 && <span style={{ marginRight: '24px', color: '#2A2D38' }}>·</span>}{s}
+              {['Web Systems', 'Software Eng', 'AI Automation', 'Cyber Mesh', 'SEO Analytics'].map((s, i) => (
+                <span key={i} style={{ fontFamily: H.mono, fontSize: '0.68rem', fontWeight: 700, letterSpacing: '2px', color: '#94a3b8', textTransform: 'uppercase' }}>
+                  {i > 0 && <span style={{ marginRight: '24px', color: '#334155' }}>·</span>}{s}
                 </span>
               ))}
             </div>
@@ -1277,13 +1380,14 @@ export default function VPGroup() {
           <div
             ref={heroScrollRef}
             style={{
-              position: 'absolute', bottom: '36px', left: '50%',
+              position: 'absolute', bottom: '32px', left: '50%',
               transform: 'translateX(-50%)',
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
-              opacity: 0, zIndex: 4,
+              opacity: 0, zIndex: 4, pointerEvents: 'auto', cursor: 'pointer'
             }}
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
           >
-            <span style={{ fontFamily: H.mono, fontSize: '0.62rem', fontWeight: 700, letterSpacing: '3px', color: '#5C6170', textTransform: 'uppercase' }}>Scroll</span>
+            <span style={{ fontFamily: H.mono, fontSize: '0.62rem', fontWeight: 700, letterSpacing: '3px', color: '#64748b', textTransform: 'uppercase' }}>Scroll</span>
             <div style={{
               width: '1.5px', height: '40px',
               background: 'linear-gradient(to bottom, #5B6BFF, transparent)',
@@ -1293,6 +1397,19 @@ export default function VPGroup() {
               @keyframes hero-line-pulse {
                 0%, 100% { opacity: 0.4; transform: scaleY(1); }
                 50% { opacity: 1; transform: scaleY(1.15); }
+              }
+              .hero-hud-card:hover {
+                border-color: rgba(91, 107, 255, 0.6) !important;
+                box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 30px rgba(91, 107, 255, 0.25) !important;
+              }
+              .hero-cta-btn:hover {
+                transform: translateY(-3px) scale(1.03);
+                box-shadow: 0 0 45px rgba(61, 215, 229, 0.6) !important;
+              }
+              .hero-secondary-btn:hover {
+                background: rgba(255, 255, 255, 0.12) !important;
+                border-color: rgba(61, 215, 229, 0.5) !important;
+                transform: translateY(-2px);
               }
             `}</style>
           </div>
@@ -1591,49 +1708,112 @@ export default function VPGroup() {
             <div ref={serviceCardsRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '2px', background: 'rgba(42,45,56,0.5)', borderRadius: '20px', overflow: 'hidden', border: '1px solid #2A2D38' }}>
               {[
                 {
-                  path: '/services/web-development',
-                  icon: <Globe size={22} color="#5B6BFF" />,
-                  accent: '#5B6BFF',
+                  path: '/services/ai-automation',
+                  icon: <Sparkles size={22} color="#FF3A5C" />,
+                  accent: '#FF3A5C',
                   num: '01',
-                  title: 'Web Development',
-                  desc: 'Pixel-perfect React interfaces, e-commerce ecosystems, and high-conversion landing pages engineered for scale and speed.',
-                  tags: ['React', 'Next.js', 'E-commerce'],
+                  title: 'AI & Automation',
+                  desc: 'Autonomous AI agents, semantic RAG pipelines, and intelligent workflow automations that eliminate operational bottlenecks.',
+                  tags: ['AI Agents', 'RAG Pipelines', 'Workflow Automations'],
+                },
+                {
+                  path: '/services/saas-development',
+                  icon: <Layers size={22} color="#5B6BFF" />,
+                  accent: '#5B6BFF',
+                  num: '02',
+                  title: 'SaaS Development',
+                  desc: 'Multi-tenant SaaS platforms, billing engines (Stripe/Paddle), tenant isolation, and AI-first feature architectures.',
+                  tags: ['Multi-Tenant', 'Stripe Billing', 'MVP to Scale'],
                 },
                 {
                   path: '/services/software-engineering',
                   icon: <Terminal size={22} color="#3DD7E5" />,
                   accent: '#3DD7E5',
-                  num: '02',
-                  title: 'Software Engineering',
-                  desc: 'Custom enterprise platforms, mission-critical IAM systems, and robust backend services built to last and scale without limits.',
-                  tags: ['MERN', 'Node.js', 'Microservices'],
+                  num: '03',
+                  title: 'Custom Software & ERP',
+                  desc: 'Custom enterprise software platforms, internal tooling, IAM modules, and high-performance backend systems.',
+                  tags: ['Enterprise Software', 'Node.js', 'ERP Modules'],
                 },
                 {
-                  path: '/services/technical-support',
-                  icon: <Shield size={22} color="#2BE08C" />,
+                  path: '/services/web-development',
+                  icon: <Globe size={22} color="#2BE08C" />,
                   accent: '#2BE08C',
-                  num: '03',
-                  title: 'Technical Support',
-                  desc: '24/7 dedicated engineering support ensuring your digital infrastructure stays resilient, secure, and continuously optimized.',
-                  tags: ['24/7 SLA', 'Monitoring', 'Incident Response'],
+                  num: '04',
+                  title: 'Website Development',
+                  desc: 'Pixel-perfect React & Next.js web applications, conversion-driven e-commerce portals, and lightning-fast web experiences.',
+                  tags: ['React', 'Next.js', 'E-Commerce'],
                 },
                 {
                   path: '/services/seo-analytics-setup',
-                  icon: <Layers size={22} color="#F5D547" />,
+                  icon: <Activity size={22} color="#F5D547" />,
                   accent: '#F5D547',
-                  num: '04',
-                  title: 'SEO & Analytics',
-                  desc: 'Full Google Search Console, GA4, and Tag Manager implementation — structured for discoverability, data integrity, and growth tracking.',
-                  tags: ['GA4', 'Search Console', 'Tag Manager'],
+                  num: '05',
+                  title: 'SEO & Search Intelligence',
+                  desc: 'Technical SEO, content clusters, earned domain authority, GA4 event tracking, and Search Console optimization.',
+                  tags: ['Technical SEO', 'GA4 Tracking', 'Content Clusters'],
                 },
                 {
-                  path: '/services/ai-automation',
-                  icon: <ExternalLink size={22} color="#FF3A5C" />,
+                  path: '/services/digital-marketing',
+                  icon: <Zap size={22} color="#FF3A5C" />,
                   accent: '#FF3A5C',
-                  num: '05',
-                  title: 'AI & Automation',
-                  desc: 'Autonomous AI agents, semantic RAG pipelines, and intelligent workflow automations that eliminate bottlenecks and unlock new efficiency.',
-                  tags: ['LLM Agents', 'RAG', 'Automation'],
+                  num: '06',
+                  title: 'Digital Marketing & Growth',
+                  desc: 'Paid performance marketing across Meta, Google Ads, and LinkedIn with full-funnel attribution and CRO optimization.',
+                  tags: ['Google/Meta Ads', 'Funnel Optimization', 'CRO'],
+                },
+                {
+                  path: '/services/crm-development',
+                  icon: <Users size={22} color="#2BE08C" />,
+                  accent: '#2BE08C',
+                  num: '07',
+                  title: 'Custom CRM Development',
+                  desc: 'Custom CRM platforms with automated lead enrichment, sales pipeline triggers, and single-source-of-truth customer data.',
+                  tags: ['Custom CRM', 'AI Lead Scoring', 'Sales Pipelines'],
+                },
+                {
+                  path: '/services/cybersecurity',
+                  icon: <Shield size={22} color="#FF3A5C" />,
+                  accent: '#FF3A5C',
+                  num: '08',
+                  title: 'Cybersecurity Mesh',
+                  desc: 'Zero-Trust architecture, vulnerability penetration hardening, secrets management, and 24/7 continuous threat monitoring.',
+                  tags: ['Zero-Trust', 'Pentesting', 'SecOps Mesh'],
+                },
+                {
+                  path: '/services/cloud-devops',
+                  icon: <Cpu size={22} color="#3DD7E5" />,
+                  accent: '#3DD7E5',
+                  num: '09',
+                  title: 'Cloud & DevOps Engineering',
+                  desc: 'Multi-cloud infrastructure (AWS/GCP/Azure), Kubernetes orchestration, Infrastructure as Code, and zero-downtime CI/CD.',
+                  tags: ['Multi-Cloud', 'Kubernetes', 'Zero-Downtime CI/CD'],
+                },
+                {
+                  path: '/services/technical-support',
+                  icon: <ShieldCheck size={22} color="#5B6BFF" />,
+                  accent: '#5B6BFF',
+                  num: '10',
+                  title: '24/7 Technical Support',
+                  desc: 'Dedicated engineering support SLAs ensuring your infrastructure stays resilient, secure, and continuously optimized.',
+                  tags: ['24/7 Support', 'SLA SLA SLA', 'Resilience'],
+                },
+                {
+                  path: '/services/it-consultation',
+                  icon: <Globe size={22} color="#F5D547" />,
+                  accent: '#F5D547',
+                  num: '11',
+                  title: 'IT & Architecture Advisory',
+                  desc: 'High-level technology roadmap consulting, cloud cost reduction, legacy modernization, and technical strategy.',
+                  tags: ['Architecture', 'Tech Roadmap', 'Cloud Audit'],
+                },
+                {
+                  path: '/services/custom-ui-ux',
+                  icon: <Layers size={22} color="#3DD7E5" />,
+                  accent: '#3DD7E5',
+                  num: '12',
+                  title: 'Custom UI/UX Design',
+                  desc: 'High-fidelity wireframing, interactive prototyping, design systems, and user experience research for modern applications.',
+                  tags: ['Design Systems', 'Figma Prototyping', 'UX Research'],
                 },
               ].map((s, i) => (
                 <div
