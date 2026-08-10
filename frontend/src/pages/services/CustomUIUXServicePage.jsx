@@ -29,13 +29,14 @@ const deliverables = [
   { label:'Accessibility Audit', desc:'WCAG 2.1 AA compliance check and remediation guide' },
 ];
 
+// Wireframe blocks shifted down to y:24% to eliminate header text overlap
 const wireBlocks = [
-  { x:'5%', y:'8%', w:'40%', h:'18%', color:'#5B6BFF', label:'Hero' },
-  { x:'50%', y:'8%', w:'45%', h:'18%', color:'#3A3D4A', label:'Nav' },
-  { x:'5%', y:'32%', w:'28%', h:'28%', color:'#2A2D38', label:'Card' },
-  { x:'38%', y:'32%', w:'28%', h:'28%', color:'#2A2D38', label:'Card' },
-  { x:'71%', y:'32%', w:'24%', h:'28%', color:'#2A2D38', label:'Card' },
-  { x:'5%', y:'66%', w:'90%', h:'14%', color:'#1E2029', label:'Footer' },
+  { x:'5%', y:'24%', w:'42%', h:'22%', color:'#FF3A5C', label:'Hero' },
+  { x:'52%', y:'24%', w:'43%', h:'22%', color:'#3A3D4A', label:'Nav' },
+  { x:'5%', y:'52%', w:'28%', h:'26%', color:'#2A2D38', label:'Card 1' },
+  { x:'36%', y:'52%', w:'28%', h:'26%', color:'#2A2D38', label:'Card 2' },
+  { x:'67%', y:'52%', w:'28%', h:'26%', color:'#2A2D38', label:'Card 3' },
+  { x:'5%', y:'82%', w:'90%', h:'14%', color:'#1E2029', label:'Footer' },
 ];
 
 export default function CustomUIUXServicePage() {
@@ -139,7 +140,7 @@ export default function CustomUIUXServicePage() {
               <div style={{ marginBottom:'24px' }}>
                 <Chip variant="error"><Pen size={11} style={{ marginRight:4 }} />UI/UX DESIGN</Chip>
               </div>
-              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:800, letterSpacing:'-0.03em', lineHeight:1.08, color:'#F2F4F8', marginBottom:'20px' }}>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:800, letterSpacing:'-0.03em', lineHeight:1.12, color:'#F2F4F8', marginBottom:'20px', wordBreak:'break-word' }}>
                 Interfaces People<br /><span style={{ color:'#FF3A5C' }}>Fall in Love With</span>
               </h1>
               <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.6, marginBottom:'36px', maxWidth:'480px' }}>
@@ -147,7 +148,7 @@ export default function CustomUIUXServicePage() {
               </p>
 
               {/* Process tabs */}
-              <div className="halo-tabs" style={{ marginBottom:'28px', flexWrap:'wrap' }}>
+              <div className="halo-tabs" style={{ marginBottom:'28px', flexWrap:'wrap', gap:'6px' }}>
                 {tabs.map(t=>(
                   <button key={t.id} className={`halo-tab${activeTab===t.id?' active':''}`} onClick={()=>setActiveTab(t.id)}>{t.label}</button>
                 ))}
@@ -165,7 +166,7 @@ export default function CustomUIUXServicePage() {
               </Link>
             </div>
 
-            {/* Interactive wireframe canvas */}
+            {/* Interactive wireframe canvas with isolated header */}
             <div 
               ref={canvasRef} 
               onMouseMove={handleCanvasMove}
@@ -180,18 +181,36 @@ export default function CustomUIUXServicePage() {
                 position:'relative', 
                 overflow:'hidden', 
                 cursor:'none', 
-                height:'clamp(300px, 45vh, 420px)', 
+                height:'clamp(320px, 48vh, 440px)', 
                 width:'100%',
                 boxShadow:'0 24px 60px rgba(0,0,0,0.55)',
                 touchAction:'none'
               }}
             >
-              <div className="halo-label" style={{ marginBottom:'16px' }}>// INTERACTIVE WIREFRAME CANVAS</div>
+              {/* Isolated Canvas Header Tag */}
+              <div style={{ position:'relative', zIndex:12, marginBottom:'12px' }}>
+                <span className="halo-label" style={{ 
+                  background:'rgba(20, 21, 28, 0.9)', 
+                  backdropFilter:'blur(8px)', 
+                  padding:'5px 12px', 
+                  borderRadius:'8px', 
+                  border:'1px solid rgba(255,255,255,0.08)', 
+                  display:'inline-block',
+                  color:'#FF3A5C',
+                  fontSize:'0.72rem',
+                  fontWeight:700,
+                  letterSpacing:'0.06em'
+                }}>
+                  // INTERACTIVE WIREFRAME CANVAS
+                </span>
+              </div>
+
               {/* Custom cursor glow */}
-              <div style={{ position:'absolute', width:'60px', height:'60px', borderRadius:'50%', background:`radial-gradient(circle, rgba(255,58,92,0.15) 0%, transparent 70%)`, left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:10 }} />
+              <div style={{ position:'absolute', width:'60px', height:'60px', borderRadius:'50%', background:`radial-gradient(circle, rgba(255,58,92,0.18) 0%, transparent 70%)`, left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:10 }} />
               <div style={{ position:'absolute', width:'8px', height:'8px', borderRadius:'50%', background:'#FF3A5C', left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:11 }} />
-              {/* Wireframe blocks */}
-              <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%' }}>
+
+              {/* SVG wireframe canvas starting cleanly below the header bar */}
+              <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1 }}>
                 {wireBlocks.map((b,i)=>(
                   <g key={i} style={{ cursor:'pointer' }}
                     onMouseEnter={()=>setActiveBlock(i)}
@@ -199,7 +218,7 @@ export default function CustomUIUXServicePage() {
                     onTouchStart={()=>setActiveBlock(i)}
                   >
                     <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="6" ry="6"
-                      fill={activeBlock===i?'rgba(255,58,92,0.15)':b.color}
+                      fill={activeBlock===i?'rgba(255,58,92,0.2)':b.color}
                       stroke={activeBlock===i?'#FF3A5C':'#3A3D4A'}
                       strokeWidth={activeBlock===i?'1.5':'1'}
                       style={{ transition:'all 0.15s' }}
@@ -207,7 +226,8 @@ export default function CustomUIUXServicePage() {
                   </g>
                 ))}
               </svg>
-              <div style={{ position:'absolute', bottom:'16px', left:'50%', transform:'translateX(-50%)', width:'max-content' }}>
+
+              <div style={{ position:'absolute', bottom:'16px', left:'50%', transform:'translateX(-50%)', width:'max-content', zIndex:12 }}>
                 <Chip variant="error"><MousePointer size={10} style={{ marginRight:3 }} />Touch or move cursor to interact</Chip>
               </div>
             </div>
