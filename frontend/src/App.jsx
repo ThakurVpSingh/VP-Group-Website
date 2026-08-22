@@ -23,6 +23,7 @@ import CRMDevServicePage from './pages/services/CRMDevServicePage';
 import CybersecurityServicePage from './pages/services/CybersecurityServicePage';
 import CloudDevOpsServicePage from './pages/services/CloudDevOpsServicePage';
 import WhatsAppWidget from './components/WhatsAppWidget';
+import ScrollToTop from './components/ScrollToTop';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
 import PartnershipApplyPage from './pages/PartnershipApplyPage';
 import ContactPage from './pages/ContactPage';
@@ -46,15 +47,19 @@ const SplashScreen = ({ onComplete }) => {
   useEffect(() => {
     // Staggered path drawing on mount
     const timer = setTimeout(() => {
-      const paths = document.querySelectorAll('.splash-logo path');
-      if (paths.length > 0) {
-        const drawables = svg.createDrawable(paths, 0, 0);
-        animate(drawables, {
-          draw: '0 1',
-          easing: 'easeInOutCubic',
-          duration: 1600,
-          delay: (el, i) => i * 120
-        });
+      try {
+        const paths = document.querySelectorAll('.splash-logo path');
+        if (paths && paths.length > 0 && svg && typeof svg.createDrawable === 'function') {
+          const drawables = svg.createDrawable(paths, 0, 0);
+          animate(drawables, {
+            draw: '0 1',
+            easing: 'easeInOutCubic',
+            duration: 1600,
+            delay: (el, i) => i * 120
+          });
+        }
+      } catch (e) {
+        console.warn('Splash animation warning:', e);
       }
     }, 50);
 
@@ -180,6 +185,8 @@ function App() {
       <Router>
         {/* Global Floating WhatsApp Support Widget (+916388398552) */}
         <WhatsAppWidget />
+        {/* Global Scroll to Top Floating Button */}
+        <ScrollToTop />
         
         <Routes>
           {/* Main Landing & Company Pages */}

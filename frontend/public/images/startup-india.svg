@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 140" width="100%" height="100%">
+  <!-- Emblem of India (Ashoka Lion Capital) -->
+  <g transform="translate(10, 10) scale(0.65)" fill="#FFFFFF">
+    <path d="M45,10 C49,10 52,13 52,17 C52,21 49,24 45,24 C41,24 38,21 38,17 C38,13 41,10 45,10 Z" />
+    <path d="M25,28 C25,22 35,16 45,16 C55,16 65,22 65,28 C69,32 72,40 70,50 C68,60 60,65 60,70 C60,75 58,80 55,84 L35,84 C32,80 30,75 30,70 C30,65 22,60 20,50 C18,40 21,32 25,28 Z" opacity="0.95" />
+    <path d="M38,32 C38,26 45,24 45,24 C45,24 52,26 52,32 C55,38 55,46 52,52 C49,56 45,60 45,60 C45,60 41,56 38,52 C35,46 35,38 38,32 Z" opacity="0.4"/>
+    <rect x="16" y="86" width="58" height="12" rx="2" fill="#FFFFFF"/>
+    <circle cx="45" cy="92" r="4.5" fill="#000000" />
+    <circle cx="45" cy="92" r="2" fill="#FFFFFF" />
+    <path d="M20,100 L70,100 L64,116 C58,122 32,122 26,116 Z" opacity="0.9" />
+    <path d="M20,126 L70,126 M24,130 L66,130 M30,134 L60,134" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- DPIIT Text -->
+  <text x="120" y="60" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="46" letter-spacing="-1" fill="#FFFFFF">DPIIT</text>
+
+  <!-- #startupindia Text (COMPLETE SPELLING with trailing 'a') -->
+  <g transform="translate(120, 104)">
+    <!-- Hashtag + startup -->
+    <text x="0" y="0" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="34" fill="#FF5E36" letter-spacing="-0.5">#startup</text>
+    
+    <!-- ind part -->
+    <text x="136" y="0" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="34" fill="#FF5E36" letter-spacing="-0.5">ind</text>
+    
+    <!-- Blue 'i' with dot & green step -->
+    <g transform="translate(183, -25)">
+      <!-- Blue Dot -->
+      <circle cx="4.5" cy="2" r="3.8" fill="#3B82F6" />
+      <!-- Blue Stem -->
+      <rect x="2" y="9" width="5" height="16" fill="#3B82F6" rx="1" />
+      <!-- Green Stairs underneath -->
+      <path d="M -16,29 L 11,29 L 11,23 L 1,23 L 1,17 L -7,17" fill="none" stroke="#22C55E" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
+    </g>
+
+    <!-- Trailing 'a' to complete #startupindia -->
+    <text x="195" y="0" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="34" fill="#FF5E36" letter-spacing="-0.5">a</text>
+  </g>
+</svg>

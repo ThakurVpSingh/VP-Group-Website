@@ -1,28 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const WhatsAppWidget = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  // Position offsets relative to bottom-left default
+  const [position, setPosition] = useState({ x: 28, y: 28 }); // relative to bottom-left: left: x, bottom: y
+  const dragRef = useRef({ isDown: false, startX: 0, startY: 0, initialPosX: 28, initialPosY: 28, moved: false });
+
   const phoneNumber = "916388398552";
   const defaultMessage = encodeURIComponent("Hi VP Group & Technologies! I'm interested in your services. Can we connect?");
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${defaultMessage}`;
 
+  const handlePointerDown = (e) => {
+    dragRef.current.isDown = true;
+    dragRef.current.moved = false;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    dragRef.current.startX = clientX;
+    dragRef.current.startY = clientY;
+    dragRef.current.initialPosX = position.x;
+    dragRef.current.initialPosY = position.y;
+  };
+
+  useEffect(() => {
+    const handlePointerMove = (e) => {
+      if (!dragRef.current.isDown) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const deltaX = clientX - dragRef.current.startX;
+      const deltaY = dragRef.current.startY - clientY; // inverted for bottom offset
+
+      if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) {
+        dragRef.current.moved = true;
+        setIsDragging(true);
+      }
+
+      // Bound within window
+      const newX = Math.max(10, Math.min(window.innerWidth - 70, dragRef.current.initialPosX + deltaX));
+      const newY = Math.max(10, Math.min(window.innerHeight - 70, dragRef.current.initialPosY + deltaY));
+
+      setPosition({ x: newX, y: newY });
+    };
+
+    const handlePointerUp = () => {
+      if (dragRef.current.isDown) {
+        dragRef.current.isDown = false;
+        setTimeout(() => setIsDragging(false), 50);
+      }
+    };
+
+    window.addEventListener('mousemove', handlePointerMove);
+    window.addEventListener('mouseup', handlePointerUp);
+    window.addEventListener('touchmove', handlePointerMove);
+    window.addEventListener('touchend', handlePointerUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handlePointerMove);
+      window.removeEventListener('mouseup', handlePointerUp);
+      window.removeEventListener('touchmove', handlePointerMove);
+      window.removeEventListener('touchend', handlePointerUp);
+    };
+  }, [position]);
+
+  const handleClick = (e) => {
+    if (dragRef.current.moved) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+
   return (
     <div 
+      onMouseDown={handlePointerDown}
+      onTouchStart={handlePointerDown}
       style={{
         position: 'fixed',
-        bottom: '28px',
-        left: '28px',
-        zIndex: 9999,
+        left: `${position.x}px`,
+        bottom: `${position.y}px`,
+        zIndex: 99999,
         display: 'flex',
         alignItems: 'center',
         gap: '12px',
-        pointerEvents: 'auto',
+        touchAction: 'none',
+        cursor: isDragging ? 'grabbing' : 'grab',
+        userSelect: 'none',
       }}
     >
       <a
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleClick}
         aria-label="Chat with VP Group on WhatsApp"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -30,17 +98,18 @@ const WhatsAppWidget = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '56px',
-          height: '56px',
+          width: '58px',
+          height: '58px',
           borderRadius: '50%',
           backgroundColor: '#25D366',
-          boxShadow: '0 8px 24px rgba(37, 211, 102, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2)',
+          boxShadow: isDragging 
+            ? '0 12px 32px rgba(37, 211, 102, 0.6), 0 0 0 2px #ffffff' 
+            : '0 8px 24px rgba(37, 211, 102, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2)',
           color: '#ffffff',
           textDecoration: 'none',
-          transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease',
-          transform: isHovered ? 'scale(1.1) translateY(-2px)' : 'scale(1)',
+          transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease',
+          transform: isHovered && !isDragging ? 'scale(1.1) translateY(-2px)' : 'scale(1)',
           position: 'relative',
-          cursor: 'pointer',
         }}
       >
         {/* Pulsing Outer Ring */}
@@ -50,15 +119,15 @@ const WhatsAppWidget = () => {
             inset: '-4px',
             borderRadius: '50%',
             border: '2px solid #25D366',
-            opacity: 0.6,
+            opacity: isDragging ? 0.9 : 0.6,
             animation: 'wa-pulse 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite'
           }} 
         />
 
         {/* WhatsApp Official SVG */}
         <svg 
-          width="30" 
-          height="30" 
+          width="32" 
+          height="32" 
           viewBox="0 0 24 24" 
           fill="none" 
           stroke="currentColor" 
@@ -81,14 +150,14 @@ const WhatsAppWidget = () => {
             padding: '6px 14px',
             borderRadius: '20px',
             boxShadow: '0 10px 25px rgba(0,0,0,0.5), 0 0 0 1px rgba(37, 211, 102, 0.3)',
-            opacity: isHovered ? 1 : 0,
-            transform: isHovered ? 'translateX(0) scale(1)' : 'translateX(-10px) scale(0.95)',
+            opacity: isHovered && !isDragging ? 1 : 0,
+            transform: isHovered && !isDragging ? 'translateX(0) scale(1)' : 'translateX(-10px) scale(0.95)',
             pointerEvents: 'none',
             transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-            fontFamily: "'Inter', sans-serif"
+            fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
           }}
         >
-          Chat with VP Group (+91 6388398552)
+          Drag or Chat with VP Group (+91 6388398552)
         </span>
       </a>
 
