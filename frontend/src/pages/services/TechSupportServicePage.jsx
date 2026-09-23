@@ -108,19 +108,19 @@ export default function TechSupportServicePage() {
                 <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#2BE08C', boxShadow:'0 0 8px #2BE08C', animation:'ts-pulse 1.5s ease-in-out infinite' }} />
                 <Chip variant="success">LIVE TECHNICAL SUPPORT</Chip>
               </div>
-              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'#F2F4F8', marginBottom:'20px' }}>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'var(--halo-on-surface)', marginBottom:'20px' }}>
                 24/7 Resilience<br /><span style={{ color:'#2BE08C' }}>Infrastructure Shield</span>
               </h1>
-              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
                 Your infrastructure, continuously monitored. Our predictive surveillance and instant response protocols keep your systems online, secure, and optimised — always.
               </p>
 
               {/* Quick stats row */}
               <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'12px', marginBottom:'36px' }}>
                 {[{v:'99.9%',l:'Uptime SLA'},{v:'12min',l:'Avg MTTR'},{v:'24/7',l:'Engineer Watch'}].map((s,i)=>(
-                  <div key={i} style={{ padding:'16px', background:'#14151C', border:'1px solid #2A2D38', borderRadius:'12px', textAlign:'center' }}>
+                  <div key={i} style={{ padding:'16px', background:'var(--halo-surface)', border:'1px solid var(--halo-border)', borderRadius:'12px', textAlign:'center' }}>
                     <div style={{ fontFamily:H.mono, fontSize:'1.4rem', fontWeight:600, letterSpacing:'-0.02em', color:'#2BE08C', marginBottom:'4px' }}>{s.v}</div>
-                    <div style={{ fontFamily:H.font, fontSize:'0.75rem', color:'#5C6170' }}>{s.l}</div>
+                    <div style={{ fontFamily:H.font, fontSize:'0.75rem', color:'var(--halo-muted)' }}>{s.l}</div>
                   </div>
                 ))}
               </div>
@@ -174,10 +174,10 @@ export default function TechSupportServicePage() {
             <div style={{ width:'2px', height:'32px', background:'#2BE08C', borderRadius:'2px' }} />
             <div>
               <div className="halo-label" style={{ marginBottom:'4px' }}>Live Status Board</div>
-              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>All Endpoints Monitored</h2>
+              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'var(--halo-on-surface)', margin:0 }}>All Endpoints Monitored</h2>
             </div>
           </div>
-          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'540px' }}>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'40px', maxWidth:'540px' }}>
             Real-time pulse on every critical service in your infrastructure stack.
           </p>
           <div className="halo-grid-2">
@@ -186,14 +186,14 @@ export default function TechSupportServicePage() {
                 <div style={{ display:'flex', alignItems:'center', gap:'14px' }}>
                   <div style={{ width:'10px', height:'10px', borderRadius:'50%', background: node.status==='success'?'#2BE08C':'#F5D547', flexShrink:0, boxShadow:`0 0 8px ${node.status==='success'?'#2BE08C':'#F5D547'}60` }} />
                   <div style={{ flex:1 }}>
-                    <div style={{ fontFamily:H.font, fontWeight:600, color:'#F2F4F8', marginBottom:'8px', fontSize:'0.9375rem' }}>{node.name}</div>
-                    <div style={{ height:'3px', background:'#1E2029', borderRadius:'4px', overflow:'hidden' }}>
+                    <div style={{ fontFamily:H.font, fontWeight:600, color:'var(--halo-on-surface)', marginBottom:'8px', fontSize:'0.9375rem' }}>{node.name}</div>
+                    <div style={{ height:'3px', background:'var(--halo-border)', borderRadius:'4px', overflow:'hidden' }}>
                       <div className="ts-upbar" style={{ height:'100%', background: node.status==='success'?'#2BE08C':'#F5D547', borderRadius:'4px', width:'0%' }} />
                     </div>
                   </div>
                   <div style={{ textAlign:'right', flexShrink:0 }}>
                     <div style={{ fontFamily:H.mono, fontSize:'1.1rem', fontWeight:600, color: node.status==='success'?'#2BE08C':'#F5D547' }}>{node.uptime}</div>
-                    <div style={{ fontFamily:H.mono, fontSize:'0.72rem', color:'#5C6170' }}>{node.latency}</div>
+                    <div style={{ fontFamily:H.mono, fontSize:'0.72rem', color:'var(--halo-muted)' }}>{node.latency}</div>
                   </div>
                 </div>
               </HaloCard>
@@ -207,7 +207,7 @@ export default function TechSupportServicePage() {
         <div className="halo-container">
           <div style={{ textAlign:'center', marginBottom:'56px' }}>
             <div className="halo-label" style={{ marginBottom:'12px' }}>What We Protect</div>
-            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Full Spectrum Infrastructure Defense</h2>
+            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'var(--halo-on-surface)', margin:0 }}>Full Spectrum Infrastructure Defense</h2>
           </div>
           <div className="halo-grid-3">
             {capabilities.map((cap,i)=>(
@@ -216,8 +216,8 @@ export default function TechSupportServicePage() {
                   <div style={{ width:'36px', height:'36px', borderRadius:'8px', background:'rgba(43,224,140,0.1)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'16px', paddingTop:'6px' }}>
                     <cap.icon size={16} color="#2BE08C" />
                   </div>
-                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, letterSpacing:'-0.01em', color:'#F2F4F8', marginBottom:'10px' }}>{cap.title}</div>
-                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55 }}>{cap.desc}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, letterSpacing:'-0.01em', color:'var(--halo-on-surface)', marginBottom:'10px' }}>{cap.title}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'var(--halo-muted)', lineHeight:1.55 }}>{cap.desc}</div>
                 </HaloCard>
               </div>
             ))}
@@ -229,10 +229,10 @@ export default function TechSupportServicePage() {
       <section className="halo-section" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(43,224,140,0.06) 0%, transparent 60%)' }}>
         <div style={{ maxWidth:'600px', margin:'0 auto' }}>
           <ShieldCheck size={40} color="#2BE08C" style={{ marginBottom:'20px' }} />
-          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'16px' }}>
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'var(--halo-on-surface)', marginBottom:'16px' }}>
             Never Go <span style={{ color:'#FF3A5C' }}>Offline</span> Again.
           </h2>
-          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'36px' }}>
             Let our 24/7 guardian mesh protect your infrastructure while you focus on growing your business.
           </p>
           <Link to="/help/contact" className="halo-btn-primary" style={{ height:'48px', padding:'0 28px', fontSize:'0.9375rem' }}>

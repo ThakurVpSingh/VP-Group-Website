@@ -121,12 +121,12 @@ export default function WebDevServicePage() {
                 <Monitor size={11} style={{ marginRight: 4 }} />WEB DEVELOPMENT
               </Chip>
               <div style={{ marginBottom: '28px' }}>
-                <h1 style={{ fontFamily: H.font, fontSize: 'clamp(2.25rem, 5vw, 4rem)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.06, color: '#F2F4F8', margin: 0 }}>
+                <h1 style={{ fontFamily: H.font, fontSize: 'clamp(2.25rem, 5vw, 4rem)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.06, color: 'var(--halo-on-surface)', margin: 0 }}>
                   High-Performance<br />
                   <span style={{ color: '#5B6BFF' }}>Digital Ecosystems</span>
                 </h1>
               </div>
-              <p style={{ fontFamily: H.font, fontSize: '0.9375rem', fontWeight: 400, color: '#9AA0AE', letterSpacing: '-0.005em', lineHeight: 1.55, maxWidth: '460px', marginBottom: '40px' }}>
+              <p style={{ fontFamily: H.font, fontSize: '0.9375rem', fontWeight: 400, color: 'var(--halo-muted)', letterSpacing: '-0.005em', lineHeight: 1.55, maxWidth: '460px', marginBottom: '40px' }}>
                 We engineer fluid, scalable, conversion-optimised web applications using the MERN stack and Next.js — built for speed, built for scale.
               </p>
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
@@ -191,10 +191,10 @@ export default function WebDevServicePage() {
             <div style={{ width: '2px', height: '32px', background: '#5B6BFF', borderRadius: '2px', marginRight: '12px', flexShrink: 0 }} />
             <div>
               <div className="halo-label" style={{ marginBottom: '6px' }}>Technology Arsenal</div>
-              <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: '#F2F4F8', margin: 0 }}>The MERN Stack & Beyond</h2>
+              <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--halo-on-surface)', margin: 0 }}>The MERN Stack & Beyond</h2>
             </div>
           </div>
-          <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: '#9AA0AE', lineHeight: 1.55, marginBottom: '48px', maxWidth: '560px' }}>
+          <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: 'var(--halo-muted)', lineHeight: 1.55, marginBottom: '48px', maxWidth: '560px' }}>
             Production-hardened, battle-tested technologies chosen for performance, developer experience, and long-term scalability.
           </p>
           <div className="halo-grid-3">
@@ -202,10 +202,10 @@ export default function WebDevServicePage() {
               <div key={i} className="wd-tech">
                 <HaloCard hoverable accent="primary" padding="20px">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px', paddingTop: '6px' }}>
-                    <div style={{ fontFamily: H.font, fontSize: '1.125rem', fontWeight: 600, letterSpacing: '-0.01em', color: '#F2F4F8' }}>{t.name}</div>
+                    <div style={{ fontFamily: H.font, fontSize: '1.125rem', fontWeight: 600, letterSpacing: '-0.01em', color: 'var(--halo-on-surface)' }}>{t.name}</div>
                     <Chip variant="muted">{t.tag}</Chip>
                   </div>
-                  <div style={{ fontFamily: H.font, fontSize: '0.8125rem', color: '#9AA0AE' }}>{t.desc}</div>
+                  <div style={{ fontFamily: H.font, fontSize: '0.8125rem', color: 'var(--halo-muted)' }}>{t.desc}</div>
                 </HaloCard>
               </div>
             ))}
@@ -219,8 +219,8 @@ export default function WebDevServicePage() {
           <div className="halo-hero-grid" style={{ alignItems: 'start' }}>
             <div>
               <div className="halo-label" style={{ marginBottom: '16px' }}>Architecture Deep Dive</div>
-              <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: '#F2F4F8', marginBottom: '20px' }}>Full-Stack Blueprint,<br />Layer by Layer</h2>
-              <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: '#9AA0AE', lineHeight: 1.55, marginBottom: '32px' }}>
+              <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--halo-on-surface)', marginBottom: '20px' }}>Full-Stack Blueprint,<br />Layer by Layer</h2>
+              <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: 'var(--halo-muted)', lineHeight: 1.55, marginBottom: '32px' }}>
                 Every project begins with a forensic architecture session. We map every data flow, API contract, and UI component before writing a single line — eliminating technical debt before it starts.
               </p>
               {[
@@ -230,14 +230,14 @@ export default function WebDevServicePage() {
                 { icon: Layers, label: 'DevOps Layer', desc: 'Docker, CI/CD, and edge CDN deployment' },
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: '14px', marginBottom: '16px', padding: '14px', borderRadius: '10px', transition: 'background 0.15s' }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#14151C'}
+                  onMouseEnter={e => e.currentTarget.style.background = 'var(--halo-elevated)'}
                   onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                   <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(91,107,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <item.icon size={16} color="#5B6BFF" />
                   </div>
                   <div>
-                    <div style={{ fontFamily: H.font, fontWeight: 600, fontSize: '0.9375rem', color: '#F2F4F8', marginBottom: '2px' }}>{item.label}</div>
-                    <div style={{ fontFamily: H.font, fontSize: '0.8125rem', color: '#9AA0AE' }}>{item.desc}</div>
+                    <div style={{ fontFamily: H.font, fontWeight: 600, fontSize: '0.9375rem', color: 'var(--halo-on-surface)', marginBottom: '2px' }}>{item.label}</div>
+                    <div style={{ fontFamily: H.font, fontSize: '0.8125rem', color: 'var(--halo-muted)' }}>{item.desc}</div>
                   </div>
                 </div>
               ))}
@@ -249,7 +249,7 @@ export default function WebDevServicePage() {
               <div style={{ fontFamily: H.mono, fontSize: '0.8rem', lineHeight: 1.8 }}>
                 {domTree.map((node, i) => (
                   <div key={i} style={{ paddingLeft: `${node.depth * 20}px`, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {node.depth > 0 && <span style={{ color: '#2A2D38', fontSize: '0.75rem' }}>└─</span>}
+                    {node.depth > 0 && <span style={{ color: 'var(--halo-faint)', fontSize: '0.75rem' }}>└─</span>}
                     <span style={{ color: node.accent }}>{node.tag}</span>
                   </div>
                 ))}
@@ -267,18 +267,18 @@ export default function WebDevServicePage() {
         <div className="halo-container">
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
             <div className="halo-label" style={{ marginBottom: '12px' }}>Our Build Process</div>
-            <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: '#F2F4F8', margin: 0 }}>From Concept to Deployed Production</h2>
+            <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--halo-on-surface)', margin: 0 }}>From Concept to Deployed Production</h2>
           </div>
           <div className="halo-grid-4">
             {processSteps.map((step, i) => (
               <div key={i} className="wd-step">
                 <HaloCard hoverable accent="success">
-                  <div style={{ fontFamily: H.mono, fontSize: '0.75rem', fontWeight: 600, color: '#2A2D38', marginBottom: '20px', paddingTop: '6px' }}>{step.num}</div>
+                  <div style={{ fontFamily: H.mono, fontSize: '0.75rem', fontWeight: 600, color: 'var(--halo-muted)', marginBottom: '20px', paddingTop: '6px' }}>{step.num}</div>
                   <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(43,224,140,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                     <step.icon size={16} color="#2BE08C" />
                   </div>
-                  <div style={{ fontFamily: H.font, fontSize: '1.125rem', fontWeight: 600, letterSpacing: '-0.01em', color: '#F2F4F8', marginBottom: '10px' }}>{step.title}</div>
-                  <div style={{ fontFamily: H.font, fontSize: '0.8125rem', color: '#9AA0AE', lineHeight: 1.55 }}>{step.desc}</div>
+                  <div style={{ fontFamily: H.font, fontSize: '1.125rem', fontWeight: 600, letterSpacing: '-0.01em', color: 'var(--halo-on-surface)', marginBottom: '10px' }}>{step.title}</div>
+                  <div style={{ fontFamily: H.font, fontSize: '0.8125rem', color: 'var(--halo-muted)', lineHeight: 1.55 }}>{step.desc}</div>
                 </HaloCard>
               </div>
             ))}
@@ -290,10 +290,10 @@ export default function WebDevServicePage() {
       <section className="halo-section" style={{ textAlign: 'center', background: 'radial-gradient(ellipse at 50% 0%, rgba(91,107,255,0.08) 0%, transparent 60%)' }}>
         <div style={{ maxWidth: '640px', margin: '0 auto' }}>
           <div className="halo-label" style={{ marginBottom: '20px' }}>Ready to Build?</div>
-          <h2 style={{ fontFamily: H.font, fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 600, letterSpacing: '-0.03em', color: '#F2F4F8', marginBottom: '20px', lineHeight: 1.08 }}>
+          <h2 style={{ fontFamily: H.font, fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--halo-on-surface)', marginBottom: '20px', lineHeight: 1.08 }}>
             Ship Your Next<br /><span style={{ color: '#5B6BFF' }}>Digital Product</span>
           </h2>
-          <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: '#9AA0AE', lineHeight: 1.55, marginBottom: '40px' }}>
+          <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: 'var(--halo-muted)', lineHeight: 1.55, marginBottom: '40px' }}>
             From MVP to enterprise scale — we engineer it right the first time.
           </p>
           <Link to="/help/contact" className="halo-btn-primary" style={{ fontSize: '0.9375rem', height: '48px', padding: '0 28px' }}>

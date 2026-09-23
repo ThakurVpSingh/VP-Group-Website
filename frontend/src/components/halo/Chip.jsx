@@ -6,7 +6,7 @@ const VARIANT_STYLES = {
   warning: { background: 'rgba(245,213,71,0.12)',  color: '#F5D547' },
   info:    { background: 'rgba(61,215,229,0.12)',  color: '#3DD7E5' },
   error:   { background: 'rgba(255,58,92,0.12)',   color: '#FF3A5C' },
-  muted:   { background: 'rgba(90,97,112,0.15)',   color: '#9AA0AE' },
+  muted:   { background: 'var(--halo-elevated)',   color: 'var(--halo-on-surface)' },
 };
 
 /**

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Logo from './components/Logo';
 import { animate, svg } from 'animejs';
 
@@ -22,6 +23,9 @@ import DigitalMarketingServicePage from './pages/services/DigitalMarketingServic
 import CRMDevServicePage from './pages/services/CRMDevServicePage';
 import CybersecurityServicePage from './pages/services/CybersecurityServicePage';
 import CloudDevOpsServicePage from './pages/services/CloudDevOpsServicePage';
+import AICustomERPServicePage from './pages/services/AICustomERPServicePage';
+import LegacyModernizationServicePage from './pages/services/LegacyModernizationServicePage';
+import PluginIntegrationsServicePage from './pages/services/PluginIntegrationsServicePage';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import ScrollToTop from './components/ScrollToTop';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
@@ -177,78 +181,86 @@ const SplashScreen = ({ onComplete }) => {
 };
 
 function App() {
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(false);
 
   return (
-    <AuthProvider>
-      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
-      <Router>
-        {/* Global Floating WhatsApp Support Widget (+916388398552) */}
-        <WhatsAppWidget />
-        {/* Global Scroll to Top Floating Button */}
-        <ScrollToTop />
-        
-        <Routes>
-          {/* Main Landing & Company Pages */}
-          <Route path="/" element={<VPGroup />} />
-          <Route path="/vexio" element={<LandingPage />} />
-          <Route path="/our-strategy" element={<StrategyPage />} />
+    <ThemeProvider>
+      <AuthProvider>
+        {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+        <Router>
+          {/* Global Floating WhatsApp Support Widget (+916388398552) */}
+          <WhatsAppWidget />
+          {/* Global Scroll to Top Floating Button */}
+          <ScrollToTop />
           
-          {/* Auth System */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/superadmin/access" element={<Login portalType="SuperAdmin" />} />
-          
-          {/* Comprehensive 12-Service Ecosystem Routes */}
-          <Route path="/services/web-development" element={<WebDevServicePage />} />
-          <Route path="/services/website-development" element={<WebDevServicePage />} />
-          <Route path="/services/software-engineering" element={<SoftwareEngServicePage />} />
-          <Route path="/services/custom-software" element={<SoftwareEngServicePage />} />
-          <Route path="/services/technical-support" element={<TechSupportServicePage />} />
-          <Route path="/services/it-consultation" element={<ITConsultServicePage />} />
-          <Route path="/services/custom-ui-ux" element={<CustomUIUXServicePage />} />
-          <Route path="/services/seo-analytics-setup" element={<SEOAnalyticsServicePage />} />
-          <Route path="/services/seo-services" element={<SEOAnalyticsServicePage />} />
-          <Route path="/services/ai-automation" element={<AIAutomationServicePage />} />
-          <Route path="/services/saas-development" element={<SaaSDevServicePage />} />
-          <Route path="/services/digital-marketing" element={<DigitalMarketingServicePage />} />
-          <Route path="/services/crm-development" element={<CRMDevServicePage />} />
-          <Route path="/services/cybersecurity" element={<CybersecurityServicePage />} />
-          <Route path="/services/cloud-devops" element={<CloudDevOpsServicePage />} />
-          
-          {/* Dynamic Portfolio Routes */}
-          <Route path="/portfolio/:projectId" element={<PortfolioDetailPage />} />
-          
-          {/* Partnership Routes */}
-          <Route path="/apply-partnership" element={<PartnershipApplyPage />} />
-          
-          {/* Consultation Routes */}
-          <Route path="/consultation/book" element={<BookingPage />} />
-          <Route path="/meeting/:meetingId" element={<MeetingRoomPage />} />
-          <Route path="/admin/consultations" element={<ConsultationDashboard />} />
-          
-          {/* Help & Contact Routes */}
-          <Route path="/help/contact" element={<ContactPage />} />
-          <Route path="/help/hq-pratapgarh" element={<HQPage />} />
-          <Route path="/help/portfolio" element={<PortfolioPage />} />
-          <Route path="/help/partners" element={<PartnersPage />} />
-          
-          {/* Client & Case Study Routes */}
-          <Route path="/clients/mother-bliss" element={<MotherBlissPage />} />
-          <Route path="/clients/institutional" element={<InstitutionalPage />} />
-          <Route path="/clients/global-partners" element={<GlobalPartnersPage />} />
-          <Route path="/portfolio/vault-iam" element={<VaultCaseStudyPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms-conditions" element={<TermsConditionsPage />} />
+          <Routes>
+            {/* Main Landing & Company Pages */}
+            <Route path="/" element={<VPGroup />} />
+            <Route path="/vexio" element={<LandingPage />} />
+            <Route path="/our-strategy" element={<StrategyPage />} />
+            
+            {/* Auth System */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/superadmin/access" element={<Login portalType="SuperAdmin" />} />
+            
+            {/* Flagship Core Services */}
+            <Route path="/services/ai-custom-erp" element={<AICustomERPServicePage />} />
+            <Route path="/services/ai-erp-development" element={<AICustomERPServicePage />} />
+            <Route path="/services/legacy-modernization" element={<LegacyModernizationServicePage />} />
+            <Route path="/services/ai-automation" element={<AIAutomationServicePage />} />
+            <Route path="/services/software-engineering" element={<SoftwareEngServicePage />} />
+            <Route path="/services/custom-software" element={<SoftwareEngServicePage />} />
+            <Route path="/services/cloud-devops" element={<CloudDevOpsServicePage />} />
+            <Route path="/services/plugin-integrations" element={<PluginIntegrationsServicePage />} />
+            
+            {/* Extended Ecosystem Routes */}
+            <Route path="/services/web-development" element={<WebDevServicePage />} />
+            <Route path="/services/website-development" element={<WebDevServicePage />} />
+            <Route path="/services/technical-support" element={<TechSupportServicePage />} />
+            <Route path="/services/it-consultation" element={<ITConsultServicePage />} />
+            <Route path="/services/custom-ui-ux" element={<CustomUIUXServicePage />} />
+            <Route path="/services/seo-analytics-setup" element={<SEOAnalyticsServicePage />} />
+            <Route path="/services/seo-services" element={<SEOAnalyticsServicePage />} />
+            <Route path="/services/saas-development" element={<SaaSDevServicePage />} />
+            <Route path="/services/digital-marketing" element={<DigitalMarketingServicePage />} />
+            <Route path="/services/crm-development" element={<CRMDevServicePage />} />
+            <Route path="/services/cybersecurity" element={<CybersecurityServicePage />} />
+            
+            {/* Dynamic Portfolio Routes */}
+            <Route path="/portfolio/:projectId" element={<PortfolioDetailPage />} />
+            
+            {/* Partnership Routes */}
+            <Route path="/apply-partnership" element={<PartnershipApplyPage />} />
+            
+            {/* Consultation Routes */}
+            <Route path="/consultation/book" element={<BookingPage />} />
+            <Route path="/meeting/:meetingId" element={<MeetingRoomPage />} />
+            <Route path="/admin/consultations" element={<ConsultationDashboard />} />
+            
+            {/* Help & Contact Routes */}
+            <Route path="/help/contact" element={<ContactPage />} />
+            <Route path="/help/hq-pratapgarh" element={<HQPage />} />
+            <Route path="/help/portfolio" element={<PortfolioPage />} />
+            <Route path="/help/partners" element={<PartnersPage />} />
+            
+            {/* Client & Case Study Routes */}
+            <Route path="/clients/mother-bliss" element={<MotherBlissPage />} />
+            <Route path="/clients/institutional" element={<InstitutionalPage />} />
+            <Route path="/clients/global-partners" element={<GlobalPartnersPage />} />
+            <Route path="/portfolio/vault-iam" element={<VaultCaseStudyPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms-conditions" element={<TermsConditionsPage />} />
 
-          {/* Operations Hub (Dashboard) - Catch-all for sub-routes */}
-          <Route path="/*" element={<Dashboard />} />
-          
-          {/* Fallback Route */}
-          <Route path="/404" element={<div style={{padding: 100, textAlign: 'center', color: '#fff'}}><h2>404 - TERMINAL NOT FOUND</h2></div>} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+            {/* Operations Hub (Dashboard) - Catch-all for sub-routes */}
+            <Route path="/*" element={<Dashboard />} />
+            
+            {/* Fallback Route */}
+            <Route path="/404" element={<div style={{padding: 100, textAlign: 'center', color: '#fff'}}><h2>404 - TERMINAL NOT FOUND</h2></div>} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

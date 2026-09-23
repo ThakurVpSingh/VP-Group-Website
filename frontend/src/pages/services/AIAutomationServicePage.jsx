@@ -90,17 +90,17 @@ export default function AIAutomationServicePage() {
               <div style={{ marginBottom:'28px' }}>
                 <Chip variant="default"><Cpu size={11} style={{ marginRight:4 }} />AI AUTOMATION</Chip>
               </div>
-              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'#F2F4F8', marginBottom:'20px' }}>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'var(--halo-on-surface)', marginBottom:'20px' }}>
                 Autonomous Agents.<br /><span style={{ color:'#5B6BFF' }}>Infinite Scale.</span>
               </h1>
-              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
                 We design and deploy autonomous AI agents, RAG knowledge pipelines, and custom LLM integrations that automate complex workflows — 24/7, without human bottlenecks.
               </p>
 
               {/* Agent uptime badge */}
               <div style={{ display:'inline-flex', alignItems:'center', gap:'8px', padding:'10px 16px', background:'rgba(91,107,255,0.08)', border:'1px solid rgba(91,107,255,0.2)', borderRadius:'12px', marginBottom:'36px' }}>
                 <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#2BE08C', boxShadow:'0 0 8px #2BE08C', animation:'ai-pulse 1.5s ease-in-out infinite' }} />
-                <span style={{ fontFamily:H.mono, fontSize:'0.8125rem', color:'#9AA0AE' }}>Agent runtime: <span style={{ color:'#2BE08C' }}>24/7 autonomous</span></span>
+                <span style={{ fontFamily:H.mono, fontSize:'0.8125rem', color:'var(--halo-muted)' }}>Agent runtime: <span style={{ color:'#2BE08C' }}>24/7 autonomous</span></span>
               </div>
 
               <div style={{ display:'flex', gap:'12px' }}>
@@ -115,14 +115,14 @@ export default function AIAutomationServicePage() {
                 <div className="halo-grid-2" style={{ gap:'12px' }}>
                   {agentLoop.map((node,i)=>(
                     <div key={i}
-                      style={{ padding:'18px', background:activeNode===i?`${node.accentColor}0E`:'transparent', border:`1px solid ${activeNode===i?node.accentColor+'40':'#2A2D38'}`, borderRadius:'12px', cursor:'pointer', transition:'all 0.3s', position:'relative', overflow:'hidden' }}
+                      style={{ padding:'18px', background:activeNode===i?`${node.accentColor}0E`:'transparent', border:`1px solid ${activeNode===i?node.accentColor+'40':'var(--halo-border)'}`, borderRadius:'12px', cursor:'pointer', transition:'all 0.3s', position:'relative', overflow:'hidden' }}
                       onClick={()=>setActiveNode(i)}>
                       {activeNode===i && <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:node.accentColor, borderRadius:'12px 12px 0 0' }} />}
                       <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'8px' }}>
                         <span style={{ fontSize:'1.2rem' }}>{node.icon}</span>
-                        <span style={{ fontFamily:H.mono, fontSize:'0.7rem', fontWeight:600, color:activeNode===i?node.accentColor:'#5C6170', letterSpacing:'0.08em' }}>{node.label}</span>
+                        <span style={{ fontFamily:H.mono, fontSize:'0.7rem', fontWeight:600, color:activeNode===i?node.accentColor:'var(--halo-on-surface)', letterSpacing:'0.08em' }}>{node.label}</span>
                       </div>
-                      <p style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#5C6170', lineHeight:1.5, margin:0 }}>{node.desc}</p>
+                      <p style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'var(--halo-muted)', lineHeight:1.5, margin:0 }}>{node.desc}</p>
                     </div>
                   ))}
                 </div>
@@ -180,16 +180,16 @@ export default function AIAutomationServicePage() {
             {/* Tech stack */}
             <div>
               <div className="halo-label" style={{ marginBottom:'16px' }}>Enterprise AI Stack</div>
-              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', marginBottom:'32px' }}>Infrastructure We Build On</h2>
+              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'var(--halo-on-surface)', marginBottom:'32px' }}>Infrastructure We Build On</h2>
               {techStack.map((item,i)=>(
-                <div key={i} style={{ padding:'20px', background:'#14151C', border:'1px solid #2A2D38', borderRadius:'12px', marginBottom:'10px', transition:'all 0.2s', cursor:'default' }}
+                <div key={i} style={{ padding:'20px', background:'var(--halo-surface)', border:'1px solid var(--halo-border)', borderRadius:'12px', marginBottom:'10px', transition:'all 0.2s', cursor:'default' }}
                   onMouseEnter={e=>{ e.currentTarget.style.borderColor=ACCENTMAP[item.accent]+'40'; e.currentTarget.style.background=`${ACCENTMAP[item.accent]}06`; }}
-                  onMouseLeave={e=>{ e.currentTarget.style.borderColor='#2A2D38'; e.currentTarget.style.background='#14151C'; }}>
+                  onMouseLeave={e=>{ e.currentTarget.style.borderColor='var(--halo-border)'; e.currentTarget.style.background='var(--halo-surface)'; }}>
                   <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'6px' }}>
                     <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:ACCENTMAP[item.accent], flexShrink:0 }} />
                     <span className="halo-label" style={{ color:ACCENTMAP[item.accent] }}>{item.label}</span>
                   </div>
-                  <span style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#F2F4F8', paddingLeft:'18px' }}>{item.value}</span>
+                  <span style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-on-surface)', paddingLeft:'18px' }}>{item.value}</span>
                 </div>
               ))}
             </div>
@@ -202,7 +202,7 @@ export default function AIAutomationServicePage() {
         <div className="halo-container">
           <div style={{ textAlign:'center', marginBottom:'56px' }}>
             <div className="halo-label" style={{ marginBottom:'12px' }}>AI Systems We Deploy</div>
-            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Agents That Transform Operations</h2>
+            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'var(--halo-on-surface)', margin:0 }}>Agents That Transform Operations</h2>
           </div>
           <div className="halo-grid-3">
             {useCases.map((uc,i)=>(
@@ -211,8 +211,8 @@ export default function AIAutomationServicePage() {
                   <div style={{ width:'36px', height:'36px', borderRadius:'8px', background:'rgba(91,107,255,0.1)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'16px', paddingTop:'6px' }}>
                     <uc.icon size={16} color="#5B6BFF" />
                   </div>
-                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'#F2F4F8', marginBottom:'10px', letterSpacing:'-0.01em' }}>{uc.title}</div>
-                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'16px' }}>{uc.desc}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'var(--halo-on-surface)', marginBottom:'10px', letterSpacing:'-0.01em' }}>{uc.title}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'16px' }}>{uc.desc}</div>
                   <Chip variant="success"><Zap size={10} style={{ marginRight:3 }} />{uc.impact}</Chip>
                 </HaloCard>
               </div>
@@ -222,14 +222,14 @@ export default function AIAutomationServicePage() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────── */}
-      <section className="halo-section" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(91,107,255,0.07) 0%, transparent 55%)' }}>
+      <section className="halo-section" style={{ textAlign:'center', background: 'radial-gradient(ellipse at 50% 0%, rgba(91,107,255,0.07) 0%, transparent 55%)' }}>
         <div style={{ maxWidth:'600px', margin:'0 auto' }}>
           <div style={{ fontSize:'2.5rem', marginBottom:'16px' }}>🤖</div>
           <div className="halo-label" style={{ marginBottom:'20px' }}>AI Deployment</div>
-          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'20px' }}>
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'var(--halo-on-surface)', marginBottom:'20px' }}>
             Automate What Humans <span style={{ color:'#5B6BFF' }}>Shouldn't.</span>
           </h2>
-          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'36px' }}>
             Our AI architects audit your workflows and deploy agents that work around the clock — eliminating bottlenecks and 10x-ing operational throughput.
           </p>
           <Link to="/help/contact" className="halo-btn-primary" style={{ height:'48px', padding:'0 28px', fontSize:'0.9375rem' }}>

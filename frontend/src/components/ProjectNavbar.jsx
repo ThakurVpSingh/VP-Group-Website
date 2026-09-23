@@ -2,22 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { 
   Zap, Menu, X, ChevronDown, Shield, ArrowRight, Globe, Layers, Mail,
-  Sparkles, Terminal, Users, Activity, Cpu, ShieldCheck 
+  Sparkles, Terminal, Users, Activity, Cpu, ShieldCheck, Sun, Moon, Monitor,
+  RefreshCw, Plug, Code2, Briefcase, Building2, HelpCircle
 } from 'lucide-react';
 import Logo from './Logo';
+import { useTheme } from '../context/ThemeContext';
 
 const ProjectNavbar = ({ scrollY: propScrollY }) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { themeMode, effectiveTheme, toggleTheme } = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [localScrollY, setLocalScrollY] = useState(0);
 
     useEffect(() => {
         if (propScrollY !== undefined) return;
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
-            setLocalScrollY(window.scrollY);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -32,7 +33,7 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
 
     return (
         <>
-            <nav className={`project-navbar ${isScrolled ? 'scrolled' : ''} ${propScrollY !== undefined ? 'light-theme' : ''}`}>
+            <nav className={`project-navbar ${isScrolled ? 'scrolled' : ''}`}>
                 <div className="nav-container">
                     <div className="nav-logo-section" onClick={() => navigate('/')}>
                         <div className="nav-logo-box">
@@ -48,155 +49,170 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     <div className="nav-links desktop-only">
                         <Link to="/" className="nav-link-btn">Home</Link>
                         
-                        {/* ── SERVICES MULTI-COLUMN HORIZONTAL MEGA MENU ── */}
+                        {/* ── SERVICES MULTI-COLUMN MEGA MENU ── */}
                         <div className="nav-dropdown mega-dropdown">
-                            <button className="nav-link-btn">Services <ChevronDown size={12} className="drop-icon" /></button>
+                            <button className="nav-link-btn">
+                                Services <ChevronDown size={12} className="drop-icon" />
+                            </button>
                             <div className="dropdown-content mega-content">
-                                {/* Column 1: AI & Core Software */}
+                                {/* Column 1: Enterprise AI & Modernization */}
                                 <div className="mega-column">
-                                    <div className="mega-col-title">AI & CORE SOFTWARE</div>
-                                    <Link to="/services/ai-automation" className="mega-item">
+                                    <div className="mega-col-title">CORE PLATFORMS</div>
+                                    <Link to="/services/ai-custom-erp" className="mega-item">
                                         <Sparkles size={16} color="#FF3A5C" />
                                         <div>
+                                            <span className="mega-item-name">AI Custom ERP</span>
+                                            <span className="mega-item-sub">Intelligent enterprise resource planning</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/legacy-modernization" className="mega-item">
+                                        <RefreshCw size={16} color="#5B6BFF" />
+                                        <div>
+                                            <span className="mega-item-name">Legacy Modernization</span>
+                                            <span className="mega-item-sub">Monolith to microservices & cloud</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/ai-automation" className="mega-item">
+                                        <Zap size={16} color="#3DD7E5" />
+                                        <div>
                                             <span className="mega-item-name">AI & Automation</span>
-                                            <span className="mega-item-sub">LLM Agents & RAG Pipelines</span>
+                                            <span className="mega-item-sub">Autonomous LLM agents & RAG</span>
                                         </div>
                                     </Link>
-                                    <Link to="/services/saas-development" className="mega-item">
-                                        <Layers size={16} color="#5B6BFF" />
-                                        <div>
-                                            <span className="mega-item-name">SaaS Development</span>
-                                            <span className="mega-item-sub">Multi-tenant & Billing Engine</span>
-                                        </div>
-                                    </Link>
+                                </div>
+
+                                {/* Column 2: Software Engineering & Cloud */}
+                                <div className="mega-column">
+                                    <div className="mega-col-title">ENGINEERING & CLOUD</div>
                                     <Link to="/services/software-engineering" className="mega-item">
-                                        <Terminal size={16} color="#3DD7E5" />
+                                        <Terminal size={16} color="#2BE08C" />
                                         <div>
-                                            <span className="mega-item-name">Custom Software & ERP</span>
-                                            <span className="mega-item-sub">Enterprise System Core</span>
-                                        </div>
-                                    </Link>
-                                    <Link to="/services/crm-development" className="mega-item">
-                                        <Users size={16} color="#2BE08C" />
-                                        <div>
-                                            <span className="mega-item-name">CRM Development</span>
-                                            <span className="mega-item-sub">AI Lead Scoring & Pipelines</span>
-                                        </div>
-                                    </Link>
-                                </div>
-
-                                {/* Column 2: Web & Digital Growth */}
-                                <div className="mega-column">
-                                    <div className="mega-col-title">WEB & DIGITAL GROWTH</div>
-                                    <Link to="/services/web-development" className="mega-item">
-                                        <Globe size={16} color="#2BE08C" />
-                                        <div>
-                                            <span className="mega-item-name">Website Development</span>
-                                            <span className="mega-item-sub">React & Next.js Ecosystem</span>
-                                        </div>
-                                    </Link>
-                                    <Link to="/services/seo-analytics-setup" className="mega-item">
-                                        <Activity size={16} color="#F5D547" />
-                                        <div>
-                                            <span className="mega-item-name">SEO & Analytics</span>
-                                            <span className="mega-item-sub">GA4 & Search Intelligence</span>
-                                        </div>
-                                    </Link>
-                                    <Link to="/services/digital-marketing" className="mega-item">
-                                        <Zap size={16} color="#FF3A5C" />
-                                        <div>
-                                            <span className="mega-item-name">Digital Marketing</span>
-                                            <span className="mega-item-sub">Paid Performance & CRO</span>
-                                        </div>
-                                    </Link>
-                                    <Link to="/services/custom-ui-ux" className="mega-item">
-                                        <Layers size={16} color="#3DD7E5" />
-                                        <div>
-                                            <span className="mega-item-name">Custom UI/UX Design</span>
-                                            <span className="mega-item-sub">Prototyping & Design Systems</span>
-                                        </div>
-                                    </Link>
-                                </div>
-
-                                {/* Column 3: Cloud & Security Ops */}
-                                <div className="mega-column">
-                                    <div className="mega-col-title">CLOUD & SECURITY OPS</div>
-                                    <Link to="/services/cybersecurity" className="mega-item">
-                                        <Shield size={16} color="#FF3A5C" />
-                                        <div>
-                                            <span className="mega-item-name">Cybersecurity Mesh</span>
-                                            <span className="mega-item-sub">Zero-Trust & Pentesting</span>
+                                            <span className="mega-item-name">Software Engineering</span>
+                                            <span className="mega-item-sub">Full-stack web, mobile & APIs</span>
                                         </div>
                                     </Link>
                                     <Link to="/services/cloud-devops" className="mega-item">
-                                        <Cpu size={16} color="#3DD7E5" />
+                                        <Cpu size={16} color="#F5D547" />
                                         <div>
                                             <span className="mega-item-name">Cloud & DevOps</span>
-                                            <span className="mega-item-sub">Kubernetes & CI/CD Pipelines</span>
+                                            <span className="mega-item-sub">Kubernetes, CI/CD & 99.99% uptime</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/plugin-integrations" className="mega-item">
+                                        <Plug size={16} color="#FF3A5C" />
+                                        <div>
+                                            <span className="mega-item-name">Plug-ins & Integrations</span>
+                                            <span className="mega-item-sub">Custom connectors & API middleware</span>
+                                        </div>
+                                    </Link>
+                                </div>
+
+                                {/* Column 3: Web & Technical Support */}
+                                <div className="mega-column">
+                                    <div className="mega-col-title">WEB & TECHNICAL GROWTH</div>
+                                    <Link to="/services/web-development" className="mega-item">
+                                        <Globe size={16} color="#3DD7E5" />
+                                        <div>
+                                            <span className="mega-item-name">Website Development</span>
+                                            <span className="mega-item-sub">High-performance React & Next.js</span>
+                                        </div>
+                                    </Link>
+                                    <Link to="/services/custom-ui-ux" className="mega-item">
+                                        <Layers size={16} color="#5B6BFF" />
+                                        <div>
+                                            <span className="mega-item-name">Custom UI/UX Design</span>
+                                            <span className="mega-item-sub">Design systems & interactive prototypes</span>
                                         </div>
                                     </Link>
                                     <Link to="/services/technical-support" className="mega-item">
-                                        <ShieldCheck size={16} color="#5B6BFF" />
+                                        <ShieldCheck size={16} color="#2BE08C" />
                                         <div>
                                             <span className="mega-item-name">24/7 Technical Support</span>
-                                            <span className="mega-item-sub">Dedicated SLA Monitoring</span>
-                                        </div>
-                                    </Link>
-                                    <Link to="/services/it-consultation" className="mega-item">
-                                        <Globe size={16} color="#F5D547" />
-                                        <div>
-                                            <span className="mega-item-name">IT Consultation</span>
-                                            <span className="mega-item-sub">Tech Strategy & Cloud Audit</span>
+                                            <span className="mega-item-sub">Dedicated SLA engineering support</span>
                                         </div>
                                     </Link>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Clients Dropdown */}
+                        {/* ── TALENT DROPDOWN ── */}
                         <div className="nav-dropdown">
-                            <button className="nav-link-btn">Clients <ChevronDown size={12} className="drop-icon" /></button>
+                            <button className="nav-link-btn">
+                                Talent <ChevronDown size={12} className="drop-icon" />
+                            </button>
                             <div className="dropdown-content">
-                                <Link to="/clients/mother-bliss">Mother Bliss</Link>
-                                <Link to="/clients/institutional">Institutional</Link>
-                                <Link to="/clients/global-partners">Global Partners</Link>
+                                <Link to="/apply-partnership?model=staff-augmentation">Staff Augmentation</Link>
+                                <Link to="/apply-partnership?model=dedicated-teams">Dedicated Teams</Link>
+                                <Link to="/apply-partnership?model=build-operate-transfer">Build-Operate-Transfer</Link>
+                                <Link to="/apply-partnership?model=contract-to-hire">Contract-to-Hire</Link>
+                                <Link to="/apply-partnership?model=hire-ai-engineers">Hire AI Engineers</Link>
                             </div>
                         </div>
 
-                        {/* Help Dropdown */}
+                        {/* ── COMPANY DROPDOWN ── */}
                         <div className="nav-dropdown">
-                            <button className="nav-link-btn">Help <ChevronDown size={12} className="drop-icon" /></button>
+                            <button className="nav-link-btn">
+                                Company <ChevronDown size={12} className="drop-icon" />
+                            </button>
                             <div className="dropdown-content">
-                                <Link to="/help/contact">Contact Us</Link>
-                                <Link to="/help/hq-pratapgarh">HQ Pratapgarh</Link>
-                                <Link to="/help/portfolio">Portfolio</Link>
-                                <Link to="/help/partners">Partners</Link>
+                                <Link to="/our-strategy">About Us</Link>
+                                <Link to="/our-strategy#leadership">Leadership</Link>
+                                <Link to="/apply-partnership">Careers</Link>
+                                <Link to="/help/partners">Co-Innovation</Link>
+                                <Link to="/help/hq-pratapgarh">Locations</Link>
+                                <Link to="/help/portfolio">News & Case Studies</Link>
                             </div>
                         </div>
 
-                        <Link to="/our-strategy" className="nav-link-btn">Our Strategy</Link>
+                        {/* Theme Toggle Button (Single Icon) */}
+                        <button 
+                            className="theme-toggle-btn"
+                            onClick={toggleTheme}
+                            title={`Current Theme: ${themeMode} (${effectiveTheme}). Click to switch (Light / Dark / System)`}
+                            aria-label={`Toggle Theme. Current: ${themeMode}`}
+                        >
+                            {themeMode === 'system' && <Monitor size={17} />}
+                            {themeMode === 'light' && <Sun size={17} />}
+                            {themeMode === 'dark' && <Moon size={17} />}
+                        </button>
                         
-                        <Link to="/consultation/book" className="nav-portal-btn" style={{ marginLeft: '16px' }}>
+                        <Link to="/consultation/book" className="nav-portal-btn">
                             Book Consultation
                         </Link>
                     </div>
 
-                    {/* Standard Hamburger Toggle */}
-                    <button 
-                        className={`hamburger-box ${isMenuOpen ? 'active' : ''}`} 
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        aria-label="Toggle Menu"
-                    >
-                        <div className="hamburger-inner"></div>
-                    </button>
+                    {/* Mobile Menu Controls */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }} className="mobile-only-flex">
+                        <button 
+                            className="theme-toggle-btn-mobile"
+                            onClick={toggleTheme}
+                            title={`Toggle Theme: ${themeMode}`}
+                            aria-label="Toggle Theme"
+                        >
+                            {themeMode === 'system' && <Monitor size={18} />}
+                            {themeMode === 'light' && <Sun size={18} />}
+                            {themeMode === 'dark' && <Moon size={18} />}
+                        </button>
+
+                        <button 
+                            className={`hamburger-box ${isMenuOpen ? 'active' : ''}`} 
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            aria-label="Toggle Menu"
+                        >
+                            <div className="hamburger-inner"></div>
+                        </button>
+                    </div>
                 </div>
 
-                {/* Standard Side Drawer (Mobile) */}
+                {/* Mobile Drawer */}
                 <div className={`drawer-backdrop ${isMenuOpen ? 'open' : ''}`} onClick={() => setIsMenuOpen(false)}></div>
                 
                 <div className={`side-drawer ${isMenuOpen ? 'open' : ''}`}>
                     <div className="drawer-header">
-                        <span className="drawer-title">NAVIGATION</span>
+                        <span className="drawer-title">VP GROUP NAVIGATION</span>
+                        <button onClick={() => setIsMenuOpen(false)} style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}>
+                            <X size={20} />
+                        </button>
                     </div>
                     
                     <div className="drawer-content">
@@ -205,45 +221,45 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                         </div>
 
                         <div className="drawer-section">
-                            <label>OUR SERVICES</label>
+                            <label>PRIMARY SERVICES</label>
                             <div className="drawer-links">
+                                <Link to="/services/ai-custom-erp" onClick={() => setIsMenuOpen(false)}>AI Custom ERP</Link>
+                                <Link to="/services/legacy-modernization" onClick={() => setIsMenuOpen(false)}>Legacy Modernization</Link>
                                 <Link to="/services/ai-automation" onClick={() => setIsMenuOpen(false)}>AI & Automation</Link>
-                                <Link to="/services/saas-development" onClick={() => setIsMenuOpen(false)}>SaaS Development</Link>
                                 <Link to="/services/software-engineering" onClick={() => setIsMenuOpen(false)}>Software Engineering</Link>
-                                <Link to="/services/web-development" onClick={() => setIsMenuOpen(false)}>Web Development</Link>
-                                <Link to="/services/seo-analytics-setup" onClick={() => setIsMenuOpen(false)}>SEO & Analytics</Link>
-                                <Link to="/services/digital-marketing" onClick={() => setIsMenuOpen(false)}>Digital Marketing</Link>
-                                <Link to="/services/crm-development" onClick={() => setIsMenuOpen(false)}>CRM Development</Link>
-                                <Link to="/services/cybersecurity" onClick={() => setIsMenuOpen(false)}>Cybersecurity Mesh</Link>
                                 <Link to="/services/cloud-devops" onClick={() => setIsMenuOpen(false)}>Cloud & DevOps</Link>
-                                <Link to="/services/technical-support" onClick={() => setIsMenuOpen(false)}>Technical Support</Link>
-                                <Link to="/services/it-consultation" onClick={() => setIsMenuOpen(false)}>IT Consultation</Link>
+                                <Link to="/services/plugin-integrations" onClick={() => setIsMenuOpen(false)}>Plug-ins & Integrations</Link>
+                                <Link to="/services/web-development" onClick={() => setIsMenuOpen(false)}>Website Development</Link>
                                 <Link to="/services/custom-ui-ux" onClick={() => setIsMenuOpen(false)}>Custom UI/UX Design</Link>
+                                <Link to="/services/technical-support" onClick={() => setIsMenuOpen(false)}>24/7 Technical Support</Link>
                             </div>
                         </div>
 
                         <div className="drawer-section">
-                            <label>CLIENTS</label>
+                            <label>TALENT SOLUTIONS</label>
                             <div className="drawer-links">
-                                <Link to="/clients/mother-bliss" onClick={() => setIsMenuOpen(false)}>Mother Bliss</Link>
-                                <Link to="/clients/institutional" onClick={() => setIsMenuOpen(false)}>Institutional</Link>
-                                <Link to="/clients/global-partners" onClick={() => setIsMenuOpen(false)}>Global Partners</Link>
+                                <Link to="/apply-partnership?model=staff-augmentation" onClick={() => setIsMenuOpen(false)}>Staff Augmentation</Link>
+                                <Link to="/apply-partnership?model=dedicated-teams" onClick={() => setIsMenuOpen(false)}>Dedicated Teams</Link>
+                                <Link to="/apply-partnership?model=build-operate-transfer" onClick={() => setIsMenuOpen(false)}>Build-Operate-Transfer</Link>
+                                <Link to="/apply-partnership?model=contract-to-hire" onClick={() => setIsMenuOpen(false)}>Contract-to-Hire</Link>
+                                <Link to="/apply-partnership?model=hire-ai-engineers" onClick={() => setIsMenuOpen(false)}>Hire AI Engineers</Link>
                             </div>
                         </div>
 
                         <div className="drawer-section">
-                            <label>RESOURCES</label>
+                            <label>COMPANY & RESOURCES</label>
                             <div className="drawer-links">
-                                <Link to="/our-strategy" onClick={() => setIsMenuOpen(false)}>Our Strategy</Link>
-                                <Link to="/help/portfolio" onClick={() => setIsMenuOpen(false)}>Portfolio</Link>
-                                <Link to="/help/partners" onClick={() => setIsMenuOpen(false)}>Partners</Link>
+                                <Link to="/our-strategy" onClick={() => setIsMenuOpen(false)}>About Us & Strategy</Link>
+                                <Link to="/help/portfolio" onClick={() => setIsMenuOpen(false)}>Portfolio & Works</Link>
+                                <Link to="/help/partners" onClick={() => setIsMenuOpen(false)}>Partnerships</Link>
+                                <Link to="/help/hq-pratapgarh" onClick={() => setIsMenuOpen(false)}>HQ Pratapgarh</Link>
                                 <Link to="/help/contact" onClick={() => setIsMenuOpen(false)}>Contact Us</Link>
                             </div>
                         </div>
                         
-                        <div className="drawer-footer" style={{ border: 'none', padding: 0 }}>
+                        <div className="drawer-footer" style={{ border: 'none', padding: '16px 0 0' }}>
                             <Link to="/consultation/book" className="drawer-portal-btn" onClick={() => setIsMenuOpen(false)}>
-                                Book Consultation
+                                Book Free Consultation
                             </Link>
                         </div>
                     </div>
@@ -257,17 +273,16 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     left: 0;
                     width: 100%;
                     z-index: 3000;
-                    padding: 20px 40px;
-                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                    background: transparent;
+                    padding: 16px 40px;
+                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                    background: var(--halo-bg);
+                    backdrop-filter: blur(20px);
+                    border-bottom: 1px solid var(--halo-border);
                 }
 
                 .project-navbar.scrolled {
                     padding: 12px 40px;
-                    background: rgba(10, 11, 15, 0.85);
-                    backdrop-filter: blur(20px) saturate(180%);
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                    box-shadow: var(--halo-shadow-md);
                 }
 
                 .nav-container {
@@ -288,8 +303,8 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                 .nav-logo-box {
                     width: 42px;
                     height: 42px;
-                    background: rgba(255, 255, 255, 0.03);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    background: var(--halo-surface);
+                    border: 1px solid var(--halo-border);
                     border-radius: 12px;
                     display: flex;
                     align-items: center;
@@ -298,8 +313,8 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                 }
 
                 .nav-logo-section:hover .nav-logo-box {
-                    border-color: #5B6BFF;
-                    box-shadow: 0 0 20px rgba(91, 107, 255, 0.3);
+                    border-color: var(--halo-primary);
+                    box-shadow: 0 0 16px var(--halo-focus);
                 }
 
                 .logo-text {
@@ -308,93 +323,134 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                 }
 
                 .brand-name {
-                    font-size: 1rem;
+                    font-size: 1.05rem;
                     font-weight: 900;
                     letter-spacing: -0.02em;
-                    color: #F2F4F8;
+                    color: var(--halo-on-surface);
                     line-height: 1;
                 }
 
                 .brand-sub {
                     font-family: 'JetBrains Mono', monospace;
-                    font-size: 0.6rem;
+                    font-size: 0.65rem;
                     font-weight: 700;
-                    letterSpacing: 2px;
-                    color: #5B6BFF;
+                    letter-spacing: 2px;
+                    color: var(--halo-primary);
                     margin-top: 3px;
                 }
 
                 .nav-links {
                     display: flex;
                     align-items: center;
-                    gap: 32px;
+                    gap: 28px;
                 }
 
                 .nav-link-btn {
-                    color: #94A3B8;
+                    color: var(--halo-muted);
                     text-decoration: none;
-                    font-size: 0.88rem;
+                    font-size: 0.9rem;
                     font-weight: 700;
-                    letter-spacing: 0.3px;
+                    letter-spacing: 0.2px;
                     background: none;
                     border: none;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
                     gap: 6px;
-                    transition: 0.25s;
+                    transition: 0.2s;
                     padding: 8px 0;
                 }
 
                 .nav-link-btn:hover {
-                    color: #F2F4F8;
+                    color: var(--halo-on-surface);
                 }
 
                 .drop-icon {
-                    transition: transform 0.3s;
+                    transition: transform 0.25s;
                 }
 
                 .nav-dropdown:hover .drop-icon {
                     transform: rotate(180deg);
-                    color: #5B6BFF;
+                    color: var(--halo-primary);
+                }
+
+                .theme-toggle-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 38px;
+                    height: 38px;
+                    background: var(--halo-surface);
+                    border: 1px solid var(--halo-border);
+                    color: var(--halo-on-surface);
+                    border-radius: 50%;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    flex-shrink: 0;
+                }
+
+                .theme-toggle-btn:hover {
+                    border-color: var(--halo-primary);
+                    background: var(--halo-elevated);
+                    color: var(--halo-primary);
+                    transform: translateY(-1px);
+                }
+
+                .theme-toggle-btn-mobile {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 38px;
+                    height: 38px;
+                    border-radius: 50%;
+                    background: var(--halo-surface);
+                    border: 1px solid var(--halo-border);
+                    color: var(--halo-on-surface);
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+
+                .theme-toggle-btn-mobile:hover {
+                    border-color: var(--halo-primary);
+                    background: var(--halo-elevated);
+                    color: var(--halo-primary);
                 }
 
                 .nav-portal-btn {
                     padding: 10px 22px;
                     border-radius: 25px;
-                    background: linear-gradient(135deg, #5B6BFF, #3DD7E5);
+                    background: var(--halo-primary);
                     color: #ffffff;
                     text-decoration: none;
-                    font-size: 0.82rem;
+                    font-size: 0.85rem;
                     font-weight: 800;
-                    letter-spacing: 0.5px;
-                    box-shadow: 0 4px 15px rgba(91, 107, 255, 0.3);
-                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                    letter-spacing: 0.3px;
+                    box-shadow: 0 4px 15px var(--halo-focus);
+                    transition: all 0.25s;
                 }
 
                 .nav-portal-btn:hover {
+                    background: var(--halo-primary-hover);
                     transform: translateY(-2px);
-                    box-shadow: 0 8px 25px rgba(61, 215, 229, 0.4);
                 }
 
                 /* ── DROPDOWN STYLES ── */
-                .nav-dropdown { position: relative; padding-bottom: 15px; margin-bottom: -15px; }
+                .nav-dropdown { position: relative; padding-bottom: 12px; margin-bottom: -12px; }
 
                 .dropdown-content {
                     position: absolute;
                     top: 100%;
                     left: 50%;
-                    transform: translateX(-50%) translateY(15px);
-                    background: rgba(13, 15, 23, 0.96);
-                    backdrop-filter: blur(24px) saturate(180%);
-                    border-radius: 20px;
-                    min-width: 240px;
-                    padding: 12px 0;
+                    transform: translateX(-50%) translateY(12px);
+                    background: var(--halo-surface);
+                    border-radius: 16px;
+                    min-width: 220px;
+                    padding: 10px 0;
                     opacity: 0;
                     visibility: hidden;
-                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-                    box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 30px rgba(91, 107, 255, 0.12);
-                    border: 1px solid rgba(91, 107, 255, 0.25);
+                    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+                    box-shadow: var(--halo-shadow-lg);
+                    border: 1px solid var(--halo-border);
                     pointer-events: none;
                 }
 
@@ -404,7 +460,7 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     top: 100%;
                     left: 0;
                     width: 100%;
-                    height: 25px;
+                    height: 20px;
                     background: transparent;
                 }
 
@@ -417,247 +473,219 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
 
                 .dropdown-content a {
                     display: block;
-                    padding: 10px 24px;
-                    color: #94a3b8;
+                    padding: 9px 20px;
+                    color: var(--halo-muted);
                     text-decoration: none;
-                    font-size: 0.85rem;
-                    font-weight: 700;
-                    transition: 0.25s;
+                    font-size: 0.88rem;
+                    font-weight: 600;
+                    transition: 0.2s;
                 }
 
                 .dropdown-content a:hover { 
-                    background: rgba(91, 107, 255, 0.1); 
-                    color: #3DD7E5; 
-                    padding-left: 28px; 
+                    background: var(--halo-elevated); 
+                    color: var(--halo-primary); 
+                    padding-left: 24px; 
                 }
 
-                /* ── MULTI-COLUMN HORIZONTAL MEGA MENU (Services) ── */
+                /* ── MEGA MENU ── */
                 .mega-content {
-                    min-width: 760px !important;
+                    min-width: 820px !important;
                     padding: 24px !important;
                     display: grid !important;
                     grid-template-columns: repeat(3, 1fr) !important;
                     gap: 16px !important;
                     left: 50% !important;
-                    transform: translateX(-50%) translateY(15px) !important;
+                    transform: translateX(-50%) translateY(12px) !important;
                 }
 
                 .mega-column {
                     display: flex;
                     flex-direction: column;
-                    gap: 4px;
+                    gap: 6px;
                 }
 
                 .mega-col-title {
                     font-family: 'JetBrains Mono', monospace;
-                    font-size: 0.62rem;
+                    font-size: 0.65rem;
                     font-weight: 800;
                     letter-spacing: 1.5px;
-                    color: #5B6BFF;
+                    color: var(--halo-primary);
                     margin-bottom: 8px;
-                    padding-left: 6px;
+                    padding-left: 8px;
                     text-transform: uppercase;
                 }
 
                 .mega-item {
                     display: flex !important;
-                    align-items: center !important;
+                    align-items: flex-start !important;
                     gap: 12px !important;
                     padding: 8px 10px !important;
-                    border-radius: 12px !important;
+                    border-radius: 10px !important;
                     text-decoration: none !important;
-                    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                    transition: all 0.2s !important;
                     background: transparent !important;
                     border: 1px solid transparent !important;
                 }
 
                 .mega-item:hover {
-                    background: rgba(91, 107, 255, 0.1) !important;
-                    border-color: rgba(91, 107, 255, 0.25) !important;
+                    background: var(--halo-elevated) !important;
+                    border-color: var(--halo-border) !important;
                     transform: translateX(3px) !important;
-                    padding-left: 12px !important;
                 }
 
                 .mega-item-name {
                     display: block;
-                    font-size: 0.8rem;
-                    font-weight: 800;
-                    color: #F2F4F8;
+                    font-size: 0.88rem;
+                    font-weight: 700;
+                    color: var(--halo-on-surface);
                     line-height: 1.25;
                 }
 
                 .mega-item-sub {
                     display: block;
-                    font-size: 0.65rem;
-                    color: #64748b;
-                    line-height: 1.2;
+                    font-size: 0.72rem;
+                    color: var(--halo-muted);
+                    line-height: 1.3;
                     margin-top: 2px;
                     font-weight: 500;
                 }
 
-                /* Mobile Side Drawer */
+                /* Hamburger */
                 .hamburger-box {
                     display: none;
-                    width: 42px;
-                    height: 42px;
-                    background: rgba(255,255,255,0.03);
-                    border: 1px solid rgba(255,255,255,0.1);
+                    width: 40px;
+                    height: 40px;
+                    padding: 0;
+                    background: var(--halo-surface);
+                    border: 1px solid var(--halo-border);
                     border-radius: 10px;
                     cursor: pointer;
-                    position: relative;
-                    z-index: 3200;
-                    transition: 0.3s;
+                    align-items: center;
+                    justify-content: center;
                 }
 
-                @media (max-width: 992px) {
-                    .desktop-only { display: none !important; }
-                    .hamburger-box { display: flex; align-items: center; justify-content: center; }
-                    .project-navbar { padding: 16px 20px; }
+                .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+                    width: 18px;
+                    height: 2px;
+                    background-color: var(--halo-on-surface);
+                    border-radius: 2px;
+                    position: absolute;
+                    transition: all 0.25s ease;
                 }
 
+                .hamburger-inner { position: relative; }
+                .hamburger-inner::before { content: ''; top: -6px; left: 0; }
+                .hamburger-inner::after { content: ''; top: 6px; left: 0; }
+
+                .hamburger-box.active .hamburger-inner { background-color: transparent; }
+                .hamburger-box.active .hamburger-inner::before { transform: translateY(6px) rotate(45deg); }
+                .hamburger-box.active .hamburger-inner::after { transform: translateY(-6px) rotate(-45deg); }
+
+                /* Drawer */
                 .drawer-backdrop {
                     position: fixed;
                     inset: 0;
-                    background: rgba(0,0,0,0.7);
-                    backdrop-filter: blur(8px);
-                    z-index: 3050;
+                    background: rgba(0, 0, 0, 0.6);
+                    backdrop-filter: blur(4px);
+                    z-index: 3998;
                     opacity: 0;
-                    pointer-events: none;
-                    transition: 0.3s;
+                    visibility: hidden;
+                    transition: all 0.3s ease;
                 }
-
-                .drawer-backdrop.open {
-                    opacity: 1;
-                    pointer-events: auto;
-                }
+                .drawer-backdrop.open { opacity: 1; visibility: visible; }
 
                 .side-drawer {
                     position: fixed;
                     top: 0;
                     right: -320px;
-                    width: 300px;
+                    width: 320px;
+                    max-width: 85vw;
                     height: 100vh;
-                    background: rgba(13, 15, 23, 0.98);
-                    border-left: 1px solid rgba(255,255,255,0.1);
-                    z-index: 3100;
-                    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                    padding: 32px 24px;
+                    background: var(--halo-surface);
+                    z-index: 3999;
+                    box-shadow: var(--halo-shadow-lg);
+                    border-left: 1px solid var(--halo-border);
+                    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
                     display: flex;
                     flex-direction: column;
-                    overflow-y: auto;
                 }
-
-                .side-drawer.open {
-                    transform: translateX(-320px);
-                }
+                .side-drawer.open { right: 0; }
 
                 .drawer-header {
-                    margin-bottom: 28px;
-                    padding-bottom: 16px;
-                    border-bottom: 1px solid rgba(255,255,255,0.08);
+                    padding: 24px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid var(--halo-border);
                 }
-
                 .drawer-title {
-                    font-family: 'JetBrains Mono', monospace;
-                    font-size: 0.7rem;
+                    font-size: 0.8rem;
                     font-weight: 800;
-                    letter-spacing: 2px;
-                    color: #5B6BFF;
+                    letter-spacing: 1.5px;
+                    color: var(--halo-primary);
                 }
 
-                .drawer-section {
-                    margin-bottom: 24px;
+                .drawer-content {
+                    padding: 24px;
+                    overflow-y: auto;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 24px;
+                    flex: 1;
                 }
 
                 .drawer-section label {
                     display: block;
-                    font-family: 'JetBrains Mono', monospace;
-                    font-size: 0.65rem;
-                    font-weight: 700;
+                    font-size: 0.7rem;
+                    font-weight: 800;
                     letter-spacing: 1.5px;
-                    color: #64748b;
+                    color: var(--halo-muted);
                     margin-bottom: 12px;
-                    text-transform: uppercase;
                 }
 
                 .drawer-main-link {
                     font-size: 1.1rem;
                     font-weight: 800;
-                    color: #F2F4F8;
+                    color: var(--halo-on-surface);
                     text-decoration: none;
                 }
 
                 .drawer-links {
                     display: flex;
                     flex-direction: column;
-                    gap: 10px;
+                    gap: 12px;
                 }
 
                 .drawer-links a {
-                    color: #94A3B8;
+                    font-size: 0.95rem;
+                    color: var(--halo-on-surface);
                     text-decoration: none;
-                    font-size: 0.85rem;
-                    font-weight: 600;
                     transition: 0.2s;
                 }
 
                 .drawer-links a:hover {
-                    color: #3DD7E5;
+                    color: var(--halo-primary);
+                    padding-left: 4px;
                 }
 
                 .drawer-portal-btn {
                     display: block;
                     text-align: center;
-                    padding: 12px;
-                    border-radius: 20px;
-                    background: linear-gradient(135deg, #5B6BFF, #3DD7E5);
+                    padding: 14px;
+                    border-radius: 12px;
+                    background: var(--halo-primary);
                     color: #fff;
                     font-weight: 800;
                     text-decoration: none;
-                    font-size: 0.85rem;
-                    margin-top: 16px;
                 }
 
-                /* Light theme overrides */
-                .project-navbar.light-theme .nav-link-btn {
-                    color: #000000;
-                }
-                .project-navbar.light-theme .nav-link-btn:hover {
-                    color: #5B6BFF;
-                }
-                .project-navbar.light-theme.scrolled {
-                    background: rgba(246, 245, 242, 0.85);
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-                }
-                .project-navbar.light-theme .logo-text .brand-name {
-                    color: #000000;
-                }
-                .project-navbar.light-theme .logo-text .brand-sub {
-                    color: #5C6170;
-                }
-                .project-navbar.light-theme .nav-logo-box {
-                    background: rgba(0, 0, 0, 0.02);
-                    border: 1px solid rgba(0, 0, 0, 0.08);
-                    box-shadow: none;
-                }
-                .project-navbar.light-theme .nav-dropdown .dropdown-content {
-                    background: #FAF9F6;
-                    border: 1px solid rgba(0, 0, 0, 0.08);
-                    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-                }
-                .project-navbar.light-theme .mega-item-name {
-                    color: #000000;
-                }
-                .project-navbar.light-theme .mega-item-sub {
-                    color: #64748b;
-                }
-                .project-navbar.light-theme .nav-dropdown .dropdown-content a {
-                    color: #5C6170;
-                }
-                .project-navbar.light-theme .nav-dropdown .dropdown-content a:hover {
-                    color: #000000;
-                    background: rgba(0, 0, 0, 0.04);
+                .mobile-only-flex { display: none; }
+
+                @media (max-width: 992px) {
+                    .desktop-only { display: none !important; }
+                    .hamburger-box { display: flex !important; }
+                    .mobile-only-flex { display: flex !important; }
+                    .project-navbar { padding: 16px 20px !important; }
                 }
             `}</style>
         </>

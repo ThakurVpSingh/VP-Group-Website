@@ -18,7 +18,13 @@ import {
   ShieldCheck,
   Activity,
   Zap,
-  Play
+  Play,
+  RefreshCw,
+  Plug,
+  Puzzle,
+  Boxes,
+  Workflow,
+  Briefcase
 } from 'lucide-react';
 import ProjectNavbar from '../components/ProjectNavbar';
 import Footer from '../components/Footer';
@@ -810,9 +816,9 @@ const MissionCarousel = () => {
     <section style={{
       position: 'relative',
       padding: '0',
-      background: '#0A0B0F',
-      borderTop: '1px solid #2A2D38',
-      borderBottom: '1px solid #2A2D38',
+      background: 'var(--halo-surface)',
+      borderTop: '1px solid var(--halo-border)',
+      borderBottom: '1px solid var(--halo-border)',
       overflow: 'hidden',
       minHeight: '480px',
       display: 'flex',
@@ -862,7 +868,7 @@ const MissionCarousel = () => {
           fontWeight: 900,
           letterSpacing: '-0.03em',
           lineHeight: 1.05,
-          color: '#F2F4F8',
+          color: 'var(--halo-on-surface)',
           margin: '0 0 8px 0',
           maxWidth: '1000px',
           opacity: 0,
@@ -896,7 +902,8 @@ const MissionCarousel = () => {
           fontSize: 'clamp(8rem, 20vw, 18rem)',
           fontFamily: H.mono,
           fontWeight: 900,
-          color: 'rgba(255,255,255,0.015)',
+          color: 'var(--halo-border)',
+          opacity: 0.35,
           lineHeight: 1,
           userSelect: 'none',
           pointerEvents: 'none',
@@ -912,14 +919,14 @@ const MissionCarousel = () => {
         alignItems: 'center',
         gap: '20px',
         padding: '20px clamp(24px, 8vw, 120px)',
-        borderTop: '1px solid rgba(42,45,56,0.7)',
+        borderTop: '1px solid var(--halo-border)',
         position: 'relative',
         zIndex: 10,
       }}>
         {/* Prev */}
         <button onClick={prev_} style={{
           background: 'none',
-          border: '1px solid #2A2D38',
+          border: '1px solid var(--halo-border)',
           borderRadius: '50%',
           width: '36px',
           height: '36px',
@@ -927,12 +934,12 @@ const MissionCarousel = () => {
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          color: '#9AA0AE',
+          color: 'var(--halo-muted)',
           flexShrink: 0,
           transition: 'border-color 0.2s, color 0.2s',
         }}
           onMouseEnter={e => { e.currentTarget.style.borderColor = '#5B6BFF'; e.currentTarget.style.color = '#5B6BFF'; }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2D38'; e.currentTarget.style.color = '#9AA0AE'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--halo-border)'; e.currentTarget.style.color = 'var(--halo-muted)'; }}
           aria-label="Previous slide"
         >
           ←
@@ -949,7 +956,7 @@ const MissionCarousel = () => {
                 width: i === active ? '28px' : '6px',
                 height: '6px',
                 borderRadius: '3px',
-                background: i === active ? slide.accent : '#2A2D38',
+                background: i === active ? slide.accent : 'var(--halo-border)',
                 border: 'none',
                 padding: 0,
                 cursor: 'pointer',
@@ -965,7 +972,7 @@ const MissionCarousel = () => {
           fontFamily: H.mono,
           fontSize: '0.72rem',
           fontWeight: 700,
-          color: '#5C6170',
+          color: 'var(--halo-muted)',
           letterSpacing: '2px',
           flexShrink: 0,
         }}>
@@ -975,7 +982,7 @@ const MissionCarousel = () => {
         {/* Next */}
         <button onClick={next} style={{
           background: 'none',
-          border: '1px solid #2A2D38',
+          border: '1px solid var(--halo-border)',
           borderRadius: '50%',
           width: '36px',
           height: '36px',
@@ -983,12 +990,12 @@ const MissionCarousel = () => {
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          color: '#9AA0AE',
+          color: 'var(--halo-muted)',
           flexShrink: 0,
           transition: 'border-color 0.2s, color 0.2s',
         }}
           onMouseEnter={e => { e.currentTarget.style.borderColor = '#5B6BFF'; e.currentTarget.style.color = '#5B6BFF'; }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2D38'; e.currentTarget.style.color = '#9AA0AE'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--halo-border)'; e.currentTarget.style.color = 'var(--halo-muted)'; }}
           aria-label="Next slide"
         >
           →
@@ -1064,90 +1071,16 @@ export default function VPGroup() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // ── GSAP ScrollTrigger Animations Across All Sections ────────────────
+  // ── Smooth entrance animations (non-destructive, zero opacity hiding) ──
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero Title reveal
+      // Gentle entrance for hero text without opacity vanishing
       if (heroTextRef.current) {
         gsap.fromTo(heroTextRef.current,
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1.2, ease: 'power4.out', delay: 0.2 }
+          { y: 20, opacity: 0.8 },
+          { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' }
         );
       }
-
-      // Scroll-linked hero exit
-      if (heroTextRef.current) {
-        gsap.to(heroTextRef.current, {
-          scrollTrigger: {
-            trigger: heroTextRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1.2,
-          },
-          y: -80,
-          opacity: 0,
-          ease: 'none',
-        });
-      }
-
-      // Services 3D cards entrance
-      const cards = serviceCardsRef.current?.querySelectorAll('.svc-card-3d');
-      if (cards && cards.length) {
-        gsap.fromTo(cards,
-          { rotateX: -25, y: 50, opacity: 0, transformPerspective: 900 },
-          {
-            rotateX: 0,
-            y: 0,
-            opacity: 1,
-            duration: 0.85,
-            stagger: 0.08,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: serviceCardsRef.current,
-              start: 'top 82%',
-              toggleActions: 'play none none none',
-            },
-          }
-        );
-      }
-
-      // Universal ScrollTrigger animation for all sections
-      const sections = document.querySelectorAll('main > section');
-      sections.forEach((sec) => {
-        gsap.fromTo(sec,
-          { y: 45, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: sec,
-              start: 'top 85%',
-              toggleActions: 'play none none none'
-            }
-          }
-        );
-      });
-
-      // Staggered entrance for Project Rows & Cards
-      const projectRows = document.querySelectorAll('.nothin-project-row');
-      projectRows.forEach((row) => {
-        gsap.fromTo(row,
-          { y: 50, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: row,
-              start: 'top 80%',
-              toggleActions: 'play none none none'
-            }
-          }
-        );
-      });
     });
     return () => ctx.revert();
   }, []);
@@ -1177,7 +1110,7 @@ export default function VPGroup() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0B0F', color: '#F2F4F8', fontFamily: H.font, position: 'relative', overflowX: 'hidden' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--halo-bg)', color: 'var(--halo-on-surface)', fontFamily: H.font, position: 'relative', overflowX: 'hidden' }}>
       
       {/* ── PROJECT NAVBAR ────────────────────────────────────── */}
       <ProjectNavbar />
@@ -1201,7 +1134,7 @@ export default function VPGroup() {
             position: 'absolute',
             inset: 0,
             zIndex: 1,
-            background: '#0A0B0F',
+            background: 'var(--halo-bg)',
             overflow: 'hidden',
             pointerEvents: 'none'
           }}>
@@ -1267,33 +1200,52 @@ export default function VPGroup() {
               fontFamily: H.font,
               fontWeight: 950,
               letterSpacing: '-0.045em',
-              fontSize: 'clamp(3.5rem, 11vw, 11rem)',
-              lineHeight: 0.92,
-              margin: '0 0 28px 0',
+              fontSize: 'clamp(3rem, 10vw, 8.5rem)',
+              lineHeight: 0.95,
+              margin: '0 0 24px 0',
               textTransform: 'uppercase',
-              filter: 'drop-shadow(0 0 40px rgba(91,107,255,0.35))',
-              background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 35%, #5B6BFF 75%, #3DD7E5 100%)',
+              background: 'var(--halo-hero-title)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}>
               VP GROUP
             </h1>
 
-            {/* Subtitle */}
-            <div style={{ overflow: 'hidden' }}>
-              <div style={{
-                fontFamily: H.mono,
-                fontSize: 'clamp(0.85rem, 2vw, 1.25rem)',
-                fontWeight: 700,
-                color: '#3DD7E5',
-                letterSpacing: '8px',
-                textTransform: 'uppercase',
-                textShadow: '0 0 20px rgba(61, 215, 229, 0.4)',
-                marginBottom: '36px'
-              }}>
-                ENGINEERING INFINITE SCALE
-              </div>
+            {/* Subtitle Badge with 100% legibility */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '10px 24px',
+              borderRadius: '30px',
+              background: 'var(--halo-elevated)',
+              border: '1px solid var(--halo-border)',
+              color: 'var(--halo-primary)',
+              fontFamily: H.mono,
+              fontSize: 'clamp(0.78rem, 1.8vw, 0.92rem)',
+              fontWeight: 800,
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+              marginBottom: '24px',
+              boxShadow: 'var(--halo-shadow-sm)'
+            }}>
+              <span>AI Custom ERP</span>
+              <span style={{ opacity: 0.4 }}>•</span>
+              <span>Software Engineering</span>
+              <span style={{ opacity: 0.4 }}>•</span>
+              <span>Cloud Systems</span>
             </div>
+
+            <p style={{
+              fontSize: 'clamp(1.05rem, 2.2vw, 1.25rem)',
+              lineHeight: 1.7,
+              color: 'var(--halo-muted)',
+              maxWidth: '780px',
+              margin: '0 auto 36px',
+              fontWeight: 500,
+            }}>
+              We engineer custom AI-driven ERPs, modernize legacy monoliths, and build high-performance software and cloud platforms for ambitious enterprises worldwide.
+            </p>
 
             {/* Main Interactive Action Buttons (CTAs) */}
             <div style={{
@@ -1306,16 +1258,16 @@ export default function VPGroup() {
             }}>
               <button
                 onClick={() => {
-                  const el = document.getElementById('services-section');
+                  const el = document.getElementById('services');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  else navigate('/services/software-engineering');
+                  else navigate('/services/ai-custom-erp');
                 }}
                 style={{
-                  padding: '14px 36px',
+                  padding: '16px 36px',
                   borderRadius: '30px',
-                  background: 'linear-gradient(135deg, #5B6BFF 0%, #3DD7E5 100%)',
+                  background: 'linear-gradient(135deg, #6366F1 0%, #06B6D4 100%)',
                   color: '#ffffff',
-                  fontSize: '0.9rem',
+                  fontSize: '0.92rem',
                   fontWeight: 800,
                   letterSpacing: '1px',
                   textTransform: 'uppercase',
@@ -1324,38 +1276,38 @@ export default function VPGroup() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '10px',
-                  boxShadow: '0 0 30px rgba(91, 107, 255, 0.45)',
+                  boxShadow: '0 4px 25px rgba(99, 102, 241, 0.45)',
                   transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
                 className="hero-cta-btn"
               >
-                <span>Explore Ecosystem</span>
+                <span>Explore Our Services</span>
                 <ArrowRight size={18} />
               </button>
 
               <button
                 onClick={() => navigate('/consultation/book')}
                 style={{
-                  padding: '14px 32px',
+                  padding: '16px 32px',
                   borderRadius: '30px',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(16px)',
-                  color: '#F2F4F8',
-                  fontSize: '0.9rem',
+                  background: 'var(--halo-elevated)',
+                  color: 'var(--halo-on-surface)',
+                  fontSize: '0.92rem',
                   fontWeight: 700,
                   letterSpacing: '1px',
                   textTransform: 'uppercase',
-                  border: '1px solid rgba(255, 255, 255, 0.18)',
+                  border: '1px solid var(--halo-border)',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '10px',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  boxShadow: 'var(--halo-shadow-sm)'
                 }}
                 className="hero-secondary-btn"
               >
-                <Play size={15} color="#3DD7E5" />
-                <span>Book Consultation</span>
+                <Play size={15} color="var(--halo-primary)" />
+                <span>Book Free Consultation</span>
               </button>
             </div>
 
@@ -1364,13 +1316,13 @@ export default function VPGroup() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '24px',
-              opacity: 0.75,
+              gap: '20px',
+              opacity: 0.85,
               flexWrap: 'wrap'
             }}>
-              {['Web Systems', 'Software Eng', 'AI Automation', 'Cyber Mesh', 'SEO Analytics'].map((s, i) => (
-                <span key={i} style={{ fontFamily: H.mono, fontSize: '0.68rem', fontWeight: 700, letterSpacing: '2px', color: '#94a3b8', textTransform: 'uppercase' }}>
-                  {i > 0 && <span style={{ marginRight: '24px', color: '#334155' }}>·</span>}{s}
+              {['AI Custom ERP', 'Legacy Modernization', 'AI & Automation', 'Software Engineering', 'Cloud & DevOps', 'Plug-ins & Integrations'].map((s, i) => (
+                <span key={i} style={{ fontFamily: H.mono, fontSize: '0.72rem', fontWeight: 700, letterSpacing: '1.5px', color: 'var(--halo-muted)', textTransform: 'uppercase' }}>
+                  {i > 0 && <span style={{ marginRight: '20px', color: '#5B6BFF' }}>•</span>}{s}
                 </span>
               ))}
             </div>
@@ -1416,18 +1368,18 @@ export default function VPGroup() {
         </section>
 
         {/* ── TECH MARQUEE STRIP (21st.dev inspired) ──────────────── */}
-        <div style={{ overflow: 'hidden', background: '#0A0B0F', borderTop: '1px solid #1E2029', borderBottom: '1px solid #1E2029', padding: '18px 0', position: 'relative', zIndex: 11 }}>
+        <div style={{ overflow: 'hidden', background: 'var(--halo-bg)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)', padding: '18px 0', position: 'relative', zIndex: 11 }}>
           {/* Fade edges */}
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '120px', background: 'linear-gradient(to right, #0A0B0F, transparent)', zIndex: 2, pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '120px', background: 'linear-gradient(to left, #0A0B0F, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '120px', background: 'linear-gradient(to right, var(--halo-bg), transparent)', zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '120px', background: 'linear-gradient(to left, var(--halo-bg), transparent)', zIndex: 2, pointerEvents: 'none' }} />
 
           {/* Row 1 — forward scroll */}
           <div style={{ display: 'flex', gap: 0, marginBottom: '10px', willChange: 'transform' }}>
             <div style={{ display: 'flex', gap: '0', animation: 'marquee-fwd 28s linear infinite', whiteSpace: 'nowrap', flexShrink: 0 }}>
               {['React', 'Three.js', 'Node.js', 'PostgreSQL', 'Next.js', 'TypeScript', 'AWS', 'GSAP', 'Docker', 'MongoDB', 'Redis', 'GraphQL'].concat(
                ['React', 'Three.js', 'Node.js', 'PostgreSQL', 'Next.js', 'TypeScript', 'AWS', 'GSAP', 'Docker', 'MongoDB', 'Redis', 'GraphQL']).map((t, i) => (
-                <span key={i} style={{ fontFamily: H.mono, fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: i % 2 === 0 ? '#5B6BFF' : '#3A3D4E', padding: '0 28px', borderRight: '1px solid #1E2029', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: i % 2 === 0 ? '#5B6BFF' : '#2A2D38', display: 'inline-block', flexShrink: 0 }} />{t}
+                <span key={i} style={{ fontFamily: H.mono, fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: i % 2 === 0 ? 'var(--halo-primary)' : 'var(--halo-muted)', padding: '0 28px', borderRight: '1px solid var(--halo-border)', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: i % 2 === 0 ? 'var(--halo-primary)' : 'var(--halo-border)', display: 'inline-block', flexShrink: 0 }} />{t}
                 </span>
               ))}
             </div>
@@ -1438,8 +1390,8 @@ export default function VPGroup() {
             <div style={{ display: 'flex', gap: '0', animation: 'marquee-rev 22s linear infinite', whiteSpace: 'nowrap', flexShrink: 0 }}>
               {['Zero Downtime', 'Infinite Scale', 'Security First', 'Performance', 'Clean Code', 'Be Technical', 'Enterprise Grade', 'Open Source', 'AI-Powered', 'Edge Ready'].concat(
                ['Zero Downtime', 'Infinite Scale', 'Security First', 'Performance', 'Clean Code', 'Be Technical', 'Enterprise Grade', 'Open Source', 'AI-Powered', 'Edge Ready']).map((t, i) => (
-                <span key={i} style={{ fontFamily: H.mono, fontSize: '0.62rem', fontWeight: 600, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#3A3D4E', padding: '0 24px', borderRight: '1px solid #1E2029', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#2A2D38', display: 'inline-block', flexShrink: 0 }} />{t}
+                <span key={i} style={{ fontFamily: H.mono, fontSize: '0.62rem', fontWeight: 600, letterSpacing: '2.5px', textTransform: 'uppercase', color: 'var(--halo-muted)', padding: '0 24px', borderRight: '1px solid var(--halo-border)', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'var(--halo-border)', display: 'inline-block', flexShrink: 0 }} />{t}
                 </span>
               ))}
             </div>
@@ -1465,17 +1417,17 @@ export default function VPGroup() {
           padding: '120px 24px', 
           boxSizing: 'border-box',
           position: 'relative',
-          background: '#14151C',
-          borderTop: '1px solid #2A2D38',
+          background: 'var(--halo-surface)',
+          borderTop: '1px solid var(--halo-border)',
           zIndex: 11
         }} id="intro-details">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 2 }} className="nothin-grid-2">
             <div>
-              <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 24px 0', color: '#F2F4F8' }}>
+              <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 24px 0', color: 'var(--halo-on-surface)' }}>
                 Web & Software<br />
                 At Infinite Scale.
               </h2>
-              <p style={{ fontSize: '0.9375rem', color: '#9AA0AE', lineHeight: 1.6, maxWidth: '440px', margin: '0 0 32px 0' }}>
+              <p style={{ fontSize: '0.9375rem', color: 'var(--halo-muted)', lineHeight: 1.6, maxWidth: '440px', margin: '0 0 32px 0' }}>
                 We specialize in high-fidelity web development, mission-critical software engineering, and 24/7 technical support. We build platforms that move the world.
               </p>
               <div style={{ display: 'flex', gap: '16px' }}>
@@ -1488,7 +1440,7 @@ export default function VPGroup() {
                 <button 
                   onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
                   className="nothin-btn-pill"
-                  style={{ background: 'transparent', border: '1px solid #2A2D38', color: '#F2F4F8' }}
+                  style={{ background: 'transparent', border: '1px solid var(--halo-border)', color: 'var(--halo-on-surface)' }}
                 >
                   Our Services
                 </button>
@@ -1496,12 +1448,12 @@ export default function VPGroup() {
             </div>
 
             {/* Code Window visualizer */}
-            <div style={{ width: '100%', maxWidth: '400px', background: '#1E2029', border: '1px solid #2A2D38', borderRadius: '16px', padding: '24px', boxSizing: 'border-box', boxShadow: '0 16px 40px rgba(0,0,0,0.3)' }} className="home-desktop-only">
+            <div style={{ width: '100%', maxWidth: '400px', background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', borderRadius: '16px', padding: '24px', boxSizing: 'border-box', boxShadow: 'var(--halo-shadow-md)' }} className="home-desktop-only">
               <div style={{ display: 'flex', gap: '6px', marginBottom: '16px' }}>
                 {['#FF3A5C','#F5D547','#2BE08C'].map(c => <div key={c} style={{ width: '8px', height: '8px', borderRadius: '50%', background: c }} />)}
               </div>
-              <div style={{ fontFamily: H.mono, fontSize: '0.75rem', lineHeight: 1.6, color: '#9AA0AE' }}>
-                <span style={{ color: '#F2F4F8', fontWeight: 600 }}>service</span> WebDevelopment {'{'}<br />
+              <div style={{ fontFamily: H.mono, fontSize: '0.75rem', lineHeight: 1.6, color: 'var(--halo-muted)' }}>
+                <span style={{ color: 'var(--halo-on-surface)', fontWeight: 600 }}>service</span> WebDevelopment {'{'}<br />
                 &nbsp;&nbsp;<span style={{ color: '#5B6BFF' }}>get</span> expertise() {'{'}<br />
                 &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: '#FF3A5C' }}>return</span> ['Web', 'Software', 'Support'];<br />
                 &nbsp;&nbsp;{'}'}<br />
@@ -1515,7 +1467,7 @@ export default function VPGroup() {
         </section>
 
         {/* ── GLASS STATS BAR (21st.dev glass-cards inspired) ────────── */}
-        <section style={{ background: '#0A0B0F', padding: '80px 24px', borderTop: '1px solid #1A1C24' }}>
+        <section style={{ background: 'var(--halo-bg)', padding: '80px 24px', borderTop: '1px solid var(--halo-border)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
             {[
               { num: '20+', label: 'Projects Shipped', accent: '#5B6BFF', sub: 'Across 3 continents' },
@@ -1536,10 +1488,10 @@ export default function VPGroup() {
                 <div style={{
                   borderRadius: '18px',
                   padding: '32px 28px',
-                  background: 'rgba(14,15,20,0.9)',
+                  background: 'var(--halo-surface)',
                   backdropFilter: 'blur(24px) saturate(180%)',
-                  border: '1px solid rgba(255,255,255,0.06)',
-                  boxShadow: `0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07)`,
+                  border: '1px solid var(--halo-border)',
+                  boxShadow: 'var(--halo-shadow-md)',
                   position: 'relative',
                   overflow: 'hidden',
                 }}>
@@ -1550,9 +1502,9 @@ export default function VPGroup() {
                     {s.num}
                   </div>
                   {/* Label */}
-                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#F2F4F8', marginBottom: '6px', letterSpacing: '-0.01em' }}>{s.label}</div>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--halo-on-surface)', marginBottom: '6px', letterSpacing: '-0.01em' }}>{s.label}</div>
                   {/* Sub */}
-                  <div style={{ fontSize: '0.72rem', fontFamily: H.mono, color: '#5C6170', letterSpacing: '0.5px' }}>{s.sub}</div>
+                  <div style={{ fontSize: '0.72rem', fontFamily: H.mono, color: 'var(--halo-muted)', letterSpacing: '0.5px' }}>{s.sub}</div>
                 </div>
               </div>
             ))}
@@ -1571,26 +1523,26 @@ export default function VPGroup() {
 
         {/* ── WORKS SECTION (PORTFOLIO) ─────────────────────────── */}
         <section style={{ padding: '120px 24px', maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #2A2D38', paddingBottom: '16px', marginBottom: '60px' }}>
-            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>Selected Works</span>
-            <span style={{ fontSize: '0.8rem', color: '#9AA0AE' }}>The Portfolio</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--halo-border)', paddingBottom: '16px', marginBottom: '60px' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--halo-on-surface)' }}>Selected Works</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--halo-muted)' }}>The Portfolio</span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
             {/* VexioGate Card */}
             <div className="nothin-project-row">
               <div className="project-img-wrapper">
-                <div className="project-img-placeholder" style={{ background: '#14151C', border: '1px solid #2A2D38', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontSize: '3rem', fontWeight: 900, color: 'rgba(255,255,255,0.03)', letterSpacing: '4px' }}>VEXIOGATE</span>
+                <div className="project-img-placeholder" style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--halo-border)', letterSpacing: '4px', opacity: 0.5 }}>VEXIOGATE</span>
                 </div>
               </div>
               <div className="project-meta">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '20px' }}>
-                  <span style={{ fontSize: '2.5rem', fontFamily: H.mono, fontWeight: 300, color: '#5C6170' }}>01</span>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '2px', padding: '4px 10px', background: '#1E2029', borderRadius: '4px', color: '#2BE08C' }}>LIVE</span>
+                  <span style={{ fontSize: '2.5rem', fontFamily: H.mono, fontWeight: 300, color: 'var(--halo-muted)' }}>01</span>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '2px', padding: '4px 10px', background: 'var(--halo-elevated)', borderRadius: '4px', color: '#2BE08C', border: '1px solid var(--halo-border)' }}>LIVE</span>
                 </div>
-                <h3 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px', color: '#F2F4F8' }}>VexioGate IAM Ecosystem</h3>
-                <p style={{ fontSize: '0.95rem', color: '#9AA0AE', lineHeight: 1.6, marginBottom: '28px' }}>
+                <h3 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px', color: 'var(--halo-on-surface)' }}>VexioGate IAM Ecosystem</h3>
+                <p style={{ fontSize: '0.95rem', color: 'var(--halo-muted)', lineHeight: 1.6, marginBottom: '28px' }}>
                   Next-generation identity tracking, secure workforce dashboard, and automated gateway provisioning for modern enterprises.
                 </p>
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
@@ -1605,23 +1557,23 @@ export default function VPGroup() {
             {/* Neural Core */}
             <div className="nothin-project-row" style={{ flexDirection: 'row-reverse' }}>
               <div className="project-img-wrapper">
-                <div className="project-img-placeholder" style={{ background: '#14151C', border: '1px solid #2A2D38', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontSize: '3rem', fontWeight: 900, color: 'rgba(255,255,255,0.03)', letterSpacing: '4px' }}>NEURAL CORE</span>
+                <div className="project-img-placeholder" style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--halo-border)', letterSpacing: '4px', opacity: 0.5 }}>NEURAL CORE</span>
                 </div>
               </div>
               <div className="project-meta">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '20px' }}>
-                  <span style={{ fontSize: '2.5rem', fontFamily: H.mono, fontWeight: 300, color: '#5C6170' }}>02</span>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '2px', padding: '4px 10px', background: '#1E2029', borderRadius: '4px', color: '#5B6BFF' }}>DEV</span>
+                  <span style={{ fontSize: '2.5rem', fontFamily: H.mono, fontWeight: 300, color: 'var(--halo-muted)' }}>02</span>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '2px', padding: '4px 10px', background: 'var(--halo-elevated)', borderRadius: '4px', color: '#5B6BFF', border: '1px solid var(--halo-border)' }}>DEV</span>
                 </div>
-                <h3 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px', color: '#F2F4F8' }}>Neural Core Platform</h3>
-                <p style={{ fontSize: '0.95rem', color: '#9AA0AE', lineHeight: 1.6, marginBottom: '28px' }}>
+                <h3 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px', color: 'var(--halo-on-surface)' }}>Neural Core Platform</h3>
+                <p style={{ fontSize: '0.95rem', color: 'var(--halo-muted)', lineHeight: 1.6, marginBottom: '28px' }}>
                   Future integration module. Our ecosystem is actively expanding to include autonomous neural tracking and semantic reasoning loops.
                 </p>
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
                   {['AI', 'Agents', 'RAG'].map(t => <span key={t} className="nothin-tag">{t}</span>)}
                 </div>
-                <div className="nothin-tag" style={{ display: 'inline-block', color: '#5C6170', background: '#1E2029' }}>
+                <div className="nothin-tag" style={{ display: 'inline-block', color: 'var(--halo-muted)', background: 'var(--halo-elevated)' }}>
                   In Development
                 </div>
               </div>
@@ -1630,19 +1582,19 @@ export default function VPGroup() {
         </section>
 
         {/* ── PARTNERSHIPS SECTION ──────────────────────────────── */}
-        <section style={{ padding: '120px 24px', background: '#14151C', borderTop: '1px solid #2A2D38', borderBottom: '1px solid #2A2D38' }}>
+        <section style={{ padding: '120px 24px', background: 'var(--halo-surface)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #2A2D38', paddingBottom: '16px', marginBottom: '60px' }}>
-              <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>Partnerships</span>
-              <span style={{ fontSize: '0.8rem', color: '#9AA0AE' }}>Visionary Clients</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--halo-border)', paddingBottom: '16px', marginBottom: '60px' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--halo-on-surface)' }}>Partnerships</span>
+              <span style={{ fontSize: '0.8rem', color: 'var(--halo-muted)' }}>Visionary Clients</span>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }} className="nothin-grid-2">
-              <div style={{ background: '#1E2029', border: '1px solid #2A2D38', padding: '48px', borderRadius: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '48px', borderRadius: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
                   <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#5B6BFF', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Maternal E-Commerce</div>
-                  <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '16px', color: '#F2F4F8' }}>Mother Bliss</h3>
-                  <p style={{ fontSize: '0.95rem', color: '#9AA0AE', lineHeight: 1.6, marginBottom: '32px' }}>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '16px', color: 'var(--halo-on-surface)' }}>Mother Bliss</h3>
+                  <p style={{ fontSize: '0.95rem', color: 'var(--halo-muted)', lineHeight: 1.6, marginBottom: '32px' }}>
                     A comprehensive maternal care ecosystem engineered by VP Group. We architected the full-stack infrastructure for seamless commerce and global scalability.
                   </p>
                 </div>
@@ -1656,13 +1608,13 @@ export default function VPGroup() {
                 </div>
               </div>
 
-              <div style={{ border: '2px dashed #2A2D38', padding: '48px', borderRadius: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.02)', display: 'flex', alignItems: 'center', justify: 'center', marginBottom: '24px' }}>
-                  <Users size={20} color="#9AA0AE" />
+              <div style={{ border: '2px dashed var(--halo-border)', background: 'var(--halo-surface)', padding: '48px', borderRadius: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--halo-elevated)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+                  <Users size={20} color="var(--halo-muted)" />
                 </div>
-                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 8px 0', color: '#F2F4F8' }}>New Partner Socket</h4>
-                <div style={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1.5px', background: '#1E2029', padding: '4px 10px', borderRadius: '20px', marginBottom: '16px', color: '#5C6170' }}>AWAITING PROVISIONING</div>
-                <p style={{ fontSize: '0.875rem', color: '#9AA0AE', lineHeight: 1.5, margin: 0, maxWidth: '280px' }}>
+                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 8px 0', color: 'var(--halo-on-surface)' }}>New Partner Socket</h4>
+                <div style={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1.5px', background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '4px 10px', borderRadius: '20px', marginBottom: '16px', color: 'var(--halo-muted)' }}>AWAITING PROVISIONING</div>
+                <p style={{ fontSize: '0.875rem', color: 'var(--halo-muted)', lineHeight: 1.5, margin: 0, maxWidth: '280px' }}>
                   Open socket for future enterprise partnerships. Join the infrastructure that moves the world.
                 </p>
               </div>
@@ -1672,8 +1624,9 @@ export default function VPGroup() {
 
         {/* ── SERVICES SECTION ─────────────────────────────────── */}
         <section id="services" style={{
-          background: '#0D0E14',
-          borderTop: '1px solid #2A2D38',
+          background: 'var(--halo-surface)',
+          borderTop: '1px solid var(--halo-border)',
+          borderBottom: '1px solid var(--halo-border)',
           padding: '120px 0 140px',
           position: 'relative',
           overflow: 'hidden',
@@ -1689,179 +1642,128 @@ export default function VPGroup() {
           <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
 
             {/* Section header */}
-            <div style={{ marginBottom: '72px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                <span style={{ width: '32px', height: '2px', background: '#5B6BFF', borderRadius: '2px', display: 'inline-block' }} />
-                <span style={{ fontFamily: H.mono, fontSize: '0.72rem', fontWeight: 700, letterSpacing: '3px', color: '#5B6BFF', textTransform: 'uppercase' }}>Our Capabilities</span>
+            <div style={{ marginBottom: '60px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                <span style={{ width: '32px', height: '2px', background: 'var(--halo-primary)', borderRadius: '2px', display: 'inline-block' }} />
+                <span style={{ fontFamily: H.mono, fontSize: '0.75rem', fontWeight: 800, letterSpacing: '3px', color: 'var(--halo-primary)', textTransform: 'uppercase' }}>Our Services</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px' }}>
-                <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#F2F4F8', margin: 0, maxWidth: '600px' }}>
-                  What We Build,<br />How We Deliver.
+                <h2 style={{ fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--halo-on-surface)', margin: 0, maxWidth: '650px' }}>
+                  Intelligent Software & Platforms We Deliver.
                 </h2>
-                <p style={{ fontSize: '0.95rem', color: '#9AA0AE', lineHeight: 1.7, margin: 0, maxWidth: '340px' }}>
-                  End-to-end engineering from pixel-perfect interfaces to mission-critical backend infrastructure.
+                <p style={{ fontSize: '1.05rem', color: 'var(--halo-muted)', lineHeight: 1.7, margin: 0, maxWidth: '380px' }}>
+                  From custom enterprise ERPs to AI automation, legacy modernization, and cloud infrastructure.
                 </p>
               </div>
             </div>
 
             {/* Service cards grid */}
-            <div ref={serviceCardsRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '2px', background: 'rgba(42,45,56,0.5)', borderRadius: '20px', overflow: 'hidden', border: '1px solid #2A2D38' }}>
+            <div ref={serviceCardsRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
               {[
                 {
-                  path: '/services/ai-automation',
-                  icon: <Sparkles size={22} color="#FF3A5C" />,
+                  path: '/services/ai-custom-erp',
+                  icon: <Sparkles size={24} color="#FF3A5C" />,
                   accent: '#FF3A5C',
                   num: '01',
-                  title: 'AI & Automation',
-                  desc: 'Autonomous AI agents, semantic RAG pipelines, and intelligent workflow automations that eliminate operational bottlenecks.',
-                  tags: ['AI Agents', 'RAG Pipelines', 'Workflow Automations'],
+                  badge: 'Flagship ERP',
+                  title: 'AI Custom ERP',
+                  desc: 'Tailored enterprise resource planning powered by AI. Seamlessly integrates inventory forecasting, automated finance, HR, and custom operational pipelines with zero per-seat licensing.',
+                  tags: ['Predictive Supply Chain', 'Automated Invoicing', 'Custom Workflows', 'Multi-Entity Ledger'],
                 },
                 {
-                  path: '/services/saas-development',
-                  icon: <Layers size={22} color="#5B6BFF" />,
+                  path: '/services/legacy-modernization',
+                  icon: <RefreshCw size={24} color="#5B6BFF" />,
                   accent: '#5B6BFF',
                   num: '02',
-                  title: 'SaaS Development',
-                  desc: 'Multi-tenant SaaS platforms, billing engines (Stripe/Paddle), tenant isolation, and AI-first feature architectures.',
-                  tags: ['Multi-Tenant', 'Stripe Billing', 'MVP to Scale'],
+                  badge: 'Transformation',
+                  title: 'Legacy Modernization',
+                  desc: 'Safely transform slow, monolithic legacy architectures into agile cloud-native microservices. Eliminate technical debt and modernize databases with zero business downtime.',
+                  tags: ['Strangler Fig Pattern', 'Cloud Replatforming', 'Zero Downtime', 'API Encapsulation'],
+                },
+                {
+                  path: '/services/ai-automation',
+                  icon: <Zap size={24} color="#3DD7E5" />,
+                  accent: '#3DD7E5',
+                  num: '03',
+                  badge: 'Intelligent AI',
+                  title: 'AI & Automation',
+                  desc: 'Autonomous AI agents, semantic RAG knowledge retrieval, and custom LLM integrations that automate complex business workflows and eliminate operational bottlenecks.',
+                  tags: ['Autonomous Agents', 'RAG Knowledge Bases', 'Document OCR', 'Process Automation'],
                 },
                 {
                   path: '/services/software-engineering',
-                  icon: <Terminal size={22} color="#3DD7E5" />,
-                  accent: '#3DD7E5',
-                  num: '03',
-                  title: 'Custom Software & ERP',
-                  desc: 'Custom enterprise software platforms, internal tooling, IAM modules, and high-performance backend systems.',
-                  tags: ['Enterprise Software', 'Node.js', 'ERP Modules'],
-                },
-                {
-                  path: '/services/web-development',
-                  icon: <Globe size={22} color="#2BE08C" />,
+                  icon: <Terminal size={24} color="#2BE08C" />,
                   accent: '#2BE08C',
                   num: '04',
-                  title: 'Website Development',
-                  desc: 'Pixel-perfect React & Next.js web applications, conversion-driven e-commerce portals, and lightning-fast web experiences.',
-                  tags: ['React', 'Next.js', 'E-Commerce'],
-                },
-                {
-                  path: '/services/seo-analytics-setup',
-                  icon: <Activity size={22} color="#F5D547" />,
-                  accent: '#F5D547',
-                  num: '05',
-                  title: 'SEO & Search Intelligence',
-                  desc: 'Technical SEO, content clusters, earned domain authority, GA4 event tracking, and Search Console optimization.',
-                  tags: ['Technical SEO', 'GA4 Tracking', 'Content Clusters'],
-                },
-                {
-                  path: '/services/digital-marketing',
-                  icon: <Zap size={22} color="#FF3A5C" />,
-                  accent: '#FF3A5C',
-                  num: '06',
-                  title: 'Digital Marketing & Growth',
-                  desc: 'Paid performance marketing across Meta, Google Ads, and LinkedIn with full-funnel attribution and CRO optimization.',
-                  tags: ['Google/Meta Ads', 'Funnel Optimization', 'CRO'],
-                },
-                {
-                  path: '/services/crm-development',
-                  icon: <Users size={22} color="#2BE08C" />,
-                  accent: '#2BE08C',
-                  num: '07',
-                  title: 'Custom CRM Development',
-                  desc: 'Custom CRM platforms with automated lead enrichment, sales pipeline triggers, and single-source-of-truth customer data.',
-                  tags: ['Custom CRM', 'AI Lead Scoring', 'Sales Pipelines'],
-                },
-                {
-                  path: '/services/cybersecurity',
-                  icon: <Shield size={22} color="#FF3A5C" />,
-                  accent: '#FF3A5C',
-                  num: '08',
-                  title: 'Cybersecurity Mesh',
-                  desc: 'Zero-Trust architecture, vulnerability penetration hardening, secrets management, and 24/7 continuous threat monitoring.',
-                  tags: ['Zero-Trust', 'Pentesting', 'SecOps Mesh'],
+                  badge: 'Core Engineering',
+                  title: 'Software Engineering',
+                  desc: 'Full-stack enterprise application engineering. High-performance web and mobile products, robust REST/GraphQL APIs, and resilient distributed systems designed for infinite scale.',
+                  tags: ['Full-Stack Web', 'Mobile Apps', 'Microservices', 'Distributed Systems'],
                 },
                 {
                   path: '/services/cloud-devops',
-                  icon: <Cpu size={22} color="#3DD7E5" />,
-                  accent: '#3DD7E5',
-                  num: '09',
-                  title: 'Cloud & DevOps Engineering',
-                  desc: 'Multi-cloud infrastructure (AWS/GCP/Azure), Kubernetes orchestration, Infrastructure as Code, and zero-downtime CI/CD.',
-                  tags: ['Multi-Cloud', 'Kubernetes', 'Zero-Downtime CI/CD'],
-                },
-                {
-                  path: '/services/technical-support',
-                  icon: <ShieldCheck size={22} color="#5B6BFF" />,
-                  accent: '#5B6BFF',
-                  num: '10',
-                  title: '24/7 Technical Support',
-                  desc: 'Dedicated engineering support SLAs ensuring your infrastructure stays resilient, secure, and continuously optimized.',
-                  tags: ['24/7 Support', 'SLA SLA SLA', 'Resilience'],
-                },
-                {
-                  path: '/services/it-consultation',
-                  icon: <Globe size={22} color="#F5D547" />,
+                  icon: <Cpu size={24} color="#F5D547" />,
                   accent: '#F5D547',
-                  num: '11',
-                  title: 'IT & Architecture Advisory',
-                  desc: 'High-level technology roadmap consulting, cloud cost reduction, legacy modernization, and technical strategy.',
-                  tags: ['Architecture', 'Tech Roadmap', 'Cloud Audit'],
+                  num: '05',
+                  badge: 'Infrastructure',
+                  title: 'Cloud & DevOps',
+                  desc: 'Multi-cloud architecture on AWS, Google Cloud, and Azure. Kubernetes orchestration, Infrastructure as Code, continuous integration/deployment (CI/CD), and 99.99% uptime SLAs.',
+                  tags: ['AWS / GCP / Azure', 'Kubernetes', 'CI/CD Pipelines', 'Zero-Downtime Releases'],
                 },
                 {
-                  path: '/services/custom-ui-ux',
-                  icon: <Layers size={22} color="#3DD7E5" />,
-                  accent: '#3DD7E5',
-                  num: '12',
-                  title: 'Custom UI/UX Design',
-                  desc: 'High-fidelity wireframing, interactive prototyping, design systems, and user experience research for modern applications.',
-                  tags: ['Design Systems', 'Figma Prototyping', 'UX Research'],
-                },
+                  path: '/services/plugin-integrations',
+                  icon: <Plug size={24} color="#FF3A5C" />,
+                  accent: '#FF3A5C',
+                  num: '06',
+                  badge: 'Connectivity',
+                  title: 'Plug-ins & Integrations',
+                  desc: 'High-throughput enterprise connectors, custom middleware, and marketplace plugins for Salesforce, Shopify, Stripe, Adobe Creative Cloud, Figma, Slack, and Jira.',
+                  tags: ['Shopify / Salesforce', 'Stripe Connectors', 'Adobe / Figma Plugins', 'Real-time Webhooks'],
+                }
               ].map((s, i) => (
                 <div
                   key={i}
                   className="svc-card-3d"
                   onClick={() => navigate(s.path)}
                   style={{
-                    background: '#12131A',
-                    padding: '40px 36px',
+                    background: 'var(--halo-surface)',
+                    border: '1px solid var(--halo-border)',
+                    borderRadius: '16px',
+                    padding: '36px 32px',
                     cursor: 'pointer',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '0',
                     position: 'relative',
-                    transition: 'background 0.25s ease',
+                    transition: 'all 0.25s ease',
                     overflow: 'hidden',
-                    transformStyle: 'preserve-3d',
                   }}
                   onMouseEnter={e => {
-                    e.currentTarget.style.background = '#1A1B24';
-                    e.currentTarget.querySelector('.svc-arrow').style.opacity = '1';
-                    e.currentTarget.querySelector('.svc-arrow').style.transform = 'translate(0, 0)';
-                    e.currentTarget.querySelector('.svc-glow').style.opacity = '1';
+                    e.currentTarget.style.borderColor = s.accent;
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.15)';
+                    const arrow = e.currentTarget.querySelector('.svc-arrow');
+                    if (arrow) { arrow.style.opacity = '1'; arrow.style.transform = 'translate(0, 0)'; }
                   }}
                   onMouseLeave={e => {
-                    e.currentTarget.style.background = '#12131A';
-                    e.currentTarget.querySelector('.svc-arrow').style.opacity = '0';
-                    e.currentTarget.querySelector('.svc-arrow').style.transform = 'translate(-6px, 6px)';
-                    e.currentTarget.querySelector('.svc-glow').style.opacity = '0';
+                    e.currentTarget.style.borderColor = 'var(--halo-border)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                    const arrow = e.currentTarget.querySelector('.svc-arrow');
+                    if (arrow) { arrow.style.opacity = '0'; arrow.style.transform = 'translate(-6px, 6px)'; }
                   }}
                 >
-                  {/* Corner glow on hover */}
-                  <div className="svc-glow" style={{
-                    position: 'absolute', top: 0, right: 0,
-                    width: '160px', height: '160px',
-                    background: `radial-gradient(circle at 100% 0%, ${s.accent}18 0%, transparent 65%)`,
-                    opacity: 0,
-                    transition: 'opacity 0.35s ease',
-                    pointerEvents: 'none',
-                  }} />
-
-                  {/* Top row: number + icon */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '28px' }}>
-                    <span style={{ fontFamily: H.mono, fontSize: '0.75rem', fontWeight: 700, color: '#3A3D4E', letterSpacing: '1px' }}>{s.num}</span>
+                  {/* Top row: number, badge, icon */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontFamily: H.mono, fontSize: '0.8rem', fontWeight: 800, color: 'var(--halo-muted)' }}>{s.num}</span>
+                      <span style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: `${s.accent}14`, color: s.accent, padding: '3px 10px', borderRadius: '20px' }}>
+                        {s.badge}
+                      </span>
+                    </div>
                     <div style={{
                       width: '44px', height: '44px', borderRadius: '12px',
-                      background: `${s.accent}14`,
-                      border: `1px solid ${s.accent}28`,
+                      background: `${s.accent}12`,
+                      border: `1px solid ${s.accent}24`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       flexShrink: 0,
                     }}>
@@ -1871,89 +1773,232 @@ export default function VPGroup() {
 
                   {/* Title */}
                   <h3 style={{
-                    fontSize: '1.25rem',
+                    fontSize: '1.4rem',
                     fontWeight: 800,
                     letterSpacing: '-0.02em',
-                    color: '#F2F4F8',
+                    color: 'var(--halo-on-surface)',
                     margin: '0 0 12px 0',
-                    lineHeight: 1.2,
+                    lineHeight: 1.25,
                   }}>{s.title}</h3>
 
                   {/* Description */}
                   <p style={{
-                    fontSize: '0.875rem',
-                    color: '#6E7480',
-                    lineHeight: 1.7,
-                    margin: '0 0 28px 0',
+                    fontSize: '0.95rem',
+                    color: 'var(--halo-muted)',
+                    lineHeight: 1.65,
+                    margin: '0 0 24px 0',
                     flex: 1,
                   }}>{s.desc}</p>
 
                   {/* Tags */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '24px' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '20px' }}>
                     {s.tags.map(tag => (
                       <span key={tag} style={{
-                        fontFamily: H.mono,
-                        fontSize: '0.65rem',
-                        fontWeight: 700,
-                        letterSpacing: '0.5px',
-                        color: s.accent,
-                        background: `${s.accent}12`,
-                        border: `1px solid ${s.accent}22`,
-                        padding: '3px 10px',
-                        borderRadius: '4px',
+                        fontSize: '0.75rem',
+                        fontWeight: 600,
+                        color: 'var(--halo-on-surface)',
+                        background: 'var(--halo-elevated)',
+                        border: '1px solid var(--halo-border)',
+                        padding: '4px 10px',
+                        borderRadius: '6px',
                       }}>{tag}</span>
                     ))}
                   </div>
 
-                  {/* Animated explore link */}
+                  {/* Explore button */}
                   <div className="svc-arrow" style={{
                     display: 'flex', alignItems: 'center', gap: '6px',
-                    fontFamily: H.mono, fontSize: '0.72rem', fontWeight: 700,
-                    color: s.accent, letterSpacing: '1px', textTransform: 'uppercase',
+                    fontSize: '0.82rem', fontWeight: 800,
+                    color: s.accent, textTransform: 'uppercase',
                     opacity: 0,
                     transform: 'translate(-6px, 6px)',
-                    transition: 'opacity 0.25s ease, transform 0.25s ease',
+                    transition: 'all 0.25s ease',
                   }}>
-                    Explore <ArrowRight size={12} />
+                    <span>Explore Service Details</span> <ArrowRight size={14} />
                   </div>
                 </div>
               ))}
             </div>
 
             {/* CTA row */}
-            <div style={{ marginTop: '56px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
-              <p style={{ fontSize: '0.95rem', color: '#6E7480', margin: 0 }}>
-                Need something bespoke? We scope every project from scratch.
+            <div style={{ marginTop: '50px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
+              <p style={{ fontSize: '1.05rem', color: 'var(--halo-muted)', margin: 0 }}>
+                Looking for website development, custom UI/UX design, or 24/7 support? We engineer complete solutions.
               </p>
               <button
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => navigate('/consultation/book')}
                 className="nothin-btn-pill"
               >
-                Start a Project <ArrowRight size={15} />
+                Discuss Your Requirements <ArrowRight size={15} />
               </button>
             </div>
 
           </div>
         </section>
 
+        {/* ── TECHNOLOGIES WE WORK ON SECTION ──────────────────── */}
+        <section id="technologies" style={{ padding: '100px 24px', background: 'var(--halo-bg)', borderTop: '1px solid var(--halo-border)' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '30px', background: 'rgba(91, 107, 255, 0.1)', color: 'var(--halo-primary)', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '16px' }}>
+                <Cpu size={14} />
+                <span>MODERN TECH STACK</span>
+              </div>
+              <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.4rem)', fontWeight: 900, color: 'var(--halo-on-surface)', letterSpacing: '-0.02em', margin: '0 0 16px 0' }}>
+                Technologies We Work On
+              </h2>
+              <p style={{ color: 'var(--halo-muted)', fontSize: '1.1rem', maxWidth: '640px', margin: '0 auto', lineHeight: 1.6 }}>
+                We engineer scalable solutions using modern, secure, and battle-tested technologies.
+              </p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+              {[
+                {
+                  category: 'Frontend & Mobile Apps',
+                  icon: <Globe size={22} className="text-cyan-500" />,
+                  desc: 'Responsive, lightning-fast interfaces and multi-platform mobile apps with pixel-perfect precision.',
+                  techs: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vue.js', 'React Native', 'Flutter']
+                },
+                {
+                  category: 'Backend & Microservices',
+                  icon: <Terminal size={22} className="text-emerald-500" />,
+                  desc: 'High-throughput APIs and distributed service architectures designed for heavy concurrency.',
+                  techs: ['Node.js', 'Python (FastAPI / Django)', 'Go', 'NestJS', 'REST APIs', 'GraphQL', 'gRPC']
+                },
+                {
+                  category: 'AI & Machine Learning',
+                  icon: <Sparkles size={22} className="text-pink-500" />,
+                  desc: 'Cutting-edge generative AI models, autonomous agents, and proprietary knowledge retrieval pipelines.',
+                  techs: ['OpenAI GPT-4', 'Google Gemini', 'Anthropic Claude', 'LangChain', 'LlamaIndex', 'Pinecone', 'PyTorch']
+                },
+                {
+                  category: 'Cloud & DevOps Infrastructure',
+                  icon: <Cpu size={22} className="text-amber-500" />,
+                  desc: 'Automated CI/CD pipelines, container orchestration, and multi-cloud resilience with 99.99% uptime.',
+                  techs: ['Amazon Web Services (AWS)', 'Google Cloud (GCP)', 'Microsoft Azure', 'Docker', 'Kubernetes', 'Terraform', 'GitHub Actions']
+                },
+                {
+                  category: 'Databases & Storage',
+                  icon: <Boxes size={22} className="text-indigo-500" />,
+                  desc: 'Secure relational and NoSQL databases optimized for high read/write speeds and zero data loss.',
+                  techs: ['PostgreSQL', 'MongoDB', 'Redis', 'ClickHouse', 'TimescaleDB', 'Supabase', 'Elasticsearch']
+                },
+                {
+                  category: 'Plug-ins & Enterprise Connectors',
+                  icon: <Plug size={22} className="text-violet-500" />,
+                  desc: 'Two-way synchronization and marketplace plugins linking your enterprise tools seamlessly.',
+                  techs: ['Shopify Apps', 'Salesforce Integrations', 'Stripe Payments', 'Adobe CC Plugins', 'Figma Plugins', 'Slack & Teams Bots']
+                }
+              ].map((group, idx) => (
+                <div key={idx} style={{ padding: '32px', background: 'var(--halo-surface)', border: '1px solid var(--halo-border)', borderRadius: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
+                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'var(--halo-elevated)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {group.icon}
+                    </div>
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--halo-on-surface)', margin: 0 }}>{group.category}</h3>
+                  </div>
+                  <p style={{ fontSize: '0.92rem', color: 'var(--halo-muted)', lineHeight: 1.55, marginBottom: '20px' }}>{group.desc}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {group.techs.map(t => (
+                      <span key={t} style={{ fontSize: '0.78rem', fontWeight: 700, background: 'var(--halo-elevated)', color: 'var(--halo-on-surface)', padding: '5px 12px', borderRadius: '8px', border: '1px solid var(--halo-border)' }}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── TALENT & ENGAGEMENT SOLUTIONS (FROM REFERENCE IMAGE) ── */}
+        <section id="talent" style={{ padding: '100px 24px', background: 'var(--halo-surface)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px', marginBottom: '56px' }}>
+              <div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '30px', background: 'rgba(43, 224, 140, 0.1)', color: 'var(--halo-success)', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '16px' }}>
+                  <Users size={14} />
+                  <span>FLEXIBLE ENGAGEMENT MODELS</span>
+                </div>
+                <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.4rem)', fontWeight: 900, color: 'var(--halo-on-surface)', letterSpacing: '-0.02em', margin: 0 }}>
+                  Talent & Team Augmentation
+                </h2>
+              </div>
+              <p style={{ color: 'var(--halo-muted)', fontSize: '1.05rem', maxWidth: '420px', margin: 0, lineHeight: 1.6 }}>
+                Scale your technical capabilities on-demand with senior software developers, cloud architects, and AI engineers.
+              </p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+              {[
+                {
+                  title: 'Staff Augmentation',
+                  model: 'staff-augmentation',
+                  desc: 'Seamlessly add senior full-stack developers, DevOps, and QA engineers to your in-house engineering team to meet sprint deadlines faster.',
+                  tag: 'Immediate Velocity'
+                },
+                {
+                  title: 'Dedicated Teams',
+                  model: 'dedicated-teams',
+                  desc: 'Self-sufficient, autonomous engineering squads complete with Tech Leads, developers, and QA dedicated 100% to your product roadmap.',
+                  tag: 'Autonomous Delivery'
+                },
+                {
+                  title: 'Build-Operate-Transfer',
+                  model: 'build-operate-transfer',
+                  desc: 'We recruit, set up, and operate an offshore engineering center for your enterprise, and then transfer full operational ownership to you.',
+                  tag: 'Long-term Scale'
+                },
+                {
+                  title: 'Contract-to-Hire',
+                  model: 'contract-to-hire',
+                  desc: 'Evaluate top technical talent in real production workflows before committing to full-time permanent employment offers.',
+                  tag: 'Zero Hiring Risk'
+                },
+                {
+                  title: 'Hire AI Engineers',
+                  model: 'hire-ai-engineers',
+                  desc: 'Specialized machine learning and generative AI engineers ready to deploy custom LLMs, autonomous agents, and RAG pipelines.',
+                  tag: 'AI Specialists'
+                }
+              ].map((item, idx) => (
+                <div key={idx} style={{ padding: '32px', background: 'var(--halo-bg)', border: '1px solid var(--halo-border)', borderRadius: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <span style={{ display: 'inline-block', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: 'rgba(91, 107, 255, 0.1)', color: 'var(--halo-primary)', padding: '3px 10px', borderRadius: '20px', marginBottom: '14px' }}>
+                      {item.tag}
+                    </span>
+                    <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--halo-on-surface)', marginBottom: '12px' }}>{item.title}</h3>
+                    <p style={{ fontSize: '0.92rem', color: 'var(--halo-muted)', lineHeight: 1.6, marginBottom: '24px' }}>{item.desc}</p>
+                  </div>
+                  <Link to={`/apply-partnership?model=${item.model}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--halo-primary)', fontWeight: 800, fontSize: '0.9rem', textDecoration: 'none' }}>
+                    <span>Inquire About This Model</span>
+                    <ArrowRight size={15} />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── DNA & CULTURE SECTION ────────────────────────────── */}
-        <section style={{ padding: '120px 24px', background: '#14151C', borderTop: '1px solid #2A2D38', borderBottom: '1px solid #2A2D38' }}>
+        <section style={{ padding: '120px 24px', background: 'var(--halo-surface)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'center' }} className="nothin-grid-2">
             <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#9AA0AE', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>OUR DNA</div>
-              <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 850, letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: '24px', color: '#F2F4F8' }}>Strategic Aim & Culture</h2>
-              <p style={{ fontSize: '1.05rem', color: '#9AA0AE', lineHeight: 1.7, margin: 0 }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--halo-muted)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>OUR DNA</div>
+              <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 850, letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: '24px', color: 'var(--halo-on-surface)' }}>Strategic Aim & Culture</h2>
+              <p style={{ fontSize: '1.05rem', color: 'var(--halo-muted)', lineHeight: 1.7, margin: 0 }}>
                 At VP Group, our mission is to democratize high-end engineering. We combine enterprise-grade security and scale with accessible pricing models, ensuring every business has access to top-tier digital infrastructure.
               </p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <div style={{ background: '#1E2029', border: '1px solid #2A2D38', padding: '32px', borderRadius: '12px' }}>
-                <h4 style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', margin: '0 0 12px 0', color: '#F2F4F8' }}>Working Culture</h4>
-                <p style={{ fontSize: '0.9rem', color: '#9AA0AE', lineHeight: 1.5, margin: 0 }}>We thrive on radical transparency. Every engineer is a decision-maker in our flat-hierarchy network.</p>
+              <div style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '32px', borderRadius: '12px' }}>
+                <h4 style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', margin: '0 0 12px 0', color: 'var(--halo-on-surface)' }}>Working Culture</h4>
+                <p style={{ fontSize: '0.9rem', color: 'var(--halo-muted)', lineHeight: 1.5, margin: 0 }}>We thrive on radical transparency. Every engineer is a decision-maker in our flat-hierarchy network.</p>
               </div>
-              <div style={{ background: '#1E2029', border: '1px solid #2A2D38', padding: '32px', borderRadius: '12px' }}>
-                <h4 style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', margin: '0 0 12px 0', color: '#F2F4F8' }}>Industry Standing</h4>
-                <p style={{ fontSize: '0.9rem', color: '#9AA0AE', lineHeight: 1.5, margin: 0 }}>Positioned at the intersection of security and performance, solving the "Infinite Scale" problem.</p>
+              <div style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '32px', borderRadius: '12px' }}>
+                <h4 style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', margin: '0 0 12px 0', color: 'var(--halo-on-surface)' }}>Industry Standing</h4>
+                <p style={{ fontSize: '0.9rem', color: 'var(--halo-muted)', lineHeight: 1.5, margin: 0 }}>Positioned at the intersection of security and performance, solving the "Infinite Scale" problem.</p>
               </div>
             </div>
           </div>
@@ -1961,9 +2006,9 @@ export default function VPGroup() {
 
         {/* ── CONTACT & COMMUNICATIONS SECTION ─────────────────── */}
         <section id="contact" style={{ padding: '120px 24px 200px', maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid #2A2D38', paddingBottom: '16px', marginBottom: '80px' }}>
-            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase' }}>Direct Communication</span>
-            <span style={{ fontSize: '0.8rem', color: '#9AA0AE' }}>Command Center</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--halo-border)', paddingBottom: '16px', marginBottom: '80px' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--halo-on-surface)' }}>Direct Communication</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--halo-muted)' }}>Command Center</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', marginBottom: '80px' }}>
@@ -1972,23 +2017,23 @@ export default function VPGroup() {
               { label: 'Headquarters', val: 'Pratapgarh, Uttar Pradesh, India', tag: 'Regional Hub' },
               { label: 'Business Line', val: 'Inquiry via Email Recommended', tag: 'Support Mesh' }
             ].map((c, i) => (
-              <div key={i} style={{ background: '#14151C', border: '1px solid #2A2D38', padding: '40px 32px', borderRadius: '16px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '220px' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#9AA0AE', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>{c.label}</span>
-                <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 16px 0', color: '#F2F4F8', wordBreak: 'break-word' }}>{c.val}</h4>
-                <div style={{ display: 'inline-block', alignSelf: 'flex-start', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1px', background: '#1E2029', padding: '4px 12px', borderRadius: '20px', textTransform: 'uppercase', color: '#9AA0AE' }}>{c.tag}</div>
+              <div key={i} style={{ background: 'var(--halo-surface)', border: '1px solid var(--halo-border)', padding: '40px 32px', borderRadius: '16px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '220px' }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--halo-muted)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>{c.label}</span>
+                <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 16px 0', color: 'var(--halo-on-surface)', wordBreak: 'break-word' }}>{c.val}</h4>
+                <div style={{ display: 'inline-block', alignSelf: 'flex-start', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1px', background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '4px 12px', borderRadius: '20px', textTransform: 'uppercase', color: 'var(--halo-muted)' }}>{c.tag}</div>
               </div>
             ))}
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '60px' }} className="nothin-grid-2">
             <div>
-              <h3 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px', color: '#F2F4F8' }}>Secure Transmission</h3>
-              <p style={{ fontSize: '0.95rem', color: '#9AA0AE', lineHeight: 1.6, margin: 0 }}>
+              <h3 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px', color: 'var(--halo-on-surface)' }}>Secure Transmission</h3>
+              <p style={{ fontSize: '0.95rem', color: 'var(--halo-muted)', lineHeight: 1.6, margin: 0 }}>
                 Our communication lines are encrypted via end-to-end protocols. Your inquiries are routed directly to our specialized operational nodes. We typically reply within 24-48 hours.
               </p>
             </div>
 
-            <div style={{ background: '#14151C', padding: '40px', borderRadius: '16px', border: '1px solid #2A2D38' }}>
+            <div style={{ background: 'var(--halo-surface)', padding: '40px', borderRadius: '16px', border: '1px solid var(--halo-border)' }}>
               <form onSubmit={handleSubmit}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }} className="nothin-grid-2">
                   <input 
@@ -2032,8 +2077,8 @@ export default function VPGroup() {
                 >
                   {loading ? 'Transmitting...' : 'Initialize Uplink'}
                 </button>
-                <p style={{ marginTop: '16px', fontSize: '0.7rem', color: '#5C6170', textAlign: 'center', lineHeight: '1.4', margin: '16px 0 0 0' }}>
-                  By submitting this form, you agree to our <Link to="/terms-conditions" style={{ color: '#F2F4F8', textDecoration: 'underline', fontWeight: 600 }}>Terms & Conditions</Link> and <Link to="/privacy-policy" style={{ color: '#F2F4F8', textDecoration: 'underline', fontWeight: 600 }}>Privacy Policy</Link>.
+                <p style={{ marginTop: '16px', fontSize: '0.7rem', color: 'var(--halo-muted)', textAlign: 'center', lineHeight: '1.4', margin: '16px 0 0 0' }}>
+                  By submitting this form, you agree to our <Link to="/terms-conditions" style={{ color: 'var(--halo-on-surface)', textDecoration: 'underline', fontWeight: 600 }}>Terms & Conditions</Link> and <Link to="/privacy-policy" style={{ color: 'var(--halo-on-surface)', textDecoration: 'underline', fontWeight: 600 }}>Privacy Policy</Link>.
                 </p>
                 {status && <div style={{ marginTop: '20px', textAlign: 'center', color: status.includes('Success') ? '#2BE08C' : '#FF3A5C', fontWeight: '700' }}>{status}</div>}
               </form>
@@ -2073,8 +2118,9 @@ export default function VPGroup() {
           font-family: ${H.mono};
           font-size: 0.7rem;
           font-weight: 600;
-          color: #9AA0AE;
-          background: #1E2029;
+          color: var(--halo-muted);
+          background: var(--halo-elevated);
+          border: 1px solid var(--halo-border);
           padding: 6px 12px;
           border-radius: 40px;
           letter-spacing: 0.5px;
@@ -2126,8 +2172,8 @@ export default function VPGroup() {
           justify-content: center;
           gap: 8px;
           background: transparent;
-          color: #F2F4F8;
-          border: 1px solid #2A2D38;
+          color: var(--halo-on-surface);
+          border: 1px solid var(--halo-border);
           border-radius: 12px;
           padding: 16px;
           font-weight: 700;
@@ -2138,18 +2184,19 @@ export default function VPGroup() {
           font-size: 0.875rem;
         }
         .nothin-btn-pill-action-secondary:hover {
-          background: #1E2029;
+          background: var(--halo-elevated);
           border-color: #5B6BFF;
         }
         .nothin-service-card {
-          background: #14151C;
+          background: var(--halo-surface);
+          border: 1px solid var(--halo-border);
           padding: 48px;
           cursor: pointer;
           position: relative;
           transition: all 0.3s ease;
         }
         .nothin-service-card:hover {
-          background: #1E2029;
+          background: var(--halo-elevated);
         }
         .nothin-service-arrow {
           position: absolute;
@@ -2158,8 +2205,8 @@ export default function VPGroup() {
           width: 36px;
           height: 36px;
           border-radius: 50%;
-          background: #2A2D38;
-          color: #F2F4F8;
+          background: var(--halo-border);
+          color: var(--halo-on-surface);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -2173,18 +2220,18 @@ export default function VPGroup() {
         }
         .nothin-input {
           width: 100%;
-          background: #1E2029;
-          border: 1px solid #2A2D38;
+          background: var(--halo-elevated);
+          border: 1px solid var(--halo-border);
           border-radius: 8px;
           padding: 14px;
-          color: #F2F4F8;
+          color: var(--halo-on-surface);
           font-size: 0.95rem;
           transition: all 0.2s;
         }
         .nothin-input:focus {
           border-color: #5B6BFF;
           outline: none;
-          background: #1E2029;
+          background: var(--halo-elevated);
         }
         .nothin-btn-submit {
           width: 100%;

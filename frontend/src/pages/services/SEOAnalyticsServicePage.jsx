@@ -78,10 +78,10 @@ export default function SEOAnalyticsServicePage() {
               <div style={{ marginBottom:'28px' }}>
                 <Chip variant="info"><Search size={11} style={{ marginRight:4 }} />SEO & ANALYTICS</Chip>
               </div>
-              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'#F2F4F8', marginBottom:'20px' }}>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'var(--halo-on-surface)', marginBottom:'20px' }}>
                 Rank Higher.<br /><span style={{ color:'#3DD7E5' }}>Track Everything.</span>
               </h1>
-              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
                 Full-stack SEO implementation and analytics infrastructure — from keyword architecture and Core Web Vitals to GA4 event taxonomy and GTM deployment.
               </p>
 
@@ -110,7 +110,7 @@ export default function SEOAnalyticsServicePage() {
                 {chartData.map((row,i)=>(
                   <div key={i} style={{ marginBottom:'18px' }}>
                     <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'6px' }}>
-                      <span style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE' }}>{row.label}</span>
+                      <span style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'var(--halo-muted)' }}>{row.label}</span>
                       <span style={{ fontFamily:H.mono, fontSize:'0.8125rem', color:row.color }}>{row.after}%</span>
                     </div>
                     <div style={{ display:'grid', gridTemplateRows:'auto auto', gap:'4px' }}>
@@ -153,10 +153,10 @@ export default function SEOAnalyticsServicePage() {
             <div style={{ width:'2px', height:'32px', background:'#3DD7E5', borderRadius:'2px' }} />
             <div>
               <div className="halo-label" style={{ marginBottom:'4px' }}>Three Essential Tools</div>
-              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Your Analytics Foundation</h2>
+              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'var(--halo-on-surface)', margin:0 }}>Your Analytics Foundation</h2>
             </div>
           </div>
-          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'540px' }}>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'40px', maxWidth:'540px' }}>
             We configure all three Google tools in one afternoon — then you own the data forever.
           </p>
 
@@ -169,8 +169,8 @@ export default function SEOAnalyticsServicePage() {
           <HaloCard elevated accent="info">
             <div className="halo-grid-2" style={{ gap:'48px' }}>
               <div>
-                <h3 style={{ fontFamily:H.font, fontSize:'1.5rem', fontWeight:600, letterSpacing:'-0.015em', color:'#F2F4F8', marginBottom:'12px' }}>{activeTool.label}</h3>
-                <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'0' }}>{activeTool.desc}</p>
+                <h3 style={{ fontFamily:H.font, fontSize:'1.5rem', fontWeight:600, letterSpacing:'-0.015em', color:'var(--halo-on-surface)', marginBottom:'12px' }}>{activeTool.label}</h3>
+                <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'0' }}>{activeTool.desc}</p>
               </div>
               <div>
                 <div className="halo-label" style={{ marginBottom:'16px' }}>Setup Checklist</div>
@@ -179,7 +179,7 @@ export default function SEOAnalyticsServicePage() {
                     <div style={{ width:'20px', height:'20px', borderRadius:'50%', background:'rgba(61,215,229,0.15)', border:'1px solid rgba(61,215,229,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:'1px' }}>
                       <span style={{ fontFamily:H.mono, fontSize:'0.65rem', color:'#3DD7E5', fontWeight:600 }}>{i+1}</span>
                     </div>
-                    <span style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', lineHeight:1.5 }}>{step}</span>
+                    <span style={{ fontFamily:H.font, fontSize:'0.875rem', color:'var(--halo-muted)', lineHeight:1.5 }}>{step}</span>
                   </div>
                 ))}
               </div>
@@ -193,7 +193,7 @@ export default function SEOAnalyticsServicePage() {
         <div className="halo-container">
           <div style={{ textAlign:'center', marginBottom:'56px' }}>
             <div className="halo-label" style={{ marginBottom:'12px' }}>Full Service SEO</div>
-            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Everything to Win on Search</h2>
+            <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'var(--halo-on-surface)', margin:0 }}>Everything to Win on Search</h2>
           </div>
           <div className="halo-grid-3">
             {capabilities.map((cap,i)=>(
@@ -202,8 +202,8 @@ export default function SEOAnalyticsServicePage() {
                   <div style={{ width:'36px', height:'36px', borderRadius:'8px', background:'rgba(61,215,229,0.1)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'16px', paddingTop:'6px' }}>
                     <cap.icon size={16} color="#3DD7E5" />
                   </div>
-                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'#F2F4F8', marginBottom:'10px' }}>{cap.title}</div>
-                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55 }}>{cap.desc}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'var(--halo-on-surface)', marginBottom:'10px' }}>{cap.title}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'var(--halo-muted)', lineHeight:1.55 }}>{cap.desc}</div>
                 </HaloCard>
               </div>
             ))}
@@ -215,10 +215,10 @@ export default function SEOAnalyticsServicePage() {
       <section className="halo-section" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(61,215,229,0.05) 0%, transparent 55%)' }}>
         <div style={{ maxWidth:'600px', margin:'0 auto' }}>
           <div className="halo-label" style={{ marginBottom:'20px' }}>Search Visibility</div>
-          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'20px' }}>
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'var(--halo-on-surface)', marginBottom:'20px' }}>
             Be Found. <span style={{ color:'#3DD7E5' }}>Be Chosen.</span>
           </h2>
-          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'36px' }}>
             93% of journeys start on a search engine. Make sure yours ends on your website.
           </p>
           <Link to="/help/contact" className="halo-btn-primary" style={{ height:'48px', padding:'0 28px', fontSize:'0.9375rem' }}>

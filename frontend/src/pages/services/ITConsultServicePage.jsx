@@ -63,19 +63,19 @@ export default function ITConsultServicePage() {
               <div style={{ marginBottom:'28px' }}>
                 <Chip variant="warning"><Map size={11} style={{ marginRight:4 }} />IT CONSULTATION</Chip>
               </div>
-              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'#F2F4F8', marginBottom:'20px' }}>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:600, letterSpacing:'-0.03em', lineHeight:1.06, color:'var(--halo-on-surface)', marginBottom:'20px' }}>
                 Strategic Technology<br /><span style={{ color:'#F5D547' }}>Leadership</span>
               </h1>
-              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'40px', maxWidth:'440px' }}>
                 We become your technology thinking partner — aligning infrastructure decisions, vendor choices, and digital initiatives to your commercial goals.
               </p>
 
               {/* Impact KPIs */}
               <div className="halo-grid-2" style={{ gap:'12px', marginBottom:'36px' }}>
                 {[{v:'40%',l:'Cloud cost savings'},{v:'3.5x',l:'Deploy velocity'},{v:'89%',l:'Firms accelerated post-2020'},{v:'2.3x',l:'ROI in 3yr transformation'}].map((k,i)=>(
-                  <div key={i} style={{ padding:'16px', background:'#14151C', border:'1px solid #2A2D38', borderRadius:'12px' }}>
+                  <div key={i} style={{ padding:'16px', background:'var(--halo-surface)', border:'1px solid var(--halo-border)', borderRadius:'12px' }}>
                     <div style={{ fontFamily:H.mono, fontSize:'1.4rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F5D547', marginBottom:'4px' }}>{k.v}</div>
-                    <div style={{ fontFamily:H.font, fontSize:'0.75rem', color:'#5C6170' }}>{k.l}</div>
+                    <div style={{ fontFamily:H.font, fontSize:'0.75rem', color:'var(--halo-muted)' }}>{k.l}</div>
                   </div>
                 ))}
               </div>
@@ -90,18 +90,18 @@ export default function ITConsultServicePage() {
               <div className="halo-label" style={{ marginBottom:'28px' }}>Transformation Roadmap</div>
               <div style={{ position:'relative', paddingLeft:'24px' }}>
                 {/* Vertical line */}
-                <div style={{ position:'absolute', left:'9px', top:'8px', bottom:'8px', width:'2px', background:'#2A2D38', borderRadius:'2px' }} />
+                <div style={{ position:'absolute', left:'9px', top:'8px', bottom:'8px', width:'2px', background:'var(--halo-border)', borderRadius:'2px' }} />
                 {milestones.map((m,i)=>(
                   <div key={i} style={{ position:'relative', marginBottom:i<milestones.length-1?'28px':'0', cursor:'pointer' }} onClick={()=>setActivePhase(i)}>
                     {/* Phase dot */}
-                    <div style={{ position:'absolute', left:'-24px', top:'4px', width:'12px', height:'12px', borderRadius:'50%', background: activePhase===i?'#F5D547':'#1E2029', border:`2px solid ${activePhase===i?'#F5D547':'#3A3D4A'}`, transition:'all 0.25s', boxShadow: activePhase===i?'0 0 10px #F5D54760':'' }} />
+                    <div style={{ position:'absolute', left:'-24px', top:'4px', width:'12px', height:'12px', borderRadius:'50%', background: activePhase===i?'#F5D547':'var(--halo-surface)', border:`2px solid ${activePhase===i?'#F5D547':'var(--halo-border)'}`, transition:'all 0.25s', boxShadow: activePhase===i?'0 0 10px #F5D54760':'' }} />
                     <div style={{ padding:'16px', background: activePhase===i?'rgba(245,213,71,0.06)':'transparent', borderRadius:'10px', border:`1px solid ${activePhase===i?'rgba(245,213,71,0.2)':'transparent'}`, transition:'all 0.25s' }}>
                       <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'6px' }}>
-                        <span style={{ fontFamily:H.mono, fontSize:'0.7rem', fontWeight:600, color: activePhase===i?'#F5D547':'#3A3D4A' }}>{m.phase}</span>
-                        <span style={{ fontFamily:H.font, fontWeight:600, fontSize:'0.9375rem', color: activePhase===i?'#F2F4F8':'#9AA0AE' }}>{m.title}</span>
+                        <span style={{ fontFamily:H.mono, fontSize:'0.7rem', fontWeight:600, color: activePhase===i?'#F5D547':'var(--halo-muted)' }}>{m.phase}</span>
+                        <span style={{ fontFamily:H.font, fontWeight:600, fontSize:'0.9375rem', color: activePhase===i?'var(--halo-on-surface)':'var(--halo-muted)' }}>{m.title}</span>
                         <Chip variant="muted">{m.duration}</Chip>
                       </div>
-                      {activePhase===i && <p style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55, margin:0 }}>{m.desc}</p>}
+                      {activePhase===i && <p style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'var(--halo-muted)', lineHeight:1.55, margin:0 }}>{m.desc}</p>}
                     </div>
                   </div>
                 ))}
@@ -132,10 +132,10 @@ export default function ITConsultServicePage() {
             <div style={{ width:'2px', height:'32px', background:'#F5D547', borderRadius:'2px' }} />
             <div>
               <div className="halo-label" style={{ marginBottom:'4px' }}>Service Domains</div>
-              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Where We Drive Value</h2>
+              <h2 style={{ fontFamily:H.font, fontSize:'2.25rem', fontWeight:600, letterSpacing:'-0.02em', color:'var(--halo-on-surface)', margin:0 }}>Where We Drive Value</h2>
             </div>
           </div>
-          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'48px', maxWidth:'540px' }}>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'48px', maxWidth:'540px' }}>
             Spanning every layer of your technology stack — from strategic planning to hands-on execution.
           </p>
           <div className="halo-grid-3">
@@ -145,8 +145,8 @@ export default function ITConsultServicePage() {
                   <div style={{ width:'36px', height:'36px', borderRadius:'8px', background:'rgba(245,213,71,0.1)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'16px', paddingTop:'6px' }}>
                     <d.icon size={16} color="#F5D547" />
                   </div>
-                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'#F2F4F8', marginBottom:'10px' }}>{d.label}</div>
-                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55 }}>{d.desc}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'var(--halo-on-surface)', marginBottom:'10px' }}>{d.label}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'var(--halo-muted)', lineHeight:1.55 }}>{d.desc}</div>
                 </HaloCard>
               </div>
             ))}
@@ -158,10 +158,10 @@ export default function ITConsultServicePage() {
       <section className="halo-section" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(245,213,71,0.06) 0%, transparent 55%)' }}>
         <div style={{ maxWidth:'600px', margin:'0 auto' }}>
           <div className="halo-label" style={{ marginBottom:'20px' }}>Your Technology Strategy</div>
-          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'20px' }}>
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:600, letterSpacing:'-0.03em', color:'var(--halo-on-surface)', marginBottom:'20px' }}>
             Decisions That <span style={{ color:'#F5D547' }}>Compound.</span>
           </h2>
-          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'36px' }}>
             Right tech choices compound over years. Wrong ones cost millions to unwind. Get expert guidance before you commit.
           </p>
           <Link to="/help/contact" className="halo-btn-primary" style={{ height:'48px', padding:'0 28px', fontSize:'0.9375rem' }}>

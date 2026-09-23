@@ -18,25 +18,26 @@ const SaaSDevServicePage = () => {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0B0F', color: '#F2F4F8', fontFamily: H.font }}>
+    <div className="halo-page" style={{ minHeight: '100vh', fontFamily: H.font }}>
       <ProjectNavbar />
 
       <main style={{ paddingTop: '100px' }}>
         {/* Hero Banner */}
-        <section style={{ padding: '80px 24px', background: 'radial-gradient(ellipse at 50% 0%, rgba(91,107,255,0.15) 0%, transparent 70%)', borderBottom: '1px solid #1E2029' }}>
+        <section style={{ padding: '80px 24px', background: 'radial-gradient(ellipse at 50% 0%, rgba(91,107,255,0.15) 0%, transparent 70%)', borderBottom: '1px solid var(--halo-border)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', background: 'rgba(91,107,255,0.1)', border: '1px solid rgba(91,107,255,0.3)', borderRadius: '20px', fontSize: '0.75rem', fontFamily: H.mono, color: '#3DD7E5', fontWeight: 700, marginBottom: '20px' }}>
-              <Layers size={14} color="#3DD7E5" /> MULTI-TENANT SAAS ARCHITECTURE
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', background: 'rgba(91,107,255,0.1)', border: '1px solid rgba(91,107,255,0.3)', borderRadius: '20px', fontSize: '0.75rem', fontFamily: H.mono, color: 'var(--halo-primary)', fontWeight: 700, marginBottom: '20px' }}>
+              <Layers size={14} color="#5B6BFF" /> MULTI-TENANT SAAS ARCHITECTURE
             </div>
-            <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px', background: 'linear-gradient(135deg, #FFF 0%, #94A3B8 50%, #5B6BFF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              SaaS Development Built for Infinite Scale
+            <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px', color: 'var(--halo-on-surface)' }}>
+              SaaS Development <span style={{ color: 'var(--halo-primary)' }}>Built for Infinite Scale</span>
             </h1>
-            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', color: '#94A3B8', maxWidth: '750px', margin: '0 auto 36px', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', color: 'var(--halo-muted)', maxWidth: '750px', margin: '0 auto 36px', lineHeight: 1.6 }}>
               From initial MVP prototype to multi-region multi-tenant platforms. We architect subscription engines, tenant data isolation, automated billing, and AI features built to scale seamlessly.
             </p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <button onClick={() => navigate('/consultation/book')} className="btn-pill-primary" style={{ padding: '14px 32px', borderRadius: '30px', background: 'linear-gradient(135deg, #5B6BFF, #3DD7E5)', color: '#FFF', fontWeight: 800, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                Launch SaaS Platform <ArrowRight size={16} />
+              <button onClick={() => navigate('/consultation/book')} className="halo-btn-primary" style={{ padding: '14px 32px', fontSize: '1rem', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <span>Launch SaaS Platform</span>
+                <ArrowRight size={16} />
               </button>
             </div>
           </div>
@@ -53,9 +54,9 @@ const SaaSDevServicePage = () => {
         </section>
 
         {/* Architecture & Methodology */}
-        <section style={{ padding: '80px 24px', background: '#0D0E14', borderTop: '1px solid #1E2029' }}>
+        <section style={{ padding: '80px 24px', background: 'var(--halo-surface)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '40px', textAlign: 'center' }}>SaaS Engineering Methodology</h2>
+            <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '40px', textAlign: 'center', color: 'var(--halo-on-surface)' }}>SaaS Engineering Methodology</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
               {[
                 { icon: Server, title: "1. Multi-Tenant Core", desc: "Data isolation via schema-per-tenant or Row-Level Security (RLS) ensuring absolute privacy and zero cross-tenant leakage." },
@@ -65,8 +66,8 @@ const SaaSDevServicePage = () => {
               ].map((item, idx) => (
                 <HaloCard key={idx} style={{ padding: '28px' }}>
                   <item.icon size={32} color="#3DD7E5" style={{ marginBottom: '16px' }} />
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '10px' }}>{item.title}</h3>
-                  <p style={{ color: '#94A3B8', fontSize: '0.9rem', lineHeight: 1.6 }}>{item.desc}</p>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '10px', color: 'var(--halo-on-surface)' }}>{item.title}</h3>
+                  <p style={{ color: 'var(--halo-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>{item.desc}</p>
                 </HaloCard>
               ))}
             </div>
@@ -75,9 +76,9 @@ const SaaSDevServicePage = () => {
 
         {/* CTA */}
         <section style={{ padding: '100px 24px', textAlign: 'center', background: 'radial-gradient(circle at 50% 50%, rgba(91,107,255,0.1) 0%, transparent 60%)' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px' }}>Ready to Scale Your SaaS Product?</h2>
-          <p style={{ color: '#94A3B8', marginBottom: '32px' }}>Book a 30-minute architecture review session with our SaaS engineering leads.</p>
-          <button onClick={() => navigate('/consultation/book')} className="btn-pill-primary" style={{ padding: '16px 40px', borderRadius: '30px', background: 'linear-gradient(135deg, #5B6BFF, #3DD7E5)', color: '#FFF', fontWeight: 800, border: 'none', cursor: 'pointer' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px', color: 'var(--halo-on-surface)' }}>Ready to Scale Your SaaS Product?</h2>
+          <p style={{ color: 'var(--halo-muted)', marginBottom: '32px' }}>Book a 30-minute architecture review session with our SaaS engineering leads.</p>
+          <button onClick={() => navigate('/consultation/book')} className="halo-btn-primary" style={{ padding: '16px 40px', fontSize: '1.05rem', margin: '0 auto' }}>
             Book SaaS Architecture Call
           </button>
         </section>

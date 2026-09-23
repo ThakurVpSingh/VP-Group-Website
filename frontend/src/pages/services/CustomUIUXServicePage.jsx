@@ -140,10 +140,10 @@ export default function CustomUIUXServicePage() {
               <div style={{ marginBottom:'24px' }}>
                 <Chip variant="error"><Pen size={11} style={{ marginRight:4 }} />UI/UX DESIGN</Chip>
               </div>
-              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:800, letterSpacing:'-0.03em', lineHeight:1.12, color:'#F2F4F8', marginBottom:'20px', wordBreak:'break-word' }}>
+              <h1 style={{ fontFamily:H.font, fontSize:'clamp(2.25rem, 5vw, 4rem)', fontWeight:800, letterSpacing:'-0.03em', lineHeight:1.12, color:'var(--halo-on-surface)', marginBottom:'20px', wordBreak:'break-word' }}>
                 Interfaces People<br /><span style={{ color:'#FF3A5C' }}>Fall in Love With</span>
               </h1>
-              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.6, marginBottom:'36px', maxWidth:'480px' }}>
+              <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.6, marginBottom:'36px', maxWidth:'480px' }}>
                 Research-driven, pixel-perfect design systems that transform how users feel about your product — and convert that feeling into measurable revenue.
               </p>
 
@@ -154,11 +154,11 @@ export default function CustomUIUXServicePage() {
                 ))}
               </div>
 
-              <div style={{ padding:'18px', background:'#14151C', border:'1px solid #2A2D38', borderRadius:'12px', minHeight:'80px', marginBottom:'32px' }}>
-                {activeTab==='research'  && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', margin:0, lineHeight:1.55 }}>User interviews, heatmaps, A/B test analysis, and competitor benchmarking to uncover real pain points before design begins.</p>}
-                {activeTab==='wireframe' && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', margin:0, lineHeight:1.55 }}>Low-to-mid fidelity wireframes mapping information architecture, user flows, and interaction patterns across all key screens.</p>}
-                {activeTab==='prototype' && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', margin:0, lineHeight:1.55 }}>Interactive Figma prototypes with real micro-animations, hover states, and transitions — ready for usability testing sessions.</p>}
-                {activeTab==='handoff'   && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'#9AA0AE', margin:0, lineHeight:1.55 }}>Annotated Figma with component properties, design tokens, accessibility specs, and developer-ready asset exports.</p>}
+              <div style={{ padding:'18px', background:'var(--halo-surface)', border:'1px solid var(--halo-border)', borderRadius:'12px', minHeight:'80px', marginBottom:'32px' }}>
+                {activeTab==='research'  && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'var(--halo-muted)', margin:0, lineHeight:1.55 }}>User interviews, heatmaps, A/B test analysis, and competitor benchmarking to uncover real pain points before design begins.</p>}
+                {activeTab==='wireframe' && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'var(--halo-muted)', margin:0, lineHeight:1.55 }}>Low-to-mid fidelity wireframes mapping information architecture, user flows, and interaction patterns across all key screens.</p>}
+                {activeTab==='prototype' && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'var(--halo-muted)', margin:0, lineHeight:1.55 }}>Interactive Figma prototypes with real micro-animations, hover states, and transitions — ready for usability testing sessions.</p>}
+                {activeTab==='handoff'   && <p style={{ fontFamily:H.font, fontSize:'0.875rem', color:'var(--halo-muted)', margin:0, lineHeight:1.55 }}>Annotated Figma with component properties, design tokens, accessibility specs, and developer-ready asset exports.</p>}
               </div>
 
               <Link to="/help/contact" className="halo-btn-primary">
@@ -254,18 +254,18 @@ export default function CustomUIUXServicePage() {
         <div className="halo-container">
           <div style={{ textAlign:'center', marginBottom:'48px' }}>
             <div className="halo-label" style={{ marginBottom:'12px' }}>Design Philosophy</div>
-            <h2 style={{ fontFamily:H.font, fontSize:'clamp(1.75rem, 4vw, 2.5rem)', fontWeight:700, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Research → Architecture → Pixels → Ship</h2>
+            <h2 style={{ fontFamily:H.font, fontSize:'clamp(1.75rem, 4vw, 2.5rem)', fontWeight:700, letterSpacing:'-0.02em', color:'var(--halo-on-surface)', margin:0 }}>Research → Architecture → Pixels → Ship</h2>
           </div>
           <div className="halo-grid-4">
             {principles.map((p,i)=>(
               <div key={i} className="uiux-prin">
                 <HaloCard hoverable accent="error">
-                  <div style={{ fontFamily:H.mono, fontSize:'0.7rem', fontWeight:600, color:'#2A2D38', marginBottom:'16px', paddingTop:'6px' }}>{p.num}</div>
+                  <div style={{ fontFamily:H.mono, fontSize:'0.7rem', fontWeight:600, color:'var(--halo-muted)', marginBottom:'16px', paddingTop:'6px' }}>{p.num}</div>
                   <div style={{ width:'36px', height:'36px', borderRadius:'8px', background:'rgba(255,58,92,0.1)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'14px' }}>
                     <p.icon size={16} color="#FF3A5C" />
                   </div>
-                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'#F2F4F8', marginBottom:'10px' }}>{p.title}</div>
-                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55 }}>{p.desc}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'1.125rem', fontWeight:600, color:'var(--halo-on-surface)', marginBottom:'10px' }}>{p.title}</div>
+                  <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'var(--halo-muted)', lineHeight:1.55 }}>{p.desc}</div>
                 </HaloCard>
               </div>
             ))}
@@ -280,7 +280,7 @@ export default function CustomUIUXServicePage() {
             <div style={{ width:'2px', height:'32px', background:'#FF3A5C', borderRadius:'2px' }} />
             <div>
               <div className="halo-label" style={{ marginBottom:'4px' }}>What You Get</div>
-              <h2 style={{ fontFamily:H.font, fontSize:'clamp(1.75rem, 4vw, 2.5rem)', fontWeight:700, letterSpacing:'-0.02em', color:'#F2F4F8', margin:0 }}>Design Deliverables</h2>
+              <h2 style={{ fontFamily:H.font, fontSize:'clamp(1.75rem, 4vw, 2.5rem)', fontWeight:700, letterSpacing:'-0.02em', color:'var(--halo-on-surface)', margin:0 }}>Design Deliverables</h2>
             </div>
           </div>
           <div className="halo-grid-2">
@@ -290,8 +290,8 @@ export default function CustomUIUXServicePage() {
                   <div style={{ display:'flex', gap:'14px' }}>
                     <div style={{ width:'10px', height:'10px', borderRadius:'50%', background:'#FF3A5C', marginTop:'5px', flexShrink:0 }} />
                     <div>
-                      <div style={{ fontFamily:H.font, fontWeight:600, fontSize:'1.125rem', color:'#F2F4F8', marginBottom:'8px', letterSpacing:'-0.01em' }}>{d.label}</div>
-                      <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'#9AA0AE', lineHeight:1.55 }}>{d.desc}</div>
+                      <div style={{ fontFamily:H.font, fontWeight:600, fontSize:'1.125rem', color:'var(--halo-on-surface)', marginBottom:'8px', letterSpacing:'-0.01em' }}>{d.label}</div>
+                      <div style={{ fontFamily:H.font, fontSize:'0.8125rem', color:'var(--halo-muted)', lineHeight:1.55 }}>{d.desc}</div>
                     </div>
                   </div>
                 </HaloCard>
@@ -305,10 +305,10 @@ export default function CustomUIUXServicePage() {
       <section className="halo-section scroll-reveal-target" style={{ textAlign:'center', background:'radial-gradient(ellipse at 50% 0%, rgba(255,58,92,0.05) 0%, transparent 55%)' }}>
         <div style={{ maxWidth:'600px', margin:'0 auto' }}>
           <div className="halo-label" style={{ marginBottom:'20px' }}>Design Partnership</div>
-          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:700, letterSpacing:'-0.03em', color:'#F2F4F8', marginBottom:'20px' }}>
+          <h2 style={{ fontFamily:H.font, fontSize:'clamp(2rem, 4vw, 3.5rem)', fontWeight:700, letterSpacing:'-0.03em', color:'var(--halo-on-surface)', marginBottom:'20px' }}>
             Make Users <span style={{ color:'#FF3A5C' }}>Love It.</span>
           </h2>
-          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'#9AA0AE', lineHeight:1.55, marginBottom:'36px' }}>
+          <p style={{ fontFamily:H.font, fontSize:'0.9375rem', color:'var(--halo-muted)', lineHeight:1.55, marginBottom:'36px' }}>
             From wireframe to design system — we make every pixel intentional and every interaction delightful.
           </p>
           <Link to="/help/contact" className="halo-btn-primary" style={{ height:'48px', padding:'0 28px', fontSize:'0.9375rem' }}>
@@ -320,10 +320,9 @@ export default function CustomUIUXServicePage() {
       <Footer />
       <style>{`
         .scroll-reveal-target {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-          will-change: opacity, transform;
+          opacity: 1;
+          transform: none;
+          transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .scroll-reveal-target.scroll-animated {
           opacity: 1;

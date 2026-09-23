@@ -121,67 +121,63 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Columns Grid - Standardized with Image 2 Design & Official Links */}
+        {/* Columns Grid - Structured to match SERVICES, TALENT, COMPANY exactly */}
         <div className="footer-columns-grid">
           
-          {/* Column 1: Company Overview */}
-          <div className="footer-column brand-col">
-            <h4 className="column-heading">Company</h4>
-            <p className="brand-desc">
-              Engineering high-performance enterprise ecosystems with total security. Hierarchical gatekeeping & Zero-Trust Security Architecture.
-            </p>
-          </div>
-
-          {/* Column 2: Software & Cloud */}
+          {/* Column 1: Services (Requested by User) */}
           <div className="footer-column">
-            <h4 className="column-heading">Software & Cloud</h4>
+            <h4 className="column-heading">SERVICES</h4>
             <ul className="column-links">
-              <li><Link to="/services/web-development">Web Development</Link></li>
+              <li><Link to="/services/ai-custom-erp">AI Custom ERP</Link></li>
+              <li><Link to="/services/legacy-modernization">Legacy Modernization</Link></li>
+              <li><Link to="/services/ai-automation">AI & Automation</Link></li>
               <li><Link to="/services/software-engineering">Software Engineering</Link></li>
-              <li><Link to="/services/saas-development">SaaS Development</Link></li>
               <li><Link to="/services/cloud-devops">Cloud & DevOps</Link></li>
-              <li><Link to="/services/crm-development">CRM Development</Link></li>
-              <li><Link to="/services/it-consultation">IT Consultation</Link></li>
+              <li><Link to="/services/plugin-integrations">Plug-ins & Integrations</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: Design & Security */}
+          {/* Column 2: Talent (From User Screenshot) */}
           <div className="footer-column">
-            <h4 className="column-heading">Design & Security</h4>
+            <h4 className="column-heading">TALENT</h4>
             <ul className="column-links">
-              <li><Link to="/services/custom-ui-ux">Custom UI/UX Design</Link></li>
-              <li><Link to="/services/ai-automation">AI Automation</Link></li>
-              <li><Link to="/services/technical-support">Technical Support</Link></li>
-              <li><Link to="/services/seo-analytics-setup">SEO & Analytics Setup</Link></li>
-              <li><Link to="/services/digital-marketing">Digital Marketing</Link></li>
-              <li><Link to="/services/cybersecurity">Cybersecurity Mesh</Link></li>
+              <li><Link to="/apply-partnership?model=staff-augmentation">Staff Augmentation</Link></li>
+              <li><Link to="/apply-partnership?model=dedicated-teams">Dedicated Teams</Link></li>
+              <li><Link to="/apply-partnership?model=build-operate-transfer">Build-Operate-Transfer</Link></li>
+              <li><Link to="/apply-partnership?model=contract-to-hire">Contract-to-Hire</Link></li>
+              <li><Link to="/apply-partnership?model=hire-ai-engineers">Hire AI Engineers</Link></li>
             </ul>
           </div>
 
-          {/* Column 4: Company & Help */}
+          {/* Column 3: Company (From User Screenshot) */}
           <div className="footer-column">
-            <h4 className="column-heading">Resources & Help</h4>
+            <h4 className="column-heading">COMPANY</h4>
+            <ul className="column-links">
+              <li><Link to="/our-strategy">About Us</Link></li>
+              <li><Link to="/our-strategy#leadership">Leadership</Link></li>
+              <li><Link to="/apply-partnership">Careers</Link></li>
+              <li><Link to="/help/partners">Co-Innovation</Link></li>
+              <li><Link to="/help/hq-pratapgarh">Locations</Link></li>
+              <li><Link to="/help/portfolio">News</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Resources & Help */}
+          <div className="footer-column">
+            <h4 className="column-heading">RESOURCES</h4>
             <ul className="column-links">
               <li><Link to="/help/contact">Contact Us</Link></li>
-              <li><Link to="/help/hq-pratapgarh">HQ Pratapgarh</Link></li>
-              <li><Link to="/help/portfolio">Portfolio & Works</Link></li>
-              <li><Link to="/help/partners">Global Partners</Link></li>
+              <li><Link to="/consultation/book">Book Consultation</Link></li>
+              <li><Link to="/clients/mother-bliss">Mother Bliss Case Study</Link></li>
+              <li><Link to="/portfolio/vault-iam">VexioGate IAM</Link></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/terms-conditions">Terms of Use</Link></li>
             </ul>
           </div>
 
-          {/* Column 5: Clients & Case Studies */}
+          {/* Column 5: Social & Connect */}
           <div className="footer-column">
-            <h4 className="column-heading">Support & Clients</h4>
-            <ul className="column-links">
-              <li><Link to="/clients/mother-bliss">Mother Bliss Foundation</Link></li>
-              <li><Link to="/clients/institutional">Institutional Portals</Link></li>
-              <li><Link to="/clients/global-partners">Global Partnerships</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 6: Standard Official Social Brands */}
-          <div className="footer-column">
-            <h4 className="column-heading">Social</h4>
+            <h4 className="column-heading">CONNECT</h4>
             <ul className="column-links social-list">
               <li>
                 <a 
@@ -220,19 +216,6 @@ const Footer = () => {
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                   </svg>
                   <span>X</span>
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://www.instagram.com" 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="social-official-item instagram-brand"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#E4405F">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                  </svg>
-                  <span>Instagram</span>
                 </a>
               </li>
             </ul>
@@ -604,6 +587,70 @@ const Footer = () => {
             width: 100%;
             margin-bottom: 4px;
           }
+        }
+
+        /* Light Theme Overrides */
+        [data-theme="light"] .vp-site-footer,
+        html.light .vp-site-footer,
+        body.light-theme .vp-site-footer {
+          background: #F8FAFC !important;
+          color: #0F172A !important;
+          border-top-color: #E2E8F0 !important;
+        }
+
+        [data-theme="light"] .startup-india-clean-card,
+        html.light .startup-india-clean-card,
+        body.light-theme .startup-india-clean-card {
+          background: #FFFFFF !important;
+          border-color: #E2E8F0 !important;
+        }
+
+        [data-theme="light"] .startup-description,
+        html.light .startup-description,
+        body.light-theme .startup-description {
+          color: #475569 !important;
+        }
+
+        [data-theme="light"] .column-heading,
+        html.light .column-heading,
+        body.light-theme .column-heading {
+          color: #0F172A !important;
+        }
+
+        [data-theme="light"] .column-links a,
+        html.light .column-links a,
+        body.light-theme .column-links a {
+          color: #475569 !important;
+        }
+
+        [data-theme="light"] .column-links a:hover,
+        html.light .column-links a:hover,
+        body.light-theme .column-links a:hover {
+          color: #4F46E5 !important;
+        }
+
+        [data-theme="light"] .giant-brand-display,
+        html.light .giant-brand-display,
+        body.light-theme .giant-brand-display {
+          color: #E2E8F0 !important;
+        }
+
+        [data-theme="light"] .footer-bottom-bar,
+        html.light .footer-bottom-bar,
+        body.light-theme .footer-bottom-bar {
+          border-top-color: #E2E8F0 !important;
+        }
+
+        [data-theme="light"] .copyright-text,
+        html.light .copyright-text,
+        body.light-theme .copyright-text {
+          color: #64748B !important;
+        }
+
+        [data-theme="light"] .legal-link,
+        html.light .legal-link,
+        body.light-theme .legal-link {
+          color: #64748B !important;
         }
       `}</style>
     </footer>

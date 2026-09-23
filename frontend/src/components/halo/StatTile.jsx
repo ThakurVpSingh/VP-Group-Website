@@ -42,30 +42,31 @@ export default function StatTile({
       data-accent={accent}
       style={{
         position: 'relative',
-        background: '#14151C',
-        border: '1px solid #2A2D38',
+        background: 'var(--halo-surface)',
+        border: '1px solid var(--halo-border)',
         borderRadius: '16px',
         padding: size === 'sm' ? '16px' : '20px',
         overflow: 'hidden',
         transition: 'border-color 240ms cubic-bezier(0.2,0.6,0.2,1), transform 240ms cubic-bezier(0.2,0.6,0.2,1)',
         cursor: 'default',
+        boxShadow: 'var(--halo-shadow-sm)'
       }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = '#3A3D4A'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = '#2A2D38'; e.currentTarget.style.transform = 'translateY(0)'; }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--halo-primary)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--halo-border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
     >
       {/* 2px signal accent top hairline */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: accentColor, borderRadius: '16px 16px 0 0' }} />
 
       {/* Eyebrow */}
       {eyebrow && (
-        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9AA0AE', marginBottom: '10px', paddingTop: '2px' }}>
+        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--halo-primary)', marginBottom: '10px', paddingTop: '2px' }}>
           {eyebrow}
         </div>
       )}
 
       {/* Metric row */}
       <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '12px', marginBottom: '10px' }}>
-        <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: size === 'sm' ? '1.75rem' : '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1, color: '#F2F4F8' }}>
+        <div style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: size === 'sm' ? '1.75rem' : '2.25rem', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1, color: 'var(--halo-on-surface)' }}>
           {metric}
         </div>
         {sparkData && sparkData.length > 1 && (
@@ -79,7 +80,7 @@ export default function StatTile({
           <Chip variant={trendVariant} trend={trend}>{trendLabel}</Chip>
         )}
         {description && (
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.8125rem', color: '#5C6170', lineHeight: 1.4 }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.85rem', color: 'var(--halo-muted)', lineHeight: 1.4 }}>
             {description}
           </span>
         )}

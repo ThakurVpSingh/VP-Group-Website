@@ -33,29 +33,29 @@ export default function HaloCard({
 
   const base = {
     position: 'relative',
-    background: elevated ? '#1E2029' : '#14151C',
-    border: `1px solid ${elevated ? '#3A3D4A' : '#2A2D38'}`,
+    background: elevated ? 'var(--halo-elevated)' : 'var(--halo-surface)',
+    border: `1px solid ${elevated ? 'var(--halo-border-strong)' : 'var(--halo-border)'}`,
     borderRadius: '16px',
     padding,
     overflow: 'hidden',
     transition: 'border-color 240ms cubic-bezier(0.2,0.6,0.2,1), transform 240ms cubic-bezier(0.2,0.6,0.2,1), box-shadow 240ms cubic-bezier(0.2,0.6,0.2,1)',
-    boxShadow: elevated ? '0 8px 24px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.03) inset' : 'none',
+    boxShadow: elevated ? 'var(--halo-shadow-md)' : 'var(--halo-shadow-sm)',
     cursor: onClick ? 'pointer' : 'default',
     ...style,
   };
 
   const handleMouseEnter = (e) => {
     if (hoverable || onClick) {
-      e.currentTarget.style.borderColor = '#3A3D4A';
+      e.currentTarget.style.borderColor = 'var(--halo-primary)';
       e.currentTarget.style.transform = 'translateY(-4px)';
-      e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.5)';
+      e.currentTarget.style.boxShadow = 'var(--halo-shadow-lg)';
     }
   };
   const handleMouseLeave = (e) => {
     if (hoverable || onClick) {
-      e.currentTarget.style.borderColor = elevated ? '#3A3D4A' : '#2A2D38';
+      e.currentTarget.style.borderColor = elevated ? 'var(--halo-border-strong)' : 'var(--halo-border)';
       e.currentTarget.style.transform = 'translateY(0)';
-      e.currentTarget.style.boxShadow = elevated ? '0 8px 24px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.03) inset' : 'none';
+      e.currentTarget.style.boxShadow = elevated ? 'var(--halo-shadow-md)' : 'var(--halo-shadow-sm)';
     }
   };
 

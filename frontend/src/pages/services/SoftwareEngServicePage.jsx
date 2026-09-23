@@ -121,10 +121,10 @@ export default function SoftwareEngServicePage() {
               <div style={{ marginBottom: '28px' }}>
                 <Chip variant="default"><Terminal size={11} style={{ marginRight: 4 }} />SOFTWARE ENGINEERING</Chip>
               </div>
-              <h1 style={{ fontFamily: H.font, fontSize: 'clamp(2.25rem, 5vw, 4rem)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.06, color: '#F2F4F8', marginBottom: '20px' }}>
+              <h1 style={{ fontFamily: H.font, fontSize: 'clamp(2.25rem, 5vw, 4rem)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.06, color: 'var(--halo-on-surface)', marginBottom: '20px' }}>
                 Enterprise-Grade<br /><span style={{ color: '#5B6BFF' }}>System Architecture</span>
               </h1>
-              <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: '#9AA0AE', lineHeight: 1.55, marginBottom: '40px', maxWidth: '440px' }}>
+              <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: 'var(--halo-muted)', lineHeight: 1.55, marginBottom: '40px', maxWidth: '440px' }}>
                 We design robust, secure, high-availability software for complex enterprise challenges — custom ERPs, IAM platforms, and mission-critical gateway systems.
               </p>
               <Link to="/help/contact" className="halo-btn-primary">
@@ -187,15 +187,15 @@ export default function SoftwareEngServicePage() {
 
             <div>
               <div className="halo-label" style={{ marginBottom: '16px' }}>Technical Specifications</div>
-              <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: '#F2F4F8', marginBottom: '32px' }}>Stack & Security</h2>
+              <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--halo-on-surface)', marginBottom: '32px' }}>Stack & Security</h2>
               {specs.map((spec, i) => (
-                <div key={i} style={{ display: 'flex', gap: '14px', padding: '18px 0', borderBottom: '1px solid #2A2D38' }}>
+                <div key={i} style={{ display: 'flex', gap: '14px', padding: '18px 0', borderBottom: '1px solid var(--halo-border)' }}>
                   <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(91,107,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <spec.icon size={16} color="#5B6BFF" />
                   </div>
                   <div>
                     <div className="halo-label" style={{ marginBottom: '4px' }}>{spec.label}</div>
-                    <div style={{ fontFamily: H.font, fontSize: '0.9375rem', color: '#F2F4F8', fontWeight: 500 }}>{spec.value}</div>
+                    <div style={{ fontFamily: H.font, fontSize: '0.9375rem', color: 'var(--halo-on-surface)', fontWeight: 500 }}>{spec.value}</div>
                   </div>
                 </div>
               ))}
@@ -209,18 +209,18 @@ export default function SoftwareEngServicePage() {
         <div className="halo-container">
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
             <div className="halo-label" style={{ marginBottom: '12px' }}>Engineering Doctrine</div>
-            <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: '#F2F4F8', margin: 0 }}>Four Pillars of Enterprise Software</h2>
+            <h2 style={{ fontFamily: H.font, fontSize: '2.25rem', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--halo-on-surface)', margin: 0 }}>Four Pillars of Enterprise Software</h2>
           </div>
           <div className="halo-grid-4">
             {pillars.map((p, i) => (
               <div key={i} className="se-pillar">
                 <HaloCard hoverable accent="primary">
-                  <div style={{ fontFamily: H.mono, fontSize: '0.7rem', fontWeight: 600, color: '#2A2D38', marginBottom: '16px', paddingTop: '6px' }}>{p.num}</div>
+                  <div style={{ fontFamily: H.mono, fontSize: '0.7rem', fontWeight: 600, color: 'var(--halo-muted)', marginBottom: '16px', paddingTop: '6px' }}>{p.num}</div>
                   <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(91,107,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
                     <p.icon size={16} color="#5B6BFF" />
                   </div>
-                  <div style={{ fontFamily: H.font, fontSize: '1.125rem', fontWeight: 600, letterSpacing: '-0.01em', color: '#F2F4F8', marginBottom: '10px' }}>{p.title}</div>
-                  <div style={{ fontFamily: H.font, fontSize: '0.8125rem', color: '#9AA0AE', lineHeight: 1.55 }}>{p.desc}</div>
+                  <div style={{ fontFamily: H.font, fontSize: '1.125rem', fontWeight: 600, letterSpacing: '-0.01em', color: 'var(--halo-on-surface)', marginBottom: '10px' }}>{p.title}</div>
+                  <div style={{ fontFamily: H.font, fontSize: '0.8125rem', color: 'var(--halo-muted)', lineHeight: 1.55 }}>{p.desc}</div>
                 </HaloCard>
               </div>
             ))}
@@ -232,10 +232,10 @@ export default function SoftwareEngServicePage() {
       <section className="halo-section" style={{ textAlign: 'center', background: 'radial-gradient(ellipse at 50% 0%, rgba(91,107,255,0.07) 0%, transparent 60%)' }}>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <div className="halo-label" style={{ marginBottom: '20px' }}>Start Building</div>
-          <h2 style={{ fontFamily: H.font, fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 600, letterSpacing: '-0.03em', color: '#F2F4F8', marginBottom: '20px' }}>
+          <h2 style={{ fontFamily: H.font, fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--halo-on-surface)', marginBottom: '20px' }}>
             Systems That <span style={{ color: '#2BE08C' }}>Never Fail.</span>
           </h2>
-          <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: '#9AA0AE', lineHeight: 1.55, marginBottom: '36px' }}>
+          <p style={{ fontFamily: H.font, fontSize: '0.9375rem', color: 'var(--halo-muted)', lineHeight: 1.55, marginBottom: '36px' }}>
             Partner with our senior engineers to architect mission-critical infrastructure that scales from Day 1 to IPO.
           </p>
           <Link to="/help/contact" className="halo-btn-primary" style={{ height: '48px', padding: '0 28px', fontSize: '0.9375rem' }}>

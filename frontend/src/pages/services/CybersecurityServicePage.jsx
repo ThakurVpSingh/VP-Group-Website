@@ -17,24 +17,25 @@ const CybersecurityServicePage = () => {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0B0F', color: '#F2F4F8', fontFamily: H.font }}>
+    <div className="halo-page" style={{ minHeight: '100vh', fontFamily: H.font }}>
       <ProjectNavbar />
 
       <main style={{ paddingTop: '100px' }}>
         {/* Hero */}
-        <section style={{ padding: '80px 24px', background: 'radial-gradient(ellipse at 50% 0%, rgba(255,58,92,0.12) 0%, transparent 70%)', borderBottom: '1px solid #1E2029' }}>
+        <section style={{ padding: '80px 24px', background: 'radial-gradient(ellipse at 50% 0%, rgba(255,58,92,0.12) 0%, transparent 70%)', borderBottom: '1px solid var(--halo-border)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', background: 'rgba(255,58,92,0.1)', border: '1px solid rgba(255,58,92,0.3)', borderRadius: '20px', fontSize: '0.75rem', fontFamily: H.mono, color: '#FF3A5C', fontWeight: 700, marginBottom: '20px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 16px', background: 'rgba(255,58,92,0.1)', border: '1px solid rgba(255,58,92,0.3)', borderRadius: '20px', fontSize: '0.75rem', fontFamily: H.mono, color: 'var(--halo-error)', fontWeight: 700, marginBottom: '20px' }}>
               <Shield size={14} color="#FF3A5C" /> ZERO-TRUST CYBERSECURITY MESH
             </div>
-            <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px', background: 'linear-gradient(135deg, #FFF 0%, #FF3A5C 50%, #5B6BFF 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Uncompromising Security for Modern Digital Assets
+            <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px', color: 'var(--halo-on-surface)' }}>
+              Uncompromising Security for <span style={{ color: 'var(--halo-error)' }}>Modern Digital Assets</span>
             </h1>
-            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', color: '#94A3B8', maxWidth: '750px', margin: '0 auto 36px', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', color: 'var(--halo-muted)', maxWidth: '750px', margin: '0 auto 36px', lineHeight: 1.6 }}>
               Threat modelling, vulnerability hardening, identity orchestration (IAM), and 24/7 continuous security monitoring to eliminate attack vectors before exploitation.
             </p>
-            <button onClick={() => navigate('/consultation/book')} style={{ padding: '14px 32px', borderRadius: '30px', background: 'linear-gradient(135deg, #FF3A5C, #5B6BFF)', color: '#FFF', fontWeight: 800, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-              Conduct Security Audit <ArrowRight size={16} />
+            <button onClick={() => navigate('/consultation/book')} className="halo-btn-primary" style={{ padding: '14px 32px', fontSize: '1rem', display: 'inline-flex', alignItems: 'center', gap: '8px', margin: '0 auto' }}>
+              <span>Conduct Security Audit</span>
+              <ArrowRight size={16} />
             </button>
           </div>
         </section>
@@ -50,9 +51,9 @@ const CybersecurityServicePage = () => {
         </section>
 
         {/* Capabilities */}
-        <section style={{ padding: '80px 24px', background: '#0D0E14', borderTop: '1px solid #1E2029' }}>
+        <section style={{ padding: '80px 24px', background: 'var(--halo-surface)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '40px', textAlign: 'center' }}>Cybersecurity Safeguards</h2>
+            <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '40px', textAlign: 'center', color: 'var(--halo-on-surface)' }}>Cybersecurity Safeguards</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
               {[
                 { icon: Lock, title: "Zero-Trust IAM Orchestration", desc: "Never trust, always verify. Context-aware authentication, continuous identity validation, and short-lived tokens." },
@@ -62,8 +63,8 @@ const CybersecurityServicePage = () => {
               ].map((item, idx) => (
                 <HaloCard key={idx} style={{ padding: '28px' }}>
                   <item.icon size={32} color="#FF3A5C" style={{ marginBottom: '16px' }} />
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '10px' }}>{item.title}</h3>
-                  <p style={{ color: '#94A3B8', fontSize: '0.9rem', lineHeight: 1.6 }}>{item.desc}</p>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '10px', color: 'var(--halo-on-surface)' }}>{item.title}</h3>
+                  <p style={{ color: 'var(--halo-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>{item.desc}</p>
                 </HaloCard>
               ))}
             </div>
@@ -72,9 +73,9 @@ const CybersecurityServicePage = () => {
 
         {/* CTA */}
         <section style={{ padding: '100px 24px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px' }}>Secure Your Enterprise Architecture Today</h2>
-          <p style={{ color: '#94A3B8', marginBottom: '32px' }}>Schedule a zero-trust vulnerability assessment with our security team.</p>
-          <button onClick={() => navigate('/consultation/book')} style={{ padding: '16px 40px', borderRadius: '30px', background: 'linear-gradient(135deg, #FF3A5C, #5B6BFF)', color: '#FFF', fontWeight: 800, border: 'none', cursor: 'pointer' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px', color: 'var(--halo-on-surface)' }}>Secure Your Enterprise Architecture Today</h2>
+          <p style={{ color: 'var(--halo-muted)', marginBottom: '32px' }}>Schedule a zero-trust vulnerability assessment with our security team.</p>
+          <button onClick={() => navigate('/consultation/book')} className="halo-btn-primary" style={{ padding: '16px 40px', fontSize: '1.05rem', margin: '0 auto' }}>
             Book Security Vulnerability Audit
           </button>
         </section>
