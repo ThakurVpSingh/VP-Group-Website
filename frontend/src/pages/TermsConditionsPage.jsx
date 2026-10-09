@@ -127,8 +127,8 @@ const TermsConditionsPage = () => {
 
       <style>{`
         .policy-page-container {
-          background: #030712;
-          color: #fff;
+          background: var(--color-canvas);
+          color: var(--color-ink);
           min-height: 100vh;
           overflow-x: hidden;
           position: relative;
@@ -153,9 +153,9 @@ const TermsConditionsPage = () => {
         }
 
         .btn-back-link {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          color: #94a3b8;
+          background: var(--color-surface-soft);
+          border: 1px solid var(--color-hairline);
+          color: var(--color-muted);
           padding: 10px 20px;
           border-radius: 10px;
           font-size: 0.75rem;
@@ -170,22 +170,23 @@ const TermsConditionsPage = () => {
         }
 
         .btn-back-link:hover {
-          color: #fff;
-          background: rgba(255, 255, 255, 0.06);
-          border-color: rgba(255, 255, 255, 0.2);
+          color: var(--color-ink);
+          background: var(--color-surface-card);
+          border-color: var(--color-primary);
           transform: translateX(-4px);
         }
 
         .policy-content-panel {
           padding: 60px;
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+          background: var(--color-surface-card);
+          border: 1px solid var(--color-hairline);
+          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
         }
 
         .policy-header {
           text-align: center;
           margin-bottom: 50px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          border-bottom: 1px solid var(--color-hairline);
           padding-bottom: 30px;
         }
 
@@ -207,14 +208,14 @@ const TermsConditionsPage = () => {
           font-weight: 950;
           margin-bottom: 12px;
           letter-spacing: -2px;
-          background: linear-gradient(135deg, #fff 30%, #ff4ef0 70%, #8b5cf6 100%);
+          background: linear-gradient(135deg, var(--color-ink) 30%, #ff4ef0 70%, #8b5cf6 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
 
         .policy-date {
           font-size: 0.9rem;
-          color: #64748b;
+          color: var(--color-muted);
           font-weight: 700;
           letter-spacing: 1px;
         }
@@ -222,7 +223,7 @@ const TermsConditionsPage = () => {
         .policy-text-body h2 {
           font-size: clamp(1.4rem, 4vw, 1.8rem);
           font-weight: 900;
-          color: #fff;
+          color: var(--color-ink);
           margin-top: 48px;
           margin-bottom: 20px;
           border-left: 3px solid #ff4ef0;
@@ -240,13 +241,13 @@ const TermsConditionsPage = () => {
         .policy-text-body h4 {
           font-size: 1.05rem;
           font-weight: 800;
-          color: #fff;
+          color: var(--color-ink);
           margin-top: 28px;
           margin-bottom: 12px;
         }
 
         .policy-text-body p {
-          color: #94a3b8;
+          color: var(--color-body);
           font-size: 1rem;
           line-height: 1.8;
           margin-bottom: 24px;
@@ -261,7 +262,7 @@ const TermsConditionsPage = () => {
         .policy-text-body li {
           position: relative;
           padding-left: 28px;
-          color: #94a3b8;
+          color: var(--color-body);
           font-size: 0.95rem;
           line-height: 1.8;
           margin-bottom: 16px;

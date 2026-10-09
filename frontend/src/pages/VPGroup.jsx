@@ -56,7 +56,7 @@ const SystemVisualization = ({ scrollY }) => {
   const secPacketsRef = useRef([]);
   const secLogsRef = useRef([
     '[SEC_GATEWAY] MONITORING PORT 443...',
-    '[SEC_GATEWAY] ZERO-TRUST ACTIVE',
+    '[SEC_GATEWAY] FULL-TRUST ACTIVE',
     '[SEC_GATEWAY] BOOT PROTOCOL: COMPLETE'
   ]);
   const lastLogTimeRef = useRef(0);
@@ -537,7 +537,7 @@ const SystemVisualization = ({ scrollY }) => {
         ctx.fillStyle = '#f2f4f8';
         ctx.font = `800 8px ${H.mono}`;
         ctx.textAlign = 'center';
-        ctx.fillText('ZERO-TRUST GATEWAY', shieldX, shieldY - 24);
+        ctx.fillText('FULL-TRUST GATEWAY', shieldX, shieldY - 24);
 
         // Security packets update
         if (Math.random() < 0.05 && secPacketsRef.current.length < 15) {
@@ -560,7 +560,7 @@ const SystemVisualization = ({ scrollY }) => {
           const logOpts = [
             'AUTH_SUCCESS: API_SESSION_GRANTED',
             'BLOCKED_ATTEMPT: UNKNOWN_NODE_REJECTED',
-            'SHIELD_INTEGRITY: 100% [ZERO_TRUST]',
+            'SHIELD_INTEGRITY: 100% [FULL_TRUST]',
             'UPLINK_SECURED: END_TO_END_OK',
             'DATABASE_SYNC: SUCCESS [REG_04]'
           ];
@@ -594,7 +594,7 @@ const SystemVisualization = ({ scrollY }) => {
               p.vx = -p.vx * 1.2;
               p.vy = -p.vy * 1.2;
               p.isApproved = true; // prevent double trigger
-              addLog('ZERO-TRUST: BLOCKED MALICIOUS UPLINK');
+              addLog('FULL-TRUST: BLOCKED MALICIOUS UPLINK');
               
               // Alert flash ring
               ctx.strokeStyle = 'rgba(255, 58, 92, 0.4)';
@@ -1049,6 +1049,7 @@ export default function VPGroup() {
   });
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState('');
+  const [serviceCategory, setServiceCategory] = useState('ALL');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -1118,143 +1119,93 @@ export default function VPGroup() {
       {/* ── MAIN CONTENT substrate ───────────────────────────────── */}
       <main style={{ position: 'relative', zIndex: 10 }}>
         
-        {/* ── CINEMATIC HERO (STATIC ENTERPRISE BACKDROP) ────────────────────── */}
-        <section style={{
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-          padding: '120px 20px 60px'
-        }}>
-          {/* Static Clean Corporate Backdrop */}
+        {/* ── CORPORATE HERO BAND (Adapts completely to light & dark modes) ── */}
+        <section
+          className="corp-hero-band-dark"
+          style={{
+            minHeight: '85vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'relative',
+            overflow: 'hidden',
+            padding: '110px 24px 80px',
+            backgroundColor: 'var(--color-canvas)',
+          }}
+        >
+          {/* Subtle architectural tech grid */}
           <div style={{
             position: 'absolute',
             inset: 0,
-            zIndex: 1,
-            background: 'var(--halo-bg)',
-            overflow: 'hidden',
-            pointerEvents: 'none'
-          }}>
-            {/* Ambient Radial Mesh Gradient Lights */}
-            <div style={{
-              position: 'absolute',
-              top: '-15%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '85vw',
-              height: '650px',
-              background: 'radial-gradient(ellipse at center, rgba(91, 107, 255, 0.15) 0%, rgba(61, 215, 229, 0.08) 45%, transparent 70%)',
-              filter: 'blur(60px)',
-              pointerEvents: 'none'
-            }} />
-            
-            <div style={{
-              position: 'absolute',
-              bottom: '0%',
-              left: '15%',
-              width: '500px',
-              height: '500px',
-              background: 'radial-gradient(circle, rgba(255, 58, 92, 0.08) 0%, transparent 70%)',
-              filter: 'blur(80px)',
-              pointerEvents: 'none'
-            }} />
-
-            <div style={{
-              position: 'absolute',
-              bottom: '0%',
-              right: '15%',
-              width: '500px',
-              height: '500px',
-              background: 'radial-gradient(circle, rgba(43, 224, 140, 0.06) 0%, transparent 70%)',
-              filter: 'blur(80px)',
-              pointerEvents: 'none'
-            }} />
-
-            {/* Subtle Tech Grid Pattern */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)`,
-              backgroundSize: '60px 60px',
-              opacity: 0.5,
-              maskImage: 'radial-gradient(ellipse at 50% 50%, black 35%, transparent 80%)',
-              WebkitMaskImage: 'radial-gradient(ellipse at 50% 50%, black 35%, transparent 80%)'
-            }} />
-          </div>
+            backgroundImage: `linear-gradient(var(--color-hairline) 1px, transparent 1px), linear-gradient(90deg, var(--color-hairline) 1px, transparent 1px)`,
+            backgroundSize: '48px 48px',
+            opacity: 0.5,
+            pointerEvents: 'none',
+          }} />
 
           {/* Central Hero Text */}
           <div
+            ref={heroTextRef}
             style={{
               textAlign: 'center',
               position: 'relative',
               zIndex: 5,
-              pointerEvents: 'auto',
-              maxWidth: '960px',
+              maxWidth: '1040px',
+              padding: '0 12px',
             }}
           >
-            {/* Main title */}
-            <h1 style={{
-              fontFamily: H.font,
-              fontWeight: 950,
-              letterSpacing: '-0.045em',
-              fontSize: 'clamp(3rem, 10vw, 8.5rem)',
-              lineHeight: 0.95,
-              margin: '0 0 24px 0',
-              textTransform: 'uppercase',
-              background: 'var(--halo-hero-title)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              VP GROUP
-            </h1>
-
-            {/* Subtitle Badge with 100% legibility */}
+            {/* Eyebrow Label */}
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '12px',
-              padding: '10px 24px',
-              borderRadius: '30px',
-              background: 'var(--halo-elevated)',
-              border: '1px solid var(--halo-border)',
-              color: 'var(--halo-primary)',
-              fontFamily: H.mono,
-              fontSize: 'clamp(0.78rem, 1.8vw, 0.92rem)',
-              fontWeight: 800,
-              letterSpacing: '2px',
-              textTransform: 'uppercase',
+              gap: '10px',
               marginBottom: '24px',
-              boxShadow: 'var(--halo-shadow-sm)'
             }}>
-              <span>AI Custom ERP</span>
-              <span style={{ opacity: 0.4 }}>•</span>
-              <span>Software Engineering</span>
-              <span style={{ opacity: 0.4 }}>•</span>
-              <span>Cloud Systems</span>
+              <span style={{ width: '8px', height: '8px', background: 'var(--color-primary)', display: 'inline-block' }} />
+              <span className="corp-label-uppercase" style={{ color: 'var(--color-primary)', letterSpacing: '2px' }}>
+                VP Group & Technologies — Corporate Engineering
+              </span>
             </div>
 
-            <p style={{
-              fontSize: 'clamp(1.05rem, 2.2vw, 1.25rem)',
-              lineHeight: 1.7,
-              color: 'var(--halo-muted)',
-              maxWidth: '780px',
-              margin: '0 auto 36px',
-              fontWeight: 500,
-            }}>
-              We engineer custom AI-driven ERPs, modernize legacy monoliths, and build high-performance software and cloud platforms for ambitious enterprises worldwide.
+            {/* Display XL Headline: Heavy 700 weight, 1.05 line height, 0 tracking */}
+            <h1
+              className="corp-display-xl"
+              style={{
+                color: 'var(--color-ink)',
+                margin: '0 0 24px 0',
+                textTransform: 'uppercase',
+                fontWeight: 700,
+                lineHeight: 1.05,
+                letterSpacing: 0,
+              }}
+            >
+              ENGINEERING INFINITE SCALE.
+            </h1>
+
+            {/* Light 300 Body Copy */}
+            <p
+              className="corp-body-md"
+              style={{
+                color: 'var(--color-body)',
+                maxWidth: '820px',
+                margin: '0 auto 40px',
+                fontSize: '17px',
+                lineHeight: 1.6,
+                fontWeight: 300,
+              }}
+            >
+              We engineer custom AI-driven ERPs, modernize legacy monoliths with zero downtime, and build high-performance software and cloud systems for ambitious global enterprises.
             </p>
 
-            {/* Main Interactive Action Buttons (CTAs) */}
+            {/* Primary & Secondary Buttons: Strictly 0px Rectangular */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '16px',
               flexWrap: 'wrap',
-              marginBottom: '36px'
+              marginBottom: '48px',
             }}>
               <button
                 onClick={() => {
@@ -1262,110 +1213,67 @@ export default function VPGroup() {
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                   else navigate('/services/ai-custom-erp');
                 }}
-                style={{
-                  padding: '16px 36px',
-                  borderRadius: '30px',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #06B6D4 100%)',
-                  color: '#ffffff',
-                  fontSize: '0.92rem',
-                  fontWeight: 800,
-                  letterSpacing: '1px',
-                  textTransform: 'uppercase',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  boxShadow: '0 4px 25px rgba(99, 102, 241, 0.45)',
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-                }}
-                className="hero-cta-btn"
+                className="corp-btn-primary"
               >
-                <span>Explore Our Services</span>
-                <ArrowRight size={18} />
+                <span>EXPLORE ARCHITECTURE</span>
+                <ArrowRight size={16} />
               </button>
 
               <button
                 onClick={() => navigate('/consultation/book')}
-                style={{
-                  padding: '16px 32px',
-                  borderRadius: '30px',
-                  background: 'var(--halo-elevated)',
-                  color: 'var(--halo-on-surface)',
-                  fontSize: '0.92rem',
-                  fontWeight: 700,
-                  letterSpacing: '1px',
-                  textTransform: 'uppercase',
-                  border: '1px solid var(--halo-border)',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  transition: 'all 0.3s ease',
-                  boxShadow: 'var(--halo-shadow-sm)'
-                }}
-                className="hero-secondary-btn"
+                className="corp-btn-secondary"
               >
-                <Play size={15} color="var(--halo-primary)" />
-                <span>Book Free Consultation</span>
+                <span>BOOK CONSULTATION</span>
               </button>
             </div>
 
-            {/* Live data ticker */}
+            {/* Live capability tickers */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '20px',
-              opacity: 0.85,
-              flexWrap: 'wrap'
+              gap: '24px',
+              flexWrap: 'wrap',
+              borderTop: '1px solid var(--color-hairline)',
+              paddingTop: '24px',
             }}>
               {['AI Custom ERP', 'Legacy Modernization', 'AI & Automation', 'Software Engineering', 'Cloud & DevOps', 'Plug-ins & Integrations'].map((s, i) => (
-                <span key={i} style={{ fontFamily: H.mono, fontSize: '0.72rem', fontWeight: 700, letterSpacing: '1.5px', color: 'var(--halo-muted)', textTransform: 'uppercase' }}>
-                  {i > 0 && <span style={{ marginRight: '20px', color: '#5B6BFF' }}>•</span>}{s}
+                <span key={i} className="corp-label-uppercase" style={{ fontSize: '11px', color: 'var(--color-muted)', letterSpacing: '1.5px' }}>
+                  {i > 0 && <span style={{ marginRight: '24px', color: 'var(--color-primary)' }}>•</span>}{s}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* Scroll indicator */}
-          <div
-            ref={heroScrollRef}
-            style={{
-              position: 'absolute', bottom: '32px', left: '50%',
-              transform: 'translateX(-50%)',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
-              opacity: 0, zIndex: 4, pointerEvents: 'auto', cursor: 'pointer'
-            }}
-            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-          >
-            <span style={{ fontFamily: H.mono, fontSize: '0.62rem', fontWeight: 700, letterSpacing: '3px', color: '#64748b', textTransform: 'uppercase' }}>Scroll</span>
-            <div style={{
-              width: '1.5px', height: '40px',
-              background: 'linear-gradient(to bottom, #5B6BFF, transparent)',
-              animation: 'hero-line-pulse 2s ease-in-out infinite',
-            }} />
-            <style>{`
-              @keyframes hero-line-pulse {
-                0%, 100% { opacity: 0.4; transform: scaleY(1); }
-                50% { opacity: 1; transform: scaleY(1.15); }
-              }
-              .hero-hud-card:hover {
-                border-color: rgba(91, 107, 255, 0.6) !important;
-                box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 30px rgba(91, 107, 255, 0.25) !important;
-              }
-              .hero-cta-btn:hover {
-                transform: translateY(-3px) scale(1.03);
-                box-shadow: 0 0 45px rgba(61, 215, 229, 0.6) !important;
-              }
-              .hero-secondary-btn:hover {
-                background: rgba(255, 255, 255, 0.12) !important;
-                border-color: rgba(61, 215, 229, 0.5) !important;
-                transform: translateY(-2px);
-              }
-            `}</style>
+          {/* Precision Tricolor Stripe Divider at bottom of hero band */}
+          <div className="corp-tricolor-stripe" style={{ position: 'absolute', bottom: 0, left: 0, width: '100%' }} />
+        </section>
+
+        {/* ── TECHNICAL SPECIFICATION CELLS (spec-cell) ───────────── */}
+        <section style={{ backgroundColor: 'var(--color-canvas)', borderBottom: '1px solid var(--color-hairline)' }}>
+          <div style={{
+            maxWidth: '1440px',
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '1px',
+            backgroundColor: 'var(--color-hairline)',
+          }}>
+            {[
+              { val: '99.99%', label: 'ENTERPRISE UPTIME SLA', desc: 'Zero unplanned downtime microservices' },
+              { val: '< 45MS', label: 'MEDIAN API LATENCY', desc: 'Optimized high-throughput pipelines' },
+              { val: 'FULL TRUST', label: 'SECURITY ARCHITECTURE', desc: 'Continuous cryptographic authorization & guaranteed data integrity' },
+              { val: 'PROPRIETARY', label: '100% CLIENT IP OWNERSHIP', desc: 'Bespoke code with zero SaaS license lock-in' },
+            ].map((spec, i) => (
+              <div key={i} className="corp-spec-cell" style={{ backgroundColor: 'var(--color-canvas)', padding: '36px 32px' }}>
+                <div className="corp-display-sm" style={{ color: 'var(--color-primary)', marginBottom: '6px' }}>{spec.val}</div>
+                <div className="corp-label-uppercase" style={{ color: 'var(--color-ink)', marginBottom: '6px' }}>{spec.label}</div>
+                <div className="corp-body-sm" style={{ color: 'var(--color-muted)' }}>{spec.desc}</div>
+              </div>
+            ))}
           </div>
         </section>
+
 
         {/* ── TECH MARQUEE STRIP (21st.dev inspired) ──────────────── */}
         <div style={{ overflow: 'hidden', background: 'var(--halo-bg)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)', padding: '18px 0', position: 'relative', zIndex: 11 }}>
@@ -1417,48 +1325,48 @@ export default function VPGroup() {
           padding: '120px 24px', 
           boxSizing: 'border-box',
           position: 'relative',
-          background: 'var(--halo-surface)',
-          borderTop: '1px solid var(--halo-border)',
+          background: 'var(--color-surface-soft)',
+          borderTop: '1px solid var(--color-hairline)',
           zIndex: 11
         }} id="intro-details">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 2 }} className="nothin-grid-2">
             <div>
-              <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 24px 0', color: 'var(--halo-on-surface)' }}>
+              <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, margin: '0 0 24px 0', color: 'var(--color-ink)' }}>
                 Web & Software<br />
                 At Infinite Scale.
               </h2>
-              <p style={{ fontSize: '0.9375rem', color: 'var(--halo-muted)', lineHeight: 1.6, maxWidth: '440px', margin: '0 0 32px 0' }}>
+              <p style={{ fontSize: '0.9375rem', color: 'var(--color-muted)', lineHeight: 1.6, maxWidth: '440px', margin: '0 0 32px 0' }}>
                 We specialize in high-fidelity web development, mission-critical software engineering, and 24/7 technical support. We build platforms that move the world.
               </p>
               <div style={{ display: 'flex', gap: '16px' }}>
                 <button 
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="nothin-btn-pill"
+                  className="corp-btn-primary"
                 >
-                  Launch Project <ArrowRight size={16} />
+                  <span>LAUNCH PROJECT</span>
+                  <ArrowRight size={15} />
                 </button>
                 <button 
                   onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="nothin-btn-pill"
-                  style={{ background: 'transparent', border: '1px solid var(--halo-border)', color: 'var(--halo-on-surface)' }}
+                  className="corp-btn-secondary"
                 >
-                  Our Services
+                  <span>OUR ARCHITECTURES</span>
                 </button>
               </div>
             </div>
 
             {/* Code Window visualizer */}
-            <div style={{ width: '100%', maxWidth: '400px', background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', borderRadius: '16px', padding: '24px', boxSizing: 'border-box', boxShadow: 'var(--halo-shadow-md)' }} className="home-desktop-only">
+            <div style={{ width: '100%', maxWidth: '400px', background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)', padding: '24px', boxSizing: 'border-box' }} className="home-desktop-only">
               <div style={{ display: 'flex', gap: '6px', marginBottom: '16px' }}>
-                {['#FF3A5C','#F5D547','#2BE08C'].map(c => <div key={c} style={{ width: '8px', height: '8px', borderRadius: '50%', background: c }} />)}
+                {['#e22718','#f59e0b','#22c55e'].map(c => <div key={c} style={{ width: '8px', height: '8px', background: c }} />)}
               </div>
-              <div style={{ fontFamily: H.mono, fontSize: '0.75rem', lineHeight: 1.6, color: 'var(--halo-muted)' }}>
-                <span style={{ color: 'var(--halo-on-surface)', fontWeight: 600 }}>service</span> WebDevelopment {'{'}<br />
-                &nbsp;&nbsp;<span style={{ color: '#5B6BFF' }}>get</span> expertise() {'{'}<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: '#FF3A5C' }}>return</span> ['Web', 'Software', 'Support'];<br />
+              <div style={{ fontFamily: H.mono, fontSize: '0.75rem', lineHeight: 1.6, color: 'var(--color-body)' }}>
+                <span style={{ color: 'var(--color-ink)', fontWeight: 700 }}>service</span> WebDevelopment {'{'}<br />
+                &nbsp;&nbsp;<span style={{ color: 'var(--color-primary)' }}>get</span> expertise() {'{'}<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: '#e22718' }}>return</span> ['Web', 'Enterprise ERP', 'Cloud'];<br />
                 &nbsp;&nbsp;{'}'}<br />
                 &nbsp;&nbsp;async build() {'{'}<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: '#FF3A5C' }}>return</span> await this.deploy(budget: <span style={{ color: '#2BE08C' }}>'Affordable'</span>);<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: '#e22718' }}>return</span> await this.deploy(sla: <span style={{ color: '#22c55e' }}>'99.99%'</span>);<br />
                 &nbsp;&nbsp;{'}'}<br />
                 {'}'}
               </div>
@@ -1466,442 +1374,443 @@ export default function VPGroup() {
           </div>
         </section>
 
-        {/* ── GLASS STATS BAR (21st.dev glass-cards inspired) ────────── */}
-        <section style={{ background: 'var(--halo-bg)', padding: '80px 24px', borderTop: '1px solid var(--halo-border)' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+        {/* ── STATS BAR (Clean corporate rectangular dialect) ────────── */}
+        <section style={{ background: 'var(--color-canvas)', padding: '80px 24px', borderTop: '1px solid var(--color-hairline)' }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '24px' }}>
             {[
-              { num: '20+', label: 'Projects Shipped', accent: '#5B6BFF', sub: 'Across 3 continents' },
-              { num: '99.9%', label: 'Uptime SLA', accent: '#2BE08C', sub: 'Zero unplanned outages' },
-              { num: '100%', label: 'Client Satisfaction', accent: '#3DD7E5', sub: 'Net Promoter: Excellent' },
-              { num: '3+', label: 'Years Engineering', accent: '#F5D547', sub: 'Since 2021' },
+              { num: '20+', label: 'PROJECTS SHIPPED', sub: 'Across 3 continents' },
+              { num: '99.99%', label: 'UPTIME SLA', sub: 'Zero unplanned outages' },
+              { num: '100%', label: 'CLIENT SATISFACTION', sub: 'Net Promoter: Excellent' },
+              { num: '3+', label: 'YEARS ENGINEERING', sub: 'Established pedigree' },
             ].map((s, i) => (
               <div
                 key={i}
                 style={{
+                  padding: '36px 32px',
+                  background: 'var(--color-surface-card)',
+                  border: '1px solid var(--color-hairline)',
                   position: 'relative',
-                  borderRadius: '20px',
-                  padding: '3px',
-                  background: `conic-gradient(from ${i * 90}deg, transparent 0deg, ${s.accent}55 60deg, ${s.accent}33 120deg, transparent 180deg, ${s.accent}22 240deg, transparent 360deg)`,
-                  animation: `glass-spin-${i} ${8 + i * 2}s linear infinite`,
                 }}
               >
-                <div style={{
-                  borderRadius: '18px',
-                  padding: '32px 28px',
-                  background: 'var(--halo-surface)',
-                  backdropFilter: 'blur(24px) saturate(180%)',
-                  border: '1px solid var(--halo-border)',
-                  boxShadow: 'var(--halo-shadow-md)',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}>
-                  {/* Top shimmer line */}
-                  <div style={{ position: 'absolute', top: '10px', left: '12px', right: '12px', height: '1px', background: `linear-gradient(90deg, transparent, ${s.accent}44, transparent)`, borderRadius: '1px' }} />
-                  {/* Number */}
-                  <div style={{ fontSize: 'clamp(2.4rem, 5vw, 3.2rem)', fontWeight: 900, letterSpacing: '-0.04em', color: s.accent, lineHeight: 1, marginBottom: '8px', fontFamily: H.font }}>
-                    {s.num}
-                  </div>
-                  {/* Label */}
-                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--halo-on-surface)', marginBottom: '6px', letterSpacing: '-0.01em' }}>{s.label}</div>
-                  {/* Sub */}
-                  <div style={{ fontSize: '0.72rem', fontFamily: H.mono, color: 'var(--halo-muted)', letterSpacing: '0.5px' }}>{s.sub}</div>
+                <div className="corp-display-md" style={{ color: 'var(--color-primary)', marginBottom: '8px' }}>
+                  {s.num}
                 </div>
+                <div className="corp-label-uppercase" style={{ color: 'var(--color-ink)', marginBottom: '6px' }}>{s.label}</div>
+                <div className="corp-body-sm" style={{ color: 'var(--color-muted)' }}>{s.sub}</div>
               </div>
             ))}
           </div>
-          <style>{`
-            @keyframes glass-spin-0 { to { background-position: 360deg; } }
-            @keyframes glass-spin-1 { to { background-position: 360deg; } }
-            @keyframes glass-spin-2 { to { background-position: 360deg; } }
-            @keyframes glass-spin-3 { to { background-position: 360deg; } }
-          `}</style>
         </section>
 
         {/* ── MISSION CAROUSEL ─────────────────────────────────────── */}
         <MissionCarousel />
 
 
-        {/* ── WORKS SECTION (PORTFOLIO) ─────────────────────────── */}
-        <section style={{ padding: '120px 24px', maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--halo-border)', paddingBottom: '16px', marginBottom: '60px' }}>
-            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--halo-on-surface)' }}>Selected Works</span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--halo-muted)' }}>The Portfolio</span>
+        {/* ── WORKS SECTION (PORTFOLIO — 0px rectangular dialect) ──── */}
+        <section id="works" style={{ padding: '80px 24px', maxWidth: '1440px', margin: '0 auto', background: 'var(--color-canvas)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--color-hairline)', paddingBottom: '20px', marginBottom: '60px' }}>
+            <div>
+              <span className="corp-label-uppercase" style={{ color: 'var(--color-primary)', display: 'block', marginBottom: '8px' }}>PORTFOLIO EXCELLENCE</span>
+              <h2 className="corp-display-lg" style={{ margin: 0, color: 'var(--color-ink)' }}>Selected Works</h2>
+            </div>
+            <span className="corp-body-sm" style={{ color: 'var(--color-muted)' }}>Engineered by VP Group</span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '120px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
             {/* VexioGate Card */}
-            <div className="nothin-project-row">
+            <div className="nothin-project-row" style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)', padding: '40px' }}>
               <div className="project-img-wrapper">
-                <div className="project-img-placeholder" style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--halo-border)', letterSpacing: '4px', opacity: 0.5 }}>VEXIOGATE</span>
+                <div className="project-img-placeholder" style={{ background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px' }}>
+                  <span className="corp-label-uppercase" style={{ color: 'var(--color-primary)', marginBottom: '8px' }}>LIVE ENTERPRISE IAM</span>
+                  <span style={{ fontSize: '2.5rem', fontWeight: 700, color: 'var(--color-ink)', letterSpacing: '2px' }}>VEXIOGATE</span>
                 </div>
               </div>
               <div className="project-meta">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '20px' }}>
-                  <span style={{ fontSize: '2.5rem', fontFamily: H.mono, fontWeight: 300, color: 'var(--halo-muted)' }}>01</span>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '2px', padding: '4px 10px', background: 'var(--halo-elevated)', borderRadius: '4px', color: '#2BE08C', border: '1px solid var(--halo-border)' }}>LIVE</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '16px' }}>
+                  <span style={{ fontSize: '2rem', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-primary)' }}>01</span>
+                  <span className="corp-label-uppercase" style={{ fontSize: '11px', padding: '4px 10px', background: '#22c55e', color: '#ffffff' }}>LIVE PRODUCTION</span>
                 </div>
-                <h3 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px', color: 'var(--halo-on-surface)' }}>VexioGate IAM Ecosystem</h3>
-                <p style={{ fontSize: '0.95rem', color: 'var(--halo-muted)', lineHeight: 1.6, marginBottom: '28px' }}>
-                  Next-generation identity tracking, secure workforce dashboard, and automated gateway provisioning for modern enterprises.
+                <h3 className="corp-title-lg" style={{ marginBottom: '12px', color: 'var(--color-ink)' }}>VexioGate IAM Ecosystem</h3>
+                <p className="corp-body-md" style={{ color: 'var(--color-body)', marginBottom: '24px' }}>
+                  Next-generation identity tracking, secure workforce dashboard, and automated gateway provisioning for modern distributed enterprises.
                 </p>
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
-                  {['React', 'MERN', 'Security'].map(t => <span key={t} className="nothin-tag">{t}</span>)}
+                  {['React', 'MERN Stack', 'Full-Trust Security', 'RBAC'].map(t => (
+                    <span key={t} className="corp-caption" style={{ background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '6px 12px', color: 'var(--color-ink)' }}>
+                      {t}
+                    </span>
+                  ))}
                 </div>
-                <button onClick={() => navigate('/portfolio/vault-iam')} className="nothin-btn-pill">
-                  View Case Study <ArrowRight size={16} />
+                <button onClick={() => navigate('/portfolio/vault-iam')} className="corp-btn-primary">
+                  <span>VIEW CASE STUDY</span>
+                  <ArrowRight size={15} />
                 </button>
               </div>
             </div>
 
             {/* Neural Core */}
-            <div className="nothin-project-row" style={{ flexDirection: 'row-reverse' }}>
+            <div className="nothin-project-row" style={{ flexDirection: 'row-reverse', background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)', padding: '40px' }}>
               <div className="project-img-wrapper">
-                <div className="project-img-placeholder" style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <span style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--halo-border)', letterSpacing: '4px', opacity: 0.5 }}>NEURAL CORE</span>
+                <div className="project-img-placeholder" style={{ background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px' }}>
+                  <span className="corp-label-uppercase" style={{ color: 'var(--color-muted)', marginBottom: '8px' }}>AUTONOMOUS PIPELINE</span>
+                  <span style={{ fontSize: '2.5rem', fontWeight: 700, color: 'var(--color-ink)', letterSpacing: '2px' }}>NEURAL CORE</span>
                 </div>
               </div>
               <div className="project-meta">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '20px' }}>
-                  <span style={{ fontSize: '2.5rem', fontFamily: H.mono, fontWeight: 300, color: 'var(--halo-muted)' }}>02</span>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '2px', padding: '4px 10px', background: 'var(--halo-elevated)', borderRadius: '4px', color: '#5B6BFF', border: '1px solid var(--halo-border)' }}>DEV</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '16px' }}>
+                  <span style={{ fontSize: '2rem', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-muted)' }}>02</span>
+                  <span className="corp-label-uppercase" style={{ fontSize: '11px', padding: '4px 10px', background: 'var(--color-primary)', color: '#ffffff' }}>IN DEVELOPMENT</span>
                 </div>
-                <h3 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px', color: 'var(--halo-on-surface)' }}>Neural Core Platform</h3>
-                <p style={{ fontSize: '0.95rem', color: 'var(--halo-muted)', lineHeight: 1.6, marginBottom: '28px' }}>
-                  Future integration module. Our ecosystem is actively expanding to include autonomous neural tracking and semantic reasoning loops.
+                <h3 className="corp-title-lg" style={{ marginBottom: '12px', color: 'var(--color-ink)' }}>Neural Core Platform</h3>
+                <p className="corp-body-md" style={{ color: 'var(--color-body)', marginBottom: '24px' }}>
+                  Future integration module. Our ecosystem is actively expanding to include autonomous neural tracking, semantic reasoning loops, and multi-agent consensus.
                 </p>
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
-                  {['AI', 'Agents', 'RAG'].map(t => <span key={t} className="nothin-tag">{t}</span>)}
+                  {['AI Agents', 'RAG Engine', 'Vector Search', 'LangGraph'].map(t => (
+                    <span key={t} className="corp-caption" style={{ background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '6px 12px', color: 'var(--color-ink)' }}>
+                      {t}
+                    </span>
+                  ))}
                 </div>
-                <div className="nothin-tag" style={{ display: 'inline-block', color: 'var(--halo-muted)', background: 'var(--halo-elevated)' }}>
-                  In Development
-                </div>
+                <button onClick={() => navigate('/services/ai-automation')} className="corp-btn-secondary">
+                  <span>LEARN MORE ABOUT AI</span>
+                  <ArrowRight size={15} />
+                </button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── PARTNERSHIPS SECTION ──────────────────────────────── */}
-        <section style={{ padding: '120px 24px', background: 'var(--halo-surface)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--halo-border)', paddingBottom: '16px', marginBottom: '60px' }}>
-              <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--halo-on-surface)' }}>Partnerships</span>
-              <span style={{ fontSize: '0.8rem', color: 'var(--halo-muted)' }}>Visionary Clients</span>
+        {/* ── PARTNERSHIPS SECTION (0px rectangular dialect) ────── */}
+        <section style={{ padding: '80px 24px', background: 'var(--color-surface-soft)', borderTop: '1px solid var(--color-hairline)', borderBottom: '1px solid var(--color-hairline)' }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--color-hairline)', paddingBottom: '20px', marginBottom: '48px' }}>
+              <div>
+                <span className="corp-label-uppercase" style={{ color: 'var(--color-primary)', display: 'block', marginBottom: '8px' }}>ECOSYSTEM NETWORK</span>
+                <h2 className="corp-display-md" style={{ margin: 0, color: 'var(--color-ink)' }}>Strategic Partnerships</h2>
+              </div>
+              <span className="corp-body-sm" style={{ color: 'var(--color-muted)' }}>Visionary Clients & Collaborations</span>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px' }} className="nothin-grid-2">
-              <div style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '48px', borderRadius: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '24px' }} className="nothin-grid-2">
+              <div style={{ background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#5B6BFF', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>Maternal E-Commerce</div>
-                  <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '16px', color: 'var(--halo-on-surface)' }}>Mother Bliss</h3>
-                  <p style={{ fontSize: '0.95rem', color: 'var(--halo-muted)', lineHeight: 1.6, marginBottom: '32px' }}>
+                  <div className="corp-label-uppercase" style={{ color: 'var(--color-primary)', marginBottom: '12px' }}>MATERNAL E-COMMERCE</div>
+                  <h3 className="corp-title-lg" style={{ marginBottom: '12px', color: 'var(--color-ink)' }}>Mother Bliss</h3>
+                  <p className="corp-body-md" style={{ color: 'var(--color-body)', marginBottom: '32px' }}>
                     A comprehensive maternal care ecosystem engineered by VP Group. We architected the full-stack infrastructure for seamless commerce and global scalability.
                   </p>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <a href="https://wwwmotherbliss-dd920f26.vercel.app/" target="_blank" rel="noopener noreferrer" className="nothin-btn-pill-action">
-                    Production Realm <ExternalLink size={14} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <a href="https://wwwmotherbliss-dd920f26.vercel.app/" target="_blank" rel="noopener noreferrer" className="corp-btn-primary" style={{ textDecoration: 'none' }}>
+                    <span>PRODUCTION REALM</span>
+                    <ExternalLink size={14} />
                   </a>
-                  <a href="https://thakurvpsingh.github.io/mothers-bliss/" target="_blank" rel="noopener noreferrer" className="nothin-btn-pill-action-secondary">
-                    Legacy Archive <ExternalLink size={14} />
+                  <a href="https://thakurvpsingh.github.io/mothers-bliss/" target="_blank" rel="noopener noreferrer" className="corp-btn-secondary" style={{ textDecoration: 'none' }}>
+                    <span>LEGACY ARCHIVE</span>
+                    <ExternalLink size={14} />
                   </a>
                 </div>
               </div>
 
-              <div style={{ border: '2px dashed var(--halo-border)', background: 'var(--halo-surface)', padding: '48px', borderRadius: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--halo-elevated)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-                  <Users size={20} color="var(--halo-muted)" />
+              <div style={{ border: '2px dashed var(--color-hairline-strong)', background: 'var(--color-surface-card)', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <div style={{ width: '48px', height: '48px', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
+                  <Users size={20} color="var(--color-primary)" />
                 </div>
-                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 8px 0', color: 'var(--halo-on-surface)' }}>New Partner Socket</h4>
-                <div style={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1.5px', background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '4px 10px', borderRadius: '20px', marginBottom: '16px', color: 'var(--halo-muted)' }}>AWAITING PROVISIONING</div>
-                <p style={{ fontSize: '0.875rem', color: 'var(--halo-muted)', lineHeight: 1.5, margin: 0, maxWidth: '280px' }}>
-                  Open socket for future enterprise partnerships. Join the infrastructure that moves the world.
+                <h4 className="corp-title-md" style={{ margin: '0 0 8px 0', color: 'var(--color-ink)' }}>New Partner Socket</h4>
+                <div className="corp-label-uppercase" style={{ fontSize: '11px', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '4px 10px', marginBottom: '16px', color: 'var(--color-muted)' }}>AWAITING PROVISIONING</div>
+                <p className="corp-body-sm" style={{ color: 'var(--color-muted)', margin: '0 0 24px 0', maxWidth: '320px' }}>
+                  Open socket for future enterprise partnerships. Join the infrastructure engineered for infinite scale.
                 </p>
+                <button onClick={() => navigate('/apply-partnership')} className="corp-btn-secondary">
+                  <span>APPLY FOR PARTNERSHIP</span>
+                  <ArrowRight size={14} />
+                </button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── SERVICES SECTION ─────────────────────────────────── */}
+        {/* ── CORE SERVICES & PLATFORMS (model-card grid on canvas) ── */}
+        {/* ── CORE SERVICES & PLATFORMS (model-card grid on canvas) ── */}
         <section id="services" style={{
-          background: 'var(--halo-surface)',
-          borderTop: '1px solid var(--halo-border)',
-          borderBottom: '1px solid var(--halo-border)',
-          padding: '120px 0 140px',
+          backgroundColor: 'var(--color-canvas)',
+          borderTop: '1px solid var(--color-hairline)',
+          borderBottom: '1px solid var(--color-hairline)',
+          padding: '80px 24px',
           position: 'relative',
-          overflow: 'hidden',
         }}>
-          {/* Subtle radial glow behind header */}
-          <div style={{
-            position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-            width: '800px', height: '400px',
-            background: 'radial-gradient(ellipse at 50% 0%, rgba(91,107,255,0.06) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }} />
-
-          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
 
             {/* Section header */}
-            <div style={{ marginBottom: '60px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                <span style={{ width: '32px', height: '2px', background: 'var(--halo-primary)', borderRadius: '2px', display: 'inline-block' }} />
-                <span style={{ fontFamily: H.mono, fontSize: '0.75rem', fontWeight: 800, letterSpacing: '3px', color: 'var(--halo-primary)', textTransform: 'uppercase' }}>Our Services</span>
+            <div style={{ marginBottom: '40px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <span style={{ width: '8px', height: '8px', background: '#1c69d4', display: 'inline-block' }} />
+                <span className="corp-label-uppercase" style={{ color: '#1c69d4' }}>CAPABILITIES & ARCHITECTURES</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px' }}>
-                <h2 style={{ fontSize: 'clamp(2.2rem, 5vw, 3.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--halo-on-surface)', margin: 0, maxWidth: '650px' }}>
+                <h2 className="corp-display-lg" style={{ margin: 0, maxWidth: '720px' }}>
                   Intelligent Software & Platforms We Deliver.
                 </h2>
-                <p style={{ fontSize: '1.05rem', color: 'var(--halo-muted)', lineHeight: 1.7, margin: 0, maxWidth: '380px' }}>
-                  From custom enterprise ERPs to AI automation, legacy modernization, and cloud infrastructure.
+                <p className="corp-body-md" style={{ margin: 0, maxWidth: '440px', color: 'var(--color-muted)' }}>
+                  From bespoke enterprise ERPs to autonomous AI automation, legacy modernization, and multi-cloud infrastructure.
                 </p>
               </div>
             </div>
 
-            {/* Service cards grid */}
-            <div ref={serviceCardsRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '20px' }}>
+            {/* Category tabs: category-tab and category-tab-active */}
+            <div style={{
+              display: 'flex',
+              gap: '12px',
+              borderBottom: '1px solid var(--color-hairline)',
+              marginBottom: '36px',
+              overflowX: 'auto',
+            }}>
+              {[
+                { id: 'ALL', label: 'ALL ARCHITECTURES' },
+                { id: 'AI', label: 'ENTERPRISE AI & ERP' },
+                { id: 'CORE', label: 'CORE SOFTWARE' },
+                { id: 'CLOUD', label: 'CLOUD & DEVOPS' },
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setServiceCategory(tab.id)}
+                  className={`corp-category-tab ${serviceCategory === tab.id ? 'active' : ''}`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Service cards grid: 3-up/4-up model-card dialect */}
+            <div ref={serviceCardsRef} style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+              gap: '24px',
+            }}>
               {[
                 {
                   path: '/services/ai-custom-erp',
-                  icon: <Sparkles size={24} color="#FF3A5C" />,
-                  accent: '#FF3A5C',
+                  icon: <Sparkles size={28} color="#1c69d4" />,
+                  category: 'AI',
                   num: '01',
-                  badge: 'Flagship ERP',
+                  badge: 'FLAGSHIP PLATFORM',
                   title: 'AI Custom ERP',
                   desc: 'Tailored enterprise resource planning powered by AI. Seamlessly integrates inventory forecasting, automated finance, HR, and custom operational pipelines with zero per-seat licensing.',
                   tags: ['Predictive Supply Chain', 'Automated Invoicing', 'Custom Workflows', 'Multi-Entity Ledger'],
                 },
                 {
                   path: '/services/legacy-modernization',
-                  icon: <RefreshCw size={24} color="#5B6BFF" />,
-                  accent: '#5B6BFF',
+                  icon: <RefreshCw size={28} color="#1c69d4" />,
+                  category: 'CORE',
                   num: '02',
-                  badge: 'Transformation',
+                  badge: 'TRANSFORMATION',
                   title: 'Legacy Modernization',
                   desc: 'Safely transform slow, monolithic legacy architectures into agile cloud-native microservices. Eliminate technical debt and modernize databases with zero business downtime.',
                   tags: ['Strangler Fig Pattern', 'Cloud Replatforming', 'Zero Downtime', 'API Encapsulation'],
                 },
                 {
                   path: '/services/ai-automation',
-                  icon: <Zap size={24} color="#3DD7E5" />,
-                  accent: '#3DD7E5',
+                  icon: <Zap size={28} color="#1c69d4" />,
+                  category: 'AI',
                   num: '03',
-                  badge: 'Intelligent AI',
+                  badge: 'AUTONOMOUS AI',
                   title: 'AI & Automation',
                   desc: 'Autonomous AI agents, semantic RAG knowledge retrieval, and custom LLM integrations that automate complex business workflows and eliminate operational bottlenecks.',
                   tags: ['Autonomous Agents', 'RAG Knowledge Bases', 'Document OCR', 'Process Automation'],
                 },
                 {
                   path: '/services/software-engineering',
-                  icon: <Terminal size={24} color="#2BE08C" />,
-                  accent: '#2BE08C',
+                  icon: <Terminal size={28} color="#1c69d4" />,
+                  category: 'CORE',
                   num: '04',
-                  badge: 'Core Engineering',
+                  badge: 'CORE ENGINEERING',
                   title: 'Software Engineering',
                   desc: 'Full-stack enterprise application engineering. High-performance web and mobile products, robust REST/GraphQL APIs, and resilient distributed systems designed for infinite scale.',
                   tags: ['Full-Stack Web', 'Mobile Apps', 'Microservices', 'Distributed Systems'],
                 },
                 {
                   path: '/services/cloud-devops',
-                  icon: <Cpu size={24} color="#F5D547" />,
-                  accent: '#F5D547',
+                  icon: <Cpu size={28} color="#1c69d4" />,
+                  category: 'CLOUD',
                   num: '05',
-                  badge: 'Infrastructure',
+                  badge: 'INFRASTRUCTURE',
                   title: 'Cloud & DevOps',
                   desc: 'Multi-cloud architecture on AWS, Google Cloud, and Azure. Kubernetes orchestration, Infrastructure as Code, continuous integration/deployment (CI/CD), and 99.99% uptime SLAs.',
                   tags: ['AWS / GCP / Azure', 'Kubernetes', 'CI/CD Pipelines', 'Zero-Downtime Releases'],
                 },
                 {
                   path: '/services/plugin-integrations',
-                  icon: <Plug size={24} color="#FF3A5C" />,
-                  accent: '#FF3A5C',
+                  icon: <Plug size={28} color="#1c69d4" />,
+                  category: 'CORE',
                   num: '06',
-                  badge: 'Connectivity',
+                  badge: 'INTEGRATIONS',
                   title: 'Plug-ins & Integrations',
                   desc: 'High-throughput enterprise connectors, custom middleware, and marketplace plugins for Salesforce, Shopify, Stripe, Adobe Creative Cloud, Figma, Slack, and Jira.',
                   tags: ['Shopify / Salesforce', 'Stripe Connectors', 'Adobe / Figma Plugins', 'Real-time Webhooks'],
                 }
-              ].map((s, i) => (
+              ]
+              .filter(s => serviceCategory === 'ALL' || s.category === serviceCategory)
+              .map((s, i) => (
                 <div
                   key={i}
-                  className="svc-card-3d"
+                  className="corp-card"
                   onClick={() => navigate(s.path)}
-                  style={{
-                    background: 'var(--halo-surface)',
-                    border: '1px solid var(--halo-border)',
-                    borderRadius: '16px',
-                    padding: '36px 32px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    position: 'relative',
-                    transition: 'all 0.25s ease',
-                    overflow: 'hidden',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = s.accent;
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.15)';
-                    const arrow = e.currentTarget.querySelector('.svc-arrow');
-                    if (arrow) { arrow.style.opacity = '1'; arrow.style.transform = 'translate(0, 0)'; }
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = 'var(--halo-border)';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = 'none';
-                    const arrow = e.currentTarget.querySelector('.svc-arrow');
-                    if (arrow) { arrow.style.opacity = '0'; arrow.style.transform = 'translate(-6px, 6px)'; }
-                  }}
+                  style={{ cursor: 'pointer' }}
                 >
-                  {/* Top row: number, badge, icon */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span style={{ fontFamily: H.mono, fontSize: '0.8rem', fontWeight: 800, color: 'var(--halo-muted)' }}>{s.num}</span>
-                      <span style={{ fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: `${s.accent}14`, color: s.accent, padding: '3px 10px', borderRadius: '20px' }}>
-                        {s.badge}
+                  {/* Photo / Render Plate (model-card-photo) */}
+                  <div className="corp-card-plate">
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+                      <div style={{
+                        width: '56px',
+                        height: '56px',
+                        background: 'var(--color-canvas)',
+                        border: '1px solid var(--color-hairline)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                        {s.icon}
+                      </div>
+                      <span className="corp-label-uppercase" style={{ fontSize: '11px', color: 'var(--color-muted)', letterSpacing: '2px' }}>
+                        SYS ARCHITECTURE // {s.num}
                       </span>
-                    </div>
-                    <div style={{
-                      width: '44px', height: '44px', borderRadius: '12px',
-                      background: `${s.accent}12`,
-                      border: `1px solid ${s.accent}24`,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      flexShrink: 0,
-                    }}>
-                      {s.icon}
                     </div>
                   </div>
 
-                  {/* Title */}
-                  <h3 style={{
-                    fontSize: '1.4rem',
-                    fontWeight: 800,
-                    letterSpacing: '-0.02em',
-                    color: 'var(--halo-on-surface)',
-                    margin: '0 0 12px 0',
-                    lineHeight: 1.25,
-                  }}>{s.title}</h3>
-
-                  {/* Description */}
-                  <p style={{
-                    fontSize: '0.95rem',
-                    color: 'var(--halo-muted)',
-                    lineHeight: 1.65,
-                    margin: '0 0 24px 0',
-                    flex: 1,
-                  }}>{s.desc}</p>
+                  {/* Title & Tagline */}
+                  <div style={{ marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                      <h3 className="corp-title-md" style={{ margin: 0 }}>{s.title}</h3>
+                      <span className="corp-caption" style={{ color: '#1c69d4', fontWeight: 700 }}>{s.badge}</span>
+                    </div>
+                    <p className="corp-body-sm" style={{ margin: 0, color: 'var(--color-body)' }}>{s.desc}</p>
+                  </div>
 
                   {/* Tags */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '20px' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '24px' }}>
                     {s.tags.map(tag => (
-                      <span key={tag} style={{
-                        fontSize: '0.75rem',
-                        fontWeight: 600,
-                        color: 'var(--halo-on-surface)',
-                        background: 'var(--halo-elevated)',
-                        border: '1px solid var(--halo-border)',
-                        padding: '4px 10px',
-                        borderRadius: '6px',
-                      }}>{tag}</span>
+                      <span key={tag} className="corp-caption" style={{
+                        background: 'var(--color-surface-soft)',
+                        border: '1px solid var(--color-hairline)',
+                        padding: '4px 8px',
+                        color: 'var(--color-ink)',
+                      }}>
+                        {tag}
+                      </span>
                     ))}
                   </div>
 
-                  {/* Explore button */}
-                  <div className="svc-arrow" style={{
-                    display: 'flex', alignItems: 'center', gap: '6px',
-                    fontSize: '0.82rem', fontWeight: 800,
-                    color: s.accent, textTransform: 'uppercase',
-                    opacity: 0,
-                    transform: 'translate(-6px, 6px)',
-                    transition: 'all 0.25s ease',
-                  }}>
-                    <span>Explore Service Details</span> <ArrowRight size={14} />
+                  {/* CTA Text Link: button-text-link */}
+                  <div style={{ borderTop: '1px solid var(--color-hairline)', paddingTop: '16px' }}>
+                    <span className="corp-link-blue">
+                      <span>EXPLORE ARCHITECTURE</span>
+                      <ArrowRight size={14} />
+                    </span>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* CTA row */}
-            <div style={{ marginTop: '50px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
-              <p style={{ fontSize: '1.05rem', color: 'var(--halo-muted)', margin: 0 }}>
-                Looking for website development, custom UI/UX design, or 24/7 support? We engineer complete solutions.
-              </p>
+            {/* Bottom Section Action Band */}
+            <div style={{
+              marginTop: '48px',
+              padding: '24px 32px',
+              background: 'var(--color-surface-soft)',
+              border: '1px solid var(--color-hairline)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '20px',
+            }}>
+              <div>
+                <div className="corp-title-sm" style={{ marginBottom: '4px' }}>Custom Architectural Consultation</div>
+                <p className="corp-body-sm" style={{ margin: 0, color: 'var(--color-muted)' }}>
+                  Looking for custom web development, dedicated engineering teams, or 24/7 technical support?
+                </p>
+              </div>
               <button
                 onClick={() => navigate('/consultation/book')}
-                className="nothin-btn-pill"
+                className="corp-btn-primary"
               >
-                Discuss Your Requirements <ArrowRight size={15} />
+                <span>DISCUSS REQUIREMENTS</span>
+                <ArrowRight size={15} />
               </button>
             </div>
 
           </div>
         </section>
 
-        {/* ── TECHNOLOGIES WE WORK ON SECTION ──────────────────── */}
-        <section id="technologies" style={{ padding: '100px 24px', background: 'var(--halo-bg)', borderTop: '1px solid var(--halo-border)' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: '56px' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '30px', background: 'rgba(91, 107, 255, 0.1)', color: 'var(--halo-primary)', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '16px' }}>
-                <Cpu size={14} />
-                <span>MODERN TECH STACK</span>
+
+        {/* ── TECHNOLOGIES WE WORK ON SECTION (0px rectangular dialect) ──── */}
+        <section id="technologies" style={{ padding: '80px 24px', background: 'var(--color-canvas)', borderTop: '1px solid var(--color-hairline)' }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+            <div style={{ marginBottom: '48px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <span style={{ width: '8px', height: '8px', background: '#1c69d4', display: 'inline-block' }} />
+                <span className="corp-label-uppercase" style={{ color: '#1c69d4' }}>TECHNICAL STACK & PROTOCOLS</span>
               </div>
-              <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.4rem)', fontWeight: 900, color: 'var(--halo-on-surface)', letterSpacing: '-0.02em', margin: '0 0 16px 0' }}>
-                Technologies We Work On
-              </h2>
-              <p style={{ color: 'var(--halo-muted)', fontSize: '1.1rem', maxWidth: '640px', margin: '0 auto', lineHeight: 1.6 }}>
-                We engineer scalable solutions using modern, secure, and battle-tested technologies.
-              </p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px' }}>
+                <h2 className="corp-display-lg" style={{ margin: 0, maxWidth: '720px' }}>
+                  Technologies & Frameworks We Deploy.
+                </h2>
+                <p className="corp-body-md" style={{ margin: 0, maxWidth: '440px', color: 'var(--color-muted)' }}>
+                  We engineer scalable enterprise solutions using battle-tested, high-performance distributed technologies.
+                </p>
+              </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px' }}>
               {[
                 {
                   category: 'Frontend & Mobile Apps',
-                  icon: <Globe size={22} className="text-cyan-500" />,
-                  desc: 'Responsive, lightning-fast interfaces and multi-platform mobile apps with pixel-perfect precision.',
-                  techs: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vue.js', 'React Native', 'Flutter']
+                  icon: <Globe size={22} color="#1c69d4" />,
+                  desc: 'Responsive, lightning-fast interfaces and multi-platform mobile apps built for precision.',
+                  techs: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'React Native', 'Flutter']
                 },
                 {
                   category: 'Backend & Microservices',
-                  icon: <Terminal size={22} className="text-emerald-500" />,
+                  icon: <Terminal size={22} color="#1c69d4" />,
                   desc: 'High-throughput APIs and distributed service architectures designed for heavy concurrency.',
-                  techs: ['Node.js', 'Python (FastAPI / Django)', 'Go', 'NestJS', 'REST APIs', 'GraphQL', 'gRPC']
+                  techs: ['Node.js', 'Python (FastAPI)', 'Go', 'NestJS', 'REST APIs', 'GraphQL', 'gRPC']
                 },
                 {
-                  category: 'AI & Machine Learning',
-                  icon: <Sparkles size={22} className="text-pink-500" />,
-                  desc: 'Cutting-edge generative AI models, autonomous agents, and proprietary knowledge retrieval pipelines.',
-                  techs: ['OpenAI GPT-4', 'Google Gemini', 'Anthropic Claude', 'LangChain', 'LlamaIndex', 'Pinecone', 'PyTorch']
+                  category: 'AI & Autonomous Systems',
+                  icon: <Sparkles size={22} color="#1c69d4" />,
+                  desc: 'Generative AI models, autonomous agents, and proprietary knowledge retrieval pipelines.',
+                  techs: ['OpenAI GPT-4', 'Google Gemini', 'Anthropic Claude', 'LangChain', 'LlamaIndex', 'Pinecone']
                 },
                 {
                   category: 'Cloud & DevOps Infrastructure',
-                  icon: <Cpu size={22} className="text-amber-500" />,
+                  icon: <Cpu size={22} color="#1c69d4" />,
                   desc: 'Automated CI/CD pipelines, container orchestration, and multi-cloud resilience with 99.99% uptime.',
-                  techs: ['Amazon Web Services (AWS)', 'Google Cloud (GCP)', 'Microsoft Azure', 'Docker', 'Kubernetes', 'Terraform', 'GitHub Actions']
+                  techs: ['Amazon Web Services', 'Google Cloud', 'Microsoft Azure', 'Docker', 'Kubernetes', 'Terraform']
                 },
                 {
                   category: 'Databases & Storage',
-                  icon: <Boxes size={22} className="text-indigo-500" />,
+                  icon: <Boxes size={22} color="#1c69d4" />,
                   desc: 'Secure relational and NoSQL databases optimized for high read/write speeds and zero data loss.',
-                  techs: ['PostgreSQL', 'MongoDB', 'Redis', 'ClickHouse', 'TimescaleDB', 'Supabase', 'Elasticsearch']
+                  techs: ['PostgreSQL', 'MongoDB', 'Redis', 'ClickHouse', 'TimescaleDB', 'Supabase']
                 },
                 {
                   category: 'Plug-ins & Enterprise Connectors',
-                  icon: <Plug size={22} className="text-violet-500" />,
+                  icon: <Plug size={22} color="#1c69d4" />,
                   desc: 'Two-way synchronization and marketplace plugins linking your enterprise tools seamlessly.',
-                  techs: ['Shopify Apps', 'Salesforce Integrations', 'Stripe Payments', 'Adobe CC Plugins', 'Figma Plugins', 'Slack & Teams Bots']
+                  techs: ['Shopify Apps', 'Salesforce Integrations', 'Stripe Payments', 'Adobe CC', 'Figma Plugins']
                 }
               ].map((group, idx) => (
-                <div key={idx} style={{ padding: '32px', background: 'var(--halo-surface)', border: '1px solid var(--halo-border)', borderRadius: '16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'var(--halo-elevated)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div key={idx} style={{ padding: '32px', background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                    <div style={{ width: '40px', height: '40px', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       {group.icon}
                     </div>
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--halo-on-surface)', margin: 0 }}>{group.category}</h3>
+                    <h3 className="corp-title-md" style={{ margin: 0 }}>{group.category}</h3>
                   </div>
-                  <p style={{ fontSize: '0.92rem', color: 'var(--halo-muted)', lineHeight: 1.55, marginBottom: '20px' }}>{group.desc}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  <p className="corp-body-sm" style={{ color: 'var(--color-body)', marginBottom: '20px' }}>{group.desc}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {group.techs.map(t => (
-                      <span key={t} style={{ fontSize: '0.78rem', fontWeight: 700, background: 'var(--halo-elevated)', color: 'var(--halo-on-surface)', padding: '5px 12px', borderRadius: '8px', border: '1px solid var(--halo-border)' }}>
+                      <span key={t} className="corp-caption" style={{ background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '5px 10px', color: 'var(--color-ink)' }}>
                         {t}
                       </span>
                     ))}
@@ -1912,20 +1821,17 @@ export default function VPGroup() {
           </div>
         </section>
 
-        {/* ── TALENT & ENGAGEMENT SOLUTIONS (FROM REFERENCE IMAGE) ── */}
-        <section id="talent" style={{ padding: '100px 24px', background: 'var(--halo-surface)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px', marginBottom: '56px' }}>
+        {/* ── TALENT & ENGAGEMENT SOLUTIONS (0px rectangular dialect) ──── */}
+        <section id="talent" style={{ padding: '80px 24px', background: 'var(--color-surface-soft)', borderTop: '1px solid var(--color-hairline)', borderBottom: '1px solid var(--color-hairline)' }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px', marginBottom: '48px' }}>
               <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '30px', background: 'rgba(43, 224, 140, 0.1)', color: 'var(--halo-success)', fontWeight: 800, fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '16px' }}>
-                  <Users size={14} />
-                  <span>FLEXIBLE ENGAGEMENT MODELS</span>
-                </div>
-                <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.4rem)', fontWeight: 900, color: 'var(--halo-on-surface)', letterSpacing: '-0.02em', margin: 0 }}>
+                <span className="corp-label-uppercase" style={{ color: '#1c69d4', display: 'block', marginBottom: '8px' }}>FLEXIBLE ENGAGEMENT MODELS</span>
+                <h2 className="corp-display-lg" style={{ margin: 0 }}>
                   Talent & Team Augmentation
                 </h2>
               </div>
-              <p style={{ color: 'var(--halo-muted)', fontSize: '1.05rem', maxWidth: '420px', margin: 0, lineHeight: 1.6 }}>
+              <p className="corp-body-md" style={{ color: 'var(--color-muted)', maxWidth: '440px', margin: 0 }}>
                 Scale your technical capabilities on-demand with senior software developers, cloud architects, and AI engineers.
               </p>
             </div>
@@ -1936,44 +1842,44 @@ export default function VPGroup() {
                   title: 'Staff Augmentation',
                   model: 'staff-augmentation',
                   desc: 'Seamlessly add senior full-stack developers, DevOps, and QA engineers to your in-house engineering team to meet sprint deadlines faster.',
-                  tag: 'Immediate Velocity'
+                  tag: 'IMMEDIATE VELOCITY'
                 },
                 {
                   title: 'Dedicated Teams',
                   model: 'dedicated-teams',
                   desc: 'Self-sufficient, autonomous engineering squads complete with Tech Leads, developers, and QA dedicated 100% to your product roadmap.',
-                  tag: 'Autonomous Delivery'
+                  tag: 'AUTONOMOUS DELIVERY'
                 },
                 {
                   title: 'Build-Operate-Transfer',
                   model: 'build-operate-transfer',
                   desc: 'We recruit, set up, and operate an offshore engineering center for your enterprise, and then transfer full operational ownership to you.',
-                  tag: 'Long-term Scale'
+                  tag: 'LONG-TERM SCALE'
                 },
                 {
                   title: 'Contract-to-Hire',
                   model: 'contract-to-hire',
                   desc: 'Evaluate top technical talent in real production workflows before committing to full-time permanent employment offers.',
-                  tag: 'Zero Hiring Risk'
+                  tag: 'ZERO HIRING RISK'
                 },
                 {
                   title: 'Hire AI Engineers',
                   model: 'hire-ai-engineers',
                   desc: 'Specialized machine learning and generative AI engineers ready to deploy custom LLMs, autonomous agents, and RAG pipelines.',
-                  tag: 'AI Specialists'
+                  tag: 'AI SPECIALISTS'
                 }
               ].map((item, idx) => (
-                <div key={idx} style={{ padding: '32px', background: 'var(--halo-bg)', border: '1px solid var(--halo-border)', borderRadius: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div key={idx} style={{ padding: '32px', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                   <div>
-                    <span style={{ display: 'inline-block', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', background: 'rgba(91, 107, 255, 0.1)', color: 'var(--halo-primary)', padding: '3px 10px', borderRadius: '20px', marginBottom: '14px' }}>
+                    <span className="corp-label-uppercase" style={{ fontSize: '11px', color: '#1c69d4', display: 'inline-block', marginBottom: '12px' }}>
                       {item.tag}
                     </span>
-                    <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--halo-on-surface)', marginBottom: '12px' }}>{item.title}</h3>
-                    <p style={{ fontSize: '0.92rem', color: 'var(--halo-muted)', lineHeight: 1.6, marginBottom: '24px' }}>{item.desc}</p>
+                    <h3 className="corp-title-md" style={{ marginBottom: '12px' }}>{item.title}</h3>
+                    <p className="corp-body-sm" style={{ color: 'var(--color-body)', marginBottom: '24px' }}>{item.desc}</p>
                   </div>
-                  <Link to={`/apply-partnership?model=${item.model}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--halo-primary)', fontWeight: 800, fontSize: '0.9rem', textDecoration: 'none' }}>
-                    <span>Inquire About This Model</span>
-                    <ArrowRight size={15} />
+                  <Link to={`/apply-partnership?model=${item.model}`} className="corp-link-blue" style={{ textDecoration: 'none' }}>
+                    <span>INQUIRE ABOUT THIS MODEL</span>
+                    <ArrowRight size={14} />
                   </Link>
                 </div>
               ))}
@@ -1982,64 +1888,67 @@ export default function VPGroup() {
         </section>
 
         {/* ── DNA & CULTURE SECTION ────────────────────────────── */}
-        <section style={{ padding: '120px 24px', background: 'var(--halo-surface)', borderTop: '1px solid var(--halo-border)', borderBottom: '1px solid var(--halo-border)' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'center' }} className="nothin-grid-2">
+        <section style={{ padding: '80px 24px', background: 'var(--color-canvas)', borderTop: '1px solid var(--color-hairline)', borderBottom: '1px solid var(--color-hairline)' }}>
+          <div style={{ maxWidth: '1440px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '64px', alignItems: 'center' }} className="nothin-grid-2">
             <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--halo-muted)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '16px' }}>OUR DNA</div>
-              <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 850, letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: '24px', color: 'var(--halo-on-surface)' }}>Strategic Aim & Culture</h2>
-              <p style={{ fontSize: '1.05rem', color: 'var(--halo-muted)', lineHeight: 1.7, margin: 0 }}>
-                At VP Group, our mission is to democratize high-end engineering. We combine enterprise-grade security and scale with accessible pricing models, ensuring every business has access to top-tier digital infrastructure.
+              <span className="corp-label-uppercase" style={{ color: '#1c69d4', display: 'block', marginBottom: '12px' }}>OUR PHILOSOPHY</span>
+              <h2 className="corp-display-lg" style={{ marginBottom: '20px' }}>Strategic Aim & Culture</h2>
+              <p className="corp-body-md" style={{ color: 'var(--color-body)', margin: 0 }}>
+                At VP Group & Technologies, our mission is to democratize high-end engineering. We combine enterprise-grade security and scale with accessible, transparent pricing models, ensuring every business has access to top-tier digital infrastructure.
               </p>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <div style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '32px', borderRadius: '12px' }}>
-                <h4 style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', margin: '0 0 12px 0', color: 'var(--halo-on-surface)' }}>Working Culture</h4>
-                <p style={{ fontSize: '0.9rem', color: 'var(--halo-muted)', lineHeight: 1.5, margin: 0 }}>We thrive on radical transparency. Every engineer is a decision-maker in our flat-hierarchy network.</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)', padding: '32px' }}>
+                <h4 className="corp-label-uppercase" style={{ color: 'var(--color-ink)', margin: '0 0 10px 0' }}>Working Culture</h4>
+                <p className="corp-body-sm" style={{ color: 'var(--color-muted)', margin: 0 }}>We thrive on radical transparency. Every engineer is a decision-maker in our flat-hierarchy network.</p>
               </div>
-              <div style={{ background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '32px', borderRadius: '12px' }}>
-                <h4 style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase', margin: '0 0 12px 0', color: 'var(--halo-on-surface)' }}>Industry Standing</h4>
-                <p style={{ fontSize: '0.9rem', color: 'var(--halo-muted)', lineHeight: 1.5, margin: 0 }}>Positioned at the intersection of security and performance, solving the "Infinite Scale" problem.</p>
+              <div style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)', padding: '32px' }}>
+                <h4 className="corp-label-uppercase" style={{ color: 'var(--color-ink)', margin: '0 0 10px 0' }}>Industry Standing</h4>
+                <p className="corp-body-sm" style={{ color: 'var(--color-muted)', margin: 0 }}>Positioned at the intersection of security and performance, solving the "Infinite Scale" problem.</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* ── CONTACT & COMMUNICATIONS SECTION ─────────────────── */}
-        <section id="contact" style={{ padding: '120px 24px 200px', maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--halo-border)', paddingBottom: '16px', marginBottom: '80px' }}>
-            <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--halo-on-surface)' }}>Direct Communication</span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--halo-muted)' }}>Command Center</span>
+        <section id="contact" style={{ padding: '80px 24px', maxWidth: '1440px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderBottom: '1px solid var(--color-hairline)', paddingBottom: '20px', marginBottom: '60px' }}>
+            <div>
+              <span className="corp-label-uppercase" style={{ color: '#1c69d4', display: 'block', marginBottom: '8px' }}>DIRECT COMMUNICATION</span>
+              <h2 className="corp-display-lg" style={{ margin: 0 }}>Command Center</h2>
+            </div>
+            <span className="corp-body-sm" style={{ color: 'var(--color-muted)' }}>Encrypted Channels</span>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', marginBottom: '80px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '60px' }}>
             {[
-              { label: 'Command Center', val: 'contact.vpsdev@gmail.com', tag: '24/7 Monitoring' },
-              { label: 'Headquarters', val: 'Pratapgarh, Uttar Pradesh, India', tag: 'Regional Hub' },
-              { label: 'Business Line', val: 'Inquiry via Email Recommended', tag: 'Support Mesh' }
+              { label: 'COMMAND CENTER', val: 'contact.vpsdev@gmail.com', tag: '24/7 MONITORING' },
+              { label: 'HEADQUARTERS', val: 'Pratapgarh, Uttar Pradesh, India', tag: 'REGIONAL HUB' },
+              { label: 'BUSINESS LINE', val: 'Inquiry via Email Recommended', tag: 'GLOBAL SUPPORT' }
             ].map((c, i) => (
-              <div key={i} style={{ background: 'var(--halo-surface)', border: '1px solid var(--halo-border)', padding: '40px 32px', borderRadius: '16px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '220px' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--halo-muted)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>{c.label}</span>
-                <h4 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '0 0 16px 0', color: 'var(--halo-on-surface)', wordBreak: 'break-word' }}>{c.val}</h4>
-                <div style={{ display: 'inline-block', alignSelf: 'flex-start', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '1px', background: 'var(--halo-elevated)', border: '1px solid var(--halo-border)', padding: '4px 12px', borderRadius: '20px', textTransform: 'uppercase', color: 'var(--halo-muted)' }}>{c.tag}</div>
+              <div key={i} style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)', padding: '36px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '180px' }}>
+                <span className="corp-label-uppercase" style={{ color: 'var(--color-muted)', fontSize: '11px', marginBottom: '8px' }}>{c.label}</span>
+                <h4 className="corp-title-md" style={{ margin: '0 0 14px 0', wordBreak: 'break-word' }}>{c.val}</h4>
+                <div className="corp-label-uppercase" style={{ alignSelf: 'flex-start', fontSize: '10px', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '4px 10px', color: '#1c69d4' }}>{c.tag}</div>
               </div>
             ))}
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '60px' }} className="nothin-grid-2">
             <div>
-              <h3 style={{ fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px', color: 'var(--halo-on-surface)' }}>Secure Transmission</h3>
-              <p style={{ fontSize: '0.95rem', color: 'var(--halo-muted)', lineHeight: 1.6, margin: 0 }}>
+              <h3 className="corp-title-lg" style={{ marginBottom: '16px' }}>Secure Transmission</h3>
+              <p className="corp-body-md" style={{ color: 'var(--color-muted)', margin: 0 }}>
                 Our communication lines are encrypted via end-to-end protocols. Your inquiries are routed directly to our specialized operational nodes. We typically reply within 24-48 hours.
               </p>
             </div>
 
-            <div style={{ background: 'var(--halo-surface)', padding: '40px', borderRadius: '16px', border: '1px solid var(--halo-border)' }}>
+            <div style={{ background: 'var(--color-surface-card)', padding: '40px', border: '1px solid var(--color-hairline)' }}>
               <form onSubmit={handleSubmit}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }} className="nothin-grid-2">
                   <input 
                     type="text" 
                     placeholder="Full Name" 
-                    className="nothin-input"
+                    className="corp-input"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     required
@@ -2047,7 +1956,7 @@ export default function VPGroup() {
                   <input 
                     type="email" 
                     placeholder="Email Address" 
-                    className="nothin-input"
+                    className="corp-input"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     required
@@ -2056,7 +1965,7 @@ export default function VPGroup() {
                 <input 
                   type="text" 
                   placeholder="Subject" 
-                  className="nothin-input" 
+                  className="corp-input" 
                   style={{ marginBottom: '16px' }}
                   value={formData.subject}
                   onChange={(e) => setFormData({...formData, subject: e.target.value})}
@@ -2064,7 +1973,7 @@ export default function VPGroup() {
                 />
                 <textarea 
                   placeholder="Message Payload..." 
-                  className="nothin-input" 
+                  className="corp-input" 
                   style={{ minHeight: '120px', marginBottom: '24px', resize: 'none' }}
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
@@ -2072,18 +1981,52 @@ export default function VPGroup() {
                 ></textarea>
                 <button 
                   type="submit" 
-                  className="nothin-btn-submit"
+                  className="corp-btn-primary"
+                  style={{ width: '100%' }}
                   disabled={loading}
                 >
-                  {loading ? 'Transmitting...' : 'Initialize Uplink'}
+                  <span>{loading ? 'TRANSMITTING...' : 'INITIALIZE UPLINK'}</span>
+                  <ArrowRight size={15} />
                 </button>
-                <p style={{ marginTop: '16px', fontSize: '0.7rem', color: 'var(--halo-muted)', textAlign: 'center', lineHeight: '1.4', margin: '16px 0 0 0' }}>
-                  By submitting this form, you agree to our <Link to="/terms-conditions" style={{ color: 'var(--halo-on-surface)', textDecoration: 'underline', fontWeight: 600 }}>Terms & Conditions</Link> and <Link to="/privacy-policy" style={{ color: 'var(--halo-on-surface)', textDecoration: 'underline', fontWeight: 600 }}>Privacy Policy</Link>.
+                <p className="corp-caption" style={{ marginTop: '16px', color: 'var(--color-muted)', textAlign: 'center' }}>
+                  By submitting this form, you agree to our <Link to="/terms-conditions" style={{ color: 'var(--color-ink)', fontWeight: 700 }}>Terms & Conditions</Link> and <Link to="/privacy-policy" style={{ color: 'var(--color-ink)', fontWeight: 700 }}>Privacy Policy</Link>.
                 </p>
-                {status && <div style={{ marginTop: '20px', textAlign: 'center', color: status.includes('Success') ? '#2BE08C' : '#FF3A5C', fontWeight: '700' }}>{status}</div>}
+                {status && <div style={{ marginTop: '20px', textAlign: 'center', color: status.includes('Success') ? '#22c55e' : '#dc2626', fontWeight: '700' }}>{status}</div>}
               </form>
             </div>
           </div>
+        </section>
+
+        {/* ── PRE-FOOTER CTA BAND (Adapts completely to light & dark modes) ─ */}
+        <section style={{ 
+          padding: '80px 24px', 
+          textAlign: 'center', 
+          position: 'relative', 
+          background: 'var(--color-surface-soft)', 
+          borderTop: '1px solid var(--color-hairline)' 
+        }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <span className="corp-label-uppercase" style={{ color: 'var(--color-primary)', display: 'block', marginBottom: '16px' }}>
+              READY TO ACCELERATE
+            </span>
+            <h2 className="corp-display-md" style={{ color: 'var(--color-ink)', marginBottom: '20px' }}>
+              Architect Your Next Enterprise Leap With VP Group.
+            </h2>
+            <p className="corp-body-md" style={{ color: 'var(--color-body)', marginBottom: '36px', maxWidth: '640px', margin: '0 auto 36px' }}>
+              Deploy high-throughput microservices, bespoke AI ERPs, and cloud automation engineered for infinite scale and zero downtime.
+            </p>
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button onClick={() => navigate('/consultation/book')} className="corp-btn-primary">
+                <span>SCHEDULE ARCHITECTURAL AUDIT</span>
+                <ArrowRight size={15} />
+              </button>
+              <button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} className="corp-btn-secondary">
+                <span>DIRECT UPLINK</span>
+              </button>
+            </div>
+          </div>
+          {/* M Tricolor engineering stripe at the base */}
+          <div className="corp-tricolor-stripe" style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} />
         </section>
 
         {/* Original Footer */}
@@ -2097,7 +2040,7 @@ export default function VPGroup() {
         }
         .nothin-project-row {
           display: flex;
-          gap: 64px;
+          gap: 48px;
           align-items: center;
         }
         .project-img-wrapper {
@@ -2107,148 +2050,110 @@ export default function VPGroup() {
         .project-img-placeholder {
           width: 100%;
           aspect-ratio: 16/10;
-          border-radius: 12px;
-          border: 1px solid #2A2D38;
+          border-radius: 0px !important;
         }
         .project-meta {
           flex: 0.8;
           width: 100%;
         }
         .nothin-tag {
-          font-family: ${H.mono};
-          font-size: 0.7rem;
-          font-weight: 600;
-          color: var(--halo-muted);
-          background: var(--halo-elevated);
-          border: 1px solid var(--halo-border);
+          font-family: 'Inter', sans-serif !important;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: var(--color-ink, #262626);
+          background: var(--color-canvas, #ffffff);
+          border: 1px solid var(--color-hairline, #e6e6e6);
           padding: 6px 12px;
-          border-radius: 40px;
+          border-radius: 0px !important;
           letter-spacing: 0.5px;
         }
         .nothin-btn-pill {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: #5B6BFF;
+          background: #1c69d4;
           color: #FFFFFF;
           border: none;
-          border-radius: 30px;
-          padding: 12px 24px;
+          border-radius: 0px !important;
+          padding: 14px 32px;
           font-weight: 700;
           cursor: pointer;
-          transition: all 0.2s ease;
-          font-size: 0.85rem;
+          font-size: 0.875rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
         }
         .nothin-btn-pill:hover {
-          background: #7886FF;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(91, 107, 255, 0.25);
+          background: #0653b6;
         }
         .nothin-btn-pill-action {
           display: inline-flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
-          background: #5B6BFF;
+          background: #1c69d4;
           color: #FFFFFF;
           border: none;
-          border-radius: 12px;
-          padding: 16px;
+          border-radius: 0px !important;
+          padding: 14px 24px;
           font-weight: 700;
           cursor: pointer;
           text-decoration: none;
           text-align: center;
-          transition: all 0.2s ease;
           font-size: 0.875rem;
+          text-transform: uppercase;
         }
         .nothin-btn-pill-action:hover {
-          background: #7886FF;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(91, 107, 255, 0.25);
+          background: #0653b6;
         }
         .nothin-btn-pill-action-secondary {
           display: inline-flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
-          background: transparent;
-          color: var(--halo-on-surface);
-          border: 1px solid var(--halo-border);
-          border-radius: 12px;
-          padding: 16px;
+          background: var(--color-canvas, #ffffff);
+          color: var(--color-ink, #262626);
+          border: 1px solid var(--color-hairline, #cccccc);
+          border-radius: 0px !important;
+          padding: 14px 24px;
           font-weight: 700;
           cursor: pointer;
           text-decoration: none;
           text-align: center;
-          transition: all 0.2s ease;
           font-size: 0.875rem;
+          text-transform: uppercase;
         }
         .nothin-btn-pill-action-secondary:hover {
-          background: var(--halo-elevated);
-          border-color: #5B6BFF;
-        }
-        .nothin-service-card {
-          background: var(--halo-surface);
-          border: 1px solid var(--halo-border);
-          padding: 48px;
-          cursor: pointer;
-          position: relative;
-          transition: all 0.3s ease;
-        }
-        .nothin-service-card:hover {
-          background: var(--halo-elevated);
-        }
-        .nothin-service-arrow {
-          position: absolute;
-          bottom: 32px;
-          right: 32px;
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: var(--halo-border);
-          color: var(--halo-on-surface);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transform: translateX(-10px);
-          transition: all 0.3s ease;
-        }
-        .nothin-service-card:hover .nothin-service-arrow {
-          opacity: 1;
-          transform: translateX(0);
+          background: var(--color-surface-soft, #fafafa);
         }
         .nothin-input {
           width: 100%;
-          background: var(--halo-elevated);
-          border: 1px solid var(--halo-border);
-          border-radius: 8px;
-          padding: 14px;
-          color: var(--halo-on-surface);
-          font-size: 0.95rem;
-          transition: all 0.2s;
+          background: var(--color-canvas, #ffffff);
+          border: 1px solid var(--color-hairline, #e6e6e6);
+          border-radius: 0px !important;
+          padding: 14px 16px;
+          color: var(--color-ink, #262626);
+          font-size: 1rem;
         }
         .nothin-input:focus {
-          border-color: #5B6BFF;
+          border-color: var(--color-primary, #1c69d4);
           outline: none;
-          background: var(--halo-elevated);
         }
         .nothin-btn-submit {
           width: 100%;
-          padding: 16px;
-          background: #5B6BFF;
+          padding: 14px 32px;
+          height: 48px;
+          background: #1c69d4;
           color: #FFFFFF;
           border: none;
-          border-radius: 8px;
+          border-radius: 0px !important;
           font-weight: 700;
-          font-size: 1rem;
+          font-size: 0.875rem;
           cursor: pointer;
-          transition: all 0.2s;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
         }
         .nothin-btn-submit:hover:not(:disabled) {
-          background: #7886FF;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(91, 107, 255, 0.25);
+          background: #0653b6;
         }
 
         .home-desktop-only {
@@ -2266,29 +2171,6 @@ export default function VPGroup() {
           }
           .home-desktop-only {
             display: none !important;
-          }
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translate(-50%, -90%) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translate(-50%, -100%) scale(1);
-          }
-        }
-
-        @keyframes bounce {
-          0%, 20%, 50%, 80%, 100% {
-            transform: translate(-50%, 0);
-          }
-          40% {
-            transform: translate(-50%, -10px);
-          }
-          60% {
-            transform: translate(-50%, -5px);
           }
         }
       `}</style>

@@ -18,17 +18,17 @@ const sparkUp    = [97, 98, 98, 99, 99, 99, 99.5, 99.8, 99.9, 99.9];
 const sparkSEO   = [1, 1.5, 2, 3, 4, 5.5, 7, 8, 9, 10];
 
 const codeLines = [
-  { indent: 0, text: '<App>', color: '#9AA0AE' },
-  { indent: 1, text: '<Router>', color: '#5B6BFF' },
-  { indent: 2, text: '<Navbar />', color: '#2BE08C' },
-  { indent: 2, text: '<HeroSection', color: '#3DD7E5' },
-  { indent: 3, text: 'title="Scale Infinitely"', color: '#5C6170' },
-  { indent: 3, text: 'animate={true}', color: '#5C6170' },
-  { indent: 2, text: '/>', color: '#3DD7E5' },
-  { indent: 2, text: '<ServicesGrid />', color: '#2BE08C' },
-  { indent: 2, text: '<ContactForm />', color: '#2BE08C' },
-  { indent: 1, text: '</Router>', color: '#5B6BFF' },
-  { indent: 0, text: '</App>', color: '#9AA0AE' },
+  { indent: 0, text: '<App>', color: 'var(--color-muted)' },
+  { indent: 1, text: '<Router>', color: 'var(--color-primary)' },
+  { indent: 2, text: '<Navbar />', color: '#16a34a' },
+  { indent: 2, text: '<HeroSection', color: '#0284c7' },
+  { indent: 3, text: 'title="Scale Infinitely"', color: 'var(--color-muted)' },
+  { indent: 3, text: 'animate={true}', color: 'var(--color-muted)' },
+  { indent: 2, text: '/>', color: '#0284c7' },
+  { indent: 2, text: '<ServicesGrid />', color: '#16a34a' },
+  { indent: 2, text: '<ContactForm />', color: '#16a34a' },
+  { indent: 1, text: '</Router>', color: 'var(--color-primary)' },
+  { indent: 0, text: '</App>', color: 'var(--color-muted)' },
 ];
 
 const techStack = [
@@ -140,13 +140,13 @@ export default function WebDevServicePage() {
             </div>
 
             {/* Right: Browser / code editor */}
-            <div style={{ background: '#14151C', border: '1px solid #2A2D38', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.55)' }}>
+            <div style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)', borderRadius: '0px', overflow: 'hidden' }}>
               {/* Browser chrome */}
-              <div style={{ padding: '12px 16px', background: '#1E2029', borderBottom: '1px solid #2A2D38', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ padding: '12px 16px', background: 'var(--color-surface-soft)', borderBottom: '1px solid var(--color-hairline)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <div style={{ display: 'flex', gap: '6px' }}>
                   {['#FF3A5C','#F5D547','#2BE08C'].map((c,i) => <div key={i} style={{ width: '10px', height: '10px', borderRadius: '50%', background: c, opacity: 0.8 }} />)}
                 </div>
-                <div style={{ flex: 1, background: '#14151C', borderRadius: '6px', padding: '4px 12px', fontSize: '0.75rem', color: '#5C6170', marginLeft: '8px', fontFamily: H.mono }}>
+                <div style={{ flex: 1, background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', borderRadius: '0px', padding: '4px 12px', fontSize: '0.75rem', color: 'var(--color-muted)', marginLeft: '8px', fontFamily: H.mono }}>
                   vp-group-website.vercel.app
                 </div>
               </div>
@@ -154,14 +154,14 @@ export default function WebDevServicePage() {
               <div ref={codeRef} style={{ padding: '20px', fontFamily: H.mono, fontSize: '0.8rem', lineHeight: 1.7, minHeight: '260px' }}>
                 {visibleLines.map((line, i) => (
                   <div key={i} style={{ paddingLeft: `${line.indent * 18}px`, animation: 'wd-fadein 0.15s ease' }}>
-                    <span style={{ color: '#3A3D4A', marginRight: '14px', fontSize: '0.7rem', userSelect: 'none' }}>{String(i + 1).padStart(2, '0')}</span>
+                    <span style={{ color: 'var(--color-muted-soft)', marginRight: '14px', fontSize: '0.7rem', userSelect: 'none' }}>{String(i + 1).padStart(2, '0')}</span>
                     <span style={{ color: line.color }}>{line.text}</span>
-                    {i === visibleLines.length - 1 && <span style={{ display: 'inline-block', width: '2px', height: '13px', background: '#5B6BFF', marginLeft: '2px', animation: 'wd-blink 0.7s step-end infinite', verticalAlign: 'middle' }} />}
+                    {i === visibleLines.length - 1 && <span style={{ display: 'inline-block', width: '2px', height: '13px', background: 'var(--color-primary)', marginLeft: '2px', animation: 'wd-blink 0.7s step-end infinite', verticalAlign: 'middle' }} />}
                   </div>
                 ))}
               </div>
               {/* Status bar */}
-              <div style={{ padding: '7px 16px', background: '#5B6BFF', display: 'flex', gap: '16px', fontSize: '0.7rem', color: '#fff', fontFamily: H.mono }}>
+              <div style={{ padding: '7px 16px', background: 'var(--color-primary)', display: 'flex', gap: '16px', fontSize: '0.7rem', color: '#fff', fontFamily: H.mono }}>
                 <span>✓ 0 errors</span><span>⚡ Live Dev Server</span>
                 <span style={{ marginLeft: 'auto' }}>React 18 · Vite 5</span>
               </div>

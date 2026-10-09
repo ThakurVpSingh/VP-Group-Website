@@ -94,7 +94,7 @@ const GymBackground = () => {
         zIndex: 0,
         opacity: 0.6,
         pointerEvents: 'none',
-        background: 'radial-gradient(circle at 50% 20%, #170c06 0%, #080a10 70%, #030712 100%)'
+        background: 'radial-gradient(circle at 50% 20%, rgba(249, 115, 22, 0.12) 0%, transparent 70%)'
       }}
     />
   );
@@ -134,10 +134,12 @@ const Login = ({ portalType = "User" }) => {
     <div style={{ 
       minHeight: '100vh', 
       display: 'flex', 
-      flexDirection: 'column',
-      background: '#030712',
+      flexDirection: 'column', 
+      background: 'var(--color-canvas)',
+      color: 'var(--color-ink)',
       position: 'relative',
-      fontFamily: 'Inter, system-ui, sans-serif'
+      fontFamily: 'Inter, system-ui, sans-serif',
+      transition: 'background 0.3s ease, color 0.3s ease'
     }}>
       
       {/* Navigation Header for Gym Sign In */}
@@ -150,12 +152,12 @@ const Login = ({ portalType = "User" }) => {
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
-        background: 'rgba(9, 11, 18, 0.85)', 
-        borderBottom: '1px solid rgba(249, 115, 22, 0.15)', 
+        background: 'var(--color-surface-soft)', 
+        borderBottom: '1px solid var(--color-hairline)', 
         zIndex: 1000, 
         backdropFilter: 'blur(20px)' 
       }}>
-        <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', color: '#9ca3af', fontSize: '0.85rem', fontWeight: '700', transition: 'color 0.2s' }}>
+        <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-muted)', fontSize: '0.85rem', fontWeight: '700', transition: 'color 0.2s' }}>
           <ChevronLeft size={18} color="#f97316" /> Back to Main Site
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -172,8 +174,8 @@ const Login = ({ portalType = "User" }) => {
             <Dumbbell size={22} color="white" />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontWeight: '900', fontSize: '1.2rem', color: 'white', letterSpacing: '1px' }}>PULSE<span style={{ color: '#f97316' }}>GYM</span></span>
-            <span style={{ fontSize: '0.65rem', color: '#9ca3af', fontWeight: '700', letterSpacing: '2px' }}>ATHLETIC CLUB</span>
+            <span style={{ fontWeight: '900', fontSize: '1.2rem', color: 'var(--color-ink)', letterSpacing: '1px' }}>PULSE<span style={{ color: '#f97316' }}>GYM</span></span>
+            <span style={{ fontSize: '0.65rem', color: 'var(--color-muted)', fontWeight: '700', letterSpacing: '2px' }}>ATHLETIC CLUB</span>
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -205,7 +207,7 @@ const Login = ({ portalType = "User" }) => {
           }
           @keyframes spin { 100% { transform: rotate(360deg); } }
           .gym-card {
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(249, 115, 22, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 30px rgba(249, 115, 22, 0.08);
             transition: all 0.3s ease;
           }
           .role-btn {
@@ -220,7 +222,7 @@ const Login = ({ portalType = "User" }) => {
           .demo-preset-btn:hover {
             background: rgba(249, 115, 22, 0.15) !important;
             border-color: rgba(249, 115, 22, 0.3) !important;
-            color: #fff !important;
+            color: #f97316 !important;
           }
         `}</style>
 
@@ -228,7 +230,8 @@ const Login = ({ portalType = "User" }) => {
           <div style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(3, 7, 18, 0.95)',
+            background: 'var(--color-surface-soft)',
+            opacity: 0.95,
             zIndex: 1000,
             display: 'flex',
             flexDirection: 'column',
@@ -240,18 +243,21 @@ const Login = ({ portalType = "User" }) => {
             <div style={{ marginTop: '24px', fontWeight: '900', letterSpacing: '4px', color: '#f97316', fontSize: '0.85rem' }}>
               VERIFYING GYM MEMBERSHIP
             </div>
-            <p style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '6px' }}>Connecting to Gym Gate Access System...</p>
+            <p style={{ fontSize: '0.75rem', color: 'var(--color-muted)', marginTop: '6px' }}>Connecting to Gym Gate Access System...</p>
           </div>
         )}
 
-        <Card className="w-full max-w-[460px] bg-zinc-950/85 border-orange-500/20 backdrop-blur-2xl p-6 md:p-8 relative rounded-3xl gym-card">
+        <Card 
+          className="w-full max-w-[460px] backdrop-blur-2xl p-6 md:p-8 relative rounded-3xl gym-card"
+          style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)' }}
+        >
           
           <CardHeader className="text-center pb-4 flex flex-col items-center p-0 mb-4">
             <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30 mb-4 justify-center mx-auto shadow-lg shadow-orange-500/10">
-              {portalType === "SuperAdmin" ? <Shield size={32} className="text-orange-400" /> : <Dumbbell size={32} className="text-orange-400" />}
+              {portalType === "SuperAdmin" ? <Shield size={32} className="text-orange-500" /> : <Dumbbell size={32} className="text-orange-500" />}
             </div>
             
-            <CardTitle className="text-3xl font-black tracking-tight text-white flex items-center justify-center gap-2">
+            <CardTitle className="text-3xl font-black tracking-tight flex items-center justify-center gap-2" style={{ color: 'var(--color-ink)' }}>
               {portalType === "SuperAdmin" ? (
                 <>Gym Admin <span className="text-orange-500">Vault</span></>
               ) : (
@@ -259,7 +265,7 @@ const Login = ({ portalType = "User" }) => {
               )}
             </CardTitle>
             
-            <p className="text-xs text-zinc-400 font-medium mt-2 leading-relaxed">
+            <p className="text-xs font-medium mt-2 leading-relaxed" style={{ color: 'var(--color-muted)' }}>
               {portalType === "SuperAdmin" 
                 ? "Full administrative access for gym operations, trainers & billing" 
                 : "Access your workout routines, locker pass, trainer sessions & progress"}
@@ -267,6 +273,43 @@ const Login = ({ portalType = "User" }) => {
           </CardHeader>
 
           <CardContent className="p-0">
+            
+            {/* Direct Switch to VP Group Employee Portal */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%)',
+              border: '1px solid rgba(99, 102, 241, 0.35)',
+              borderRadius: '14px',
+              padding: '12px 14px',
+              marginBottom: '18px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '10px'
+            }}>
+              <div>
+                <div style={{ fontSize: '0.78rem', fontWeight: '800', color: '#c7d2fe', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Sparkles size={14} color="#818cf8" /> VP Group Corporate Employee?
+                </div>
+                <div style={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+                  Daily Attendance, Tasks, Assigned Projects & Team
+                </div>
+              </div>
+              <Link 
+                to="/employee-login" 
+                style={{
+                  background: '#6366f1',
+                  color: 'white',
+                  padding: '6px 12px',
+                  borderRadius: '8px',
+                  fontSize: '0.72rem',
+                  fontWeight: '800',
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                Employee Portal →
+              </Link>
+            </div>
             
             {/* Quick Demo Autofill Selector */}
             <div style={{ 
@@ -381,12 +424,12 @@ const Login = ({ portalType = "User" }) => {
 
               <FieldGroup className="flex flex-col gap-4">
                 <Field>
-                  <FieldLabel htmlFor="email" className="text-zinc-400 font-extrabold text-[10px] tracking-wider uppercase mb-1.5 block flex items-center justify-between">
+                  <FieldLabel htmlFor="email" className="font-extrabold text-[10px] tracking-wider uppercase mb-1.5 block flex items-center justify-between" style={{ color: 'var(--color-muted)' }}>
                     <span>Member Email or Gym ID</span>
-                    <span className="text-orange-500/80 font-semibold text-[9px]">e.g. member@gym.local</span>
+                    <span className="text-orange-500 font-semibold text-[9px]">e.g. member@gym.local</span>
                   </FieldLabel>
                   <div style={{ position: 'relative' }}>
-                    <Mail size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', zIndex: 10 }} />
+                    <Mail size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-muted)', zIndex: 10 }} />
                     <Input 
                       id="email"
                       type="email" 
@@ -394,18 +437,19 @@ const Login = ({ portalType = "User" }) => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="bg-zinc-900/60 border-white/10 text-white pl-12 h-12 rounded-xl focus:border-orange-500 focus:ring-1 focus:ring-orange-500/30 text-sm font-medium"
+                      style={{ background: 'var(--color-canvas)', borderColor: 'var(--color-hairline)', color: 'var(--color-ink)' }}
+                      className="pl-12 h-12 rounded-xl focus:border-orange-500 focus:ring-1 focus:ring-orange-500/30 text-sm font-medium"
                     />
                   </div>
                 </Field>
 
                 <Field>
-                  <FieldLabel htmlFor="password" className="text-zinc-400 font-extrabold text-[10px] tracking-wider uppercase mb-1.5 block flex items-center justify-between">
+                  <FieldLabel htmlFor="password" className="font-extrabold text-[10px] tracking-wider uppercase mb-1.5 block flex items-center justify-between" style={{ color: 'var(--color-muted)' }}>
                     <span>Password / Access PIN</span>
-                    <a href="#forgot" onClick={(e) => { e.preventDefault(); alert("Passcode reset link sent to your registered email."); }} className="text-orange-400 hover:text-orange-300 text-[10px] font-bold">Forgot PIN?</a>
+                    <a href="#forgot" onClick={(e) => { e.preventDefault(); alert("Passcode reset link sent to your registered email."); }} className="text-orange-500 hover:text-orange-600 text-[10px] font-bold">Forgot PIN?</a>
                   </FieldLabel>
                   <div style={{ position: 'relative' }}>
-                    <Lock size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', zIndex: 10 }} />
+                    <Lock size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-muted)', zIndex: 10 }} />
                     <Input 
                       id="password"
                       type="password" 
@@ -413,14 +457,15 @@ const Login = ({ portalType = "User" }) => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="bg-zinc-900/60 border-white/10 text-white pl-12 h-12 rounded-xl focus:border-orange-500 focus:ring-1 focus:ring-orange-500/30 text-sm font-medium"
+                      style={{ background: 'var(--color-canvas)', borderColor: 'var(--color-hairline)', color: 'var(--color-ink)' }}
+                      className="pl-12 h-12 rounded-xl focus:border-orange-500 focus:ring-1 focus:ring-orange-500/30 text-sm font-medium"
                     />
                   </div>
                 </Field>
 
                 {showMfa && (
                   <Field className="animate-fade-in">
-                    <FieldLabel htmlFor="mfaCode" className="text-orange-400 font-extrabold text-[10px] tracking-wider uppercase mb-1.5 block">Gym Gate 2FA Passcode</FieldLabel>
+                    <FieldLabel htmlFor="mfaCode" className="text-orange-500 font-extrabold text-[10px] tracking-wider uppercase mb-1.5 block">Gym Gate 2FA Passcode</FieldLabel>
                     <div style={{ position: 'relative' }}>
                       <QrCode size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#f97316', zIndex: 10 }} />
                       <Input 
@@ -430,7 +475,8 @@ const Login = ({ portalType = "User" }) => {
                         value={mfaCode}
                         onChange={(e) => setMfaCode(e.target.value)}
                         required
-                        className="bg-zinc-900/60 border-orange-500/40 text-white pl-12 h-12 rounded-xl focus:border-orange-500 focus:ring-1"
+                        style={{ background: 'var(--color-canvas)', borderColor: 'var(--color-hairline)', color: 'var(--color-ink)' }}
+                        className="pl-12 h-12 rounded-xl focus:border-orange-500 focus:ring-1"
                       />
                     </div>
                   </Field>
@@ -477,23 +523,23 @@ const Login = ({ portalType = "User" }) => {
             <div style={{ 
               marginTop: '24px', 
               paddingTop: '20px', 
-              borderTop: '1px solid rgba(255,255,255,0.06)',
+              borderTop: '1px solid var(--color-hairline)',
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '8px',
               textAlign: 'center'
             }}>
-              <div style={{ padding: '8px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.04)' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: '800', color: 'white' }}>🏋️ Workout</div>
-                <div style={{ fontSize: '0.65rem', color: '#9ca3af' }}>Custom Plans</div>
+              <div style={{ padding: '8px', background: 'var(--color-surface-soft)', borderRadius: '10px', border: '1px solid var(--color-hairline)' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--color-ink)' }}>🏋️ Workout</div>
+                <div style={{ fontSize: '0.65rem', color: 'var(--color-muted)' }}>Custom Plans</div>
               </div>
-              <div style={{ padding: '8px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.04)' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: '800', color: 'white' }}>🔑 Gate QR</div>
-                <div style={{ fontSize: '0.65rem', color: '#9ca3af' }}>Fast Access</div>
+              <div style={{ padding: '8px', background: 'var(--color-surface-soft)', borderRadius: '10px', border: '1px solid var(--color-hairline)' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--color-ink)' }}>🔑 Gate QR</div>
+                <div style={{ fontSize: '0.65rem', color: 'var(--color-muted)' }}>Fast Access</div>
               </div>
-              <div style={{ padding: '8px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.04)' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: '800', color: 'white' }}>🔥 Progress</div>
-                <div style={{ fontSize: '0.65rem', color: '#9ca3af' }}>Live Metrics</div>
+              <div style={{ padding: '8px', background: 'var(--color-surface-soft)', borderRadius: '10px', border: '1px solid var(--color-hairline)' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--color-ink)' }}>🔥 Progress</div>
+                <div style={{ fontSize: '0.65rem', color: 'var(--color-muted)' }}>Live Metrics</div>
               </div>
             </div>
 

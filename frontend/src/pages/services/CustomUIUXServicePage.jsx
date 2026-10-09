@@ -29,14 +29,13 @@ const deliverables = [
   { label:'Accessibility Audit', desc:'WCAG 2.1 AA compliance check and remediation guide' },
 ];
 
-// Wireframe blocks shifted down to y:24% to eliminate header text overlap
 const wireBlocks = [
-  { x:'5%', y:'24%', w:'42%', h:'22%', color:'#FF3A5C', label:'Hero' },
-  { x:'52%', y:'24%', w:'43%', h:'22%', color:'#3A3D4A', label:'Nav' },
-  { x:'5%', y:'52%', w:'28%', h:'26%', color:'#2A2D38', label:'Card 1' },
-  { x:'36%', y:'52%', w:'28%', h:'26%', color:'#2A2D38', label:'Card 2' },
-  { x:'67%', y:'52%', w:'28%', h:'26%', color:'#2A2D38', label:'Card 3' },
-  { x:'5%', y:'82%', w:'90%', h:'14%', color:'#1E2029', label:'Footer' },
+  { x:'5%', y:'24%', w:'42%', h:'22%', color:'var(--color-primary)', label:'Hero' },
+  { x:'52%', y:'24%', w:'43%', h:'22%', color:'var(--color-surface-soft)', label:'Nav' },
+  { x:'5%', y:'52%', w:'28%', h:'26%', color:'var(--color-surface-soft)', label:'Card 1' },
+  { x:'36%', y:'52%', w:'28%', h:'26%', color:'var(--color-surface-soft)', label:'Card 2' },
+  { x:'67%', y:'52%', w:'28%', h:'26%', color:'var(--color-surface-soft)', label:'Card 3' },
+  { x:'5%', y:'82%', w:'90%', h:'14%', color:'var(--color-surface-soft)', label:'Footer' },
 ];
 
 export default function CustomUIUXServicePage() {
@@ -174,29 +173,27 @@ export default function CustomUIUXServicePage() {
               onTouchStart={handleTouchMove}
               className="halo-hero-canvas"
               style={{ 
-                background:'#14151C', 
-                border:'1px solid #2A2D38', 
-                borderRadius:'16px', 
+                background:'var(--color-surface-card)', 
+                border:'1px solid var(--color-hairline)', 
+                borderRadius:'0px', 
                 padding:'24px', 
                 position:'relative', 
                 overflow:'hidden', 
                 cursor:'none', 
                 height:'clamp(320px, 48vh, 440px)', 
                 width:'100%',
-                boxShadow:'0 24px 60px rgba(0,0,0,0.55)',
                 touchAction:'none'
               }}
             >
               {/* Isolated Canvas Header Tag */}
               <div style={{ position:'relative', zIndex:12, marginBottom:'12px' }}>
                 <span className="halo-label" style={{ 
-                  background:'rgba(20, 21, 28, 0.9)', 
-                  backdropFilter:'blur(8px)', 
+                  background:'var(--color-surface-soft)', 
                   padding:'5px 12px', 
-                  borderRadius:'8px', 
-                  border:'1px solid rgba(255,255,255,0.08)', 
+                  borderRadius:'0px', 
+                  border:'1px solid var(--color-hairline)', 
                   display:'inline-block',
-                  color:'#FF3A5C',
+                  color:'var(--color-primary)',
                   fontSize:'0.72rem',
                   fontWeight:700,
                   letterSpacing:'0.06em'
@@ -206,8 +203,8 @@ export default function CustomUIUXServicePage() {
               </div>
 
               {/* Custom cursor glow */}
-              <div style={{ position:'absolute', width:'60px', height:'60px', borderRadius:'50%', background:`radial-gradient(circle, rgba(255,58,92,0.18) 0%, transparent 70%)`, left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:10 }} />
-              <div style={{ position:'absolute', width:'8px', height:'8px', borderRadius:'50%', background:'#FF3A5C', left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:11 }} />
+              <div style={{ position:'absolute', width:'60px', height:'60px', borderRadius:'50%', background:`radial-gradient(circle, rgba(28,105,212,0.18) 0%, transparent 70%)`, left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:10 }} />
+              <div style={{ position:'absolute', width:'8px', height:'8px', borderRadius:'50%', background:'var(--color-primary)', left:`${cursor.x}%`, top:`${cursor.y}%`, transform:'translate(-50%,-50%)', transition:'left 0.05s, top 0.05s', pointerEvents:'none', zIndex:11 }} />
 
               {/* SVG wireframe canvas starting cleanly below the header bar */}
               <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1 }}>
@@ -217,9 +214,9 @@ export default function CustomUIUXServicePage() {
                     onMouseLeave={()=>setActiveBlock(null)}
                     onTouchStart={()=>setActiveBlock(i)}
                   >
-                    <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="6" ry="6"
-                      fill={activeBlock===i?'rgba(255,58,92,0.2)':b.color}
-                      stroke={activeBlock===i?'#FF3A5C':'#3A3D4A'}
+                    <rect x={b.x} y={b.y} width={b.w} height={b.h} rx="0" ry="0"
+                      fill={activeBlock===i?'rgba(28,105,212,0.2)':b.color}
+                      stroke={activeBlock===i?'var(--color-primary)':'var(--color-hairline-strong)'}
                       strokeWidth={activeBlock===i?'1.5':'1'}
                       style={{ transition:'all 0.15s' }}
                     />
@@ -228,7 +225,7 @@ export default function CustomUIUXServicePage() {
               </svg>
 
               <div style={{ position:'absolute', bottom:'16px', left:'50%', transform:'translateX(-50%)', width:'max-content', zIndex:12 }}>
-                <Chip variant="error"><MousePointer size={10} style={{ marginRight:3 }} />Touch or move cursor to interact</Chip>
+                <Chip variant="info"><MousePointer size={10} style={{ marginRight:3 }} />Touch or move cursor to interact</Chip>
               </div>
             </div>
           </div>

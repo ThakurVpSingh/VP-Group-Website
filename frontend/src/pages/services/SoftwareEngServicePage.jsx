@@ -54,7 +54,7 @@ const pillars = [
   { num: '04', title: '99.99% SLA Engineering',     desc: 'Redundant architecture, circuit breakers, and automated failover ensuring enterprise availability.', icon: Zap },
 ];
 
-const logColor = (t) => t === 'cmd' ? '#5B6BFF' : t === 'success' ? '#2BE08C' : '#9AA0AE';
+const logColor = (t) => t === 'cmd' ? 'var(--color-primary)' : t === 'success' ? '#16a34a' : 'var(--color-muted)';
 const getNode = (id) => svgNodes.find(n => n.id === id);
 
 export default function SoftwareEngServicePage() {
@@ -133,18 +133,18 @@ export default function SoftwareEngServicePage() {
             </div>
 
             {/* Terminal */}
-            <div style={{ background: '#14151C', border: '1px solid #2A2D38', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 24px 60px rgba(0,0,0,0.55)' }}>
-              <div style={{ padding: '11px 16px', background: '#1E2029', borderBottom: '1px solid #2A2D38', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)', borderRadius: '0px', overflow: 'hidden' }}>
+              <div style={{ padding: '11px 16px', background: 'var(--color-surface-soft)', borderBottom: '1px solid var(--color-hairline)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <div style={{ display: 'flex', gap: '5px' }}>
                   {['#FF3A5C','#F5D547','#2BE08C'].map((c,i) => <div key={i} style={{ width: '9px', height: '9px', borderRadius: '50%', background: c, opacity: 0.8 }} />)}
                 </div>
-                <span style={{ marginLeft: '8px', fontSize: '0.72rem', color: '#5C6170', fontFamily: H.mono }}>vp-engineering ~ production</span>
+                <span style={{ marginLeft: '8px', fontSize: '0.72rem', color: 'var(--color-muted)', fontFamily: H.mono }}>vp-engineering ~ production</span>
               </div>
               <div ref={termRef} style={{ padding: '20px', fontFamily: H.mono, fontSize: '0.76rem', lineHeight: 1.8, height: '280px', overflowY: 'auto' }}>
                 {lines.map((l, i) => (
                   <div key={i} style={{ color: logColor(l.type), animation: 'se-fadein 0.18s ease' }}>{l.text}</div>
                 ))}
-                <span style={{ display: 'inline-block', width: '7px', height: '14px', background: '#5B6BFF', animation: 'se-blink 0.7s step-end infinite', marginTop: '2px' }} />
+                <span style={{ display: 'inline-block', width: '7px', height: '14px', background: 'var(--color-primary)', animation: 'se-blink 0.7s step-end infinite', marginTop: '2px' }} />
               </div>
             </div>
           </div>
@@ -173,13 +173,13 @@ export default function SoftwareEngServicePage() {
               <svg viewBox="0 0 100 90" style={{ width: '100%', height: '300px' }}>
                 {svgEdges.map(([a,b],i) => {
                   const na = getNode(a), nb = getNode(b);
-                  return <line key={i} x1={`${na.x}%`} y1={`${na.y+4}%`} x2={`${nb.x}%`} y2={`${nb.y-4}%`} stroke="#2A2D38" strokeWidth="0.8" strokeDasharray="2,2" />;
+                  return <line key={i} x1={`${na.x}%`} y1={`${na.y+4}%`} x2={`${nb.x}%`} y2={`${nb.y-4}%`} stroke="var(--color-hairline-strong)" strokeWidth="0.8" strokeDasharray="2,2" />;
                 })}
                 {svgNodes.map((node, i) => (
                   <g key={i} className="se-node">
                     <circle cx={`${node.x}%`} cy={`${node.y}%`} r="5" fill={node.color} opacity="0.9" />
                     <circle cx={`${node.x}%`} cy={`${node.y}%`} r="8" fill="none" stroke={node.color} strokeWidth="0.5" opacity="0.35" />
-                    <text x={`${node.x}%`} y={`${node.y+9}%`} textAnchor="middle" fill="#5C6170" fontSize="3.5" fontFamily="sans-serif">{node.label}</text>
+                    <text x={`${node.x}%`} y={`${node.y+9}%`} textAnchor="middle" fill="var(--color-muted)" fontSize="3.5" fontFamily="sans-serif">{node.label}</text>
                   </g>
                 ))}
               </svg>

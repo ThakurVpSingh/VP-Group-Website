@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { 
   Zap, Menu, X, ChevronDown, Shield, ArrowRight, Globe, Layers, Mail,
-  Sparkles, Terminal, Users, Activity, Cpu, ShieldCheck, Sun, Moon, Monitor,
+  Sparkles, Terminal, Users, Activity, Cpu, ShieldCheck,
   RefreshCw, Plug, Code2, Briefcase, Building2, HelpCircle
 } from 'lucide-react';
 import Logo from './Logo';
-import { useTheme } from '../context/ThemeContext';
 
 const ProjectNavbar = ({ scrollY: propScrollY }) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { themeMode, effectiveTheme, toggleTheme } = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
@@ -155,6 +153,7 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                                 Company <ChevronDown size={12} className="drop-icon" />
                             </button>
                             <div className="dropdown-content">
+                                <Link to="/employee-login" className="employee-highlight-link">⚡ Employee Portal</Link>
                                 <Link to="/our-strategy">About Us</Link>
                                 <Link to="/our-strategy#leadership">Leadership</Link>
                                 <Link to="/apply-partnership">Careers</Link>
@@ -164,40 +163,21 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                             </div>
                         </div>
 
-                        {/* Theme Toggle Button (Single Icon) */}
-                        <button 
-                            className="theme-toggle-btn"
-                            onClick={toggleTheme}
-                            title={`Current Theme: ${themeMode} (${effectiveTheme}). Click to switch (Light / Dark / System)`}
-                            aria-label={`Toggle Theme. Current: ${themeMode}`}
-                        >
-                            {themeMode === 'system' && <Monitor size={17} />}
-                            {themeMode === 'light' && <Sun size={17} />}
-                            {themeMode === 'dark' && <Moon size={17} />}
-                        </button>
-                        
+                        <Link to="/employee-login" className="nav-portal-btn nav-employee-btn">
+                            Employee Portal
+                        </Link>
+
                         <Link to="/consultation/book" className="nav-portal-btn">
                             Book Consultation
                         </Link>
                     </div>
 
-                    {/* Mobile Menu Controls */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }} className="mobile-only-flex">
-                        <button 
-                            className="theme-toggle-btn-mobile"
-                            onClick={toggleTheme}
-                            title={`Toggle Theme: ${themeMode}`}
-                            aria-label="Toggle Theme"
-                        >
-                            {themeMode === 'system' && <Monitor size={18} />}
-                            {themeMode === 'light' && <Sun size={18} />}
-                            {themeMode === 'dark' && <Moon size={18} />}
-                        </button>
-
+                    {/* Header Action Controls (Mobile Hamburger) */}
+                    <div className="nav-actions">
                         <button 
                             className={`hamburger-box ${isMenuOpen ? 'active' : ''}`} 
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            aria-label="Toggle Menu"
+                            aria-label="Toggle Navigation Menu"
                         >
                             <div className="hamburger-inner"></div>
                         </button>
@@ -249,6 +229,7 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                         <div className="drawer-section">
                             <label>COMPANY & RESOURCES</label>
                             <div className="drawer-links">
+                                <Link to="/employee-login" onClick={() => setIsMenuOpen(false)} className="employee-highlight-link">⚡ Employee Portal & Dashboard</Link>
                                 <Link to="/our-strategy" onClick={() => setIsMenuOpen(false)}>About Us & Strategy</Link>
                                 <Link to="/help/portfolio" onClick={() => setIsMenuOpen(false)}>Portfolio & Works</Link>
                                 <Link to="/help/partners" onClick={() => setIsMenuOpen(false)}>Partnerships</Link>
@@ -272,21 +253,26 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     top: 0;
                     left: 0;
                     width: 100%;
+                    height: 64px;
                     z-index: 3000;
-                    padding: 16px 40px;
-                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-                    background: var(--halo-bg);
-                    backdrop-filter: blur(20px);
-                    border-bottom: 1px solid var(--halo-border);
+                    padding: 0 40px;
+                    background: var(--color-canvas, #ffffff);
+                    border-bottom: 1px solid var(--color-hairline, #e6e6e6);
+                    display: flex;
+                    align-items: center;
+                    transition: all 0.2s ease;
                 }
 
                 .project-navbar.scrolled {
-                    padding: 12px 40px;
-                    box-shadow: var(--halo-shadow-md);
+                    background: var(--color-canvas);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border-bottom: 1px solid var(--color-hairline);
                 }
 
                 .nav-container {
-                    max-width: 1300px;
+                    width: 100%;
+                    max-width: 1440px;
                     margin: 0 auto;
                     display: flex;
                     justify-content: space-between;
@@ -301,20 +287,19 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                 }
 
                 .nav-logo-box {
-                    width: 42px;
-                    height: 42px;
-                    background: var(--halo-surface);
-                    border: 1px solid var(--halo-border);
-                    border-radius: 12px;
+                    width: 38px;
+                    height: 38px;
+                    background: var(--color-surface-card);
+                    border: 1px solid var(--color-hairline);
+                    border-radius: 0px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    transition: 0.3s;
+                    transition: 0.2s;
                 }
 
                 .nav-logo-section:hover .nav-logo-box {
-                    border-color: var(--halo-primary);
-                    box-shadow: 0 0 16px var(--halo-focus);
+                    border-color: var(--color-primary);
                 }
 
                 .logo-text {
@@ -323,20 +308,21 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                 }
 
                 .brand-name {
-                    font-size: 1.05rem;
-                    font-weight: 900;
-                    letter-spacing: -0.02em;
-                    color: var(--halo-on-surface);
-                    line-height: 1;
+                    font-family: var(--font-corporate, 'Inter', sans-serif);
+                    font-size: 0.98rem;
+                    font-weight: 700;
+                    letter-spacing: 0;
+                    color: var(--color-ink);
+                    line-height: 1.1;
                 }
 
                 .brand-sub {
                     font-family: 'JetBrains Mono', monospace;
-                    font-size: 0.65rem;
+                    font-size: 0.62rem;
                     font-weight: 700;
-                    letter-spacing: 2px;
-                    color: var(--halo-primary);
-                    margin-top: 3px;
+                    letter-spacing: 1.5px;
+                    color: var(--color-primary);
+                    margin-top: 2px;
                 }
 
                 .nav-links {
@@ -345,24 +331,31 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     gap: 28px;
                 }
 
+                .nav-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+
                 .nav-link-btn {
-                    color: var(--halo-muted);
+                    color: var(--color-ink);
                     text-decoration: none;
-                    font-size: 0.9rem;
-                    font-weight: 700;
-                    letter-spacing: 0.2px;
+                    font-family: var(--font-corporate, 'Inter', sans-serif);
+                    font-size: 14px;
+                    font-weight: 400;
+                    letter-spacing: 0.3px;
                     background: none;
                     border: none;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
                     gap: 6px;
-                    transition: 0.2s;
+                    transition: color 0.15s ease;
                     padding: 8px 0;
                 }
 
                 .nav-link-btn:hover {
-                    color: var(--halo-on-surface);
+                    color: var(--color-primary);
                 }
 
                 .drop-icon {
@@ -371,86 +364,84 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
 
                 .nav-dropdown:hover .drop-icon {
                     transform: rotate(180deg);
-                    color: var(--halo-primary);
-                }
-
-                .theme-toggle-btn {
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 38px;
-                    height: 38px;
-                    background: var(--halo-surface);
-                    border: 1px solid var(--halo-border);
-                    color: var(--halo-on-surface);
-                    border-radius: 50%;
-                    cursor: pointer;
-                    transition: all 0.2s;
-                    flex-shrink: 0;
-                }
-
-                .theme-toggle-btn:hover {
-                    border-color: var(--halo-primary);
-                    background: var(--halo-elevated);
-                    color: var(--halo-primary);
-                    transform: translateY(-1px);
-                }
-
-                .theme-toggle-btn-mobile {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 38px;
-                    height: 38px;
-                    border-radius: 50%;
-                    background: var(--halo-surface);
-                    border: 1px solid var(--halo-border);
-                    color: var(--halo-on-surface);
-                    cursor: pointer;
-                    transition: all 0.2s;
-                }
-
-                .theme-toggle-btn-mobile:hover {
-                    border-color: var(--halo-primary);
-                    background: var(--halo-elevated);
-                    color: var(--halo-primary);
+                    color: var(--color-primary);
                 }
 
                 .nav-portal-btn {
-                    padding: 10px 22px;
-                    border-radius: 25px;
-                    background: var(--halo-primary);
+                    padding: 12px 28px;
+                    border-radius: 0px;
+                    background: var(--color-primary);
                     color: #ffffff;
                     text-decoration: none;
-                    font-size: 0.85rem;
-                    font-weight: 800;
-                    letter-spacing: 0.3px;
-                    box-shadow: 0 4px 15px var(--halo-focus);
-                    transition: all 0.25s;
+                    font-family: var(--font-corporate, 'Inter', sans-serif);
+                    font-size: 14px;
+                    font-weight: 700;
+                    letter-spacing: 0.5px;
+                    border: none;
+                    height: 44px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: background-color 0.15s ease;
                 }
 
                 .nav-portal-btn:hover {
-                    background: var(--halo-primary-hover);
-                    transform: translateY(-2px);
+                    background: var(--color-primary-active);
+                }
+
+                .nav-employee-btn {
+                    background: rgba(28, 105, 212, 0.08) !important;
+                    border: 1px solid rgba(28, 105, 212, 0.28) !important;
+                    color: var(--color-primary, #1c69d4) !important;
+                    margin-right: 6px;
+                }
+
+                .nav-employee-btn:hover {
+                    background: rgba(28, 105, 212, 0.16) !important;
+                    color: var(--color-primary-active, #0653b6) !important;
+                }
+
+                [data-theme='dark'] .nav-employee-btn,
+                .dark-mode .nav-employee-btn {
+                    background: rgba(99, 102, 241, 0.15) !important;
+                    border: 1px solid rgba(99, 102, 241, 0.35) !important;
+                    color: #c7d2fe !important;
+                }
+
+                [data-theme='dark'] .nav-employee-btn:hover,
+                .dark-mode .nav-employee-btn:hover {
+                    background: rgba(99, 102, 241, 0.28) !important;
+                    color: #ffffff !important;
+                }
+
+                .employee-highlight-link {
+                    color: var(--color-primary, #1c69d4) !important;
+                    font-weight: 700;
+                }
+
+                [data-theme='dark'] .employee-highlight-link,
+                .dark-mode .employee-highlight-link {
+                    color: #818cf8 !important;
                 }
 
                 /* ── DROPDOWN STYLES ── */
                 .nav-dropdown { position: relative; padding-bottom: 12px; margin-bottom: -12px; }
+
 
                 .dropdown-content {
                     position: absolute;
                     top: 100%;
                     left: 50%;
                     transform: translateX(-50%) translateY(12px);
-                    background: var(--halo-surface);
-                    border-radius: 16px;
+                    background: var(--color-canvas, #ffffff);
+                    border-radius: 0px;
                     min-width: 220px;
                     padding: 10px 0;
                     opacity: 0;
                     visibility: hidden;
-                    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-                    box-shadow: var(--halo-shadow-lg);
-                    border: 1px solid var(--halo-border);
+                    transition: all 0.2s ease;
+                    box-shadow: none;
+                    border: 1px solid var(--color-hairline, #e6e6e6);
                     pointer-events: none;
                 }
 
@@ -553,12 +544,12 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                 /* Hamburger */
                 .hamburger-box {
                     display: none;
-                    width: 40px;
-                    height: 40px;
+                    width: 38px;
+                    height: 38px;
                     padding: 0;
-                    background: var(--halo-surface);
-                    border: 1px solid var(--halo-border);
-                    border-radius: 10px;
+                    background: var(--color-surface-soft);
+                    border: 1px solid var(--color-hairline);
+                    border-radius: 0px;
                     cursor: pointer;
                     align-items: center;
                     justify-content: center;
@@ -567,8 +558,8 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                 .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
                     width: 18px;
                     height: 2px;
-                    background-color: var(--halo-on-surface);
-                    border-radius: 2px;
+                    background-color: var(--color-ink);
+                    border-radius: 0px;
                     position: absolute;
                     transition: all 0.25s ease;
                 }
@@ -601,10 +592,10 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     width: 320px;
                     max-width: 85vw;
                     height: 100vh;
-                    background: var(--halo-surface);
+                    background: var(--color-canvas);
                     z-index: 3999;
-                    box-shadow: var(--halo-shadow-lg);
-                    border-left: 1px solid var(--halo-border);
+                    box-shadow: none;
+                    border-left: 1px solid var(--color-hairline);
                     transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
                     display: flex;
                     flex-direction: column;
@@ -616,13 +607,13 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    border-bottom: 1px solid var(--halo-border);
+                    border-bottom: 1px solid var(--color-hairline);
                 }
                 .drawer-title {
                     font-size: 0.8rem;
                     font-weight: 800;
                     letter-spacing: 1.5px;
-                    color: var(--halo-primary);
+                    color: var(--color-primary);
                 }
 
                 .drawer-content {
@@ -639,14 +630,14 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                     font-size: 0.7rem;
                     font-weight: 800;
                     letter-spacing: 1.5px;
-                    color: var(--halo-muted);
+                    color: var(--color-muted);
                     margin-bottom: 12px;
                 }
 
                 .drawer-main-link {
                     font-size: 1.1rem;
                     font-weight: 800;
-                    color: var(--halo-on-surface);
+                    color: var(--color-ink);
                     text-decoration: none;
                 }
 
@@ -658,34 +649,37 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
 
                 .drawer-links a {
                     font-size: 0.95rem;
-                    color: var(--halo-on-surface);
+                    color: var(--color-body);
                     text-decoration: none;
                     transition: 0.2s;
                 }
 
                 .drawer-links a:hover {
-                    color: var(--halo-primary);
+                    color: var(--color-primary);
                     padding-left: 4px;
                 }
 
                 .drawer-portal-btn {
                     display: block;
                     text-align: center;
-                    padding: 14px;
-                    border-radius: 12px;
-                    background: var(--halo-primary);
+                    padding: 14px 28px;
+                    border-radius: 0px;
+                    background: var(--color-primary, #1c69d4);
                     color: #fff;
-                    font-weight: 800;
+                    font-weight: 700;
+                    letter-spacing: 0.5px;
+                    font-size: 14px;
                     text-decoration: none;
+                    transition: background-color 0.15s ease;
                 }
-
-                .mobile-only-flex { display: none; }
+                .drawer-portal-btn:hover {
+                    background: var(--color-primary-active, #0653b6);
+                }
 
                 @media (max-width: 992px) {
                     .desktop-only { display: none !important; }
                     .hamburger-box { display: flex !important; }
-                    .mobile-only-flex { display: flex !important; }
-                    .project-navbar { padding: 16px 20px !important; }
+                    .project-navbar { padding: 0 20px !important; }
                 }
             `}</style>
         </>

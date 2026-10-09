@@ -48,10 +48,10 @@ const VaultDemoNavbar = () => {
                     background: transparent;
                 }
                 .vault-demo-nav.scrolled {
-                    background: rgba(2, 6, 23, 0.8);
+                    background: var(--color-surface-soft);
                     backdrop-filter: blur(20px);
                     padding: 16px 5%;
-                    border-bottom: 1px solid rgba(34, 211, 238, 0.1);
+                    border-bottom: 1px solid var(--color-hairline);
                 }
                 .nav-inner {
                     max-width: 1400px;
@@ -74,12 +74,12 @@ const VaultDemoNavbar = () => {
                     font-weight: 900;
                     letter-spacing: 2px;
                     font-size: 1.1rem;
-                    color: #fff;
+                    color: var(--color-ink);
                 }
                 .logo-text .sub {
                     font-size: 0.65rem;
                     font-weight: 800;
-                    color: #22d3ee;
+                    color: var(--color-primary);
                     letter-spacing: 1px;
                 }
                 .nav-links {
@@ -87,7 +87,7 @@ const VaultDemoNavbar = () => {
                     gap: 40px;
                 }
                 .demo-nav-link {
-                    color: #94a3b8;
+                    color: var(--color-muted);
                     text-decoration: none;
                     font-size: 0.8rem;
                     font-weight: 700;
@@ -99,14 +99,14 @@ const VaultDemoNavbar = () => {
                     transition: 0.3s;
                 }
                 .demo-nav-link:hover {
-                    color: #22d3ee;
+                    color: var(--color-primary);
                 }
                 .back-btn {
                     padding: 10px 20px;
-                    background: rgba(255,255,255,0.05);
-                    border: 1px solid rgba(255,255,255,0.1);
+                    background: var(--color-surface-soft);
+                    border: 1px solid var(--color-hairline);
                     border-radius: 8px;
-                    color: #fff;
+                    color: var(--color-ink);
                     font-size: 0.75rem;
                     font-weight: 800;
                     cursor: pointer;
@@ -116,8 +116,8 @@ const VaultDemoNavbar = () => {
                     transition: 0.3s;
                 }
                 .back-btn:hover {
-                    background: rgba(255,255,255,0.1);
-                    border-color: #22d3ee;
+                    background: var(--color-surface-strong);
+                    border-color: var(--color-primary);
                 }
                 @media (max-width: 768px) {
                     .nav-links { display: none; }

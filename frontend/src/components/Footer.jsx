@@ -25,7 +25,7 @@ const paymentLogos = [
     svg: (
       <svg viewBox="0 0 120 30" height="22">
         <path fill="#0284C7" d="M12.4 0L0 30h9.3l5.8-14.2 9.5 14.2H36L21.2 9.2 24.8 0h-12.4z"/>
-        <text x="40" y="22" fill="#FFFFFF" fontFamily="system-ui, sans-serif" fontWeight="900" fontSize="20">Razorpay</text>
+        <text x="40" y="22" fill="currentColor" fontFamily="system-ui, sans-serif" fontWeight="900" fontSize="20">Razorpay</text>
       </svg>
     )
   },
@@ -42,7 +42,7 @@ const paymentLogos = [
     svg: (
       <svg viewBox="0 0 100 35" height="24">
         <path fill="#059669" d="M22 0l-12 18h10l-4 17 18-22h-10l8-13z"/>
-        <text x="36" y="24" fill="#FFFFFF" fontFamily="system-ui, sans-serif" fontWeight="900" fontSize="22">UPI</text>
+        <text x="36" y="24" fill="currentColor" fontFamily="system-ui, sans-serif" fontWeight="900" fontSize="22">UPI</text>
       </svg>
     )
   },
@@ -51,7 +51,7 @@ const paymentLogos = [
     svg: (
       <svg viewBox="0 0 120 35" height="24">
         <path fill="#4285F4" d="M15.3 12.7v4.6h11c-.5 2.9-3.3 8.6-11 8.6-6.6 0-12-5.5-12-12.3s5.4-12.3 12-12.3c3.8 0 6.3 1.6 7.7 3l3.7-3.6C24.4 8.7 20.3 7 15.3 7 6.8 7 0 13.8 0 22.3S6.8 37.6 15.3 37.6c8.9 0 14.8-6.2 14.8-15.1 0-1-.1-1.8-.3-2.5H15.3z"/>
-        <text x="38" y="26" fill="#FFFFFF" fontFamily="system-ui, sans-serif" fontWeight="800" fontSize="20">Pay</text>
+        <text x="38" y="26" fill="currentColor" fontFamily="system-ui, sans-serif" fontWeight="800" fontSize="20">Pay</text>
       </svg>
     )
   },
@@ -59,8 +59,8 @@ const paymentLogos = [
     name: 'Apple Pay',
     svg: (
       <svg viewBox="0 0 100 35" height="24">
-        <path fill="#FFFFFF" d="M12.3 11.2c-.7.8-1.8 1.4-2.9 1.3-.2-1.2.3-2.5 1-3.2.7-.8 2-1.4 2.9-1.4.2 1.3-.3 2.5-1 3.3zm.9 1.7c-1.6-.1-3 .9-3.8.9s-2-.8-3.3-.8c-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.3 1.9 2.7 3.3 2.6 1.3-.1 1.9-.9 3.5-.9 1.6 0 2.1.9 3.5.9 1.4 0 2.3-1.3 3.2-2.6 1-1.5 1.4-2.9 1.5-3-.1 0-2.8-1.1-2.8-4.3 0-2.7 2.2-4 2.3-4.1-1.3-1.9-3.3-2.1-4-2.2z"/>
-        <text x="30" y="25" fill="#FFFFFF" fontFamily="system-ui, sans-serif" fontWeight="800" fontSize="22">Pay</text>
+        <path fill="currentColor" d="M12.3 11.2c-.7.8-1.8 1.4-2.9 1.3-.2-1.2.3-2.5 1-3.2.7-.8 2-1.4 2.9-1.4.2 1.3-.3 2.5-1 3.3zm.9 1.7c-1.6-.1-3 .9-3.8.9s-2-.8-3.3-.8c-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.3 1.9 2.7 3.3 2.6 1.3-.1 1.9-.9 3.5-.9 1.6 0 2.1.9 3.5.9 1.4 0 2.3-1.3 3.2-2.6 1-1.5 1.4-2.9 1.5-3-.1 0-2.8-1.1-2.8-4.3 0-2.7 2.2-4 2.3-4.1-1.3-1.9-3.3-2.1-4-2.2z"/>
+        <text x="30" y="25" fill="currentColor" fontFamily="system-ui, sans-serif" fontWeight="800" fontSize="22">Pay</text>
       </svg>
     )
   },
@@ -78,7 +78,7 @@ const paymentLogos = [
       <svg viewBox="0 0 100 35" height="24">
         <path fill="#003087" d="M12 2h14c5 0 9 2.5 8 8-.8 5-5 8-10 8h-4l-2 12H9l3-28z"/>
         <path fill="#0079C1" d="M6 8h14c5 0 9 2.5 8 8-.8 5-5 8-10 8h-4l-2 12H3l3-28z" opacity="0.8"/>
-        <text x="36" y="25" fill="#FFFFFF" fontFamily="system-ui, sans-serif" fontWeight="900" fontSize="20">PayPal</text>
+        <text x="36" y="25" fill="currentColor" fontFamily="system-ui, sans-serif" fontWeight="900" fontSize="20">PayPal</text>
       </svg>
     )
   },
@@ -87,7 +87,7 @@ const paymentLogos = [
     svg: (
       <svg viewBox="0 0 130 30" height="22">
         <path fill="#10B981" d="M5 15l10-10v6h15v8H15v6z"/>
-        <text x="38" y="22" fill="#FFFFFF" fontFamily="system-ui, sans-serif" fontWeight="800" fontSize="18">SWIFT Wire</text>
+        <text x="38" y="22" fill="currentColor" fontFamily="system-ui, sans-serif" fontWeight="800" fontSize="18">SWIFT Wire</text>
       </svg>
     )
   }
@@ -96,6 +96,8 @@ const paymentLogos = [
 const Footer = () => {
   return (
     <footer className="vp-site-footer">
+      {/* Precision tricolor corporate stripe at the top edge of the footer */}
+      <div className="corp-tricolor-stripe" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px' }} />
       <div className="footer-inner">
         
         {/* Startup India Recognition Card - Cleaned as requested */}
@@ -166,6 +168,7 @@ const Footer = () => {
           <div className="footer-column">
             <h4 className="column-heading">RESOURCES</h4>
             <ul className="column-links">
+              <li><Link to="/employee-login" style={{ color: '#818cf8', fontWeight: '700' }}>⚡ Employee Portal & Dashboard</Link></li>
               <li><Link to="/help/contact">Contact Us</Link></li>
               <li><Link to="/consultation/book">Book Consultation</Link></li>
               <li><Link to="/clients/mother-bliss">Mother Bliss Case Study</Link></li>
@@ -248,14 +251,14 @@ const Footer = () => {
 
       <style>{`
         .vp-site-footer {
-          background: #000000;
-          color: #e4e4e7;
-          padding: 80px 5% 40px;
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--color-surface-soft, #f7f7f7);
+          color: var(--color-body, #3c3c3c);
+          padding: 64px 5% 48px;
+          border-top: 1px solid var(--color-hairline, #e6e6e6);
           position: relative;
           z-index: 10;
           clear: both;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          font-family: var(--font-corporate, 'Inter', sans-serif);
           overflow-x: hidden;
           box-sizing: border-box;
         }
@@ -273,16 +276,16 @@ const Footer = () => {
           gap: 24px;
           margin-bottom: 45px;
           padding: 20px 24px;
-          background: rgba(18, 18, 20, 0.5);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 16px;
+          background: var(--color-canvas, #ffffff);
+          border: 1px solid var(--color-hairline, #e6e6e6);
+          border-radius: 0px;
         }
 
         .startup-logo-container {
-          background: #09090b;
+          background: var(--color-surface-card, #fafafa);
           padding: 10px 18px;
-          border-radius: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 0px;
+          border: 1px solid var(--color-hairline, #e6e6e6);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -299,9 +302,10 @@ const Footer = () => {
         }
 
         .startup-description {
-          color: #A1A1AA;
-          font-size: 0.88rem;
-          line-height: 1.5;
+          color: var(--color-muted, #6b6b6b);
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 1.55;
           margin: 0;
         }
 
@@ -309,8 +313,8 @@ const Footer = () => {
         .payment-marquee-wrapper {
           margin-bottom: 60px;
           padding: 24px 0;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid var(--color-hairline, #e6e6e6);
+          border-bottom: 1px solid var(--color-hairline, #e6e6e6);
           overflow: hidden;
         }
 
@@ -324,7 +328,7 @@ const Footer = () => {
 
         .marquee-track {
           display: flex;
-          gap: 36px;
+          gap: 24px;
           align-items: center;
           width: max-content;
           animation: marqueeScroll 30s linear infinite;
@@ -348,17 +352,15 @@ const Footer = () => {
           align-items: center;
           justify-content: center;
           padding: 10px 20px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
-          transition: all 0.3s ease;
+          background: var(--color-canvas, #ffffff);
+          border: 1px solid var(--color-hairline, #e6e6e6);
+          border-radius: 0px;
+          transition: all 0.2s ease;
           user-select: none;
         }
 
         .payment-logo-badge:hover {
-          background: rgba(255, 255, 255, 0.08);
-          transform: translateY(-2px);
-          border-color: rgba(255, 255, 255, 0.2);
+          border-color: var(--color-primary, #1c69d4);
         }
 
         /* Footer Grid Columns */
@@ -370,19 +372,22 @@ const Footer = () => {
         }
 
         .brand-desc {
-          color: #71717A;
-          font-size: 0.85rem;
-          line-height: 1.65;
+          color: var(--color-muted, #6b6b6b);
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 1.55;
           margin: 0;
           max-width: 260px;
         }
 
         .column-heading {
-          font-size: 0.88rem;
+          font-family: var(--font-corporate, 'Inter', sans-serif);
+          font-size: 13px;
           font-weight: 700;
-          color: #ffffff;
-          margin-bottom: 22px;
-          letter-spacing: -0.2px;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: var(--color-ink, #262626);
+          margin-bottom: 20px;
         }
 
         .column-links {
@@ -395,17 +400,17 @@ const Footer = () => {
         }
 
         .column-links a {
-          color: #8E8E93;
+          color: var(--color-muted, #6b6b6b);
           text-decoration: none;
-          font-size: 0.85rem;
-          font-weight: 500;
-          transition: all 0.2s ease;
+          font-size: 14px;
+          font-weight: 300;
+          line-height: 1.55;
+          transition: color 0.15s ease;
           display: inline-block;
         }
 
         .column-links a:hover {
-          color: #ffffff;
-          transform: translateX(3px);
+          color: var(--color-primary, #1c69d4);
         }
 
         .social-official-item {
@@ -415,47 +420,40 @@ const Footer = () => {
         }
 
         .social-official-item span {
-          color: #8E8E93;
-          transition: color 0.2s ease;
+          color: var(--color-muted, #6b6b6b);
+          font-size: 14px;
+          font-weight: 300;
+          transition: color 0.15s ease;
         }
 
         .social-official-item:hover span {
-          color: #ffffff;
+          color: var(--color-primary, #1c69d4);
         }
 
-        /* GIANT DISPLAY TYPOGRAPHY - PARALLEL ® SIGNATURE DESIGN */
+        /* GIANT DISPLAY TYPOGRAPHY - Clean Subtle Stamp */
         .giant-brand-display {
-          margin: 50px 0 30px;
+          margin: 40px 0 24px;
           display: flex;
           align-items: baseline;
           user-select: none;
-          line-height: 0.82;
+          line-height: 0.85;
           width: 100%;
           overflow: hidden;
         }
 
         .display-text {
-          font-size: clamp(2.8rem, 15vw, 15.5rem);
-          font-weight: 900;
-          letter-spacing: -0.05em;
-          color: #27272A;
-          background: linear-gradient(180deg, #3F3F46 0%, #18181B 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          transition: all 0.5s ease;
+          font-size: clamp(2.8rem, 15vw, 14rem);
+          font-weight: 700;
+          letter-spacing: -0.04em;
+          color: var(--color-surface-strong, #ebebeb);
+          transition: color 0.3s ease;
           white-space: nowrap;
         }
 
-        .display-text:hover {
-          background: linear-gradient(180deg, #52525B 0%, #27272A 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
         .registered-symbol {
-          font-size: clamp(1.4rem, 5.5vw, 5.5rem);
-          font-weight: 800;
-          color: #3F3F46;
+          font-size: clamp(1.2rem, 5vw, 4.5rem);
+          font-weight: 700;
+          color: var(--color-hairline-strong, #cccccc);
           margin-left: 4px;
           vertical-align: super;
           line-height: 1;
@@ -463,7 +461,7 @@ const Footer = () => {
 
         /* Bottom Footer Legal Bar */
         .footer-bottom-bar {
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          border-top: 1px solid var(--color-hairline, #e6e6e6);
           padding-top: 28px;
           display: flex;
           justify-content: space-between;
@@ -473,37 +471,40 @@ const Footer = () => {
         }
 
         .copyright-text {
-          font-size: 0.82rem;
-          color: #71717A;
-          font-weight: 500;
+          font-size: 14px;
+          font-weight: 300;
+          color: var(--color-muted, #6b6b6b);
         }
 
         .legal-links {
           display: flex;
           align-items: center;
           gap: 14px;
-          font-size: 0.82rem;
+          font-size: 14px;
+          font-weight: 300;
           flex-wrap: wrap;
         }
 
         .legal-link {
-          color: #8E8E93;
+          color: var(--color-muted, #6b6b6b);
           text-decoration: none;
-          transition: color 0.2s ease;
+          transition: color 0.15s ease;
         }
 
         .legal-link:hover {
-          color: #ffffff;
+          color: var(--color-primary, #1c69d4);
         }
 
         .link-divider {
-          color: #3F3F46;
+          color: var(--color-hairline-strong, #cccccc);
         }
 
         .legal-disclosures-tag {
-          color: #6B7280;
-          font-size: 0.82rem;
+          color: var(--color-muted, #6b6b6b);
+          font-size: 13px;
+          font-weight: 400;
         }
+
 
         /* Device Responsive Rules */
         @media (max-width: 1200px) {
@@ -589,68 +590,298 @@ const Footer = () => {
           }
         }
 
-        /* Light Theme Overrides */
+        /* Light Theme Overrides - High Contrast & Distinct Surface */
         [data-theme="light"] .vp-site-footer,
         html.light .vp-site-footer,
         body.light-theme .vp-site-footer {
-          background: #F8FAFC !important;
-          color: #0F172A !important;
-          border-top-color: #E2E8F0 !important;
+          background: #eef2f7 !important;
+          color: #1e293b !important;
+          border-top: 2px solid #cbd5e1 !important;
         }
 
         [data-theme="light"] .startup-india-clean-card,
         html.light .startup-india-clean-card,
         body.light-theme .startup-india-clean-card {
-          background: #FFFFFF !important;
-          border-color: #E2E8F0 !important;
+          background: #ffffff !important;
+          border-color: #cbd5e1 !important;
+          box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
+        }
+
+        [data-theme="light"] .startup-logo-container,
+        html.light .startup-logo-container,
+        body.light-theme .startup-logo-container {
+          background: #ffffff !important;
+          border-color: #e2e8f0 !important;
         }
 
         [data-theme="light"] .startup-description,
         html.light .startup-description,
         body.light-theme .startup-description {
-          color: #475569 !important;
+          color: #334155 !important;
+        }
+
+        [data-theme="light"] .payment-marquee-wrapper,
+        html.light .payment-marquee-wrapper,
+        body.light-theme .payment-marquee-wrapper {
+          border-top-color: #cbd5e1 !important;
+          border-bottom-color: #cbd5e1 !important;
+        }
+
+        [data-theme="light"] .payment-logo-badge,
+        html.light .payment-logo-badge,
+        body.light-theme .payment-logo-badge {
+          background: #ffffff !important;
+          border-color: #cbd5e1 !important;
+          color: #0f172a !important;
+          box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+        }
+
+        [data-theme="light"] .payment-logo-badge:hover,
+        html.light .payment-logo-badge:hover,
+        body.light-theme .payment-logo-badge:hover {
+          border-color: #1c69d4 !important;
         }
 
         [data-theme="light"] .column-heading,
         html.light .column-heading,
         body.light-theme .column-heading {
-          color: #0F172A !important;
+          color: #0f172a !important;
+          font-weight: 800 !important;
         }
 
         [data-theme="light"] .column-links a,
         html.light .column-links a,
         body.light-theme .column-links a {
           color: #475569 !important;
+          font-weight: 450 !important;
         }
 
         [data-theme="light"] .column-links a:hover,
         html.light .column-links a:hover,
         body.light-theme .column-links a:hover {
-          color: #4F46E5 !important;
+          color: #1c69d4 !important;
         }
 
-        [data-theme="light"] .giant-brand-display,
-        html.light .giant-brand-display,
-        body.light-theme .giant-brand-display {
-          color: #E2E8F0 !important;
+        [data-theme="light"] .social-official-item span,
+        html.light .social-official-item span,
+        body.light-theme .social-official-item span {
+          color: #475569 !important;
+        }
+
+        [data-theme="light"] .social-official-item:hover span,
+        html.light .social-official-item:hover span,
+        body.light-theme .social-official-item:hover span {
+          color: #1c69d4 !important;
+        }
+
+        [data-theme="light"] .github-brand svg,
+        html.light .github-brand svg,
+        body.light-theme .github-brand svg {
+          color: #0f172a !important;
+        }
+
+        [data-theme="light"] .x-brand svg,
+        html.light .x-brand svg,
+        body.light-theme .x-brand svg {
+          color: #0f172a !important;
+        }
+
+        [data-theme="light"] .giant-brand-display .display-text,
+        html.light .giant-brand-display .display-text,
+        body.light-theme .giant-brand-display .display-text {
+          color: #cbd5e1 !important;
+        }
+
+        [data-theme="light"] .giant-brand-display .registered-symbol,
+        html.light .giant-brand-display .registered-symbol,
+        body.light-theme .giant-brand-display .registered-symbol {
+          color: #94a3b8 !important;
         }
 
         [data-theme="light"] .footer-bottom-bar,
         html.light .footer-bottom-bar,
         body.light-theme .footer-bottom-bar {
-          border-top-color: #E2E8F0 !important;
+          border-top-color: #cbd5e1 !important;
         }
 
         [data-theme="light"] .copyright-text,
         html.light .copyright-text,
         body.light-theme .copyright-text {
-          color: #64748B !important;
+          color: #475569 !important;
+          font-weight: 450 !important;
         }
 
         [data-theme="light"] .legal-link,
         html.light .legal-link,
         body.light-theme .legal-link {
-          color: #64748B !important;
+          color: #475569 !important;
+        }
+
+        [data-theme="light"] .legal-link:hover,
+        html.light .legal-link:hover,
+        body.light-theme .legal-link:hover {
+          color: #1c69d4 !important;
+        }
+
+        [data-theme="light"] .link-divider,
+        html.light .link-divider,
+        body.light-theme .link-divider {
+          color: #94a3b8 !important;
+        }
+
+        [data-theme="light"] .legal-disclosures-tag,
+        html.light .legal-disclosures-tag,
+        body.light-theme .legal-disclosures-tag {
+          color: #334155 !important;
+          background: #e2e8f0 !important;
+          padding: 4px 10px !important;
+          border-radius: 4px !important;
+          border: 1px solid #cbd5e1 !important;
+        }
+
+        /* Dark Theme Overrides - Authoritative Deep Surface & High Contrast */
+        [data-theme="dark"] .vp-site-footer,
+        html.dark .vp-site-footer,
+        body.dark-theme .vp-site-footer {
+          background: #090d14 !important;
+          color: #cbd5e1 !important;
+          border-top: 1px solid #1e293b !important;
+        }
+
+        [data-theme="dark"] .startup-india-clean-card,
+        html.dark .startup-india-clean-card,
+        body.dark-theme .startup-india-clean-card {
+          background: #0f1520 !important;
+          border-color: #1e293b !important;
+        }
+
+        [data-theme="dark"] .startup-logo-container,
+        html.dark .startup-logo-container,
+        body.dark-theme .startup-logo-container {
+          background: #151e2c !important;
+          border-color: #243042 !important;
+        }
+
+        [data-theme="dark"] .startup-description,
+        html.dark .startup-description,
+        body.dark-theme .startup-description {
+          color: #94a3b8 !important;
+        }
+
+        [data-theme="dark"] .payment-marquee-wrapper,
+        html.dark .payment-marquee-wrapper,
+        body.dark-theme .payment-marquee-wrapper {
+          border-top-color: #1e293b !important;
+          border-bottom-color: #1e293b !important;
+        }
+
+        [data-theme="dark"] .payment-logo-badge,
+        html.dark .payment-logo-badge,
+        body.dark-theme .payment-logo-badge {
+          background: #0f1520 !important;
+          border-color: #1e293b !important;
+          color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .payment-logo-badge:hover,
+        html.dark .payment-logo-badge:hover,
+        body.dark-theme .payment-logo-badge:hover {
+          border-color: #38bdf8 !important;
+        }
+
+        [data-theme="dark"] .column-heading,
+        html.dark .column-heading,
+        body.dark-theme .column-heading {
+          color: #ffffff !important;
+          font-weight: 800 !important;
+        }
+
+        [data-theme="dark"] .column-links a,
+        html.dark .column-links a,
+        body.dark-theme .column-links a {
+          color: #94a3b8 !important;
+        }
+
+        [data-theme="dark"] .column-links a:hover,
+        html.dark .column-links a:hover,
+        body.dark-theme .column-links a:hover {
+          color: #38bdf8 !important;
+        }
+
+        [data-theme="dark"] .social-official-item span,
+        html.dark .social-official-item span,
+        body.dark-theme .social-official-item span {
+          color: #94a3b8 !important;
+        }
+
+        [data-theme="dark"] .social-official-item:hover span,
+        html.dark .social-official-item:hover span,
+        body.dark-theme .social-official-item:hover span {
+          color: #38bdf8 !important;
+        }
+
+        [data-theme="dark"] .github-brand svg,
+        html.dark .github-brand svg,
+        body.dark-theme .github-brand svg {
+          color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .x-brand svg,
+        html.dark .x-brand svg,
+        body.dark-theme .x-brand svg {
+          color: #ffffff !important;
+        }
+
+        [data-theme="dark"] .giant-brand-display .display-text,
+        html.dark .giant-brand-display .display-text,
+        body.dark-theme .giant-brand-display .display-text {
+          color: #141b24 !important;
+        }
+
+        [data-theme="dark"] .giant-brand-display .registered-symbol,
+        html.dark .giant-brand-display .registered-symbol,
+        body.dark-theme .giant-brand-display .registered-symbol {
+          color: #334155 !important;
+        }
+
+        [data-theme="dark"] .footer-bottom-bar,
+        html.dark .footer-bottom-bar,
+        body.dark-theme .footer-bottom-bar {
+          border-top-color: #1e293b !important;
+        }
+
+        [data-theme="dark"] .copyright-text,
+        html.dark .copyright-text,
+        body.dark-theme .copyright-text {
+          color: #94a3b8 !important;
+        }
+
+        [data-theme="dark"] .legal-link,
+        html.dark .legal-link,
+        body.dark-theme .legal-link {
+          color: #94a3b8 !important;
+        }
+
+        [data-theme="dark"] .legal-link:hover,
+        html.dark .legal-link:hover,
+        body.dark-theme .legal-link:hover {
+          color: #38bdf8 !important;
+        }
+
+        [data-theme="dark"] .link-divider,
+        html.dark .link-divider,
+        body.dark-theme .link-divider {
+          color: #334155 !important;
+        }
+
+        [data-theme="dark"] .legal-disclosures-tag,
+        html.dark .legal-disclosures-tag,
+        body.dark-theme .legal-disclosures-tag {
+          color: #94a3b8 !important;
+          background: #151e2c !important;
+          padding: 4px 10px !important;
+          border-radius: 4px !important;
+          border: 1px solid #243042 !important;
         }
       `}</style>
     </footer>

@@ -7,16 +7,16 @@ const Demo = () => {
   const navigate = useNavigate();
 
   return (
-    <div style={{ minHeight: '100vh', background: '#020617', color: '#fff', padding: '0 5% 80px' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--color-canvas)', color: 'var(--color-ink)', padding: '0 5% 80px', transition: 'background 0.3s ease, color 0.3s ease' }}>
       <VaultDemoNavbar />
       
       <div style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: '160px' }}>
         
         {/* Hero Section */}
         <div style={{ textAlign: 'center', marginBottom: '100px' }}>
-          <div style={{ display: 'inline-block', padding: '6px 12px', background: 'rgba(34, 211, 238, 0.1)', color: '#22d3ee', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '900', letterSpacing: '2px', marginBottom: '20px' }}>SIMULATED ENVIRONMENT</div>
-          <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: '900', letterSpacing: '-2px', marginBottom: '24px' }}>VexioGate <span style={{ color: '#22d3ee' }}>Experience.</span></h1>
-          <p style={{ color: '#9ca3af', fontSize: '1.2rem', maxWidth: '700px', margin: '0 auto', lineHeight: 1.6 }}>
+          <div style={{ display: 'inline-block', padding: '6px 12px', background: 'rgba(28, 105, 212, 0.1)', color: 'var(--color-primary)', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '900', letterSpacing: '2px', marginBottom: '20px' }}>SIMULATED ENVIRONMENT</div>
+          <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: '900', letterSpacing: '-2px', marginBottom: '24px', color: 'var(--color-ink)' }}>VexioGate <span style={{ color: 'var(--color-primary)' }}>Experience.</span></h1>
+          <p style={{ color: 'var(--color-muted)', fontSize: '1.2rem', maxWidth: '700px', margin: '0 auto', lineHeight: 1.6 }}>
             Step inside our next-generation identity and access management ecosystem. This demo simulates the live operational interface of the VexioGate framework.
           </p>
         </div>
@@ -24,31 +24,31 @@ const Demo = () => {
         {/* Features Showcase */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', marginBottom: '80px' }}>
           <div id="telemetry" className="demo-card">
-            <Activity color="#22d3ee" style={{ marginBottom: '20px' }} />
-            <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '12px' }}>Real-time Telemetry</h3>
-            <p style={{ color: '#9ca3af', fontSize: '0.9rem', lineHeight: 1.6 }}>Monitor every node connection and identity packet across your global infrastructure with sub-millisecond latency.</p>
+            <Activity color="var(--color-primary)" style={{ marginBottom: '20px' }} />
+            <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '12px', color: 'var(--color-ink)' }}>Real-time Telemetry</h3>
+            <p style={{ color: 'var(--color-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>Monitor every node connection and identity packet across your global infrastructure with sub-millisecond latency.</p>
           </div>
           <div id="neural" className="demo-card">
             <Cpu color="#8b5cf6" style={{ marginBottom: '20px' }} />
-            <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '12px' }}>Neural Guarding</h3>
-            <p style={{ color: '#9ca3af', fontSize: '0.9rem', lineHeight: 1.6 }}>AI-driven threat detection that evolves with every login attempt, ensuring zero-trust integrity at every layer.</p>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '12px', color: 'var(--color-ink)' }}>Neural Guarding</h3>
+            <p style={{ color: 'var(--color-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>AI-driven threat detection that evolves with every login attempt, ensuring zero-trust integrity at every layer.</p>
           </div>
           <div id="vault" className="demo-card">
             <Lock color="#ec4899" style={{ marginBottom: '20px' }} />
-            <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '12px' }}>Quantum Vault</h3>
-            <p style={{ color: '#9ca3af', fontSize: '0.9rem', lineHeight: 1.6 }}>Immutable storage protocols that protect the sensitive data of your workforce against legacy and emerging threats.</p>
+            <h3 style={{ fontSize: '1.3rem', fontWeight: '800', marginBottom: '12px', color: 'var(--color-ink)' }}>Quantum Vault</h3>
+            <p style={{ color: 'var(--color-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>Immutable storage protocols that protect the sensitive data of your workforce against legacy and emerging threats.</p>
           </div>
         </div>
 
         {/* Simulated UI Section */}
-        <div className="glass-panel" style={{ padding: '40px', background: '#000', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', paddingBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="glass-panel" style={{ padding: '40px', background: 'var(--color-surface-card)', border: '1px solid var(--color-hairline)', borderRadius: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px', paddingBottom: '16px', borderBottom: '1px solid var(--color-hairline)' }}>
             <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#ef4444' }}></div>
             <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#f59e0b' }}></div>
             <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#10b981' }}></div>
-            <span style={{ marginLeft: '12px', fontSize: '0.7rem', color: '#4b5563', letterSpacing: '1px' }}>VEXIO_TERMINAL v2.0.4 - SESSION: ACTIVE</span>
+            <span style={{ marginLeft: '12px', fontSize: '0.7rem', color: 'var(--color-muted)', letterSpacing: '1px' }}>VEXIO_TERMINAL v2.0.4 - SESSION: ACTIVE</span>
           </div>
-          <div style={{ fontFamily: 'monospace', color: '#22d3ee', fontSize: '0.9rem', lineHeight: 1.8 }}>
+          <div style={{ fontFamily: 'monospace', color: 'var(--color-primary)', fontSize: '0.9rem', lineHeight: 1.8 }}>
             <div>[SYSTEM] Initializing VexioGate Core...</div>
             <div>[AUTH] Scanning global identity nodes... OK</div>
             <div style={{ color: '#10b981' }}>[SECURITY] Neural Guard active. Zero threats detected.</div>
@@ -59,16 +59,16 @@ const Demo = () => {
         </div>
 
         {/* CTA */}
-        <div style={{ marginTop: '100px', textAlign: 'center', background: 'rgba(34, 211, 238, 0.05)', padding: '60px', borderRadius: '40px', border: '1px solid rgba(34, 211, 238, 0.1)' }}>
-          <h2 style={{ fontSize: '2.2rem', fontWeight: '900', marginBottom: '20px' }}>Ready to deploy?</h2>
-          <p style={{ color: '#9ca3af', marginBottom: '40px' }}>Transition from experience to operation. Choose your subscription plan to begin.</p>
+        <div style={{ marginTop: '100px', textAlign: 'center', background: 'var(--color-surface-soft)', padding: '60px', borderRadius: '40px', border: '1px solid var(--color-hairline)' }}>
+          <h2 style={{ fontSize: '2.2rem', fontWeight: '900', marginBottom: '20px', color: 'var(--color-ink)' }}>Ready to deploy?</h2>
+          <p style={{ color: 'var(--color-muted)', marginBottom: '40px' }}>Transition from experience to operation. Choose your subscription plan to begin.</p>
           <button 
             onClick={() => navigate('/pricing')}
             style={{ 
               padding: '18px 48px', 
               borderRadius: '12px', 
-              background: '#22d3ee', 
-              color: '#020617', 
+              background: 'var(--color-primary)', 
+              color: '#ffffff', 
               fontWeight: '900', 
               border: 'none', 
               cursor: 'pointer',
@@ -85,13 +85,13 @@ const Demo = () => {
       <style>{`
         .demo-card {
           padding: 40px;
-          background: rgba(255, 255, 255, 0.02);
+          background: var(--color-surface-card);
           border-radius: 24px;
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          border: 1px solid var(--color-hairline);
           transition: 0.3s;
         }
         .demo-card:hover {
-          background: rgba(255, 255, 255, 0.04);
+          background: var(--color-surface-soft);
           transform: translateY(-5px);
         }
         .cursor {

@@ -44,6 +44,8 @@ import MeetingRoomPage from './pages/MeetingRoomPage';
 import ConsultationDashboard from './pages/ConsultationDashboard';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsConditionsPage from './pages/TermsConditionsPage';
+import EmployeeLoginPage from './pages/EmployeeLoginPage';
+import EmployeeDashboardPage from './pages/EmployeeDashboardPage';
 
 const SplashScreen = ({ onComplete }) => {
   const [phase, setPhase] = useState(0); // 0: logo in, 1: text in, 2: fade out
@@ -83,12 +85,12 @@ const SplashScreen = ({ onComplete }) => {
       position: 'fixed',
       inset: 0,
       zIndex: 99999,
-      background: '#030712',
+      background: 'var(--color-canvas)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      transition: 'opacity 0.8s ease',
+      transition: 'opacity 0.8s ease, background 0.3s ease',
       opacity: phase === 2 ? 0 : 1,
       pointerEvents: phase === 2 ? 'none' : 'all',
     }}>
@@ -97,7 +99,7 @@ const SplashScreen = ({ onComplete }) => {
         position: 'absolute',
         width: '400px',
         height: '400px',
-        background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(34, 211, 238, 0.05) 40%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(28, 105, 212, 0.05) 40%, transparent 70%)',
         borderRadius: '50%',
         animation: 'splash-glow 2s ease-in-out infinite alternate',
       }} />
@@ -121,7 +123,7 @@ const SplashScreen = ({ onComplete }) => {
         fontSize: 'clamp(1.5rem, 5vw, 2.5rem)',
         fontWeight: 950,
         letterSpacing: '-1.5px',
-        background: 'linear-gradient(135deg, #fff 0%, #8b5cf6 50%, #22d3ee 100%)',
+        background: 'linear-gradient(135deg, var(--color-ink) 0%, #8b5cf6 50%, var(--color-primary) 100%)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
         marginBottom: '12px',
@@ -138,7 +140,7 @@ const SplashScreen = ({ onComplete }) => {
         fontSize: '0.75rem',
         fontWeight: 700,
         letterSpacing: '4px',
-        color: '#64748b',
+        color: 'var(--color-muted)',
         textTransform: 'uppercase',
         transform: phase >= 1 ? 'translateY(0)' : 'translateY(15px)',
         opacity: phase >= 1 ? 0.7 : 0,
@@ -151,7 +153,7 @@ const SplashScreen = ({ onComplete }) => {
       <div style={{
         width: '120px',
         height: '2px',
-        background: 'rgba(255,255,255,0.05)',
+        background: 'var(--color-hairline)',
         borderRadius: '4px',
         marginTop: '40px',
         overflow: 'hidden',
@@ -201,6 +203,10 @@ function App() {
             
             {/* Auth System */}
             <Route path="/login" element={<Login />} />
+            <Route path="/employee-login" element={<EmployeeLoginPage />} />
+            <Route path="/employee/login" element={<EmployeeLoginPage />} />
+            <Route path="/employee-dashboard" element={<EmployeeDashboardPage />} />
+            <Route path="/employee/dashboard" element={<EmployeeDashboardPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/superadmin/access" element={<Login portalType="SuperAdmin" />} />
             

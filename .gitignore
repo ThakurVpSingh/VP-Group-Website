@@ -7,3 +7,4 @@ coverage/
 Vault_Archive/
 scratch/
 separate_vault.js
+.agents/

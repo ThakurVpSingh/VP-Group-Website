@@ -252,7 +252,7 @@ const MotherBlissPage = () => {
             <style>{`
                 .section-title-box { display: flex; align-items: center; gap: 20px; margin-bottom: 48px; }
                 .accent-line { width: 5px; height: 32px; border-radius: 4px; }
-                .section-heading { color: #fff; font-size: 2.5rem; font-weight: 900; letter-spacing: -1.5px; }
+                .section-heading { color: var(--color-ink); font-size: 2.5rem; font-weight: 900; letter-spacing: -1.5px; }
 
                 .working-steps-mesh {
                     display: grid;
@@ -262,8 +262,8 @@ const MotherBlissPage = () => {
                 }
                 .step-mesh-card {
                     padding: 40px;
-                    background: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    background: var(--color-surface-card);
+                    border: 1px solid var(--color-hairline);
                     border-radius: 32px;
                     transition: all 0.4s ease;
                 }
@@ -271,20 +271,20 @@ const MotherBlissPage = () => {
                 .step-icon-box { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
                 
                 .process-list { display: flex; flex-direction: column; gap: 24px; }
-                .process-step-item { display: flex; gap: 32px; padding: 32px; background: rgba(255,255,255,0.01); border-radius: 20px; border: 1px solid rgba(255,255,255,0.03); }
+                .process-step-item { display: flex; gap: 32px; padding: 32px; background: var(--color-surface-soft); border-radius: 20px; border: 1px solid var(--color-hairline); }
                 .step-number { font-size: 2.5rem; font-weight: 900; }
-                .step-title { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
-                .step-desc { color: #94a3b8; line-height: 1.7; margin: 0; }
+                .step-title { font-size: 1.3rem; font-weight: 800; color: var(--color-ink); margin-bottom: 8px; }
+                .step-desc { color: var(--color-muted); line-height: 1.7; margin: 0; }
 
-                .metrics-outer { margin-top: 100px; padding: 60px; background: rgba(255, 255, 255, 0.01); border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.03); }
+                .metrics-outer { margin-top: 100px; padding: 60px; background: var(--color-surface-card); border-radius: 40px; border: 1px solid var(--color-hairline); }
                 .metrics-inner-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
                 .metric-box { display: flex; align-items: center; gap: 20px; }
-                .metric-value { font-size: 1.5rem; font-weight: 900; color: #fff; margin: 0; }
-                .metric-label { font-size: 0.8rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+                .metric-value { font-size: 1.5rem; font-weight: 900; color: var(--color-ink); margin: 0; }
+                .metric-label { font-size: 0.8rem; color: var(--color-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-                .detail-footer { margin-top: 150px; padding: 120px 5%; text-align: center; background: radial-gradient(circle at 50% 0%, ${accentColor}15 0%, transparent 75%); border-radius: 60px; }
-                .footer-title { font-size: 3.5rem; font-weight: 900; color: #fff; margin-bottom: 20px; }
-                .footer-desc { color: #94a3b8; max-width: 600px; margin: 0 auto 48px; font-size: 1.1rem; line-height: 1.8; }
+                .detail-footer { margin-top: 150px; padding: 120px 5%; text-align: center; background: radial-gradient(circle at 50% 0%, ${accentColor}15 0%, transparent 75%); border-radius: 60px; border: 1px solid var(--color-hairline); }
+                .footer-title { font-size: 3.5rem; font-weight: 900; color: var(--color-ink); margin-bottom: 20px; }
+                .footer-desc { color: var(--color-muted); max-width: 600px; margin: 0 auto 48px; font-size: 1.1rem; line-height: 1.8; }
                 .cta-action-btn { display: inline-flex; align-items: center; gap: 12px; padding: 20px 40px; border-radius: 16px; color: #fff; font-weight: 900; text-decoration: none; transition: 0.3s; text-transform: uppercase; }
                 .cta-action-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px ${accentColor}40; }
 

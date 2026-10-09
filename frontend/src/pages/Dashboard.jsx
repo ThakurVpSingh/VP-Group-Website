@@ -22,6 +22,7 @@ import SystemHealth from './SystemHealth';
 import Profile from './Profile';
 import ManagerPortal from './ManagerPortal';
 import EmployeePortal from './EmployeePortal';
+import EmployeeDashboardPage from './EmployeeDashboardPage';
 import AdminPortal from './AdminPortal';
 import SuperAdminPortal from './SuperAdminPortal';
 import ConsultationDashboard from './ConsultationDashboard';
@@ -280,7 +281,7 @@ const Dashboard = () => {
               user?.role === 'SuperAdmin' ? <SuperAdminPortal /> :
               user?.role === 'Admin' ? <AdminPortal /> :
               user?.role === 'Manager' ? <ManagerPortal /> :
-              <EmployeePortal />
+              <EmployeeDashboardPage />
             } />
             <Route path="/" element={<Navigate to="/overview" replace />} />
             { (user?.role === 'Admin' || user?.role === 'SuperAdmin') && (

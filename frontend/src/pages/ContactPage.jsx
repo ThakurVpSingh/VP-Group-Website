@@ -188,6 +188,8 @@ const ContactPage = () => {
                                     <input 
                                         type="text" 
                                         name="name"
+                                        id="contact-name"
+                                        autoComplete="name"
                                         required 
                                         value={formData.name}
                                         onChange={handleInputChange}
@@ -200,10 +202,28 @@ const ContactPage = () => {
                                     <input 
                                         type="email" 
                                         name="email"
+                                        id="contact-email"
+                                        autoComplete="email"
                                         required 
                                         value={formData.email}
                                         onChange={handleInputChange}
                                         placeholder="john@example.com" 
+                                        className="v-input"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>PHONE NUMBER (OPTIONAL / 1-TAP AUTOFILL)</label>
+                                    <input 
+                                        type="tel" 
+                                        name="phone"
+                                        id="contact-phone"
+                                        autoComplete="tel"
+                                        value={formData.phone || ''}
+                                        onChange={handleInputChange}
+                                        placeholder="+91 98765 43210" 
                                         className="v-input"
                                     />
                                 </div>
@@ -318,8 +338,8 @@ const ContactPage = () => {
 
             <style>{`
                 .contact-portal-container {
-                    background: #030712;
-                    color: #fff;
+                    background: var(--color-canvas);
+                    color: var(--color-ink);
                     min-height: 100vh;
                 }
 
@@ -333,25 +353,25 @@ const ContactPage = () => {
                     position: absolute;
                     top: 0; left: 50%; transform: translateX(-50%);
                     width: 600px; height: 300px;
-                    background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+                    background: radial-gradient(circle, rgba(28, 105, 212, 0.08) 0%, transparent 70%);
                     z-index: 0;
                 }
                 .hero-content { position: relative; z-index: 1; }
                 .badge-reveal {
                     display: inline-block;
                     padding: 8px 20px;
-                    background: rgba(255, 78, 240, 0.05);
-                    border: 1px solid rgba(255, 78, 240, 0.1);
+                    background: rgba(28, 105, 212, 0.08);
+                    border: 1px solid var(--color-hairline);
                     border-radius: 30px;
                     font-size: 0.7rem;
                     font-weight: 900;
                     letter-spacing: 2px;
-                    color: #ff4ef0;
+                    color: var(--color-primary);
                     margin-bottom: 24px;
                 }
-                .contact-hero h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 950; letter-spacing: -3px; margin-bottom: 16px; }
-                .contact-hero p { color: #94a3b8; font-size: 1.2rem; }
-                .text-gradient { background: linear-gradient(to right, #22d3ee, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+                .contact-hero h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); font-weight: 950; letter-spacing: -3px; margin-bottom: 16px; color: var(--color-ink); }
+                .contact-hero p { color: var(--color-muted); font-size: 1.2rem; }
+                .text-gradient { background: linear-gradient(to right, var(--color-primary), #0653b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
                 .contact-main-grid {
                     display: grid;
@@ -363,80 +383,80 @@ const ContactPage = () => {
                 }
 
                 /* Leads Section */
-                .section-title { font-size: 2.5rem; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 16px; }
-                .text-cyan { color: #22d3ee; }
-                .section-desc { color: #64748b; margin-bottom: 40px; line-height: 1.6; }
+                .section-title { font-size: 2.5rem; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 16px; color: var(--color-ink); }
+                .text-cyan { color: var(--color-primary); }
+                .section-desc { color: var(--color-muted); margin-bottom: 40px; line-height: 1.6; }
                 
                 .leads-stack { display: flex; flex-direction: column; gap: 20px; margin-bottom: 40px; }
-                .lead-card { padding: 24px; transition: 0.3s; }
-                .lead-card:hover { transform: translateX(10px); background: rgba(255,255,255,0.03); }
+                .lead-card { padding: 24px; background: var(--color-surface-card); border: 1px solid var(--color-hairline); border-radius: 16px; transition: 0.3s; }
+                .lead-card:hover { transform: translateX(10px); border-color: var(--color-primary); }
                 .lead-header { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
                 .lead-icon-box { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; }
-                .lead-info h4 { font-size: 1.1rem; font-weight: 800; }
-                .lead-info span { font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+                .lead-info h4 { font-size: 1.1rem; font-weight: 800; color: var(--color-ink); }
+                .lead-info span { font-size: 0.75rem; font-weight: 900; color: var(--color-muted); text-transform: uppercase; letter-spacing: 1px; }
                 .lead-details { display: flex; flex-direction: column; gap: 8px; }
-                .detail-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #94a3b8; }
+                .detail-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--color-body); }
                 
-                .hq-mini-card { padding: 24px; display: flex; align-items: center; gap: 20px; }
-                .hq-mini-card h4 { font-size: 1rem; font-weight: 800; }
-                .hq-mini-card p { font-size: 0.85rem; color: #64748b; margin-bottom: 0; }
+                .hq-mini-card { padding: 24px; display: flex; align-items: center; gap: 20px; background: var(--color-surface-card); border: 1px solid var(--color-hairline); border-radius: 16px; }
+                .hq-mini-card h4 { font-size: 1rem; font-weight: 800; color: var(--color-ink); }
+                .hq-mini-card p { font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0; }
 
                 /* Form Section */
-                .form-glass-container { padding: 60px; border: 1px solid rgba(255,255,255,0.05); }
+                .form-glass-container { padding: 60px; background: var(--color-surface-card); border: 1px solid var(--color-hairline); border-radius: 24px; }
                 .service-tabs {
                     display: flex;
                     flex-wrap: wrap;
                     gap: 10px;
                     margin-bottom: 40px;
                     padding-bottom: 20px;
-                    border-bottom: 1px solid rgba(255,255,255,0.05);
+                    border-bottom: 1px solid var(--color-hairline);
                 }
                 .tab-btn {
                     padding: 10px 20px;
-                    background: rgba(255,255,255,0.02);
-                    border: 1px solid rgba(255,255,255,0.05);
+                    background: var(--color-surface-soft);
+                    border: 1px solid var(--color-hairline);
                     border-radius: 10px;
-                    color: #64748b;
+                    color: var(--color-muted);
                     font-size: 0.65rem;
                     font-weight: 900;
                     letter-spacing: 1px;
                     cursor: pointer;
                     transition: 0.3s;
                 }
-                .tab-btn:hover { background: rgba(255,255,255,0.05); color: #fff; }
+                .tab-btn:hover { background: var(--color-surface-card); color: var(--color-ink); }
                 .tab-btn.active { 
-                    background: rgba(34, 211, 238, 0.1); 
-                    border-color: #22d3ee; 
-                    color: #22d3ee;
-                    box-shadow: 0 0 20px rgba(34, 211, 238, 0.1);
+                    background: rgba(28, 105, 212, 0.12); 
+                    border-color: var(--color-primary); 
+                    color: var(--color-primary);
+                    box-shadow: 0 0 20px rgba(28, 105, 212, 0.15);
                 }
 
                 .v-input {
                     width: 100%;
-                    background: rgba(3, 7, 18, 0.6);
-                    border: 1.5px solid rgba(255, 255, 255, 0.05);
+                    background: var(--color-canvas);
+                    border: 1.5px solid var(--color-hairline);
                     padding: 18px;
                     border-radius: 12px;
-                    color: #fff;
+                    color: var(--color-ink);
                     font-size: 1rem;
                     outline: none;
                     transition: 0.3s;
-                    appearance: none; /* For better styling control */
+                    appearance: none;
                 }
                 .v-input option {
-                    background: #0f172a;
-                    color: #fff;
+                    background: var(--color-canvas);
+                    color: var(--color-ink);
                     padding: 15px;
                 }
-                .v-input:focus { border-color: #22d3ee; background: rgba(34, 211, 238, 0.03); }
-                .form-group label { display: block; font-size: 0.7rem; font-weight: 900; color: #475569; letter-spacing: 2px; margin-bottom: 12px; }
+                .v-input:focus { border-color: var(--color-primary); background: var(--color-canvas); }
+                .form-group label { display: block; font-size: 0.7rem; font-weight: 900; color: var(--color-muted); letter-spacing: 2px; margin-bottom: 12px; }
                 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
                 .form-group { margin-bottom: 24px; }
 
                 .v-submit-btn {
                     width: 100%;
                     padding: 22px;
-                    background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+                    background: var(--color-primary);
                     border: none;
                     border-radius: 16px;
                     color: #fff;
@@ -451,14 +471,14 @@ const ContactPage = () => {
                     text-transform: uppercase;
                     letter-spacing: 1px;
                 }
-                .v-submit-btn:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(34, 211, 238, 0.3); }
+                .v-submit-btn:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(28, 105, 212, 0.3); }
                 .v-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
                 /* Success Modal */
                 .success-overlay {
                     position: fixed;
                     inset: 0;
-                    background: rgba(0,0,0,0.8);
+                    background: rgba(0,0,0,0.6);
                     backdrop-filter: blur(10px);
                     display: flex;
                     align-items: center;
@@ -472,25 +492,29 @@ const ContactPage = () => {
                     padding: 60px 40px;
                     text-align: center;
                     position: relative;
+                    background: var(--color-surface-card);
+                    border: 1px solid var(--color-hairline);
+                    border-radius: 24px;
+                    color: var(--color-ink);
                 }
-                .close-modal { position: absolute; top: 20px; right: 20px; background: none; border: none; color: #64748b; cursor: pointer; }
+                .close-modal { position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--color-muted); cursor: pointer; }
                 .success-icon { margin-bottom: 30px; animation: scale-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-                .success-modal h3 { font-size: 2rem; font-weight: 950; margin-bottom: 16px; }
-                .success-modal p { color: #94a3b8; font-size: 1.1rem; line-height: 1.6; margin-bottom: 12px; }
-                .text-purple { color: #8b5cf6; font-weight: 800; }
+                .success-modal h3 { font-size: 2rem; font-weight: 950; margin-bottom: 16px; color: var(--color-ink); }
+                .success-modal p { color: var(--color-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 12px; }
+                .text-purple { color: var(--color-primary); font-weight: 800; }
                 .sub-text { font-size: 0.9rem !important; opacity: 0.7; margin-bottom: 30px !important; }
                 .btn-modal-close {
                     width: 100%;
                     padding: 18px;
-                    background: rgba(255,255,255,0.05);
-                    border: 1px solid rgba(255,255,255,0.1);
+                    background: var(--color-primary);
+                    border: none;
                     border-radius: 12px;
                     color: #fff;
                     font-weight: 800;
                     cursor: pointer;
                     transition: 0.3s;
                 }
-                .btn-modal-close:hover { background: rgba(255,255,255,0.1); }
+                .btn-modal-close:hover { opacity: 0.9; }
 
                 @keyframes scale-in {
                     from { transform: scale(0); }

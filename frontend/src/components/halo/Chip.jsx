@@ -1,12 +1,12 @@
 import React from 'react';
 
 const VARIANT_STYLES = {
-  default: { background: 'rgba(91,107,255,0.12)', color: '#7886FF' },
-  success: { background: 'rgba(43,224,140,0.12)', color: '#2BE08C' },
-  warning: { background: 'rgba(245,213,71,0.12)',  color: '#F5D547' },
-  info:    { background: 'rgba(61,215,229,0.12)',  color: '#3DD7E5' },
-  error:   { background: 'rgba(255,58,92,0.12)',   color: '#FF3A5C' },
-  muted:   { background: 'var(--halo-elevated)',   color: 'var(--halo-on-surface)' },
+  default: { background: '#f7f7f7', color: '#1c69d4', border: '1px solid #e6e6e6' },
+  success: { background: '#f0fdf4', color: '#22c55e', border: '1px solid #bbf7d0' },
+  warning: { background: '#fffbeb', color: '#f59e0b', border: '1px solid #fde68a' },
+  info:    { background: '#f0f9ff', color: '#0066b1', border: '1px solid #bae6fd' },
+  error:   { background: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca' },
+  muted:   { background: '#fafafa', color: '#262626', border: '1px solid #e6e6e6' },
 };
 
 /**
@@ -26,12 +26,15 @@ export default function Chip({ children, variant = 'default', icon, trend }) {
         gap: '4px',
         background: styles.background,
         color: styles.color,
-        borderRadius: '999px',
-        height: '22px',
-        padding: '0 10px',
-        fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-        fontSize: '0.75rem',
-        fontWeight: 500,
+        border: styles.border,
+        borderRadius: '0px',
+        height: '24px',
+        padding: '0 8px',
+        fontFamily: "'Inter', sans-serif",
+        fontSize: '11px',
+        fontWeight: 700,
+        letterSpacing: '0.5px',
+        textTransform: 'uppercase',
         whiteSpace: 'nowrap',
         flexShrink: 0,
       }}

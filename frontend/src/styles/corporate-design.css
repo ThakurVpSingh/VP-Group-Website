@@ -1,0 +1,562 @@
+/* ============================================================
+   VP GROUP & TECHNOLOGIES — CORPORATE DESIGN SYSTEM
+   Measured Corporate-Automotive & High-Tech Engineering Dialect
+   Base Canvas: Pure White (#ffffff)
+   Primary Action: VP Corporate Blue (#1c69d4)
+   Hero & Dark Bands: Dark Navy (#1a2129)
+   Typography: Inter (700 Display vs 300 Light Body Contrast)
+   Shapes: Strictly Rectangular 0px Border-Radius
+   ============================================================ */
+
+:root {
+  /* ── Color Palette ────────────────────────────────────────── */
+  --color-primary: #1c69d4;
+  --color-primary-active: #0653b6;
+  --color-primary-disabled: #d6d6d6;
+  --color-ink: #262626;
+  --color-body: #3c3c3c;
+  --color-body-strong: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-muted-soft: #9a9a9a;
+  --color-hairline: #e6e6e6;
+  --color-hairline-strong: #cccccc;
+  --color-canvas: #ffffff;
+  --color-surface-soft: #f7f7f7;
+  --color-surface-card: #fafafa;
+  --color-surface-strong: #ebebeb;
+  --color-surface-dark: #1a2129;
+  --color-surface-dark-elevated: #262e38;
+  --color-on-primary: #ffffff;
+  --color-on-dark: #ffffff;
+  --color-on-dark-soft: #bbbbbb;
+
+  /* Engineering Tricolor Accent Stripe */
+  --color-m-blue-light: #0066b1;
+  --color-m-blue-dark: #1c69d4;
+  --color-m-red: #e22718;
+
+  /* Semantics */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #dc2626;
+
+  /* ── Typography Tokens ────────────────────────────────────── */
+  --font-corporate: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ── Spacing Tokens ───────────────────────────────────────── */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-section: 80px;
+
+  /* ── Radius Tokens: strictly 0px ─────────────────────────── */
+  --radius-none: 0px;
+  --radius-pill: 9999px;
+
+  /* ── Halo token mappings for universal compatibility ────── */
+  --halo-bg: #ffffff;
+  --halo-surface: #ffffff;
+  --halo-elevated: #fafafa;
+  --halo-border: #e6e6e6;
+  --halo-border-strong: #cccccc;
+  --halo-on-surface: #262626;
+  --halo-muted: #6b6b6b;
+  --halo-faint: #9a9a9a;
+  --halo-primary: #1c69d4;
+  --halo-primary-hover: #0653b6;
+  --halo-primary-pressed: #0653b6;
+  --halo-shadow-sm: none;
+  --halo-shadow-md: none;
+  --halo-shadow-lg: none;
+  --halo-focus: rgba(28, 105, 212, 0.2);
+  --halo-r-sm: 0px;
+  --halo-r-md: 0px;
+  --halo-r-lg: 0px;
+  --halo-r-xl: 0px;
+  --halo-hero-title: #262626;
+  --halo-font-ui: var(--font-corporate);
+}
+
+/* ── Dark Navy Mode Tokens ──────────────────────────────────── */
+[data-theme="dark"],
+html.dark,
+body.dark-theme,
+:root.dark {
+  --color-canvas: #121820;
+  --color-surface-soft: #18222d;
+  --color-surface-card: #1f2a37;
+  --color-surface-strong: #2b394a;
+  --color-surface-dark: #0e1319;
+  --color-surface-dark-elevated: #1a232e;
+  --color-ink: #ffffff;
+  --color-body: #d1d5db;
+  --color-body-strong: #f9fafb;
+  --color-muted: #9ca3af;
+  --color-muted-soft: #6b7280;
+  --color-hairline: #2b394a;
+  --color-hairline-strong: #3b4d63;
+  --color-on-primary: #ffffff;
+  --color-on-dark: #ffffff;
+  --color-on-dark-soft: #bbbbbb;
+
+  /* Halo mappings in dark mode */
+  --halo-bg: #121820;
+  --halo-surface: #121820;
+  --halo-elevated: #1f2a37;
+  --halo-border: #2b394a;
+  --halo-border-strong: #3b4d63;
+  --halo-on-surface: #ffffff;
+  --halo-muted: #9ca3af;
+  --halo-faint: #6b7280;
+  --halo-hero-title: linear-gradient(135deg, #ffffff 0%, #e6e6e6 50%, #bbbbbb 100%);
+}
+
+/* ── Base Theme Transition & Reset ─────────────────────────── */
+html,
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ── Typography Classes ─────────────────────────────────────── */
+.corp-display-xl {
+  font-family: var(--font-corporate);
+  font-size: clamp(38px, 6vw, 64px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.corp-display-lg {
+  font-family: var(--font-corporate);
+  font-size: clamp(30px, 4.5vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.corp-display-md {
+  font-family: var(--font-corporate);
+  font-size: clamp(24px, 3.2vw, 32px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.corp-display-sm {
+  font-family: var(--font-corporate);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.corp-title-lg {
+  font-family: var(--font-corporate);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.corp-title-md {
+  font-family: var(--font-corporate);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.corp-title-sm {
+  font-family: var(--font-corporate);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.corp-body-md {
+  font-family: var(--font-corporate);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-body);
+}
+
+.corp-body-sm {
+  font-family: var(--font-corporate);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: var(--color-body);
+}
+
+.corp-caption {
+  font-family: var(--font-corporate);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  color: var(--color-muted);
+}
+
+.corp-label-uppercase {
+  font-family: var(--font-corporate);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+/* ── Buttons (Strictly 0px Rectangular) ─────────────────────── */
+.corp-btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-family: var(--font-corporate);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.5px;
+  border-radius: 0px;
+  border: none;
+  padding: 14px 32px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: none;
+  transition: background-color 0.15s ease;
+}
+
+.corp-btn-primary:hover,
+.corp-btn-primary:active {
+  background-color: var(--color-primary-active);
+  color: var(--color-on-primary);
+}
+
+.corp-btn-primary:disabled {
+  background-color: var(--color-primary-disabled);
+  color: var(--color-muted);
+  cursor: not-allowed;
+}
+
+.corp-btn-secondary {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-corporate);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.5px;
+  border-radius: 0px;
+  border: 1px solid var(--color-hairline-strong);
+  padding: 13px 31px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.corp-btn-secondary:hover {
+  border-color: var(--color-ink);
+  color: var(--color-body-strong);
+}
+
+.corp-btn-secondary-on-dark {
+  background-color: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-corporate);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.5px;
+  border-radius: 0px;
+  border: 1px solid var(--color-hairline-strong);
+  padding: 13px 31px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.corp-btn-secondary-on-dark:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background-color: var(--color-surface-soft);
+}
+
+/* ── Inline Text Links ──────────────────────────────────────── */
+.corp-link-uppercase {
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-corporate);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.corp-link-uppercase:hover {
+  color: var(--color-primary);
+}
+
+.corp-link-blue {
+  color: var(--color-primary);
+  font-family: var(--font-corporate);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.corp-link-blue:hover {
+  color: var(--color-primary-active);
+}
+
+/* ── High-Performance Tricolor Accent Stripe ───────────────── */
+.corp-tricolor-stripe {
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-m-blue-light) 0%,
+    var(--color-m-blue-light) 33.33%,
+    var(--color-m-blue-dark) 33.33%,
+    var(--color-m-blue-dark) 66.66%,
+    var(--color-m-red) 66.66%,
+    var(--color-m-red) 100%
+  );
+  border-radius: 0px;
+  display: block;
+}
+
+/* ── Section Containers & Bands ─────────────────────────────── */
+.corp-hero-band-dark,
+.corp-hero-dark {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  padding: 80px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.corp-hero-photo-band {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  padding: 80px 24px;
+  position: relative;
+}
+
+.corp-cta-band-dark {
+  background-color: var(--color-surface-soft);
+  color: var(--color-ink);
+  padding: 80px 24px;
+  position: relative;
+  text-align: center;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.corp-section-white {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  padding: 80px 24px;
+}
+
+.corp-section-soft {
+  background-color: var(--color-surface-soft);
+  color: var(--color-ink);
+  padding: 80px 24px;
+}
+
+/* ── Model / Service Cards (0px Rectangular) ────────────────── */
+.corp-card {
+  background-color: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: 0px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s ease;
+  position: relative;
+}
+
+.corp-card:hover {
+  border-color: var(--color-hairline-strong);
+}
+
+.corp-card-plate {
+  background-color: var(--color-surface-card);
+  border-radius: 0px;
+  padding: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+/* ── Spec Cells ─────────────────────────────────────────────── */
+.corp-spec-cell {
+  background-color: transparent;
+  padding: 24px;
+  border: 1px solid var(--color-hairline);
+  border-radius: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Filter Chips ───────────────────────────────────────────── */
+.corp-filter-chip {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-corporate);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  border: 1px solid var(--color-hairline-strong);
+  border-radius: 0px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.corp-filter-chip.active {
+  background-color: var(--color-ink);
+  color: var(--color-on-dark);
+  border-color: var(--color-ink);
+  font-weight: 700;
+}
+
+/* ── Category Subnav Tabs ───────────────────────────────────── */
+.corp-category-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-muted);
+  font-family: var(--font-corporate);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 0px;
+  transition: all 0.2s ease;
+}
+
+.corp-category-tab:hover {
+  color: var(--color-ink);
+}
+
+.corp-category-tab.active {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-ink);
+}
+
+/* ── Form Inputs ────────────────────────────────────────────── */
+.corp-input {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-corporate);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.55;
+  border: 1px solid var(--color-hairline);
+  border-radius: 0px;
+  padding: 14px 16px;
+  height: 48px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.corp-input:focus {
+  border-color: var(--color-ink);
+}
+
+.corp-textarea {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-corporate);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.55;
+  border: 1px solid var(--color-hairline);
+  border-radius: 0px;
+  padding: 14px 16px;
+  min-height: 120px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease;
+  resize: vertical;
+}
+
+.corp-textarea:focus {
+  border-color: var(--color-ink);
+}
+
+/* ── Top Nav ────────────────────────────────────────────────── */
+.corp-top-nav {
+  height: 64px;
+  background-color: var(--color-canvas);
+  border-bottom: 1px solid var(--color-hairline);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+.corp-footer {
+  background-color: var(--color-surface-soft);
+  color: var(--color-body);
+  padding: 64px 24px;
+  border-top: 1px solid var(--color-hairline);
+}

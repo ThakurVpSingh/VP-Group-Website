@@ -106,7 +106,7 @@ const BookingPage = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#030712', color: '#fff', fontFamily: '"Plus Jakarta Sans", sans-serif', position: 'relative' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--color-canvas)', color: 'var(--color-ink)', fontFamily: '"Plus Jakarta Sans", sans-serif', position: 'relative' }}>
       <ProjectNavbar />
       
       {/* Processing Animation Overlay */}
@@ -136,38 +136,38 @@ const BookingPage = () => {
           
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'rgba(139, 92, 246, 0.1)', border: '1px solid rgba(139, 92, 246, 0.2)', borderRadius: '30px', color: '#a78bfa', fontSize: '0.875rem', fontWeight: 600, marginBottom: '24px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'rgba(28, 105, 212, 0.1)', border: '1px solid var(--color-hairline)', borderRadius: '30px', color: 'var(--color-primary)', fontSize: '0.875rem', fontWeight: 600, marginBottom: '24px' }}>
               <Video size={16} /> Secure Video Consultation
             </div>
-            <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, background: 'linear-gradient(135deg, #fff 0%, #a78bfa 50%, #22d3ee 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-1px', marginBottom: '20px' }}>
+            <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, background: 'linear-gradient(135deg, var(--color-ink) 0%, var(--color-primary) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-1px', marginBottom: '20px' }}>
               Book Your Session
             </h1>
-            <p style={{ color: '#94a3b8', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
+            <p style={{ color: 'var(--color-muted)', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
               Connect with our experts via our end-to-end encrypted video platform, or get instant answers with our AI pre-consultation.
             </p>
           </div>
 
           {/* Form Container */}
-          <div style={{ background: 'rgba(17, 24, 39, 0.7)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '40px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
+          <div style={{ background: 'var(--color-surface-card)', backdropFilter: 'blur(20px)', border: '1px solid var(--color-hairline)', borderRadius: '24px', padding: '40px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.2)' }}>
             
             {step === 1 && (
               <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '30px' }}>Choose Consultation Mode</h2>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '30px', color: 'var(--color-ink)' }}>Choose Consultation Mode</h2>
                 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
                   {/* Live Video Option */}
                   <button 
                     onClick={() => setStep(2)}
-                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '30px', background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', cursor: 'pointer', transition: 'all 0.3s ease', textAlign: 'left', width: '100%', color: '#fff' }}
-                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.borderColor = '#8b5cf6'; }}
-                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '30px', background: 'var(--color-surface-soft)', border: '1px solid var(--color-hairline)', borderRadius: '16px', cursor: 'pointer', transition: 'all 0.3s ease', textAlign: 'left', width: '100%', color: 'var(--color-ink)' }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.borderColor = 'var(--color-primary)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--color-hairline)'; }}
                   >
-                    <div style={{ background: '#8b5cf6', padding: '12px', borderRadius: '12px', marginBottom: '20px' }}>
+                    <div style={{ background: 'var(--color-primary)', padding: '12px', borderRadius: '12px', marginBottom: '20px' }}>
                       <Video size={24} color="#fff" />
                     </div>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '10px' }}>Live Expert Session</h3>
-                    <p style={{ color: '#94a3b8', fontSize: '0.95rem', marginBottom: '20px', lineHeight: 1.5 }}>Schedule a 45 or 90 minute in-browser video call with our architecture and engineering specialists.</p>
-                    <div style={{ display: 'flex', alignItems: 'center', color: '#a78bfa', fontWeight: 600, marginTop: 'auto' }}>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '10px', color: 'var(--color-ink)' }}>Live Expert Session</h3>
+                    <p style={{ color: 'var(--color-muted)', fontSize: '0.95rem', marginBottom: '20px', lineHeight: 1.5 }}>Schedule a 45 or 90 minute in-browser video call with our architecture and engineering specialists.</p>
+                    <div style={{ display: 'flex', alignItems: 'center', color: 'var(--color-primary)', fontWeight: 600, marginTop: 'auto' }}>
                       Proceed to scheduling <ArrowRight size={18} style={{ marginLeft: '8px' }} />
                     </div>
                   </button>
@@ -175,16 +175,16 @@ const BookingPage = () => {
                   {/* AI Option */}
                   <button 
                     onClick={() => setShowAiModal(true)}
-                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '30px', background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', cursor: 'pointer', transition: 'all 0.3s ease', textAlign: 'left', width: '100%', color: '#fff' }}
+                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '30px', background: 'var(--color-surface-soft)', border: '1px solid var(--color-hairline)', borderRadius: '16px', cursor: 'pointer', transition: 'all 0.3s ease', textAlign: 'left', width: '100%', color: 'var(--color-ink)' }}
                     onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.borderColor = '#22d3ee'; }}
-                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.borderColor = 'var(--color-hairline)'; }}
                   >
                     <div style={{ background: '#22d3ee', padding: '12px', borderRadius: '12px', marginBottom: '20px' }}>
                       <Bot size={24} color="#0f172a" />
                     </div>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '10px' }}>Instant AI Consultation</h3>
-                    <p style={{ color: '#94a3b8', fontSize: '0.95rem', marginBottom: '20px', lineHeight: 1.5 }}>Get immediate answers via our trained LLM model before committing to a live session.</p>
-                    <div style={{ display: 'flex', alignItems: 'center', color: '#22d3ee', fontWeight: 600, marginTop: 'auto' }}>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '10px', color: 'var(--color-ink)' }}>Instant AI Consultation</h3>
+                    <p style={{ color: 'var(--color-muted)', fontSize: '0.95rem', marginBottom: '20px', lineHeight: 1.5 }}>Get immediate answers via our trained LLM model before committing to a live session.</p>
+                    <div style={{ display: 'flex', alignItems: 'center', color: 'var(--color-primary)', fontWeight: 600, marginTop: 'auto' }}>
                       Start AI Chat <ArrowRight size={18} style={{ marginLeft: '8px' }} />
                     </div>
                   </button>
@@ -194,104 +194,110 @@ const BookingPage = () => {
 
             {step === 2 && (
               <div style={{ animation: 'fadeIn 0.5s ease-out' }}>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px', cursor: 'pointer', color: '#94a3b8' }} onClick={() => setStep(1)}>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px', cursor: 'pointer', color: 'var(--color-muted)' }} onClick={() => setStep(1)}>
                   <ChevronRight size={20} style={{ transform: 'rotate(180deg)', marginRight: '8px' }} /> Back to options
                 </div>
                 
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '30px' }}>Schedule Details</h2>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '30px', color: 'var(--color-ink)' }}>Schedule Details</h2>
                 
                 <form onSubmit={handleBook} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                     <div>
-                      <label style={{ display: 'block', marginBottom: '8px', color: '#cbd5e1', fontSize: '0.9rem' }}>Full Name</label>
+                      <label style={{ display: 'block', marginBottom: '8px', color: 'var(--color-ink)', fontSize: '0.9rem', fontWeight: 600 }}>Full Name</label>
                       <input 
                         type="text" 
+                        name="name"
+                        autoComplete="name"
+                        id="booking-visitor-name"
                         required
                         value={formData.visitorName}
                         onChange={e => setFormData({...formData, visitorName: e.target.value})}
-                        style={{ width: '100%', background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px', borderRadius: '12px', color: '#fff', fontSize: '1rem', outline: 'none' }}
+                        style={{ width: '100%', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '14px 20px', borderRadius: '0px', color: 'var(--color-ink)', fontSize: '1rem', outline: 'none' }}
                         placeholder="John Doe"
                       />
                     </div>
                     <div>
-                      <label style={{ display: 'block', marginBottom: '8px', color: '#cbd5e1', fontSize: '0.9rem' }}>Work Email</label>
+                      <label style={{ display: 'block', marginBottom: '8px', color: 'var(--color-ink)', fontSize: '0.9rem', fontWeight: 600 }}>Work Email</label>
                       <input 
                         type="email" 
+                        name="email"
+                        autoComplete="email"
+                        id="booking-visitor-email"
                         required
                         value={formData.visitorEmail}
                         onChange={e => setFormData({...formData, visitorEmail: e.target.value})}
-                        style={{ width: '100%', background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px', borderRadius: '12px', color: '#fff', fontSize: '1rem', outline: 'none' }}
+                        style={{ width: '100%', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '14px 20px', borderRadius: '0px', color: 'var(--color-ink)', fontSize: '1rem', outline: 'none' }}
                         placeholder="john@company.com"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', color: '#cbd5e1', fontSize: '0.9rem' }}>Reason for Consultation</label>
+                    <label style={{ display: 'block', marginBottom: '8px', color: 'var(--color-ink)', fontSize: '0.9rem', fontWeight: 600 }}>Reason for Consultation</label>
                     <div style={{ position: 'relative' }}>
-                      <Briefcase size={18} style={{ position: 'absolute', left: '16px', top: '16px', color: '#64748b' }} />
+                      <Briefcase size={18} style={{ position: 'absolute', left: '16px', top: '16px', color: 'var(--color-muted)' }} />
                       <input 
                         type="text" 
                         required
                         value={formData.reason}
                         onChange={e => setFormData({...formData, reason: e.target.value})}
-                        style={{ width: '100%', background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px 14px 48px', borderRadius: '12px', color: '#fff', fontSize: '1rem', outline: 'none' }}
+                        style={{ width: '100%', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '14px 20px 14px 48px', borderRadius: '12px', color: 'var(--color-ink)', fontSize: '1rem', outline: 'none' }}
                         placeholder="e.g. Enterprise Web Security Architecture"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', color: '#cbd5e1', fontSize: '0.9rem' }}>Detailed Overview</label>
+                    <label style={{ display: 'block', marginBottom: '8px', color: 'var(--color-ink)', fontSize: '0.9rem', fontWeight: 600 }}>Detailed Overview</label>
                     <div style={{ position: 'relative' }}>
-                      <FileText size={18} style={{ position: 'absolute', left: '16px', top: '16px', color: '#64748b' }} />
+                      <FileText size={18} style={{ position: 'absolute', left: '16px', top: '16px', color: 'var(--color-muted)' }} />
                       <textarea 
                         required
                         value={formData.overview}
                         onChange={e => setFormData({...formData, overview: e.target.value})}
-                        style={{ width: '100%', background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px 14px 48px', borderRadius: '12px', color: '#fff', fontSize: '1rem', outline: 'none', minHeight: '120px', resize: 'vertical' }}
+                        style={{ width: '100%', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '14px 20px 14px 48px', borderRadius: '12px', color: 'var(--color-ink)', fontSize: '1rem', outline: 'none', minHeight: '120px', resize: 'vertical' }}
                         placeholder="Provide more context about your query..."
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '16px', color: '#cbd5e1', fontSize: '0.9rem' }}>Select Duration</label>
+                    <label style={{ display: 'block', marginBottom: '16px', color: 'var(--color-ink)', fontSize: '0.9rem', fontWeight: 600 }}>Select Duration</label>
                     <div style={{ display: 'flex', gap: '16px' }}>
                       <button 
                         type="button"
                         onClick={() => setFormData({...formData, duration: 45})}
-                        style={{ flex: 1, padding: '20px', background: formData.duration === 45 ? 'rgba(139, 92, 246, 0.15)' : 'rgba(15, 23, 42, 0.5)', border: `1px solid ${formData.duration === 45 ? '#8b5cf6' : 'rgba(255,255,255,0.1)'}`, borderRadius: '12px', color: formData.duration === 45 ? '#fff' : '#94a3b8', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+                        style={{ flex: 1, padding: '20px', background: formData.duration === 45 ? 'rgba(28, 105, 212, 0.12)' : 'var(--color-surface-soft)', border: `1px solid ${formData.duration === 45 ? 'var(--color-primary)' : 'var(--color-hairline)'}`, borderRadius: '12px', color: formData.duration === 45 ? 'var(--color-primary)' : 'var(--color-muted)', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
                       >
-                        <Clock size={20} color={formData.duration === 45 ? '#a78bfa' : '#64748b'} />
+                        <Clock size={20} color={formData.duration === 45 ? 'var(--color-primary)' : 'var(--color-muted)'} />
                         <span style={{ fontWeight: 600, fontSize: '1.1rem' }}>45 Minutes</span>
                       </button>
                       <button 
                         type="button"
                         onClick={() => setFormData({...formData, duration: 90})}
-                        style={{ flex: 1, padding: '20px', background: formData.duration === 90 ? 'rgba(139, 92, 246, 0.15)' : 'rgba(15, 23, 42, 0.5)', border: `1px solid ${formData.duration === 90 ? '#8b5cf6' : 'rgba(255,255,255,0.1)'}`, borderRadius: '12px', color: formData.duration === 90 ? '#fff' : '#94a3b8', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+                        style={{ flex: 1, padding: '20px', background: formData.duration === 90 ? 'rgba(28, 105, 212, 0.12)' : 'var(--color-surface-soft)', border: `1px solid ${formData.duration === 90 ? 'var(--color-primary)' : 'var(--color-hairline)'}`, borderRadius: '12px', color: formData.duration === 90 ? 'var(--color-primary)' : 'var(--color-muted)', cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
                       >
-                        <Clock size={20} color={formData.duration === 90 ? '#a78bfa' : '#64748b'} />
+                        <Clock size={20} color={formData.duration === 90 ? 'var(--color-primary)' : 'var(--color-muted)'} />
                         <span style={{ fontWeight: 600, fontSize: '1.1rem' }}>90 Minutes</span>
                       </button>
                     </div>
                   </div>
 
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', color: '#cbd5e1', fontSize: '0.9rem' }}>Date & Time</label>
+                    <label style={{ display: 'block', marginBottom: '8px', color: 'var(--color-ink)', fontSize: '0.9rem', fontWeight: 600 }}>Date & Time</label>
                     <input 
                       type="datetime-local" 
                       required
                       value={formData.startTime}
                       onChange={e => setFormData({...formData, startTime: e.target.value})}
-                      style={{ width: '100%', background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px', borderRadius: '12px', color: '#fff', fontSize: '1rem', outline: 'none', colorScheme: 'dark' }}
+                      style={{ width: '100%', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '14px 20px', borderRadius: '12px', color: 'var(--color-ink)', fontSize: '1rem', outline: 'none' }}
                     />
                   </div>
 
                   <button 
                     type="submit" 
                     disabled={loading}
-                    style={{ width: '100%', padding: '16px', background: 'linear-gradient(90deg, #8b5cf6, #22d3ee)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '1.1rem', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1, marginTop: '10px', transition: 'opacity 0.2s' }}
+                    style={{ width: '100%', padding: '16px', background: 'var(--color-primary)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '1.1rem', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1, marginTop: '10px', transition: 'opacity 0.2s' }}
                   >
                     {loading ? 'Securing Slot...' : 'Confirm Booking'}
                   </button>
@@ -305,35 +311,35 @@ const BookingPage = () => {
                   <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '80px', height: '80px', background: 'rgba(34, 211, 238, 0.1)', borderRadius: '50%', marginBottom: '24px' }}>
                     <CheckCircle size={40} color="#22d3ee" />
                   </div>
-                  <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '16px' }}>Mission Brief Confirmed</h2>
-                  <p style={{ color: '#94a3b8', fontSize: '1.1rem', marginBottom: '30px', maxWidth: '500px', margin: '0 auto 30px' }}>
-                    Thank you, <span style={{ color: '#fff', fontWeight: 'bold' }}>{formData.visitorName}</span>. Your <span style={{ color: '#fff', fontWeight: 'bold' }}>{formData.duration}-minute</span> consultation has been successfully scheduled. We will connect with you exactly as per the scheduled slot.
+                  <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '16px', color: 'var(--color-ink)' }}>Mission Brief Confirmed</h2>
+                  <p style={{ color: 'var(--color-muted)', fontSize: '1.1rem', marginBottom: '30px', maxWidth: '500px', margin: '0 auto 30px' }}>
+                    Thank you, <span style={{ color: 'var(--color-ink)', fontWeight: 'bold' }}>{formData.visitorName}</span>. Your <span style={{ color: 'var(--color-ink)', fontWeight: 'bold' }}>{formData.duration}-minute</span> consultation has been successfully scheduled. We will connect with you exactly as per the scheduled slot.
                   </p>
                 </div>
                 
-                <div style={{ background: 'rgba(15, 23, 42, 0.5)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '32px', marginBottom: '30px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', paddingBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                    <div style={{ background: 'rgba(139, 92, 246, 0.2)', padding: '12px', borderRadius: '12px' }}>
-                      <Clock size={24} color="#a78bfa" />
+                <div style={{ background: 'var(--color-surface-soft)', border: '1px solid var(--color-hairline)', borderRadius: '16px', padding: '32px', marginBottom: '30px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', paddingBottom: '24px', borderBottom: '1px solid var(--color-hairline)' }}>
+                    <div style={{ background: 'rgba(28, 105, 212, 0.15)', padding: '12px', borderRadius: '12px' }}>
+                      <Clock size={24} color="var(--color-primary)" />
                     </div>
                     <div>
-                      <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Scheduled Time</p>
-                      <p style={{ fontSize: '1.2rem', color: '#fff', fontWeight: 600 }}>
+                      <p style={{ fontSize: '0.85rem', color: 'var(--color-muted)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Scheduled Time</p>
+                      <p style={{ fontSize: '1.2rem', color: 'var(--color-ink)', fontWeight: 600 }}>
                         {new Date(formData.startTime).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </div>
                   </div>
 
-                  <p style={{ color: '#cbd5e1', marginBottom: '12px', fontWeight: 600 }}>Your Secure Meeting Link:</p>
-                  <div style={{ display: 'flex', alignItems: 'center', background: '#030712', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '16px', overflow: 'hidden', marginBottom: '24px' }}>
-                    <code style={{ color: '#22d3ee', fontSize: '0.95rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', width: '100%' }}>
+                  <p style={{ color: 'var(--color-ink)', marginBottom: '12px', fontWeight: 600 }}>Your Secure Meeting Link:</p>
+                  <div style={{ display: 'flex', alignItems: 'center', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', borderRadius: '8px', padding: '16px', overflow: 'hidden', marginBottom: '24px' }}>
+                    <code style={{ color: 'var(--color-primary)', fontSize: '0.95rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', width: '100%' }}>
                       {meetingLink}
                     </code>
                   </div>
                   
-                  <div style={{ background: 'rgba(255, 78, 240, 0.05)', borderLeft: '4px solid #ff4ef0', padding: '16px', borderRadius: '4px' }}>
-                    <p style={{ color: '#f8fafc', fontSize: '0.95rem', margin: 0, lineHeight: 1.6 }}>
-                      <strong style={{ color: '#ff4ef0' }}>Important:</strong> Please try to be on the meet link before 5 minutes to avoid any type of technical issue.
+                  <div style={{ background: 'rgba(28, 105, 212, 0.08)', borderLeft: '4px solid var(--color-primary)', padding: '16px', borderRadius: '4px' }}>
+                    <p style={{ color: 'var(--color-ink)', fontSize: '0.95rem', margin: 0, lineHeight: 1.6 }}>
+                      <strong style={{ color: 'var(--color-primary)' }}>Important:</strong> Please try to be on the meet link before 5 minutes to avoid any type of technical issue.
                     </p>
                   </div>
                 </div>
@@ -341,16 +347,16 @@ const BookingPage = () => {
                 <div style={{ textAlign: 'center' }}>
                   <button 
                     onClick={() => window.location.href = meetingLink}
-                    style={{ width: '100%', padding: '16px 32px', background: '#fff', border: 'none', borderRadius: '12px', color: '#030712', fontSize: '1.1rem', fontWeight: 700, cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', marginBottom: '24px' }}
-                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 20px rgba(255,255,255,0.2)' }}
+                    style={{ width: '100%', padding: '16px 32px', background: 'var(--color-primary)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '1.1rem', fontWeight: 700, cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s', marginBottom: '24px' }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 20px rgba(28, 105, 212, 0.3)' }}
                     onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
                   >
                     Enter Secure Meeting Room
                   </button>
 
-                  <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                  <p style={{ color: 'var(--color-muted)', fontSize: '0.9rem', lineHeight: 1.6 }}>
                     If you face any issues, feel free to reach out to us at <br/>
-                    <strong style={{ color: '#fff' }}>+91 6388 398 552</strong> or write an email to <strong style={{ color: '#fff' }}>contact.vpsdev@gmail.com</strong>
+                    <strong style={{ color: 'var(--color-ink)' }}>+91 6388 398 552</strong> or write an email to <strong style={{ color: 'var(--color-ink)' }}>contact.vpsdev@gmail.com</strong>
                   </p>
                 </div>
               </div>
@@ -362,26 +368,26 @@ const BookingPage = () => {
         {/* AI Modal */}
         {showAiModal && (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-            <div style={{ width: '100%', maxWidth: '700px', height: '700px', background: '#0f172a', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', overflow: 'hidden', animation: 'scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+            <div style={{ width: '100%', maxWidth: '700px', height: '700px', background: 'var(--color-surface-card)', borderRadius: '24px', border: '1px solid var(--color-hairline)', display: 'flex', flexDirection: 'column', overflow: 'hidden', animation: 'scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)' }}>
               
               {/* Modal Header */}
-              <div style={{ padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0,0,0,0.2)' }}>
+              <div style={{ padding: '20px', borderBottom: '1px solid var(--color-hairline)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--color-surface-soft)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(34, 211, 238, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Bot size={20} color="#22d3ee" />
                   </div>
                   <div>
-                    <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 600 }}>Cortex-1 Intelligence</h3>
-                    <p style={{ margin: 0, fontSize: '0.8rem', color: '#22d3ee' }}>● Knowledge Base Sync Active</p>
+                    <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 600, color: 'var(--color-ink)' }}>Cortex-1 Intelligence</h3>
+                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--color-primary)' }}>● Knowledge Base Sync Active</p>
                   </div>
                 </div>
-                <button onClick={() => setShowAiModal(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer' }}>
+                <button onClick={() => setShowAiModal(false)} style={{ background: 'none', border: 'none', color: 'var(--color-muted)', cursor: 'pointer' }}>
                   <X size={24} />
                 </button>
               </div>
 
               {/* Chat Area */}
-              <div style={{ flex: 1, padding: '20px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ flex: 1, padding: '20px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', background: 'var(--color-canvas)' }}>
                 {aiMessages.map((msg, idx) => (
                   <div key={idx} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', justifyContent: msg.sender === 'user' ? 'flex-end' : 'flex-start' }}>
                     {msg.sender === 'ai' && (
@@ -389,7 +395,7 @@ const BookingPage = () => {
                         <Bot size={16} color="#22d3ee" />
                       </div>
                     )}
-                    <div style={{ background: msg.sender === 'user' ? '#8b5cf6' : 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '16px', borderTopLeftRadius: msg.sender === 'ai' ? 0 : '16px', borderTopRightRadius: msg.sender === 'user' ? 0 : '16px', fontSize: '0.95rem', lineHeight: 1.5, color: '#fff', maxWidth: '80%', boxShadow: msg.sender === 'ai' ? 'none' : '0 4px 12px rgba(139, 92, 246, 0.2)' }}>
+                    <div style={{ background: msg.sender === 'user' ? 'var(--color-primary)' : 'var(--color-surface-soft)', border: '1px solid var(--color-hairline)', padding: '16px', borderRadius: '16px', borderTopLeftRadius: msg.sender === 'ai' ? 0 : '16px', borderTopRightRadius: msg.sender === 'user' ? 0 : '16px', fontSize: '0.95rem', lineHeight: 1.5, color: msg.sender === 'user' ? '#fff' : 'var(--color-ink)', maxWidth: '80%', boxShadow: msg.sender === 'ai' ? 'none' : '0 4px 12px rgba(28, 105, 212, 0.2)' }}>
                       {msg.text}
                     </div>
                   </div>
@@ -399,7 +405,7 @@ const BookingPage = () => {
                     <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(34, 211, 238, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <Bot size={16} color="#22d3ee" />
                     </div>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '12px 16px', borderRadius: '16px', borderTopLeftRadius: 0, color: '#94a3b8', fontSize: '0.85rem' }}>
+                    <div style={{ background: 'var(--color-surface-soft)', border: '1px solid var(--color-hairline)', padding: '12px 16px', borderRadius: '16px', borderTopLeftRadius: 0, color: 'var(--color-muted)', fontSize: '0.85rem' }}>
                       Cortex is processing query...
                     </div>
                   </div>
@@ -407,24 +413,24 @@ const BookingPage = () => {
               </div>
 
               {/* Input Area */}
-              <div style={{ padding: '20px', borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,0,0,0.2)' }}>
+              <div style={{ padding: '20px', borderTop: '1px solid var(--color-hairline)', background: 'var(--color-surface-soft)' }}>
                 <div style={{ display: 'flex', gap: '12px' }}>
                   <div style={{ flex: 1, position: 'relative' }}>
-                    <Search size={18} style={{ position: 'absolute', left: '16px', top: '16px', color: '#64748b' }} />
+                    <Search size={18} style={{ position: 'absolute', left: '16px', top: '16px', color: 'var(--color-muted)' }} />
                     <input 
                       type="text" 
                       placeholder="Ask Cortex about services, security, or global ops..." 
                       value={aiInput}
                       onChange={e => setAiInput(e.target.value)}
                       onKeyDown={e => e.key === 'Enter' && handleAiSend()}
-                      style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '14px 20px 14px 48px', borderRadius: '12px', color: '#fff', fontSize: '0.95rem', outline: 'none' }}
+                      style={{ width: '100%', background: 'var(--color-canvas)', border: '1px solid var(--color-hairline)', padding: '14px 20px 14px 48px', borderRadius: '12px', color: 'var(--color-ink)', fontSize: '0.95rem', outline: 'none' }}
                     />
                   </div>
-                  <button onClick={handleAiSend} style={{ padding: '0 24px', background: '#22d3ee', border: 'none', borderRadius: '12px', color: '#0f172a', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <button onClick={handleAiSend} style={{ padding: '0 24px', background: 'var(--color-primary)', border: 'none', borderRadius: '12px', color: '#fff', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     Send <Globe size={16} />
                   </button>
                 </div>
-                <p style={{ fontSize: '0.7rem', color: '#4b5563', marginTop: '12px', textAlign: 'center' }}>
+                <p style={{ fontSize: '0.7rem', color: 'var(--color-muted)', marginTop: '12px', textAlign: 'center' }}>
                   Cortex uses proprietary knowledge and simulated search indices to provide accurate information.
                 </p>
               </div>

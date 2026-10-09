@@ -114,18 +114,18 @@ export default function SEOAnalyticsServicePage() {
                       <span style={{ fontFamily:H.mono, fontSize:'0.8125rem', color:row.color }}>{row.after}%</span>
                     </div>
                     <div style={{ display:'grid', gridTemplateRows:'auto auto', gap:'4px' }}>
-                      <div style={{ height:'6px', background:'#1E2029', borderRadius:'4px', overflow:'hidden' }}>
-                        <div className="seo-bar" style={{ height:'100%', width:`${(row.before/max)*100}%`, background:'#3A3D4A', borderRadius:'4px' }} />
+                      <div style={{ height:'6px', background:'var(--color-surface-soft)', border:'1px solid var(--color-hairline)', borderRadius:'0px', overflow:'hidden' }}>
+                        <div className="seo-bar" style={{ height:'100%', width:`${(row.before/max)*100}%`, background:'var(--color-muted-soft)', borderRadius:'0px' }} />
                       </div>
-                      <div style={{ height:'6px', background:'#1E2029', borderRadius:'4px', overflow:'hidden' }}>
-                        <div className="seo-bar" style={{ height:'100%', width:`${(row.after/max)*100}%`, background:row.color, borderRadius:'4px' }} />
+                      <div style={{ height:'6px', background:'var(--color-surface-soft)', border:'1px solid var(--color-hairline)', borderRadius:'0px', overflow:'hidden' }}>
+                        <div className="seo-bar" style={{ height:'100%', width:`${(row.after/max)*100}%`, background:row.color, borderRadius:'0px' }} />
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop:'20px', padding:'10px 14px', background:'rgba(43,224,140,0.08)', border:'1px solid rgba(43,224,140,0.2)', borderRadius:'8px' }}>
-                <span style={{ fontFamily:H.mono, fontSize:'0.75rem', color:'#2BE08C' }}>↑ +46% organic share · avg client result after 6 months</span>
+              <div style={{ marginTop:'20px', padding:'10px 14px', background:'rgba(22,163,74,0.08)', border:'1px solid rgba(22,163,74,0.2)', borderRadius:'0px' }}>
+                <span style={{ fontFamily:H.mono, fontSize:'0.75rem', color:'#16a34a' }}>↑ +46% organic share · avg client result after 6 months</span>
               </div>
             </HaloCard>
           </div>

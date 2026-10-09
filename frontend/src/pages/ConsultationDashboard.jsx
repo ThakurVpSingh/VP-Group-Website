@@ -53,11 +53,11 @@ const ConsultationDashboard = ({ isEmbedded = false }) => {
   };
 
   if (loading) {
-    return <div style={{ height: isEmbedded ? 'auto' : '100vh', background: isEmbedded ? 'transparent' : '#030712', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#22d3ee', padding: isEmbedded ? '40px' : 0 }}>Loading Dashboard...</div>;
+    return <div style={{ height: isEmbedded ? 'auto' : '100vh', background: isEmbedded ? 'transparent' : 'var(--color-canvas)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-primary)', padding: isEmbedded ? '40px' : 0 }}>Loading Dashboard...</div>;
   }
 
   return (
-    <div style={{ minHeight: isEmbedded ? 'auto' : '100vh', background: isEmbedded ? 'transparent' : '#030712', color: '#fff', fontFamily: '"Plus Jakarta Sans", sans-serif' }}>
+    <div style={{ minHeight: isEmbedded ? 'auto' : '100vh', background: isEmbedded ? 'transparent' : 'var(--color-canvas)', color: 'var(--color-ink)', fontFamily: '"Plus Jakarta Sans", sans-serif', transition: 'background 0.3s ease, color 0.3s ease' }}>
       {!isEmbedded && <ProjectNavbar />}
       
       <div style={{ padding: isEmbedded ? '0 0 60px' : '120px 5% 60px', maxWidth: '1400px', margin: '0 auto' }}>
@@ -67,11 +67,11 @@ const ConsultationDashboard = ({ isEmbedded = false }) => {
               <Video size={24} color="#a78bfa" />
             </div>
             <div>
-              <h1 style={{ fontSize: isEmbedded ? '1.5rem' : '2rem', fontWeight: 800, margin: 0 }}>Consultation Center</h1>
-              <p style={{ color: '#64748b', fontSize: '0.85rem', margin: '4px 0 0' }}>Manage video meetings and track consultation history.</p>
+              <h1 style={{ fontSize: isEmbedded ? '1.5rem' : '2rem', fontWeight: 800, margin: 0, color: 'var(--color-ink)' }}>Consultation Center</h1>
+              <p style={{ color: 'var(--color-muted)', fontSize: '0.85rem', margin: '4px 0 0' }}>Manage video meetings and track consultation history.</p>
             </div>
           </div>
-          <div style={{ fontSize: '0.75rem', color: '#22d3ee', background: 'rgba(34, 211, 238, 0.1)', padding: '6px 14px', borderRadius: '30px', fontWeight: 700, border: '1px solid rgba(34, 211, 238, 0.2)', display: window.innerWidth < 600 ? 'none' : 'block' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--color-primary)', background: 'rgba(28, 105, 212, 0.1)', padding: '6px 14px', borderRadius: '30px', fontWeight: 700, border: '1px solid rgba(28, 105, 212, 0.2)', display: window.innerWidth < 600 ? 'none' : 'block' }}>
             ● LIVE MONITORING ACTIVE
           </div>
         </div>
@@ -80,7 +80,7 @@ const ConsultationDashboard = ({ isEmbedded = false }) => {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px', marginBottom: '80px' }}>
           {consultations.length === 0 ? (
-            <div style={{ padding: '40px', background: 'rgba(255,255,255,0.02)', borderRadius: '16px', border: '1px dashed rgba(255,255,255,0.1)', gridColumn: '1 / -1', textAlign: 'center', color: '#64748b' }}>
+            <div style={{ padding: '40px', background: 'var(--color-surface-soft)', borderRadius: '16px', border: '1px dashed var(--color-hairline)', gridColumn: '1 / -1', textAlign: 'center', color: 'var(--color-muted)' }}>
               No consultations booked yet.
             </div>
           ) : (
@@ -89,14 +89,14 @@ const ConsultationDashboard = ({ isEmbedded = false }) => {
               const startObj = new Date(c.startTime);
               const newlyBooked = isNew(c.createdAt);
               
-              let statusColor = '#64748b';
+              let statusColor = 'var(--color-muted)';
               let StatusIcon = Clock;
               
               if (status === 'Ongoing') {
                 statusColor = '#10b981';
                 StatusIcon = Play;
               } else if (status === 'Upcoming') {
-                statusColor = '#22d3ee';
+                statusColor = 'var(--color-primary)';
                 StatusIcon = Clock;
               } else if (status === 'Expired') {
                 statusColor = '#ef4444';
@@ -104,48 +104,48 @@ const ConsultationDashboard = ({ isEmbedded = false }) => {
               }
 
               return (
-                <div key={c._id} style={{ background: 'rgba(15, 23, 42, 0.6)', border: newlyBooked ? '1px solid #ff4ef0' : '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: '0.3s', boxShadow: newlyBooked ? '0 0 20px rgba(255, 78, 240, 0.2)' : '0 10px 30px rgba(0,0,0,0.5)', position: 'relative' }}>
+                <div key={c._id} style={{ background: 'var(--color-surface-card)', border: newlyBooked ? '1px solid #ff4ef0' : '1px solid var(--color-hairline)', borderRadius: '16px', overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: '0.3s', boxShadow: newlyBooked ? '0 0 20px rgba(255, 78, 240, 0.2)' : '0 10px 30px rgba(0,0,0,0.06)', position: 'relative' }}>
                   
                   {newlyBooked && (
                     <div style={{ position: 'absolute', top: '12px', right: '12px', background: '#ff4ef0', color: '#fff', fontSize: '0.6rem', fontWeight: 900, padding: '3px 6px', borderRadius: '4px', letterSpacing: '1px', animation: 'pulse 1.5s infinite' }}>NEW</div>
                   )}
 
                   {/* Card Header */}
-                  <div style={{ padding: '14px 18px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0,0,0,0.2)' }}>
+                  <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--color-hairline)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--color-surface-soft)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: statusColor, fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px' }}>
                       <StatusIcon size={12} /> {status}
                     </div>
-                    <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>{c.duration} MIN</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--color-muted)', fontWeight: 600 }}>{c.duration} MIN</span>
                   </div>
 
                   {/* Card Body */}
                   <div style={{ padding: '18px', flex: 1 }}>
-                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <User size={16} color="#94a3b8" /> {c.visitorName}
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-ink)' }}>
+                      <User size={16} color="var(--color-muted)" /> {c.visitorName}
                     </h3>
                     
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#cbd5e1' }}>
-                        <Mail size={14} color="#64748b" /> {c.visitorEmail}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--color-muted)' }}>
+                        <Mail size={14} color="var(--color-muted)" /> {c.visitorEmail}
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#cbd5e1' }}>
-                        <Clock size={14} color="#64748b" /> {startObj.toLocaleString()}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: 'var(--color-muted)' }}>
+                        <Clock size={14} color="var(--color-muted)" /> {startObj.toLocaleString()}
                       </div>
                     </div>
 
-                    <div style={{ marginTop: '16px', padding: '12px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                      <div style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: 800, textTransform: 'uppercase', marginBottom: '4px', letterSpacing: '1px' }}>Context</div>
-                      <h4 style={{ fontSize: '0.85rem', fontWeight: 700, margin: '0 0 4px', color: '#a78bfa' }}>{c.reason || 'General Inquiry'}</h4>
-                      <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: 0, lineHeight: 1.4 }}>{c.overview || 'No additional details provided.'}</p>
+                    <div style={{ marginTop: '16px', padding: '12px', background: 'var(--color-surface-soft)', borderRadius: '10px', border: '1px solid var(--color-hairline)' }}>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--color-muted)', fontWeight: 800, textTransform: 'uppercase', marginBottom: '4px', letterSpacing: '1px' }}>Context</div>
+                      <h4 style={{ fontSize: '0.85rem', fontWeight: 700, margin: '0 0 4px', color: '#8b5cf6' }}>{c.reason || 'General Inquiry'}</h4>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--color-muted)', margin: 0, lineHeight: 1.4 }}>{c.overview || 'No additional details provided.'}</p>
                     </div>
                   </div>
 
                   {/* Card Footer Actions */}
-                  <div style={{ padding: '14px 18px', background: 'rgba(0,0,0,0.2)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ padding: '14px 18px', background: 'var(--color-surface-soft)', borderTop: '1px solid var(--color-hairline)' }}>
                     {status === 'Upcoming' || status === 'Ongoing' ? (
                       <button 
                         onClick={() => navigate(`/meeting/${c.meetingId}`)}
-                        style={{ width: '100%', padding: '10px', background: status === 'Ongoing' ? '#10b981' : '#22d3ee', color: status === 'Ongoing' ? '#fff' : '#0f172a', border: 'none', borderRadius: '8px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: '0.2s', fontSize: '0.85rem' }}
+                        style={{ width: '100%', padding: '10px', background: status === 'Ongoing' ? '#10b981' : 'var(--color-primary)', color: '#ffffff', border: 'none', borderRadius: '8px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: '0.2s', fontSize: '0.85rem' }}
                         onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
                         onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
                       >
@@ -154,9 +154,7 @@ const ConsultationDashboard = ({ isEmbedded = false }) => {
                     ) : (
                       <button 
                         onClick={() => window.location.href = `mailto:${c.visitorEmail}?subject=Regarding our missed consultation`}
-                        style={{ width: '100%', padding: '10px', background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: '0.2s', fontSize: '0.85rem' }}
-                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+                        style={{ width: '100%', padding: '10px', background: 'var(--color-canvas)', color: 'var(--color-ink)', border: '1px solid var(--color-hairline)', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: '0.2s', fontSize: '0.85rem' }}
                       >
                         <Mail size={14} /> Follow Up
                       </button>

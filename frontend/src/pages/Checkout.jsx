@@ -31,7 +31,7 @@ const Checkout = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#030712', color: '#fff', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--color-canvas)', color: 'var(--color-ink)', display: 'flex', flexDirection: 'column', transition: 'background 0.3s ease, color 0.3s ease' }}>
       
       {/* Checkout Navbar */}
       <nav style={{ 
@@ -39,25 +39,25 @@ const Checkout = () => {
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center', 
-        background: 'rgba(10, 12, 16, 0.9)', 
+        background: 'var(--color-surface-soft)', 
         backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        borderBottom: '1px solid var(--color-hairline)',
         position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 100
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Shield size={22} color="#22d3ee" />
-          <span style={{ fontWeight: '900', letterSpacing: '2px' }}>VEXIO<span style={{ color: '#22d3ee' }}>PAY</span></span>
+          <Shield size={22} color="var(--color-primary)" />
+          <span style={{ fontWeight: '900', letterSpacing: '2px', color: 'var(--color-ink)' }}>VEXIO<span style={{ color: 'var(--color-primary)' }}>PAY</span></span>
         </div>
         <div style={{ display: 'flex', gap: '30px' }}>
-          <a href="#" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: '0.85rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}><HelpCircle size={16} /> Help</a>
-          <a href="#" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: '0.85rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}><LifeBuoy size={16} /> Support</a>
+          <a href="#" style={{ color: 'var(--color-muted)', textDecoration: 'none', fontSize: '0.85rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}><HelpCircle size={16} /> Help</a>
+          <a href="#" style={{ color: 'var(--color-muted)', textDecoration: 'none', fontSize: '0.85rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}><LifeBuoy size={16} /> Support</a>
         </div>
       </nav>
 
       <main style={{ flex: 1, padding: '140px 5% 80px', position: 'relative' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           
-          <Link to="/pricing" style={{ color: '#9ca3af', textDecoration: 'none', fontSize: '0.9rem', marginBottom: '40px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+          <Link to="/pricing" style={{ color: 'var(--color-muted)', textDecoration: 'none', fontSize: '0.9rem', marginBottom: '40px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
             <ChevronLeft size={18} /> Back to Pricing
           </Link>
 
@@ -66,22 +66,22 @@ const Checkout = () => {
               
               {/* Payment Info */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
-                <div className="glass-panel" style={{ padding: '40px', background: 'rgba(255,255,255,0.02)' }}>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: '900', marginBottom: '30px', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '20px' }}>IDENTIFICATION & BILLING</h3>
+                <div className="glass-panel" style={{ padding: '40px' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: '900', marginBottom: '30px', borderBottom: '1px solid var(--color-hairline)', paddingBottom: '20px', color: 'var(--color-ink)' }}>IDENTIFICATION & BILLING</h3>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                     <div className="form-group">
-                      <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: '#4b5563', marginBottom: '8px', textTransform: 'uppercase' }}>Billing Name</label>
+                      <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--color-muted)', marginBottom: '8px', textTransform: 'uppercase' }}>Billing Name</label>
                       <input type="text" placeholder="John Doe" className="checkout-input" required />
                     </div>
                     <div className="form-group">
-                      <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: '#4b5563', marginBottom: '8px', textTransform: 'uppercase' }}>VAT / TAX ID (Opt)</label>
+                      <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '800', color: 'var(--color-muted)', marginBottom: '8px', textTransform: 'uppercase' }}>VAT / TAX ID (Opt)</label>
                       <input type="text" placeholder="Optional" className="checkout-input" />
                     </div>
                   </div>
                 </div>
 
-                <div className="glass-panel" style={{ padding: '40px', background: 'rgba(255,255,255,0.02)' }}>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: '900', marginBottom: '30px', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '20px' }}>PAYMENT METHOD</h3>
+                <div className="glass-panel" style={{ padding: '40px' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: '900', marginBottom: '30px', borderBottom: '1px solid var(--color-hairline)', paddingBottom: '20px', color: 'var(--color-ink)' }}>PAYMENT METHOD</h3>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '16px', marginBottom: '40px' }}>
                     {[
                       { id: 'card', label: 'Credit Card', icon: <CreditCard size={20} /> },
@@ -94,15 +94,15 @@ const Checkout = () => {
                         style={{ 
                           padding: '24px', 
                           borderRadius: '16px', 
-                          background: paymentMethod === method.id ? 'rgba(34, 211, 238, 0.1)' : 'rgba(255,255,255,0.02)',
-                          border: paymentMethod === method.id ? '2px solid #22d3ee' : '1px solid rgba(255,255,255,0.05)',
+                          background: paymentMethod === method.id ? 'rgba(28, 105, 212, 0.12)' : 'var(--color-surface-soft)',
+                          border: paymentMethod === method.id ? '2px solid var(--color-primary)' : '1px solid var(--color-hairline)',
                           cursor: 'pointer',
                           textAlign: 'center',
                           transition: '0.3s'
                         }}
                       >
-                        <div style={{ marginBottom: '10px', color: paymentMethod === method.id ? '#22d3ee' : '#fff' }}>{method.icon}</div>
-                        <span style={{ fontWeight: '700', fontSize: '0.8rem' }}>{method.label}</span>
+                        <div style={{ marginBottom: '10px', color: paymentMethod === method.id ? 'var(--color-primary)' : 'var(--color-ink)' }}>{method.icon}</div>
+                        <span style={{ fontWeight: '700', fontSize: '0.8rem', color: 'var(--color-ink)' }}>{method.label}</span>
                       </div>
                     ))}
                   </div>
@@ -125,33 +125,33 @@ const Checkout = () => {
 
               {/* Order Summary */}
               <div>
-                <div className="glass-panel" style={{ padding: '40px', position: 'sticky', top: '140px', background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(34, 211, 238, 0.05) 100%)' }}>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: '900', marginBottom: '24px' }}>ORDER SUMMARY</h3>
+                <div className="glass-panel" style={{ padding: '40px', position: 'sticky', top: '140px' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: '900', marginBottom: '24px', color: 'var(--color-ink)' }}>ORDER SUMMARY</h3>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                    <span style={{ color: '#9ca3af' }}>{currentPlan.name}</span>
-                    <span style={{ fontWeight: '700' }}>₹{currentPlan.price}</span>
+                    <span style={{ color: 'var(--color-muted)' }}>{currentPlan.name}</span>
+                    <span style={{ fontWeight: '700', color: 'var(--color-ink)' }}>₹{currentPlan.price}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px', fontSize: '0.9rem' }}>
-                    <span style={{ color: '#9ca3af' }}>Billing Cycle</span>
-                    <span style={{ color: '#22d3ee', fontWeight: '800' }}>{cycle.toUpperCase()}</span>
+                    <span style={{ color: 'var(--color-muted)' }}>Billing Cycle</span>
+                    <span style={{ color: 'var(--color-primary)', fontWeight: '800' }}>{cycle.toUpperCase()}</span>
                   </div>
-                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', marginBottom: '40px' }}>
-                    <span style={{ fontWeight: '900', fontSize: '1.2rem' }}>Total</span>
-                    <span style={{ fontWeight: '900', fontSize: '1.2rem', color: '#22d3ee' }}>₹{currentPlan.price}</span>
+                  <div style={{ borderTop: '1px solid var(--color-hairline)', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', marginBottom: '40px' }}>
+                    <span style={{ fontWeight: '900', fontSize: '1.2rem', color: 'var(--color-ink)' }}>Total</span>
+                    <span style={{ fontWeight: '900', fontSize: '1.2rem', color: 'var(--color-primary)' }}>₹{currentPlan.price}</span>
                   </div>
 
                   <button 
                     onClick={handlePayment}
                     disabled={isProcessing}
                     style={{ 
-                      width: '100%', padding: '20px', borderRadius: '16px', background: '#22d3ee', color: '#030712', 
+                      width: '100%', padding: '20px', borderRadius: '16px', background: 'var(--color-primary)', color: '#ffffff', 
                       fontWeight: '900', border: 'none', cursor: 'pointer', transition: '0.3s', fontSize: '1rem',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px'
                     }}
                   >
                     {isProcessing ? "INITIALIZING TRANSACTION..." : "PROCESS SECURE PAYMENT"} {!isProcessing && <ArrowRight size={20} />}
                   </button>
-                  <p style={{ textAlign: 'center', fontSize: '0.7rem', color: '#4b5563', marginTop: '20px' }}>
+                  <p style={{ textAlign: 'center', fontSize: '0.7rem', color: 'var(--color-muted)', marginTop: '20px' }}>
                     SECURE 256-BIT ENCRYPTED TRANSACTION
                   </p>
                 </div>
@@ -163,15 +163,15 @@ const Checkout = () => {
               <div style={{ width: 100, height: 100, borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 30px' }}>
                 <CheckCircle size={60} color="#10b981" />
               </div>
-              <h1 style={{ fontSize: '3rem', fontWeight: '900', marginBottom: '20px' }}>Payment <span style={{ color: '#10b981' }}>Authorized.</span></h1>
-              <p style={{ color: '#9ca3af', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto 40px', lineHeight: 1.6 }}>
+              <h1 style={{ fontSize: '3rem', fontWeight: '900', marginBottom: '20px', color: 'var(--color-ink)' }}>Payment <span style={{ color: '#10b981' }}>Authorized.</span></h1>
+              <p style={{ color: 'var(--color-muted)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto 40px', lineHeight: 1.6 }}>
                 Your operational tier <strong>{currentPlan.name}</strong> has been activated. A final confirmation and invoice have been transmitted to your registered email.
               </p>
               <button 
                 onClick={() => navigate('/')}
                 style={{ 
-                  padding: '20px 60px', borderRadius: '16px', background: 'rgba(255,255,255,0.05)', color: '#fff', 
-                  border: '1px solid rgba(255,255,255,0.1)', fontWeight: '900', cursor: 'pointer' 
+                  padding: '20px 60px', borderRadius: '16px', background: 'var(--color-surface-soft)', color: 'var(--color-ink)', 
+                  border: '1px solid var(--color-hairline)', fontWeight: '900', cursor: 'pointer' 
                 }}
               >
                 RETURN TO HOME <ArrowRight size={20} style={{ marginLeft: '12px', verticalAlign: 'middle' }} />
@@ -186,21 +186,22 @@ const Checkout = () => {
 
       <style>{`
         .glass-panel {
+          background: var(--color-surface-card);
           backdrop-filter: blur(20px);
           border-radius: 24px;
-          border: 1px solid rgba(255, 255, 255, 0.05);
+          border: 1px solid var(--color-hairline);
         }
         .checkout-input {
           width: 100%;
           padding: 16px;
-          background: rgba(0, 0, 0, 0.3);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--color-canvas);
+          border: 1px solid var(--color-hairline);
           border-radius: 12px;
-          color: #fff;
+          color: var(--color-ink);
           font-family: inherit;
         }
         .checkout-input:focus {
-          border-color: #22d3ee;
+          border-color: var(--color-primary);
           outline: none;
         }
       `}</style>

@@ -49,7 +49,8 @@ const PricingBackground = () => {
 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#030712';
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || document.documentElement.classList.contains('dark') || document.body.classList.contains('dark-theme');
+      ctx.fillStyle = isDark ? '#121820' : '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((p, i) => {
@@ -127,7 +128,7 @@ const Pricing = () => {
   ];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#030712', color: '#fff', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--color-canvas)', color: 'var(--color-ink)', display: 'flex', flexDirection: 'column' }}>
       <ProjectNavbar />
       <PricingBackground />
 
@@ -135,11 +136,11 @@ const Pricing = () => {
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
           
           <div style={{ marginBottom: '60px' }}>
-            <div style={{ display: 'inline-block', padding: '6px 16px', background: 'rgba(34, 211, 238, 0.1)', color: '#22d3ee', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '900', letterSpacing: '2px', marginBottom: '20px' }}>ACCESS PROTOCOLS</div>
-            <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: '900', letterSpacing: '-3px', marginBottom: '24px' }}>
+            <div style={{ display: 'inline-block', padding: '6px 16px', background: 'rgba(28, 105, 212, 0.1)', color: 'var(--color-primary)', borderRadius: '0px', fontSize: '0.7rem', fontWeight: '900', letterSpacing: '2px', marginBottom: '20px' }}>ACCESS PROTOCOLS</div>
+            <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: '900', letterSpacing: '-3px', marginBottom: '24px', color: 'var(--color-ink)' }}>
               Subscription <span className="text-gradient-cyan">Framework.</span>
             </h1>
-            <p style={{ color: '#9ca3af', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
+            <p style={{ color: 'var(--color-muted)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
               Select your operational tier. Scale your security mesh with precision-engineered infrastructure.
             </p>
           </div>
@@ -147,20 +148,20 @@ const Pricing = () => {
           {/* Billing Toggle */}
           <div style={{ 
             display: 'inline-flex', 
-            background: 'rgba(255,255,255,0.03)', 
+            background: 'var(--color-surface-soft)', 
             padding: '4px', 
-            borderRadius: '12px', 
-            border: '1px solid rgba(255,255,255,0.05)',
+            borderRadius: '0px', 
+            border: '1px solid var(--color-hairline)',
             marginBottom: '60px'
           }}>
             <button 
               onClick={() => setBillingCycle('monthly')}
               style={{ 
                 padding: '10px 24px', 
-                borderRadius: '8px', 
+                borderRadius: '0px', 
                 border: 'none', 
-                background: billingCycle === 'monthly' ? '#22d3ee' : 'transparent',
-                color: billingCycle === 'monthly' ? '#030712' : '#9ca3af',
+                background: billingCycle === 'monthly' ? 'var(--color-primary)' : 'transparent',
+                color: billingCycle === 'monthly' ? '#ffffff' : 'var(--color-muted)',
                 fontWeight: '800',
                 cursor: 'pointer',
                 transition: '0.3s'
@@ -172,10 +173,10 @@ const Pricing = () => {
               onClick={() => setBillingCycle('annual')}
               style={{ 
                 padding: '10px 24px', 
-                borderRadius: '8px', 
+                borderRadius: '0px', 
                 border: 'none', 
-                background: billingCycle === 'annual' ? '#22d3ee' : 'transparent',
-                color: billingCycle === 'annual' ? '#030712' : '#9ca3af',
+                background: billingCycle === 'annual' ? 'var(--color-primary)' : 'transparent',
+                color: billingCycle === 'annual' ? '#ffffff' : 'var(--color-muted)',
                 fontWeight: '800',
                 cursor: 'pointer',
                 transition: '0.3s'
@@ -192,10 +193,10 @@ const Pricing = () => {
                 className="pricing-card"
                 style={{ 
                   padding: '40px', 
-                  background: 'rgba(255, 255, 255, 0.02)',
+                  background: 'var(--color-surface-card)',
                   backdropFilter: 'blur(20px)',
-                  borderRadius: '32px',
-                  border: plan.popular ? `2px solid ${plan.color}` : '1px solid rgba(255,255,255,0.05)',
+                  borderRadius: '0px',
+                  border: plan.popular ? `2px solid var(--color-primary)` : '1px solid var(--color-hairline)',
                   position: 'relative',
                   display: 'flex',
                   flexDirection: 'column',
@@ -209,12 +210,12 @@ const Pricing = () => {
                     top: '-16px', 
                     left: '50%', 
                     transform: 'translateX(-50%)', 
-                    background: plan.color, 
+                    background: 'var(--color-primary)', 
                     color: '#fff',
                     padding: '4px 20px', 
-                    borderRadius: '20px', 
+                    borderRadius: '0px', 
                     fontSize: '0.7rem', 
-                    fontWeight: '900',
+                    fontWeight: '900', 
                     letterSpacing: '1px'
                   }}>
                     RECOMMENDED
@@ -225,8 +226,8 @@ const Pricing = () => {
                   <div style={{ 
                     width: 64, 
                     height: 64, 
-                    borderRadius: '16px', 
-                    background: `${plan.color}10`, 
+                    borderRadius: '0px', 
+                    background: `${plan.color}15`, 
                     display: 'flex', 
                     alignItems: 'center', 
                     justifyContent: 'center',
@@ -234,18 +235,18 @@ const Pricing = () => {
                   }}>
                     {plan.icon}
                   </div>
-                  <h3 style={{ fontSize: '1.4rem', fontWeight: '800', marginBottom: '8px' }}>{plan.name}</h3>
+                  <h3 style={{ fontSize: '1.4rem', fontWeight: '800', marginBottom: '8px', color: 'var(--color-ink)' }}>{plan.name}</h3>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                    <span style={{ fontSize: '2.5rem', fontWeight: '900' }}>
+                    <span style={{ fontSize: '2.5rem', fontWeight: '900', color: 'var(--color-ink)' }}>
                       ₹{billingCycle === 'monthly' ? plan.monthlyPrice : plan.annualPrice}
                     </span>
-                    <span style={{ color: '#6b7280', fontWeight: '600' }}>/mo</span>
+                    <span style={{ color: 'var(--color-muted)', fontWeight: '600' }}>/mo</span>
                   </div>
                 </div>
 
                 <div style={{ flex: 1, marginBottom: '40px' }}>
                   {plan.features.map((feature, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '16px', fontSize: '0.9rem', color: '#9ca3af' }}>
+                    <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '16px', fontSize: '0.9rem', color: 'var(--color-body)' }}>
                       <div style={{ marginTop: '2px', color: plan.color }}><Check size={16} /></div>
                       {feature}
                     </div>
@@ -258,11 +259,11 @@ const Pricing = () => {
                   style={{ 
                     width: '100%', 
                     padding: '18px', 
-                    borderRadius: '14px', 
+                    borderRadius: '0px', 
                     fontWeight: '900', 
-                    background: plan.popular ? plan.color : 'rgba(255,255,255,0.05)',
-                    border: 'none',
-                    color: plan.popular ? '#030712' : '#fff',
+                    background: plan.popular ? 'var(--color-primary)' : 'var(--color-surface-soft)',
+                    border: '1px solid var(--color-hairline)',
+                    color: plan.popular ? '#ffffff' : 'var(--color-ink)',
                     cursor: 'pointer',
                     transition: '0.3s',
                     letterSpacing: '1px',
@@ -279,27 +280,26 @@ const Pricing = () => {
           </div>
 
           {/* Payment Partners Section */}
-          <div style={{ marginTop: '80px', padding: '40px', background: 'rgba(255,255,255,0.02)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
-            <h4 style={{ fontSize: '0.9rem', color: '#9ca3af', marginBottom: '30px', fontWeight: '800', letterSpacing: '2px' }}>SUPPORTED PAYMENT INTERFACES</h4>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '50px', flexWrap: 'wrap', alignItems: 'center', opacity: 0.6 }}>
-               {/* Placeholders for payment partners */}
-               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '900', fontSize: '1.2rem' }}>
+          <div style={{ marginTop: '80px', padding: '40px', background: 'var(--color-surface-soft)', borderRadius: '0px', border: '1px solid var(--color-hairline)' }}>
+            <h4 style={{ fontSize: '0.9rem', color: 'var(--color-muted)', marginBottom: '30px', fontWeight: '800', letterSpacing: '2px' }}>SUPPORTED PAYMENT INTERFACES</h4>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '50px', flexWrap: 'wrap', alignItems: 'center', opacity: 0.8 }}>
+               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '900', fontSize: '1.2rem', color: 'var(--color-ink)' }}>
                  <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#ff5f00' }}></div> MasterStream
                </div>
-               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '900', fontSize: '1.2rem' }}>
+               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '900', fontSize: '1.2rem', color: 'var(--color-ink)' }}>
                  <div style={{ width: 40, height: 25, borderRadius: '4px', background: '#1a1f71' }}></div> VisaMesh
                </div>
-               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '900', fontSize: '1.2rem' }}>
+               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '900', fontSize: '1.2rem', color: 'var(--color-ink)' }}>
                  <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#0070ba' }}></div> CryptPay
                </div>
-               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '900', fontSize: '1.2rem' }}>
+               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '900', fontSize: '1.2rem', color: 'var(--color-ink)' }}>
                  <div style={{ width: 30, height: 30, borderRadius: '6px', background: '#32325d' }}></div> StripeNodes
                </div>
             </div>
           </div>
 
           {/* Bottom Trust Section */}
-          <div style={{ marginTop: '80px', display: 'flex', justifyContent: 'center', gap: '60px', opacity: 0.5, flexWrap: 'wrap' }}>
+          <div style={{ marginTop: '80px', display: 'flex', justifyContent: 'center', gap: '60px', opacity: 0.75, flexWrap: 'wrap', color: 'var(--color-muted)', fontWeight: '700' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><Lock size={20} /> 256-BIT ENCRYPTION</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><Globe size={20} /> GLOBAL EDGE NETWORK</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><Cpu size={20} /> NEURAL INFRASTRUCTURE</div>

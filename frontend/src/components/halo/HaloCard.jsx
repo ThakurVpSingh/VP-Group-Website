@@ -1,11 +1,11 @@
 import React from 'react';
 
 const ACCENT_COLORS = {
-  primary: '#5B6BFF',
-  success: '#2BE08C',
-  warning: '#F5D547',
-  info:    '#3DD7E5',
-  error:   '#FF3A5C',
+  primary: '#1c69d4',
+  success: '#22c55e',
+  warning: '#f59e0b',
+  info:    '#0066b1',
+  error:   '#dc2626',
 };
 
 /**
@@ -35,11 +35,11 @@ export default function HaloCard({
     position: 'relative',
     background: elevated ? 'var(--halo-elevated)' : 'var(--halo-surface)',
     border: `1px solid ${elevated ? 'var(--halo-border-strong)' : 'var(--halo-border)'}`,
-    borderRadius: '16px',
+    borderRadius: '0px',
     padding,
     overflow: 'hidden',
-    transition: 'border-color 240ms cubic-bezier(0.2,0.6,0.2,1), transform 240ms cubic-bezier(0.2,0.6,0.2,1), box-shadow 240ms cubic-bezier(0.2,0.6,0.2,1)',
-    boxShadow: elevated ? 'var(--halo-shadow-md)' : 'var(--halo-shadow-sm)',
+    transition: 'border-color 150ms ease',
+    boxShadow: 'none',
     cursor: onClick ? 'pointer' : 'default',
     ...style,
   };
@@ -47,15 +47,11 @@ export default function HaloCard({
   const handleMouseEnter = (e) => {
     if (hoverable || onClick) {
       e.currentTarget.style.borderColor = 'var(--halo-primary)';
-      e.currentTarget.style.transform = 'translateY(-4px)';
-      e.currentTarget.style.boxShadow = 'var(--halo-shadow-lg)';
     }
   };
   const handleMouseLeave = (e) => {
     if (hoverable || onClick) {
       e.currentTarget.style.borderColor = elevated ? 'var(--halo-border-strong)' : 'var(--halo-border)';
-      e.currentTarget.style.transform = 'translateY(0)';
-      e.currentTarget.style.boxShadow = elevated ? 'var(--halo-shadow-md)' : 'var(--halo-shadow-sm)';
     }
   };
 
@@ -63,7 +59,7 @@ export default function HaloCard({
     <div style={base} onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {/* 2px signal accent top hairline */}
       {accentColor && (
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: accentColor, borderRadius: '16px 16px 0 0' }} />
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: accentColor, borderRadius: '0px' }} />
       )}
       {children}
     </div>

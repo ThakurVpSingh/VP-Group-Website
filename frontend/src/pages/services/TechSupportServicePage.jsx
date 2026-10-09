@@ -45,7 +45,7 @@ const capabilities = [
   { icon:Activity,  title:'Predictive Maintenance',    desc:'Machine-learning models forecast hardware degradation and capacity limits weeks before they become critical.' },
 ];
 
-const logColor = (l) => l==='ALERT'?'#FF3A5C':l==='WARN'?'#F5D547':l==='BLOCK'||l==='AUTO'?'#3DD7E5':'#2BE08C';
+const logColor = (l) => l==='ALERT'?'#dc2626':l==='WARN'?'#d97706':l==='BLOCK'||l==='AUTO'?'#0284c7':'#16a34a';
 const logVariant = (l) => l==='ALERT'?'error':l==='WARN'?'warning':l==='BLOCK'||l==='AUTO'?'info':'success';
 
 export default function TechSupportServicePage() {
@@ -131,20 +131,20 @@ export default function TechSupportServicePage() {
             </div>
 
             {/* Live log */}
-            <div style={{ background:'#14151C', border:'1px solid #2A2D38', borderRadius:'16px', overflow:'hidden', boxShadow:'0 24px 60px rgba(0,0,0,0.55)' }}>
-              <div style={{ padding:'12px 16px', background:'#1E2029', borderBottom:'1px solid #2A2D38', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+            <div style={{ background:'var(--color-surface-card)', border:'1px solid var(--color-hairline)', borderRadius:'0px', overflow:'hidden' }}>
+              <div style={{ padding:'12px 16px', background:'var(--color-surface-soft)', borderBottom:'1px solid var(--color-hairline)', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
-                  <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#2BE08C', boxShadow:'0 0 6px #2BE08C' }} />
-                  <span style={{ fontFamily:H.mono, fontSize:'0.72rem', color:'#2BE08C', fontWeight:500 }}>VP-SENTINEL MONITOR v2.1</span>
+                  <div style={{ width:'8px', height:'8px', borderRadius:'50%', background:'#16a34a', boxShadow:'0 0 6px #16a34a' }} />
+                  <span style={{ fontFamily:H.mono, fontSize:'0.72rem', color:'#16a34a', fontWeight:600 }}>VP-SENTINEL MONITOR v2.1</span>
                 </div>
                 <Chip variant="success">All Systems Nominal</Chip>
               </div>
               <div ref={logRef} style={{ padding:'18px', fontFamily:H.mono, fontSize:'0.72rem', lineHeight:1.75, height:'290px', overflowY:'auto' }}>
                 {logLines.map((l,i)=>(
                   <div key={i} style={{ display:'flex', gap:'12px', marginBottom:'1px', animation:'ts-fadein 0.2s ease' }}>
-                    <span style={{ color:'#3A3D4A', flexShrink:0 }}>{l.time}</span>
-                    <span style={{ color:logColor(l.level), minWidth:'44px', flexShrink:0 }}>[{l.level}]</span>
-                    <span style={{ color:'#9AA0AE' }}>{l.msg}</span>
+                    <span style={{ color:'var(--color-muted-soft)', flexShrink:0 }}>{l.time}</span>
+                    <span style={{ color:logColor(l.level), minWidth:'44px', flexShrink:0, fontWeight:600 }}>[{l.level}]</span>
+                    <span style={{ color:'var(--color-ink)' }}>{l.msg}</span>
                   </div>
                 ))}
               </div>

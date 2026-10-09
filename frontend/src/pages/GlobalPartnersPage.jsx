@@ -26,7 +26,7 @@ const GlobalPartnersPage = () => {
     }, []);
 
     return (
-        <div style={{ background: '#030712', color: '#fff', minHeight: '100vh', fontFamily: "'Outfit', 'Inter', sans-serif", overflowX: 'hidden' }}>
+        <div style={{ background: 'var(--color-canvas)', color: 'var(--color-ink)', minHeight: '100vh', fontFamily: "'Outfit', 'Inter', sans-serif", overflowX: 'hidden' }}>
             <ProjectNavbar />
             
             {/* Glow Background Elements */}
@@ -38,12 +38,12 @@ const GlobalPartnersPage = () => {
                 padding: '180px 5% 80px', 
                 textAlign: 'center', 
                 position: 'relative',
-                background: 'radial-gradient(circle at 50% 50%, rgba(255, 78, 240, 0.03) 0%, transparent 70%)'
+                background: 'radial-gradient(circle at 50% 50%, rgba(28, 105, 212, 0.05) 0%, transparent 70%)'
             }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.15, zIndex: 0, pointerEvents: 'none' }}>
                     <svg width="100%" height="100%" style={{ position: 'absolute' }}>
                         <pattern id="grid-pattern" width="50" height="50" patternUnits="userSpaceOnUse">
-                            <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255, 78, 240, 0.08)" strokeWidth="1"/>
+                            <path d="M 50 0 L 0 0 0 50" fill="none" stroke="var(--color-hairline)" strokeWidth="1"/>
                         </pattern>
                         <rect width="100%" height="100%" fill="url(#grid-pattern)" />
                     </svg>
@@ -53,11 +53,11 @@ const GlobalPartnersPage = () => {
                     <Link to="/" className="back-link">
                         <ArrowLeft size={14} /> BACK TO OPERATIONS CONTROL
                     </Link>
-                    <h1 style={{ fontSize: 'clamp(2.5rem, 7vw, 4.8rem)', fontWeight: '950', marginBottom: '24px', letterSpacing: '-3px', lineHeight: 1 }}>
+                    <h1 style={{ fontSize: 'clamp(2.5rem, 7vw, 4.8rem)', fontWeight: '950', marginBottom: '24px', letterSpacing: '-3px', lineHeight: 1, color: 'var(--color-ink)' }}>
                         Global Freelance & Startup <br/>
                         <span className="text-gradient">Collaborations.</span>
                     </h1>
-                    <p style={{ fontSize: 'clamp(1.05rem, 3vw, 1.25rem)', color: '#94a3b8', maxWidth: '750px', margin: '0 auto', lineHeight: 1.7 }}>
+                    <p style={{ fontSize: 'clamp(1.05rem, 3vw, 1.25rem)', color: 'var(--color-muted)', maxWidth: '750px', margin: '0 auto', lineHeight: 1.7 }}>
                         Partnering with high-velocity startups and clients across Canada, Australia, the USA, and India to engineer next-generation Full-Stack applications, interactive 3D visual experiences, and robust digital architecture.
                     </p>
                 </div>
@@ -349,12 +349,12 @@ const GlobalPartnersPage = () => {
 
                 /* Cards Styling */
                 .glass-panel {
-                    background: rgba(17, 24, 39, 0.7);
+                    background: var(--color-surface-card);
                     backdrop-filter: blur(20px);
                     -webkit-backdrop-filter: blur(20px);
-                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    border: 1px solid var(--color-hairline);
                     border-radius: 24px;
-                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
                     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
                 }
 
@@ -362,7 +362,7 @@ const GlobalPartnersPage = () => {
                     padding: 48px;
                     position: relative;
                     overflow: hidden;
-                    border-top: 1.5px solid rgba(255, 255, 255, 0.05);
+                    border-top: 1.5px solid var(--color-hairline);
                 }
 
                 .gp-card-header {
@@ -381,20 +381,20 @@ const GlobalPartnersPage = () => {
                     padding: 6px 12px;
                     border-radius: 6px;
                 }
-                .canada-color { background: rgba(239, 68, 68, 0.1); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.2); }
-                .aus-usa-color { background: rgba(59, 130, 246, 0.1); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.2); }
-                .india-color { background: rgba(16, 185, 129, 0.1); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.2); }
+                .canada-color { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+                .aus-usa-color { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
+                .india-color { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
 
                 .gp-card-title-area h3 {
                     font-size: 1.5rem;
                     font-weight: 900;
                     letter-spacing: -0.5px;
-                    color: #fff;
+                    color: var(--color-ink);
                     margin-top: 8px;
                 }
                 .gp-card-title-area .gp-sub {
                     font-size: 0.85rem;
-                    color: #64748b;
+                    color: var(--color-muted);
                     font-weight: 600;
                     margin-top: 4px;
                 }
@@ -412,7 +412,7 @@ const GlobalPartnersPage = () => {
                 .india-color-bg { background: rgba(16, 185, 129, 0.08); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.15); }
 
                 .gp-desc {
-                    color: #94a3b8;
+                    color: var(--color-muted);
                     font-size: 1.05rem;
                     line-height: 1.8;
                     margin-bottom: 30px;
@@ -431,12 +431,12 @@ const GlobalPartnersPage = () => {
                     display: flex;
                     align-items: flex-start;
                     gap: 12px;
-                    color: #cbd5e1;
+                    color: var(--color-body);
                     font-size: 0.9rem;
                     line-height: 1.5;
                 }
                 .feature-item svg {
-                    color: #ff4ef0;
+                    color: var(--color-primary);
                     flex-shrink: 0;
                     margin-top: 2px;
                 }
@@ -445,15 +445,15 @@ const GlobalPartnersPage = () => {
                     display: flex;
                     flex-wrap: wrap;
                     gap: 10px;
-                    border-top: 1px solid rgba(255, 255, 255, 0.05);
+                    border-top: 1px solid var(--color-hairline);
                     padding-top: 24px;
                 }
                 .tech-badge {
                     font-size: 0.75rem;
                     font-weight: 800;
-                    color: #fff;
-                    background: rgba(255, 255, 255, 0.04);
-                    border: 1px solid rgba(255, 255, 255, 0.08);
+                    color: var(--color-ink);
+                    background: var(--color-surface-soft);
+                    border: 1px solid var(--color-hairline);
                     padding: 6px 14px;
                     border-radius: 30px;
                 }
@@ -461,18 +461,18 @@ const GlobalPartnersPage = () => {
                 /* Hover Interactions */
                 .gp-card:hover {
                     transform: translateY(-8px);
-                    background: rgba(17, 24, 39, 0.85);
+                    background: var(--color-surface-card);
                 }
-                .hover-glow-canada:hover { border-color: rgba(239, 68, 68, 0.25); box-shadow: 0 20px 40px rgba(239, 68, 68, 0.05); }
-                .hover-glow-aus-usa:hover { border-color: rgba(59, 130, 246, 0.25); box-shadow: 0 20px 40px rgba(59, 130, 246, 0.05); }
-                .hover-glow-india:hover { border-color: rgba(16, 185, 129, 0.25); box-shadow: 0 20px 40px rgba(16, 185, 129, 0.05); }
+                .hover-glow-canada:hover { border-color: rgba(239, 68, 68, 0.35); box-shadow: 0 20px 40px rgba(239, 68, 68, 0.1); }
+                .hover-glow-aus-usa:hover { border-color: rgba(59, 130, 246, 0.35); box-shadow: 0 20px 40px rgba(59, 130, 246, 0.1); }
+                .hover-glow-india:hover { border-color: rgba(16, 185, 129, 0.35); box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1); }
 
                 .pillar-panel {
                     padding: 40px;
                 }
                 .pillar-panel:hover {
-                    border-color: rgba(255, 78, 240, 0.2);
-                    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+                    border-color: var(--color-primary);
+                    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
                 }
 
                 /* Sidebar Stats Panel */
@@ -480,18 +480,18 @@ const GlobalPartnersPage = () => {
                     padding: 40px;
                     position: sticky;
                     top: 120px;
-                    border: 1px solid rgba(255, 78, 240, 0.15);
-                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+                    border: 1px solid var(--color-hairline);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
                 }
                 .sidebar-stats:hover {
-                    border-color: #ff4ef0;
+                    border-color: var(--color-primary);
                 }
                 .sidebar-title {
                     font-size: 1.25rem;
                     font-weight: 900;
-                    color: #fff;
+                    color: var(--color-ink);
                     margin-bottom: 28px;
-                    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                    border-bottom: 1px solid var(--color-hairline);
                     padding-bottom: 16px;
                     letter-spacing: -0.5px;
                 }
@@ -507,7 +507,7 @@ const GlobalPartnersPage = () => {
                 }
                 .telemetry-label {
                     font-size: 0.8rem;
-                    color: #64748b;
+                    color: var(--color-muted);
                     font-weight: 800;
                     text-transform: uppercase;
                     letter-spacing: 1px;
@@ -515,7 +515,7 @@ const GlobalPartnersPage = () => {
                 .telemetry-value {
                     font-size: 0.95rem;
                     font-weight: 900;
-                    color: #fff;
+                    color: var(--color-ink);
                 }
 
                 .telemetry-cta {

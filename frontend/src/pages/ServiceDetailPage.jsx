@@ -540,9 +540,9 @@ const UX3DVisualizer = ({ service }) => {
                 .ux-visualizer-container {
                     margin: 80px 0;
                     padding: 60px;
-                    background: rgba(255, 255, 255, 0.01);
+                    background: var(--color-surface-card);
                     border-radius: 40px;
-                    border: 1px solid rgba(255, 255, 255, 0.03);
+                    border: 1px solid var(--color-hairline);
                 }
                 .visualizer-main-grid {
                     display: grid;
@@ -571,8 +571,8 @@ const UX3DVisualizer = ({ service }) => {
                 .ux-layer {
                     position: absolute;
                     inset: 0;
-                    background: rgba(15, 23, 42, 0.6);
-                    border: 2px solid rgba(255, 255, 255, 0.05);
+                    background: var(--color-surface-soft);
+                    border: 2px solid var(--color-hairline);
                     border-radius: 24px;
                     backdrop-filter: blur(12px);
                     display: flex;
@@ -673,26 +673,26 @@ const UX3DVisualizer = ({ service }) => {
                 .agent-loop { transition: all 0.3s; }
                 .orbit-particle { transition: transform 0.1s; filter: drop-shadow(0 0 4px #22d3ee); }
 
-                .api-tag { font-family: monospace; font-size: 0.6rem; color: #94a3b8; }
+                .api-tag { font-family: monospace; font-size: 0.6rem; color: var(--color-muted); }
 
                 .layer-description-box {
                     padding: 40px;
-                    border-left: 1px solid rgba(255, 255, 255, 0.05);
+                    border-left: 1px solid var(--color-hairline);
                 }
                 .step-tag { font-size: 0.7rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 20px; }
-                .layer-info-title { font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 20px; letter-spacing: -1.5px; }
-                .layer-info-desc { color: #94a3b8; line-height: 1.8; font-size: 1.1rem; margin-bottom: 32px; }
+                .layer-info-title { font-size: 2.2rem; font-weight: 900; color: var(--color-ink); margin-bottom: 20px; letter-spacing: -1.5px; }
+                .layer-info-desc { color: var(--color-muted); line-height: 1.8; font-size: 1.1rem; margin-bottom: 32px; }
                 .layer-features { display: flex; flex-wrap: wrap; gap: 12px; }
                 .feature-chip { 
                     display: flex; alignItems: center; gap: 8px; 
-                    padding: 8px 16px; background: rgba(255, 255, 255, 0.03); 
-                    border-radius: 30px; font-size: 0.75rem; font-weight: 700; color: #fff;
-                    border: 1px solid rgba(255, 255, 255, 0.05);
+                    padding: 8px 16px; background: var(--color-surface-soft); 
+                    border-radius: 30px; font-size: 0.75rem; font-weight: 700; color: var(--color-ink);
+                    border: 1px solid var(--color-hairline);
                 }
 
                 @media (max-width: 1024px) {
                     .visualizer-main-grid { grid-template-columns: 1fr; }
-                    .layer-description-box { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 40px 0 0; }
+                    .layer-description-box { border-left: none; border-top: 1px solid var(--color-hairline); padding: 40px 0 0; }
                     .ux-visualizer-container { padding: 30px; }
                 }
             `}</style>
@@ -753,7 +753,7 @@ const ServiceDetailPage = () => {
     }
 
     return (
-        <div style={{ background: '#0a0c10', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--color-canvas)', color: 'var(--color-ink)', minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
             {/* Ambient Background Grid */}
             <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none', opacity: 0.4 }}>
                 <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -785,7 +785,7 @@ const ServiceDetailPage = () => {
                         <div className="section-title-box" style={{ justifyContent: 'center', textAlign: 'center', marginBottom: '60px' }}>
                             <div style={{ textAlign: 'center' }}>
                                 <div style={{ fontSize: '0.7rem', fontWeight: '900', color: service.accentColor, letterSpacing: '4px', marginBottom: '16px', textTransform: 'uppercase' }}>Engineering Excellence</div>
-                                <h2 className="section-heading" style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', fontWeight: '900', color: '#fff', letterSpacing: '-1.5px' }}>Functional Mesh Architecture</h2>
+                                <h2 className="section-heading" style={{ fontSize: 'clamp(2rem, 6vw, 4rem)', fontWeight: '900', color: 'var(--color-ink)', letterSpacing: '-1.5px' }}>Functional Mesh Architecture</h2>
                             </div>
                         </div>
                         
@@ -794,7 +794,7 @@ const ServiceDetailPage = () => {
                         {/* Forensic Working Steps Mesh */}
                         <div className="section-title-box" style={{ marginTop: '120px' }}>
                             <div className="accent-line" style={{ background: service.accentColor }}></div>
-                            <h2 className="section-heading" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', fontWeight: '900', color: '#fff', letterSpacing: '-1px' }}>Forensic Working Roadmap</h2>
+                            <h2 className="section-heading" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', fontWeight: '900', color: 'var(--color-ink)', letterSpacing: '-1px' }}>Forensic Working Roadmap</h2>
                         </div>
 
                         <div className="working-steps-mesh">
@@ -803,7 +803,7 @@ const ServiceDetailPage = () => {
                                     <div className="step-icon-box" style={{ color: service.accentColor, background: `${service.accentColor}15` }}>
                                         <step.icon size={24} />
                                     </div>
-                                    <h3 style={{ color: '#fff' }}>{step.title}</h3>
+                                    <h3 style={{ color: 'var(--color-ink)' }}>{step.title}</h3>
                                     <p>{step.desc}</p>
                                 </div>
                             ))}
@@ -814,7 +814,7 @@ const ServiceDetailPage = () => {
                     <section style={{ marginTop: 'clamp(100px, 15vw, 150px)', position: 'relative', zIndex: 1 }}>
                         <div className="section-title-box">
                             <div className="accent-line" style={{ background: service.accentColor }}></div>
-                            <h2 className="section-heading" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', fontWeight: '900', color: '#fff', letterSpacing: '-1px' }}>Strategic Engineering Methodology</h2>
+                            <h2 className="section-heading" style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', fontWeight: '900', color: 'var(--color-ink)', letterSpacing: '-1px' }}>Strategic Engineering Methodology</h2>
                         </div>
                         
                         <div className="process-list">
@@ -864,7 +864,7 @@ const ServiceDetailPage = () => {
                         <div className="section-title-box" style={{ justifyContent: 'center', textAlign: 'center', marginBottom: '60px' }}>
                             <div style={{ textAlign: 'center' }}>
                                 <div style={{ fontSize: '0.7rem', fontWeight: '900', color: service.accentColor, letterSpacing: '4px', marginBottom: '16px', textTransform: 'uppercase' }}>Worldwide Impact Data</div>
-                                <h2 className="section-heading" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '900', color: '#fff', letterSpacing: '-1.5px' }}>Global Performance Metrics</h2>
+                                <h2 className="section-heading" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '900', color: 'var(--color-ink)', letterSpacing: '-1.5px' }}>Global Performance Metrics</h2>
                             </div>
                         </div>
 
@@ -927,7 +927,7 @@ const ServiceDetailPage = () => {
             <style>{`
                 .section-title-box { display: flex; align-items: center; gap: 20px; margin-bottom: 48px; }
                 .accent-line { width: 5px; height: 32px; border-radius: 4px; }
-                .section-heading { color: #fff; font-size: 2.5rem; font-weight: 900; letter-spacing: -1.5px; }
+                .section-heading { color: var(--color-ink, #ffffff); font-size: 2.5rem; font-weight: 900; letter-spacing: -1.5px; }
 
                 .working-steps-mesh {
                     display: grid;
@@ -937,70 +937,70 @@ const ServiceDetailPage = () => {
                 }
                 .step-mesh-card {
                     padding: 40px;
-                    background: rgba(255, 255, 255, 0.02);
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                    border-radius: 32px;
+                    background: var(--color-surface-card, #fafafa);
+                    border: 1px solid var(--color-hairline, #e6e6e6);
+                    border-radius: 24px;
                     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
                 }
                 .step-mesh-card:hover { 
-                    border-color: ${service.accentColor}50; 
-                    transform: translateY(-12px); 
-                    background: rgba(255, 255, 255, 0.04);
-                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                    border-color: ${service.accentColor}; 
+                    transform: translateY(-8px); 
+                    box-shadow: 0 16px 32px rgba(0,0,0,0.1);
                 }
                 .step-icon-box {
                     width: 56px; height: 56px; border-radius: 16px;
                     display: flex; align-items: center; justify-content: center;
                     margin-bottom: 28px;
                 }
-                .step-mesh-card h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 16px; }
-                .step-mesh-card p { font-size: 1rem; color: #94a3b8; line-height: 1.8; }
+                .step-mesh-card h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 16px; color: var(--color-ink, #ffffff); }
+                .step-mesh-card p { font-size: 1rem; color: var(--color-muted, #94a3b8); line-height: 1.8; margin: 0; }
 
                 .process-list { display: flex; flex-direction: column; gap: 32px; }
-                .process-step-item { display: flex; gap: 40px; padding: 40px; background: rgba(255,255,255,0.01); border-radius: 24px; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
-                .process-step-item:hover { background: rgba(255,255,255,0.03); border-color: ${service.accentColor}30; }
+                .process-step-item { display: flex; gap: 40px; padding: 40px; background: var(--color-surface-card, #fafafa); border-radius: 24px; border: 1px solid var(--color-hairline, #e6e6e6); transition: 0.3s; }
+                .process-step-item:hover { border-color: ${service.accentColor}; transform: translateY(-4px); }
                 .step-number { font-size: 3rem; font-weight: 900; opacity: 0.8; }
-                .step-title { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 12px; }
-                .step-desc { color: #94a3b8; line-height: 1.7; font-size: 1.1rem; margin: 0; }
+                .step-title { font-size: 1.5rem; font-weight: 800; color: var(--color-ink, #ffffff); margin-bottom: 12px; }
+                .step-desc { color: var(--color-muted, #94a3b8); line-height: 1.7; font-size: 1.1rem; margin: 0; }
 
                 .metrics-outer {
                     margin-top: 150px;
                     padding: 80px 60px;
-                    background: rgba(255, 255, 255, 0.01);
-                    border-radius: 48px;
-                    border: 1px solid rgba(255, 255, 255, 0.03);
+                    background: var(--color-surface-card, #fafafa);
+                    border-radius: 32px;
+                    border: 1px solid var(--color-hairline, #e6e6e6);
                 }
                 .metrics-inner-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; }
                 .metric-box { display: flex; align-items: center; gap: 24px; }
-                .metric-value { font-size: 2rem; font-weight: 900; color: #fff; margin: 0; }
-                .metric-label { font-size: 0.9rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
+                .metric-value { font-size: 2rem; font-weight: 900; color: var(--color-ink, #ffffff); margin: 0; }
+                .metric-label { font-size: 0.9rem; color: var(--color-muted, #94a3b8); text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
 
                 .detail-footer {
                     margin-top: 150px;
-                    padding: 150px 5%;
+                    padding: 100px 5%;
                     text-align: center;
-                    background: radial-gradient(circle at 50% 0%, ${service.accentColor}15 0%, transparent 75%);
-                    border-radius: 80px;
+                    background: var(--color-surface-card, #fafafa);
+                    border: 1px solid var(--color-hairline, #e6e6e6);
+                    border-radius: 32px;
                 }
-                .footer-title { font-size: 4rem; font-weight: 900; color: #fff; margin-bottom: 24px; letter-spacing: -2px; }
-                .footer-desc { color: #94a3b8; max-width: 700px; margin: 0 auto 56px; font-size: 1.25rem; line-height: 1.8; }
+                .footer-title { font-size: 3.5rem; font-weight: 900; color: var(--color-ink, #ffffff); margin-bottom: 24px; letter-spacing: -2px; }
+                .footer-desc { color: var(--color-muted, #94a3b8); max-width: 700px; margin: 0 auto 56px; font-size: 1.25rem; line-height: 1.8; }
                 .cta-action-btn {
                     display: inline-flex;
                     align-items: center;
                     gap: 16px;
-                    padding: 24px 56px;
-                    border-radius: 24px;
+                    padding: 20px 48px;
+                    border-radius: 0px;
                     color: #fff;
                     font-weight: 900;
                     text-decoration: none;
-                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    transition: all 0.3s ease;
                     text-transform: uppercase;
                     letter-spacing: 2px;
-                    font-size: 1.1rem;
+                    font-size: 1rem;
                 }
                 .cta-action-btn:hover {
-                    transform: scale(1.05) translateY(-5px);
-                    box-shadow: 0 20px 60px ${service.accentColor}40;
+                    transform: translateY(-4px);
+                    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
                 }
 
                 /* Metrics Dashboard styles */
@@ -1015,16 +1015,15 @@ const ServiceDetailPage = () => {
                     align-items: center;
                     gap: 28px;
                     padding: 36px;
-                    background: rgba(255, 255, 255, 0.01);
-                    border: 1px solid rgba(255, 255, 255, 0.04);
-                    border-radius: 32px;
+                    background: var(--color-surface-card, #fafafa);
+                    border: 1px solid var(--color-hairline, #e6e6e6);
+                    border-radius: 24px;
                     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
                 }
                 .metric-dashboard-card:hover {
                     transform: translateY(-8px);
-                    background: rgba(255, 255, 255, 0.03);
-                    border-color: ${service.accentColor}30;
-                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+                    border-color: ${service.accentColor};
+                    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
                 }
                 .circle-progress-container {
                     position: relative;
@@ -1044,17 +1043,17 @@ const ServiceDetailPage = () => {
                     justify-content: center;
                     font-size: 1.4rem;
                     font-weight: 900;
-                    color: #fff;
+                    color: var(--color-ink, #ffffff);
                 }
                 .metric-dashboard-content h3 {
                     font-size: 1.25rem;
                     font-weight: 800;
-                    color: #fff;
+                    color: var(--color-ink, #ffffff);
                     margin-bottom: 8px;
                 }
                 .metric-dashboard-content p {
                     font-size: 0.95rem;
-                    color: #94a3b8;
+                    color: var(--color-muted, #94a3b8);
                     line-height: 1.6;
                     margin: 0;
                 }
