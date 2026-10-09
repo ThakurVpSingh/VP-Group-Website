@@ -1,38 +1,68 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
-const ThemeContext = createContext({
-  themeMode: 'default',
-  effectiveTheme: 'default',
-  setTheme: () => {},
-  toggleTheme: () => {},
-});
+const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  useEffect(() => {
-    // Ensure clean default view: clear any past stored preference
-    try {
-      localStorage.removeItem('vp_theme_mode');
-    } catch (e) {
-      // ignore in restricted envs
+  // Theme state: 'dark' | 'light'
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('vp_theme');
+      if (saved === 'light' || saved === 'dark') return saved;
+      // Default to dark theme for signature tech look
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        return 'light';
+      }
     }
+    return 'dark';
+  });
 
+  useEffect(() => {
     const root = document.documentElement;
     const body = document.body;
 
-    // Reset theme overrides on root & body to preserve simple default view
-    root.removeAttribute('data-theme');
-    body.removeAttribute('data-theme');
-    root.classList.remove('dark', 'light');
-    body.classList.remove('dark-theme', 'light-theme');
-  }, []);
+    root.setAttribute('data-theme', theme);
+    body.setAttribute('data-theme', theme);
+
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+      body.classList.add('dark-theme');
+      body.classList.remove('light-theme');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+      body.classList.add('light-theme');
+      body.classList.remove('dark-theme');
+    }
+
+    try {
+      localStorage.setItem('vp_theme', theme);
+    } catch (e) {
+      // ignore in restricted contexts
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   return (
-    <ThemeContext.Provider value={{ themeMode: 'default', effectiveTheme: 'default', setTheme: () => {}, toggleTheme: () => {} }}>
+    <ThemeContext.Provider value={{ themeMode: theme, effectiveTheme: theme, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
 export const useTheme = () => {
-  return useContext(ThemeContext);
+  const context = useContext(ThemeContext);
+  if (!context) {
+    return {
+      themeMode: 'dark',
+      effectiveTheme: 'dark',
+      setTheme: () => {},
+      toggleTheme: () => {},
+    };
+  }
+  return context;
 };
+

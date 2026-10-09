@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { 
   Zap, Menu, X, ChevronDown, Shield, ArrowRight, Globe, Layers, Mail,
-  Sparkles, Terminal, Users, Activity, Cpu, ShieldCheck,
+  Sparkles, Terminal, Users, Activity, Cpu, ShieldCheck, Sun, Moon,
   RefreshCw, Plug, Code2, Briefcase, Building2, HelpCircle
 } from 'lucide-react';
 import Logo from './Logo';
+import { useTheme } from '../context/ThemeContext';
 
 const ProjectNavbar = ({ scrollY: propScrollY }) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const { themeMode, effectiveTheme, toggleTheme } = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
@@ -153,7 +155,10 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                                 Company <ChevronDown size={12} className="drop-icon" />
                             </button>
                             <div className="dropdown-content">
-                                <Link to="/employee-login" className="employee-highlight-link">⚡ Employee Portal</Link>
+                                <Link to="/employee-login" className="employee-highlight-link" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <span>⚡ Employee Portal</span>
+                                    <span className="maintenance-pill-sm">Under Maintenance</span>
+                                </Link>
                                 <Link to="/our-strategy">About Us</Link>
                                 <Link to="/our-strategy#leadership">Leadership</Link>
                                 <Link to="/apply-partnership">Careers</Link>
@@ -163,8 +168,9 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                             </div>
                         </div>
 
-                        <Link to="/employee-login" className="nav-portal-btn nav-employee-btn">
-                            Employee Portal
+                        <Link to="/employee-login" className="nav-portal-btn nav-employee-btn" title="Employee Portal — Under Maintenance">
+                            <span>Employee Portal</span>
+                            <span className="maintenance-pill">Under Maintenance</span>
                         </Link>
 
                         <Link to="/consultation/book" className="nav-portal-btn">
@@ -172,8 +178,17 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                         </Link>
                     </div>
 
-                    {/* Header Action Controls (Mobile Hamburger) */}
+                    {/* Header Action Controls (Theme Toggle & Mobile Hamburger) */}
                     <div className="nav-actions">
+                        <button 
+                            className="theme-toggle-btn"
+                            onClick={toggleTheme}
+                            title={effectiveTheme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                            aria-label={`Switch to ${effectiveTheme === 'dark' ? 'Light' : 'Dark'} Mode`}
+                        >
+                            {effectiveTheme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+                        </button>
+
                         <button 
                             className={`hamburger-box ${isMenuOpen ? 'active' : ''}`} 
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -229,7 +244,10 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                         <div className="drawer-section">
                             <label>COMPANY & RESOURCES</label>
                             <div className="drawer-links">
-                                <Link to="/employee-login" onClick={() => setIsMenuOpen(false)} className="employee-highlight-link">⚡ Employee Portal & Dashboard</Link>
+                                <Link to="/employee-login" onClick={() => setIsMenuOpen(false)} className="employee-highlight-link" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <span>⚡ Employee Portal</span>
+                                    <span className="maintenance-pill-sm">Under Maintenance</span>
+                                </Link>
                                 <Link to="/our-strategy" onClick={() => setIsMenuOpen(false)}>About Us & Strategy</Link>
                                 <Link to="/help/portfolio" onClick={() => setIsMenuOpen(false)}>Portfolio & Works</Link>
                                 <Link to="/help/partners" onClick={() => setIsMenuOpen(false)}>Partnerships</Link>
@@ -422,6 +440,64 @@ const ProjectNavbar = ({ scrollY: propScrollY }) => {
                 [data-theme='dark'] .employee-highlight-link,
                 .dark-mode .employee-highlight-link {
                     color: #818cf8 !important;
+                }
+
+                .theme-toggle-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 38px;
+                    height: 38px;
+                    background: var(--color-surface-soft, rgba(255, 255, 255, 0.05));
+                    border: 1px solid var(--color-hairline, rgba(255, 255, 255, 0.15));
+                    color: var(--color-ink, inherit);
+                    border-radius: 0px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    flex-shrink: 0;
+                }
+
+                .theme-toggle-btn:hover {
+                    border-color: var(--color-primary);
+                    color: var(--color-primary);
+                    transform: scale(1.05);
+                }
+
+                .maintenance-pill {
+                    font-size: 10px;
+                    padding: 2px 7px;
+                    background: rgba(234, 179, 8, 0.16);
+                    border: 1px solid rgba(234, 179, 8, 0.5);
+                    color: #b45309;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    font-weight: 800;
+                    margin-left: 8px;
+                    display: inline-block;
+                    line-height: 1.2;
+                }
+
+                [data-theme='dark'] .maintenance-pill {
+                    background: rgba(234, 179, 8, 0.22);
+                    border-color: rgba(234, 179, 8, 0.6);
+                    color: #fbbf24;
+                }
+
+                .maintenance-pill-sm {
+                    font-size: 9px;
+                    padding: 1px 6px;
+                    background: rgba(234, 179, 8, 0.18);
+                    border: 1px solid rgba(234, 179, 8, 0.5);
+                    color: #b45309;
+                    text-transform: uppercase;
+                    font-weight: 800;
+                    margin-left: 8px;
+                    line-height: 1.2;
+                }
+
+                [data-theme='dark'] .maintenance-pill-sm {
+                    background: rgba(234, 179, 8, 0.25);
+                    color: #fbbf24;
                 }
 
                 /* ── DROPDOWN STYLES ── */

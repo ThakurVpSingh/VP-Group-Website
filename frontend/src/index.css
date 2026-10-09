@@ -9,7 +9,10 @@ html {
   scroll-behavior: smooth;
 }
 
-:root {
+:root,
+[data-theme="light"],
+html.light,
+body.light-theme {
   --primary: #1c69d4;
   --primary-hover: #0653b6;
   --primary-glow: rgba(28, 105, 212, 0.25);

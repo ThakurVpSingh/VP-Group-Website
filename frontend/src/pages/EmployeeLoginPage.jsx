@@ -21,60 +21,16 @@ const EmployeeLoginPage = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     if (e) e.preventDefault();
     setLoading(true);
     setError('');
     setSuccessMsg('');
 
-    try {
-      const res = await login(email, password, '', 'Employee');
-      if (res && res.success) {
-        setSuccessMsg('Authentication verified. Loading your terminal...');
-        setTimeout(() => {
-          navigate('/employee-dashboard');
-        }, 600);
-      } else {
-        // If server returns error, check if it's demo employee or fallback needed
-        if (email.toLowerCase().includes('employee') || email.toLowerCase().includes('vexio') || email.toLowerCase().includes('vpgroup')) {
-          // Provide smooth fallback session for testing
-          const mockUser = {
-            _id: 'emp-local-001',
-            username: email.split('@')[0] || 'EmployeeOne',
-            email: email,
-            role: 'Employee',
-            employeeId: 'VP-EMP-8402',
-            token: 'mock-jwt-emp-token-' + Date.now()
-          };
-          localStorage.setItem('vexiogate_user', JSON.stringify(mockUser));
-          setSuccessMsg('Credentials verified. Opening Employee Terminal...');
-          setTimeout(() => {
-            navigate('/employee-dashboard');
-            window.location.reload();
-          }, 500);
-        } else {
-          setError(res?.message || 'Invalid employee credentials. Please check your email and password.');
-        }
-      }
-    } catch (err) {
-      // In case of network failure to remote backend, allow demo fallback
-      const mockUser = {
-        _id: 'emp-local-001',
-        username: email.split('@')[0] || 'EmployeeOne',
-        email: email,
-        role: 'Employee',
-        employeeId: 'VP-EMP-8402',
-        token: 'mock-jwt-emp-token-' + Date.now()
-      };
-      localStorage.setItem('vexiogate_user', JSON.stringify(mockUser));
-      setSuccessMsg('Session initialized. Accessing Employee Dashboard...');
-      setTimeout(() => {
-        navigate('/employee-dashboard');
-        window.location.reload();
-      }, 500);
-    } finally {
+    setTimeout(() => {
       setLoading(false);
-    }
+      setError('System Under Maintenance: The Employee Portal is currently undergoing scheduled infrastructure upgrades. Workstation access is temporarily suspended for visitors.');
+    }, 400);
   };
 
   const handleDemoFill = () => {
@@ -129,20 +85,26 @@ const EmployeeLoginPage = () => {
             </div>
           </div>
 
-          {/* Quick Demo Credentials Pill */}
-          <div className="demo-credentials-banner">
-            <div className="demo-info">
-              <span className="demo-tag">DEFAULT DEMO</span>
-              <span className="demo-text">employee@vexio.local / password123</span>
+          {/* Under Maintenance Notice for Visitors */}
+          <div style={{
+            background: 'rgba(234, 179, 8, 0.12)',
+            border: '1px solid rgba(234, 179, 8, 0.45)',
+            padding: '16px 18px',
+            borderRadius: '4px',
+            marginBottom: '20px',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px'
+          }}>
+            <ShieldAlert size={22} color="#eab308" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div>
+              <div style={{ fontWeight: 800, color: '#eab308', fontSize: '0.88rem', letterSpacing: '0.8px', textTransform: 'uppercase' }}>
+                System Notice: Under Maintenance
+              </div>
+              <div style={{ fontSize: '0.82rem', color: 'var(--color-muted, #94a3b8)', marginTop: '4px', lineHeight: 1.45 }}>
+                The Employee Workstation & Workforce Terminal are currently offline for scheduled system upgrades. Visitor access and authentication are temporarily suspended.
+              </div>
             </div>
-            <button 
-              type="button" 
-              onClick={handleDemoFill} 
-              className="demo-fill-btn"
-              title="Click to pre-fill default test credentials"
-            >
-              Fill Demo
-            </button>
           </div>
 
           {/* Error / Success Alerts */}
@@ -225,18 +187,38 @@ const EmployeeLoginPage = () => {
               type="submit"
               disabled={loading}
               className="submit-emp-btn"
+              style={{ opacity: 0.85 }}
             >
               {loading ? (
                 <span className="loading-content">
-                  <span className="spinner" /> Authenticating...
+                  <span className="spinner" /> Checking System Status...
                 </span>
               ) : (
                 <span className="btn-content">
-                  <span>Sign In to Employee Dashboard</span>
+                  <span>Sign In (System Under Maintenance)</span>
                   <ArrowRight size={18} />
                 </span>
               )}
             </button>
+
+            <Link
+              to="/"
+              style={{
+                display: 'block',
+                textAlign: 'center',
+                marginTop: '12px',
+                padding: '12px',
+                background: 'var(--color-surface-soft, rgba(255, 255, 255, 0.04))',
+                border: '1px solid var(--color-hairline, rgba(255, 255, 255, 0.12))',
+                color: 'var(--color-ink, inherit)',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                textDecoration: 'none',
+                letterSpacing: '0.5px'
+              }}
+            >
+              ← Return to Main Website
+            </Link>
           </form>
 
           {/* Quick Features Highlight */}

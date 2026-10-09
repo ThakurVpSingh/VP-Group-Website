@@ -3,7 +3,10 @@
    Version: alpha | Theme: dark
    ============================================================ */
 
-:root {
+:root,
+[data-theme="light"],
+html.light,
+body.light-theme {
   /* ── Surface tiers ─────────────────────────────────────── */
   --halo-bg:              #ffffff;
   --halo-surface:         #ffffff;

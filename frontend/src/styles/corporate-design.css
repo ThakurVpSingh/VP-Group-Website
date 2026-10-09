@@ -8,7 +8,10 @@
    Shapes: Strictly Rectangular 0px Border-Radius
    ============================================================ */
 
-:root {
+:root,
+[data-theme="light"],
+html.light,
+body.light-theme {
   /* ── Color Palette ────────────────────────────────────────── */
   --color-primary: #1c69d4;
   --color-primary-active: #0653b6;
